@@ -19,8 +19,9 @@
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
     "@payloadcms/richtext-lexical": "latest",
+    "@payloadcms/ui": "^3.30.0",
     "cross-env": "^7.0.3",
-    "graphql": "^16.8.1",
+    "graphql": "^16.10.0",
     "next": "15.2.3",
     "payload": "latest",
     "react": "19.0.0",
@@ -28,13 +29,13 @@
     "sharp": "0.32.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@types/node": "^22.5.4",
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.13.13",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
-    "eslint": "^9.16.0",
+    "eslint": "^9.23.0",
     "eslint-config-next": "15.2.2",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
     "typescript": "5.7.3"
   },
   "engines": {
