@@ -287,6 +287,11 @@ export interface Footer {
   navGroups?:
     | {
         label: string;
+        links?:
+          | {
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -302,6 +307,11 @@ export interface FooterSelect<T extends boolean = true> {
     | T
     | {
         label?: T;
+        links?:
+          | T
+          | {
+              id?: T;
+            };
         id?: T;
       };
   updatedAt?: T;
