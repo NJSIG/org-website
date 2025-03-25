@@ -18,6 +18,7 @@
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
+    "@payloadcms/plugin-seo": "^3.30.0",
     "@payloadcms/richtext-lexical": "latest",
     "@payloadcms/ui": "^3.30.0",
     "@tailwindcss/postcss": "^4.0.15",
