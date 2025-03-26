@@ -8,7 +8,7 @@ type Overrides = {
 
 type SlugType = (fieldToUse?: string, overrides?: Overrides) => [TextField, CheckboxField];
 
-export const slug: SlugType = (fieldToUse = 'title', overrides = {}) => {
+export const slugField: SlugType = (fieldToUse = 'title', overrides = {}) => {
   const { slugOverrides, checkboxOverrides } = overrides;
 
   const checkboxField: CheckboxField = {
