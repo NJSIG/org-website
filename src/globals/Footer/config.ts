@@ -1,5 +1,7 @@
 import { anyone } from '@/access/anyone';
+import { linkField } from '@/fields';
 import { GlobalConfig } from 'payload';
+import { revalidateFooterHook } from './hooks/revalidateFooterHook';
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -23,11 +25,17 @@ export const Footer: GlobalConfig = {
           type: 'array',
           label: 'Links',
           minRows: 1,
-          fields: [],
+          fields: [
+            linkField({
+              appearances: false,
+            }),
+          ],
+          admin: {
+            initCollapsed: true,
+          },
         },
       ],
       admin: {
-        initCollapsed: true,
         description: 'Add up to 6 navigation groups for the footer.',
         components: {
           RowLabel: '@/globals/Footer/GroupRowLabel', // Custom row label component for the array field
@@ -35,4 +43,7 @@ export const Footer: GlobalConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidateFooterHook],
+  },
 };
