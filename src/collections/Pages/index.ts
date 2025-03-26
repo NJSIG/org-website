@@ -1,4 +1,8 @@
 import { admin, adminOrPublished } from '@/access';
+import { revalidateDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
+import { slugField } from '@/fields/slug';
+import { populatePublishedAtHook } from '@/hooks';
+import { generatePreviewPath } from '@/utilities';
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -6,7 +10,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields';
-import { CollectionConfig } from 'payload';
+import type { CollectionConfig } from 'payload';
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -66,5 +70,41 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
+    ...slugField(),
   ],
+  hooks: {
+    beforeChange: [populatePublishedAtHook],
+    afterChange: [revalidatePageHook],
+    afterDelete: [revalidateDeleteHook],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
+  },
+  admin: {
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    livePreview: {
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'pages',
+          req,
+        });
+
+        return path;
+      },
+    },
+    preview: (data, { req }) =>
+      generatePreviewPath({
+        slug: typeof data?.slug === 'string' ? data.slug : '',
+        collection: 'pages',
+        req,
+      }),
+    useAsTitle: 'title',
+  },
 };
