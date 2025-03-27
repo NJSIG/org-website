@@ -13,8 +13,8 @@ interface Props {
 
 export const Logo = (props: Props) => {
   const theme = props.theme || 'dark';
-  const width = props.width || props.style === 'full' ? 284 : 177;
-  const height = props.height || props.style === 'full' ? 112 : 56;
+  const width = props.width ?? (props.style === 'full' ? 284 : 177);
+  const height = props.height ?? (props.style === 'full' ? 112 : 56);
   const loading = props.loading || 'lazy';
   const priority = props.priority || 'low';
 
