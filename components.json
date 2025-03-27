@@ -12,7 +12,7 @@
   },
   "aliases": {
     "components": "@/primitives",
-    "utils": "@/lib/utils",
+    "utils": "@/utilities/cn",
     "ui": "@/primitives/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
