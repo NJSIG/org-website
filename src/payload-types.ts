@@ -472,6 +472,16 @@ export interface Footer {
         label: string;
         links?:
           | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+              };
               id?: string | null;
             }[]
           | null;
@@ -493,6 +503,15 @@ export interface FooterSelect<T extends boolean = true> {
         links?:
           | T
           | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
               id?: T;
             };
         id?: T;

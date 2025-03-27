@@ -1,19 +1,22 @@
-import React from 'react'
-import './styles.css'
+import { Footer } from '@/globals/Footer/Component';
+import React from 'react';
+import './styles.css';
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+  description:
+    'New Jersey Schools Insurance Group is a member owned and controlled non-profit public entity focused on keeping dollars in New Jersey classrooms since 1983.',
+  title: 'NJSIG | Keeping Dollars in the Classroom',
+};
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+  const { children } = props;
 
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
-  )
+  );
 }
