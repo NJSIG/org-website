@@ -53,7 +53,20 @@ export const linkField: LinkType = ({ appearances, disableLabel = false, overrid
               style: {
                 alignSelf: 'flex-end',
               },
-              width: '50%',
+              width: '25%',
+            },
+          },
+          {
+            name: 'allowReferrer',
+            label: 'Allow Referrer',
+            type: 'checkbox',
+            defaultValue: false,
+            admin: {
+              style: {
+                alignSelf: 'flex-end',
+              },
+              width: '25%',
+              condition: (_, siblingData) => siblingData?.type === 'custom',
             },
           },
         ],
@@ -88,7 +101,7 @@ export const linkField: LinkType = ({ appearances, disableLabel = false, overrid
       ...linkType,
       admin: {
         ...linkType.admin,
-        width: '100%',
+        width: '50%',
       },
     }));
 

@@ -1,5 +1,5 @@
 import { ArrayField, deepMerge, Field } from 'payload';
-import { LinkAppearances, linkField } from './link';
+import { LinkAppearances, linkField } from '../link';
 
 type LinkGroupType = (options?: {
   appearances?: LinkAppearances[] | false;
@@ -17,6 +17,9 @@ export const linkGroupField: LinkGroupType = ({ appearances, overrides = {} } = 
     ],
     admin: {
       initCollapsed: true,
+      components: {
+        RowLabel: '@/fields/linkGroup/LinkRowLabel', // Custom row label component for the array field
+      },
     },
   };
 

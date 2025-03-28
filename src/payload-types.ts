@@ -475,6 +475,7 @@ export interface Footer {
               link: {
                 type?: ('reference' | 'custom') | null;
                 newTab?: boolean | null;
+                allowReferrer?: boolean | null;
                 reference?: {
                   relationTo: 'pages';
                   value: string | Page;
@@ -508,6 +509,7 @@ export interface FooterSelect<T extends boolean = true> {
                 | {
                     type?: T;
                     newTab?: T;
+                    allowReferrer?: T;
                     reference?: T;
                     url?: T;
                     label?: T;
