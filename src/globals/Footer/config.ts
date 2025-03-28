@@ -20,20 +20,12 @@ export const Footer: GlobalConfig = {
           required: true,
           label: 'Group Label',
         },
-        {
-          name: 'links',
-          type: 'array',
-          label: 'Links',
-          minRows: 1,
-          fields: [
-            linkField({
-              appearances: false,
-            }),
-          ],
-          admin: {
-            initCollapsed: true,
+        linkGroupField({
+          appearances: false,
+          overrides: {
+            minRows: 1,
           },
-        },
+        }),
       ],
       admin: {
         description: 'Add up to 6 navigation groups for the footer.',

@@ -1,4 +1,5 @@
-import { Logo } from '@/components/Logo/Logo';
+import { Hyperlink } from '@/components/Hyperlink';
+import { Logo } from '@/components/Logo';
 import type { Footer } from '@/payload-types';
 import { getCachedGlobal } from '@/utilities/getCachedGlobal';
 import { Phone, Printer } from 'lucide-react';
@@ -6,6 +7,15 @@ import { Phone, Printer } from 'lucide-react';
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)();
   const navGroups = footerData?.navGroups || [];
+
+  // Divide the navGroups into two columns
+  const midIndex = Math.ceil(navGroups.length / 2);
+
+  // Left Column will be the top section on small screens
+  const leftColumn = navGroups.slice(0, midIndex);
+
+  // Right Column will be the bottom section on small screens
+  const rightColumn = navGroups.slice(midIndex);
 
   return (
     <footer className="mt-auto bg-muted text-muted-foreground flex flex-col items-center">
@@ -51,7 +61,41 @@ export async function Footer() {
             </div>
           </div>
         </div>
-        <div className="h-[1px] w-full bg-border"></div>
+        {navGroups.length > 0 && (
+          <>
+            <div className="h-[1px] w-full bg-border"></div>
+            <div className="flex flex-wrap gap-x-12 gap-y-6">
+              <div className="flex flex-col gap-8">
+                {leftColumn.map((group) => (
+                  <div key={group.id} className="flex flex-col gap-4">
+                    <p className="text-xl">{group.label}</p>
+                    <ul className="flex flex-col gap-2">
+                      {group.links?.map((item) => (
+                        <li key={item.id}>
+                          <Hyperlink link={item.link} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col gap-8">
+                {rightColumn.map((group) => (
+                  <div key={group.id} className="flex flex-col gap-4">
+                    <p className="text-xl">{group.label}</p>
+                    <ul className="flex flex-col gap-2">
+                      {group.links?.map((item) => (
+                        <li key={item.id}>
+                          <Hyperlink link={item.link} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </footer>
   );
