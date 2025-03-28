@@ -2,7 +2,7 @@ import { admin, adminOrPublished } from '@/access';
 import { revalidateDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { slugField } from '@/fields/slug';
 import { populatePublishedAtHook } from '@/hooks';
-import { generatePreviewPath } from '@/utilities';
+import { generatePreviewPath } from '@/utilities/generatePreviewPath';
 import {
   MetaDescriptionField,
   MetaImageField,

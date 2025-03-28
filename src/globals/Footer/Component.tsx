@@ -1,6 +1,6 @@
 import { Logo } from '@/components/Logo/Logo';
 import type { Footer } from '@/payload-types';
-import { getCachedGlobal } from '@/utilities';
+import { getCachedGlobal } from '@/utilities/getCachedGlobal';
 import { Phone, Printer } from 'lucide-react';
 
 export async function Footer() {

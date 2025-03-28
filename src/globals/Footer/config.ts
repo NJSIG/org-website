@@ -1,5 +1,5 @@
 import { anyone } from '@/access/anyone';
-import { linkField } from '@/fields';
+import { linkGroupField } from '@/fields/linkGroup';
 import { GlobalConfig } from 'payload';
 import { revalidateFooterHook } from './hooks/revalidateFooterHook';
 
