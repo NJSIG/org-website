@@ -5,27 +5,32 @@ import Link from 'next/link';
 // TODO: default url to not found page
 
 interface Props {
-  link: ILinkField;
+  link: Partial<ILinkField>;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const errorPageUrl = '/404';
 
 export const Hyperlink = (props: Props) => {
-  const { link, className } = props;
-  const defaultStyle = 'text-foreground-link hover:underline underline-offset-8';
+  const { link, className, children } = props;
+  const defaultStyle = 'text-foreground-link hover:underline underline-offset-2 transition-all';
+
+  const styles = cn(defaultStyle, className);
 
   if (link.type === 'reference') {
     return (
       <Link
         href={
-          typeof link.reference?.value === 'object'
-            ? (link.reference.value.slug as string)
-            : errorPageUrl
+          link.reference
+            ? typeof link.reference?.value === 'object'
+              ? (link.reference.value.slug as string)
+              : errorPageUrl
+            : link.url || errorPageUrl
         }
-        className={cn(defaultStyle, className)}
+        className={styles}
       >
-        {link.label}
+        {children}
       </Link>
     );
   }
@@ -36,9 +41,9 @@ export const Hyperlink = (props: Props) => {
       target={link.newTab ? '_blank' : undefined}
       rel="noopener"
       referrerPolicy={link.allowReferrer ? 'strict-origin-when-cross-origin' : 'no-referrer'}
-      className={cn(defaultStyle, className)}
+      className={styles}
     >
-      {link.label}
+      {children}
     </a>
   );
 };
