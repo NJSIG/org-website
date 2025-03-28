@@ -1,5 +1,23 @@
 import { deepMerge, Field, GroupField } from 'payload';
 
+export type ILinkField = {
+  type: 'reference' | 'custom';
+  newTab: boolean;
+  allowReferrer?: boolean;
+  reference?: {
+    relationTo: string;
+    value:
+      | {
+          id: string;
+          slug: string;
+          title: string;
+        }
+      | string;
+  };
+  url?: string;
+  label?: string;
+};
+
 export type LinkAppearances = 'default'; // TODO: add more appearances
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
