@@ -1,21 +1,19 @@
+import { Page } from '@/payload-types';
 import { deepMerge, Field, GroupField } from 'payload';
 
 export type ILinkField = {
-  type: 'reference' | 'custom';
-  newTab: boolean;
-  allowReferrer?: boolean;
-  reference?: {
-    relationTo: string;
-    value:
-      | {
-          id: string;
-          slug: string;
-          title: string;
-        }
-      | string;
-  };
-  url?: string;
-  label?: string;
+  type?: 'reference' | 'custom' | null | undefined;
+  newTab?: boolean | null | undefined;
+  allowReferrer?: boolean | null | undefined;
+  reference?:
+    | {
+        relationTo: 'pages'; // Add other collections here
+        value: string | Page;
+      }
+    | null
+    | undefined;
+  url?: string | null | undefined;
+  label?: string | null | undefined;
 };
 
 export type LinkAppearances = 'default'; // TODO: add more appearances
