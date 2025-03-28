@@ -34,6 +34,15 @@ export const Footer: GlobalConfig = {
         },
       },
     },
+    linkGroupField({
+      appearances: false,
+      overrides: {
+        name: 'policyLinks',
+        admin: {
+          description: 'Add links to privacy policy, terms of use, etc.',
+        },
+      },
+    }),
   ],
   hooks: {
     afterChange: [revalidateFooterHook],

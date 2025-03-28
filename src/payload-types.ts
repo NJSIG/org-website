@@ -489,6 +489,25 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Add links to privacy policy, terms of use, etc.
+   */
+  policyLinks?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -515,6 +534,21 @@ export interface FooterSelect<T extends boolean = true> {
                     label?: T;
                   };
               id?: T;
+            };
+        id?: T;
+      };
+  policyLinks?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              allowReferrer?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
             };
         id?: T;
       };

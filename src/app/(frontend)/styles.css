@@ -263,3 +263,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility bg-azure-to-r {
+  background-image: linear-gradient(
+    to right,
+    var(--color-azure-900) 0%,
+    var(--color-azure-900) 30%,
+    var(--color-azure-700) 100%
+  );
+}
