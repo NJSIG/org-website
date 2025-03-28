@@ -1,4 +1,4 @@
-import { cn } from '@/utilities';
+import { cn } from '@/utilities/cn';
 import Image from 'next/image';
 
 interface Props {
