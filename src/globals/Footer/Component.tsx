@@ -21,9 +21,9 @@ export async function Footer() {
 
   return (
     <footer className="mt-auto bg-muted text-muted-foreground flex flex-col items-center">
-      <div className="flex flex-col px-4 py-6 gap-8">
+      <div className="flex flex-col px-4 py-6 gap-8 lg:flex-row lg:max-w-7xl lg:px-6 lg:py-16 lg:w-full">
         <div className="flex flex-col gap-8">
-          <Link href="/" className="self-center">
+          <Link href="/" className="self-center lg:self-start">
             <Logo style="full" height={100} width={254} />
           </Link>
           <div className="flex flex-col gap-2">
@@ -59,8 +59,8 @@ export async function Footer() {
         </div>
         {navGroups.length > 0 && (
           <>
-            <div className="h-[1px] w-full bg-border"></div>
-            <div className="flex flex-wrap gap-x-12 gap-y-6">
+            <div className="h-px w-full bg-border lg:w-px lg:h-auto"></div>
+            <div className="flex flex-wrap gap-x-12 gap-y-6 lg:grow lg:justify-center">
               <div className="flex flex-col gap-8">
                 {leftColumn.map((group) => (
                   <div key={group.id} className="flex flex-col gap-4">
@@ -94,9 +94,10 @@ export async function Footer() {
         )}
       </div>
       <div className="bg-azure-to-r text-foreground-inverted text-center w-full">
-        <div className="flex flex-col gap-4 p-4 items-center">
-          <p className="break-phrase max-w-96">
-            Copyright &copy; New Jersey Schools Insurance Group. All rights reserved.
+        <div className="flex flex-col gap-4 p-4 items-center lg:flex-row lg:justify-between lg:max-w-7xl mx-auto">
+          <p>
+            Copyright &copy; New Jersey Schools Insurance Group.
+            <br className="md:hidden" /> All rights reserved.
           </p>
           {policyLinks.length > 0 && (
             <ul className="flex gap-3">
