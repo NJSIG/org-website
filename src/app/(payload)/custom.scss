@@ -1,0 +1,14 @@
+.linkRowLabel {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  > .linkModifiers {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-right: 24px;
+    opacity: 0.4;
+  }
+}
