@@ -37,6 +37,9 @@
       "source.fixAll.eslint": "explicit"
     }
   },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#1a1a1a",
     "activityBar.background": "#1a1a1a",
