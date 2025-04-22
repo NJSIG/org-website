@@ -6,7 +6,7 @@ import { revalidateFooterHook } from './hooks/revalidateFooterHook';
 export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
-    read: anyone, // Allow anyone to read the footer settings
+    read: anyone, // Allow anyone to read the footer
   },
   fields: [
     {
