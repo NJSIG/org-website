@@ -17,7 +17,7 @@
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/next": "latest",
-    "@payloadcms/payload-cloud": "latest",
+    "@payloadcms/plugin-redirects": "^3.35.1",
     "@payloadcms/plugin-seo": "latest",
     "@payloadcms/richtext-lexical": "latest",
     "@payloadcms/ui": "latest",
