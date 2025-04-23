@@ -1,4 +1,5 @@
 import { Footer } from '@/globals/Footer/Component';
+import { Header } from '@/globals/Header/Component';
 import React from 'react';
 import './styles.css';
 
@@ -14,6 +15,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
+        <Header />
         <main>{children}</main>
         <Footer />
       </body>
