@@ -16,22 +16,53 @@ export type ILinkField = {
   label?: string | null | undefined;
 };
 
-export type LinkAppearances = 'default'; // TODO: add more appearances
+export type LinkAppearances = 'default' | 'button'; // TODO: add more appearances
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
     label: 'Default (Text Link)',
     value: 'default',
   },
+  button: {
+    label: 'Button Link',
+    value: 'button',
+  },
+};
+
+export type LinkDestinations = 'reference' | 'custom';
+
+export const destinationOptions: Record<LinkDestinations, { label: string; value: string }> = {
+  reference: {
+    label: 'Internal Link',
+    value: 'reference',
+  },
+  custom: {
+    label: 'Custom URL',
+    value: 'custom',
+  },
 };
 
 type LinkType = (options?: {
   appearances?: LinkAppearances[] | false;
+  destinations?: LinkDestinations[];
+  disableNewTab?: boolean;
   disableLabel?: boolean;
   overrides?: Partial<GroupField>;
 }) => Field;
 
-export const linkField: LinkType = ({ appearances, disableLabel = false, overrides = {} } = {}) => {
+export const linkField: LinkType = ({
+  appearances,
+  destinations,
+  disableNewTab = false,
+  disableLabel = false,
+  overrides = {},
+} = {}) => {
+  let destinationOptionsToUse = [destinationOptions.reference, destinationOptions.custom];
+
+  if (destinations) {
+    destinationOptionsToUse = destinations.map((destination) => destinationOptions[destination]);
+  }
+
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
@@ -45,20 +76,12 @@ export const linkField: LinkType = ({ appearances, disableLabel = false, overrid
           {
             name: 'type',
             type: 'radio',
-            options: [
-              {
-                label: 'Internal Link',
-                value: 'reference',
-              },
-              {
-                label: 'Custom URL',
-                value: 'custom',
-              },
-            ],
+            options: [...destinationOptionsToUse],
             defaultValue: 'reference',
             admin: {
               layout: 'horizontal',
               width: '50%',
+              hidden: destinationOptionsToUse.length === 1,
             },
           },
           {
@@ -70,6 +93,7 @@ export const linkField: LinkType = ({ appearances, disableLabel = false, overrid
                 alignSelf: 'flex-end',
               },
               width: '25%',
+              condition: () => !disableNewTab,
             },
           },
           {
