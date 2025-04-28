@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { getPayload, RequiredDataFromCollectionSlug } from 'payload';
 import { cache } from 'react';
+import PageClient from './page.client';
 
 type Args = {
   params: Promise<{ slug?: string }>;
@@ -96,6 +97,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   // TODO: Render Page
   return (
     <article>
+      <PageClient />
       <h1>{page.title}</h1>
       <h3>TODO: Render the page content here.</h3>
     </article>

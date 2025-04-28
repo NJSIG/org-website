@@ -1,23 +1,26 @@
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
+import { Providers } from '@/providers';
+import { draftMode } from 'next/headers';
 import React from 'react';
 import './styles.css';
 
-export const metadata = {
-  description:
-    'New Jersey Schools Insurance Group is a member owned and controlled non-profit public entity focused on keeping dollars in New Jersey classrooms since 1983.',
-  title: 'NJSIG | Keeping Dollars in the Classroom',
-};
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { isEnabled } = await draftMode();
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props;
-
+  // TODO: Does the html element need "suppressHydrationWarning"?
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen">
-        <Header />
-        <main>{children}</main>
-        <Footer />
+      <head>
+        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+      </head>
+      <body className="flex flex-col min-h-screen bg-background text-foreground">
+        <Providers>
+          <Header />
+          <main className="flex flex-col grow">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
