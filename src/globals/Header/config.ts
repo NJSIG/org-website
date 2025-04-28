@@ -16,9 +16,13 @@ export const Header: GlobalConfig = {
       type: 'array',
       fields: [
         {
-          name: 'buttonText',
+          name: 'label',
           type: 'text',
           required: true,
+          admin: {
+            description:
+              'Group label for the navigation links, will be displayed as the button text in the header.',
+          },
         },
         {
           name: 'callout',
@@ -26,14 +30,14 @@ export const Header: GlobalConfig = {
           fields: [
             {
               name: 'title',
-              label: 'Callout Title',
+              label: 'Title',
               type: 'text',
               required: true,
               maxLength: 100,
             },
             {
               name: 'text',
-              label: 'Callout Text',
+              label: 'Text',
               type: 'textarea',
               required: true,
               maxLength: 300,
@@ -42,13 +46,63 @@ export const Header: GlobalConfig = {
               appearances: false,
               destinations: ['reference'],
               disableNewTab: true,
+              overrides: {
+                name: 'Callout Link',
+              },
             }),
           ],
           admin: {
             hideGutter: true,
+            description:
+              'Callouts occupy the first column of a navigation group, they display descriptive copy and a call to action.',
           },
         },
-        // TODO: Add fields for navigation blocks
+        {
+          name: 'links',
+          type: 'array',
+          fields: [
+            linkField({
+              appearances: false,
+              destinations: ['reference'],
+              disableNewTab: true,
+              disableLabel: true,
+              overrides: {
+                fields: [
+                  {
+                    type: 'row',
+                    fields: [
+                      {
+                        name: 'linkTitle',
+                        type: 'text',
+                        required: true,
+                        maxLength: 80,
+                        admin: {
+                          description:
+                            'The primary link text should be a page title or concise label.',
+                          width: '70%',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    name: 'linkDescription',
+                    type: 'textarea',
+                    required: false,
+                    maxLength: 200,
+                    admin: {
+                      description:
+                        'The secondary link text should be a short description of the link.',
+                    },
+                  },
+                ],
+              },
+            }),
+          ],
+          admin: {
+            initCollapsed: true,
+            // TODO: Custom Row Label
+          },
+        },
       ],
       admin: {
         components: {

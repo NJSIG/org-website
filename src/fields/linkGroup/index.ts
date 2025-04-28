@@ -1,18 +1,27 @@
 import { ArrayField, deepMerge, Field } from 'payload';
-import { LinkAppearances, linkField } from '../link';
+import { LinkAppearances, LinkDestinations, linkField } from '../link';
 
 type LinkGroupType = (options?: {
   appearances?: LinkAppearances[] | false;
+  destinations?: LinkDestinations[];
+  disableNewTab?: boolean;
   overrides?: Partial<ArrayField>;
 }) => Field;
 
-export const linkGroupField: LinkGroupType = ({ appearances, overrides = {} } = {}) => {
+export const linkGroupField: LinkGroupType = ({
+  appearances,
+  destinations,
+  disableNewTab,
+  overrides = {},
+} = {}) => {
   const generatedLinkGroup: Field = {
     name: 'links',
     type: 'array',
     fields: [
       linkField({
         appearances,
+        destinations,
+        disableNewTab,
       }),
     ],
     admin: {

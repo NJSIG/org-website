@@ -656,11 +656,17 @@ export interface Header {
   id: string;
   navGroups?:
     | {
-        buttonText: string;
+        /**
+         * Group label for the navigation links, will be displayed as the button text in the header.
+         */
+        label: string;
+        /**
+         * Callouts occupy the first column of a navigation group, they display descriptive copy and a call to action.
+         */
         callout: {
           title: string;
           text: string;
-          link: {
+          'Callout Link': {
             type?: 'reference' | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
@@ -672,6 +678,29 @@ export interface Header {
             label: string;
           };
         };
+        links?:
+          | {
+              link: {
+                type?: 'reference' | null;
+                newTab?: boolean | null;
+                allowReferrer?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                /**
+                 * The primary link text should be a page title or concise label.
+                 */
+                linkTitle: string;
+                /**
+                 * The secondary link text should be a short description of the link.
+                 */
+                linkDescription?: string | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -739,13 +768,13 @@ export interface HeaderSelect<T extends boolean = true> {
   navGroups?:
     | T
     | {
-        buttonText?: T;
+        label?: T;
         callout?:
           | T
           | {
               title?: T;
               text?: T;
-              link?:
+              'Callout Link'?:
                 | T
                 | {
                     type?: T;
@@ -755,6 +784,22 @@ export interface HeaderSelect<T extends boolean = true> {
                     url?: T;
                     label?: T;
                   };
+            };
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    linkTitle?: T;
+                    linkDescription?: T;
+                  };
+              id?: T;
             };
         id?: T;
       };
