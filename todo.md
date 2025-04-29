@@ -9,6 +9,15 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Add fields to User Collection
 - [ ] Global Elements
   - [ ] Header
-  - [ ] Footer
+  - [x] Footer
+- [ ] Icon Picker Component
+- [ ] Customize Admin Panel
+  - [ ] Add Logo
+  - [ ] Add Favicon
+  - [ ] Customize Colors
+- [ ] Customize Login Page
+- [ ] Base Layout
 
 ### COMPLETED TASKS ✔
+
+- [x] Dynamic Page Routes

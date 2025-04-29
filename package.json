@@ -17,7 +17,7 @@
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/next": "latest",
-    "@payloadcms/plugin-redirects": "^3.35.1",
+    "@payloadcms/plugin-redirects": "^3.36.0",
     "@payloadcms/plugin-seo": "latest",
     "@payloadcms/richtext-lexical": "latest",
     "@payloadcms/ui": "latest",
@@ -49,6 +49,7 @@
     "prettier-plugin-organize-attributes": "^1.0.0",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "ts-essentials": "^10.0.4",
     "typescript": "5.7.3"
   },
   "engines": {
