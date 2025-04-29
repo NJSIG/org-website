@@ -1,11 +1,11 @@
-import { ILinkField } from '@/fields/link';
+import { LinkField } from '@/fields/link';
 import { cn } from '@/utilities/cn';
 import Link from 'next/link';
 
 // TODO: default url to not found page
 
 interface Props {
-  link: Partial<ILinkField>;
+  link: Partial<LinkField>;
   className?: string;
   children?: React.ReactNode;
 }

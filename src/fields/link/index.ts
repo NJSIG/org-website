@@ -1,7 +1,7 @@
 import { Page } from '@/payload-types';
 import { deepMerge, Field, GroupField } from 'payload';
 
-export type ILinkField = {
+export type LinkField = {
   type?: 'reference' | 'custom' | null | undefined;
   newTab?: boolean | null | undefined;
   allowReferrer?: boolean | null | undefined;

@@ -4,10 +4,10 @@ import { isObject } from '@/utilities/isObject';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';
-import { ILinkField } from '../link';
+import { LinkField } from '../link';
 
 interface LinkRowLabel {
-  link: ILinkField;
+  link: LinkField;
 }
 
 const LinkRowLabel: React.FC<RowLabelProps> = () => {
