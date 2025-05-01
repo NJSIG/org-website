@@ -1,6 +1,6 @@
 import { admin, anyone } from '@/access';
 import { linkField } from '@/fields/link';
-import { lucideIconField } from '@/fields/lucideIcon';
+import { lucideIconPickerField } from '@/fields/lucideIconPicker';
 import { GlobalConfig } from 'payload';
 import { revalidateHeaderHook } from './hooks/revalidateHeaderHook';
 
@@ -72,9 +72,13 @@ export const Header: GlobalConfig = {
                   {
                     type: 'row',
                     fields: [
-                      lucideIconField({
+                      lucideIconPickerField({
                         overrides: {
+                          name: 'linkIcon',
                           label: 'Link Icon',
+                          admin: {
+                            width: '30%',
+                          },
                         },
                       }),
                       {

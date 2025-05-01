@@ -689,7 +689,7 @@ export interface Header {
                   value: string | Page;
                 } | null;
                 url?: string | null;
-                icon?: string | null;
+                linkIcon?: string | null;
                 /**
                  * The primary link text should be a page title or concise label.
                  */
@@ -797,7 +797,7 @@ export interface HeaderSelect<T extends boolean = true> {
                     allowReferrer?: T;
                     reference?: T;
                     url?: T;
-                    icon?: T;
+                    linkIcon?: T;
                     linkTitle?: T;
                     linkDescription?: T;
                   };
