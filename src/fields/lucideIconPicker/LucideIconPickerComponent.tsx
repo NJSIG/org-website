@@ -6,7 +6,7 @@ import { isFieldRTL } from '@payloadcms/ui/fields/shared';
 import { useCallback, useMemo } from 'react';
 import './index.scss';
 import { LucideIconPickerInput } from './Input';
-import { LucideIconPickerFieldClientComponent } from './types';
+import { LucideIconNames, LucideIconPickerFieldClientComponent } from './types';
 
 const Component: LucideIconPickerFieldClientComponent = (props) => {
   const {
@@ -34,7 +34,7 @@ const Component: LucideIconPickerFieldClientComponent = (props) => {
 
   const memoizedValidate = useCallback(
     (
-      value: string | null | undefined,
+      value: LucideIconNames | null | undefined,
       // options is typed as any for ease of use
       // payload does not type the options object in their built-in fields.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

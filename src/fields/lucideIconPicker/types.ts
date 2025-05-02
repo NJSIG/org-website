@@ -1,3 +1,4 @@
+import tags from 'lucide-static/tags.json';
 import {
   FieldClientComponent,
   StaticDescription,
@@ -8,6 +9,8 @@ import {
 } from 'payload';
 import { ChangeEvent } from 'react';
 import { MarkOptional } from 'ts-essentials';
+
+export type LucideIconNames = keyof typeof tags;
 
 export type SharedLucideIconPickerFieldProps = {
   readonly hasMany?: false;

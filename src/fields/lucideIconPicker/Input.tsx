@@ -1,17 +1,20 @@
 'use client';
 
+import DynamicIcon from '@/components/DynamicIcon';
 import {
   fieldBaseClass,
+  FieldDescription,
   FieldError,
   FieldLabel,
   RenderCustomComponent,
   useDebounce,
-  useTranslation,
 } from '@payloadcms/ui';
-import { ChangeEvent, useEffect, useState } from 'react';
+import tags from 'lucide-static/tags.json';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { LucideIconPickerInputProps } from './types';
 
 const baseClass = 'lucide-icon';
+const iconsPerPage = 100;
 
 export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (props) => {
   const {
@@ -21,14 +24,11 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
     Description,
     description,
     Error,
-    inputRef,
     Label,
     label,
     localized,
     onChange,
-    onKeyDown,
     path,
-    placeholder,
     readOnly,
     required,
     rtl,
@@ -40,16 +40,15 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
 
   const [fieldIsFocused, setFieldIsFocused] = useState(false);
   const [search, setSearch] = useState('');
-  const [filteredIcons, setFilteredIcons] = useState(icons);
+  const [filteredIcons, setFilteredIcons] = useState(icons || []);
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(value || null);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  // Search for icons based on the search term
+  // filter based on name and tags
+  // debounce the search term to avoid too many re-renders
   const debounceSearch = useDebounce(search, 300);
-
-  const { i18n, t } = useTranslation();
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event);
-  };
 
   useEffect(() => {
     if (!icons) {
@@ -59,18 +58,87 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
     if (debounceSearch == '') {
       setFilteredIcons(icons);
     } else {
-      const foundIcons: LucideIconPickerInputProps['icons'] = [];
       const searchTerm = debounceSearch.toLowerCase();
-
-      icons.map((icon) => {
+      const foundIcons: LucideIconPickerInputProps['icons'] = icons.filter((icon) => {
+        // Check for icon name match
         if (icon.toLowerCase().includes(searchTerm)) {
-          foundIcons.push(icon);
+          return true;
         }
+
+        // Check for tag match
+        const iconTags = tags[icon as keyof typeof tags] || [];
+
+        return iconTags.some((tag) => tag.toLowerCase().includes(searchTerm));
       });
 
       setFilteredIcons(foundIcons);
     }
   }, [debounceSearch, icons]);
+
+  // Close the picker when the user presses the escape key
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setFieldIsFocused(false);
+        setCurrentPage(1);
+      }
+    };
+
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
+
+  // Close the picker when the user clicks outside of it
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setFieldIsFocused(false);
+        setCurrentPage(1);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
+
+  // Icon infinite scroll
+  const iconContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const options = {
+      root: document.querySelector(`.${baseClass}__icon-picker-modal`),
+      rootMargin: '50px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+
+      if (entry.isIntersecting && filteredIcons.length > currentPage * iconsPerPage) {
+        setCurrentPage((prev) => prev + 1);
+      }
+    }, options);
+
+    const target = iconContainerRef.current;
+
+    if (target && fieldIsFocused) {
+      observer.observe(target);
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, [filteredIcons.length, currentPage, fieldIsFocused]);
 
   return (
     <div
@@ -84,6 +152,7 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
         .filter(Boolean)
         .join(' ')}
       style={style}
+      ref={ref}
     >
       <RenderCustomComponent
         CustomComponent={Label}
@@ -100,25 +169,90 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
 
         {BeforeInput}
 
-        <div
-          className={`${baseClass}__input-container`}
-          onFocus={() => setFieldIsFocused(true)}
-          onBlur={(e) => {
-            if (!e.currentTarget.contains(e.relatedTarget)) {
-              setTimeout(() => {
-                setFieldIsFocused(false);
-                setSearch('');
-              }, 200);
-            }
-          }}
-        >
-          {!rtl && (
+        <div className={`${baseClass}__input-container`} onFocus={() => setFieldIsFocused(true)}>
+          <div className={`${baseClass}__icon-preview`} onClick={() => setFieldIsFocused(true)}>
+            <DynamicIcon name={value} size={24} />
+          </div>
+          <input
+            type="text"
+            className={`${baseClass}__icon-name`}
+            value={displayName || ''}
+            placeholder={hoveredIcon || `Search ${icons?.length || 0} icons...`}
+            onFocus={() => setDisplayName(null)}
+            onBlur={() => setDisplayName(value || null)}
+            onChange={(e) => {
+              setCurrentPage(1);
+              setHoveredIcon(null);
+              setDisplayName(e.target.value);
+              setSearch(e.target.value);
+            }}
+          />
+
+          {fieldIsFocused && (
             <div
-              className={`${baseClass}__icon-preview`}
-              onClick={() => setFieldIsFocused(true)}
-            ></div>
+              className={`${baseClass}__icon-picker-modal ${rtl ? `${baseClass}__icon-picker-modal--rtl` : ''}`}
+            >
+              <span className={`${baseClass}__icon-picker-modal__pagination-meta`}>
+                Showing {Math.min(currentPage * iconsPerPage, filteredIcons.length)} of{' '}
+                {filteredIcons.length} icons
+              </span>
+              <div className={`${baseClass}__icon-picker-modal__icon-container`}>
+                <div className={`${baseClass}__icon-picker-modal__icon-container__icon-list`}>
+                  {filteredIcons.length > 0 &&
+                    filteredIcons.slice(0, currentPage * iconsPerPage).map((icon) => (
+                      <div
+                        className={`${baseClass}__icon-picker-modal__icon-option ${value === icon ? `${baseClass}__icon-picker-modal__icon-option-active` : ''}`}
+                        key={icon}
+                        title={icon}
+                        onMouseOver={() => setHoveredIcon(icon)}
+                        onClick={() => {
+                          onChange?.({
+                            target: {
+                              name: path,
+                              value: icon,
+                            },
+                          } as ChangeEvent<HTMLInputElement>);
+                          setDisplayName(icon);
+                          setSearch('');
+                          setHoveredIcon(null);
+                          setFieldIsFocused(false);
+                          setFilteredIcons(icons || []);
+                          setCurrentPage(1);
+                        }}
+                      >
+                        <DynamicIcon name={icon} size={24} />
+                      </div>
+                    ))}
+                </div>
+
+                <div
+                  ref={iconContainerRef}
+                  style={{ height: '20px', width: '100%', visibility: 'hidden' }}
+                  aria-hidden="true"
+                />
+
+                {filteredIcons.length > currentPage * iconsPerPage && (
+                  <div className={`${baseClass}__icon-picker-modal__loading`}>
+                    <DynamicIcon
+                      name="loader"
+                      size={24}
+                      className={`${baseClass}__icon-picker-modal__loading-icon`}
+                    />
+                  </div>
+                )}
+
+                {filteredIcons.length === 0 && <span>No icons found</span>}
+              </div>
+            </div>
           )}
         </div>
+
+        {AfterInput}
+
+        <RenderCustomComponent
+          CustomComponent={Description}
+          Fallback={<FieldDescription description={description} path={path} />}
+        />
       </div>
     </div>
   );
