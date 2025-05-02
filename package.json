@@ -12,7 +12,8 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "update:icons": "pnpm up lucide-react lucide-static --latest"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
@@ -26,8 +27,8 @@
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "graphql": "^16.11.0",
-    "lucide-react": "^0.483.0",
-    "lucide-static": "^0.506.0",
+    "lucide-react": "^0.507.0",
+    "lucide-static": "^0.507.0",
     "next": "15.2.3",
     "payload": "latest",
     "postcss": "^8.5.3",
@@ -36,7 +37,7 @@
     "sharp": "0.32.6",
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.1.5",
-    "tw-animate-css": "^1.2.8"
+    "tw-animate-css": "^1.2.9"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
