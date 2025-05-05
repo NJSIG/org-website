@@ -1,4 +1,5 @@
-import tags from 'lucide-static/tags.json';
+import CustomTags from '@/icons/tags.json';
+import LucideTags from 'lucide-static/tags.json';
 import {
   FieldClientComponent,
   StaticDescription,
@@ -10,7 +11,9 @@ import {
 import { ChangeEvent } from 'react';
 import { MarkOptional } from 'ts-essentials';
 
-export type LucideIconNames = keyof typeof tags;
+type LucideIconNames = keyof typeof LucideTags;
+type CustomIconNames = keyof typeof CustomTags;
+export type IconNames = LucideIconNames | CustomIconNames;
 
 export type SharedLucideIconPickerFieldProps = {
   readonly hasMany?: false;
@@ -24,7 +27,7 @@ export type LucideIconPickerInputProps = {
   readonly Description?: React.ReactNode;
   readonly description?: StaticDescription;
   readonly Error?: React.ReactNode;
-  readonly icons?: string[];
+  readonly icons?: IconNames[];
   readonly inputRef?: React.RefObject<HTMLInputElement>;
   readonly Label?: React.ReactNode;
   readonly label?: StaticLabel;
@@ -37,13 +40,13 @@ export type LucideIconPickerInputProps = {
   readonly rtl?: boolean;
   readonly showError?: boolean;
   readonly style?: React.CSSProperties;
-  readonly value?: string;
+  readonly value?: IconNames;
 } & SharedLucideIconPickerFieldProps;
 
 type LucideIconPickerFieldClientWithoutType = MarkOptional<TextFieldClient, 'type'>;
 
 type LucideIconPickerFieldBaseClientProps = {
-  readonly icons?: string[];
+  readonly icons?: IconNames[];
   readonly inputRef?: React.RefObject<HTMLInputElement>;
   readonly onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   readonly path: string;

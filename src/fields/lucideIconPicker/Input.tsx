@@ -1,6 +1,7 @@
 'use client';
 
 import DynamicIcon from '@/components/DynamicIcon';
+import CustomTags from '@/icons/tags.json';
 import {
   fieldBaseClass,
   FieldDescription,
@@ -9,7 +10,7 @@ import {
   RenderCustomComponent,
   useDebounce,
 } from '@payloadcms/ui';
-import tags from 'lucide-static/tags.json';
+import LucideTags from 'lucide-static/tags.json';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { LucideIconPickerInputProps } from './types';
 
@@ -66,9 +67,13 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
         }
 
         // Check for tag match
-        const iconTags = tags[icon as keyof typeof tags] || [];
+        const lucideTags = LucideTags[icon as keyof typeof LucideTags] || [];
+        const customTags = CustomTags[icon as keyof typeof CustomTags] || [];
 
-        return iconTags.some((tag) => tag.toLowerCase().includes(searchTerm));
+        return (
+          lucideTags.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
+          customTags.some((tag) => tag.toLowerCase().includes(searchTerm))
+        );
       });
 
       setFilteredIcons(foundIcons);

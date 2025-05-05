@@ -1,9 +1,10 @@
-import tags from 'lucide-static/tags.json';
+import CustomTags from '@/icons/tags.json';
+import LucideTags from 'lucide-static/tags.json';
 import { deepMerge, Field } from 'payload';
-import { LucideIconNames, LucideIconPickerField } from './types';
+import { IconNames, LucideIconPickerField } from './types';
 
 type LucideIconPickerType = (options?: {
-  allowedIcons?: LucideIconNames[];
+  allowedIcons?: IconNames[];
   overrides?: Partial<LucideIconPickerField>;
 }) => Field;
 
@@ -11,12 +12,15 @@ export const lucideIconPickerField: LucideIconPickerType = ({
   allowedIcons = undefined,
   overrides = {},
 } = {}) => {
-  const allIcons: LucideIconNames[] = [];
+  const allIcons: IconNames[] = [];
 
   if (allowedIcons) {
     allIcons.push(...allowedIcons);
   } else {
-    allIcons.push(...(Object.keys(tags) as LucideIconNames[]));
+    allIcons.push(
+      ...(Object.keys(LucideTags) as IconNames[]),
+      ...(Object.keys(CustomTags) as IconNames[]),
+    );
   }
 
   const pickerResult = {
@@ -25,7 +29,7 @@ export const lucideIconPickerField: LucideIconPickerType = ({
     label: 'Icon Picker',
     defaultValue: 'squirrel',
     validate: (value: string | null | undefined) => {
-      if (typeof value === 'string' && allIcons.includes(value as LucideIconNames)) {
+      if (typeof value === 'string' && allIcons.includes(value as IconNames)) {
         return true;
       }
 

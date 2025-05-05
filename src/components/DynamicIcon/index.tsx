@@ -1,39 +1,50 @@
 'use client';
 
+import { customIconImports, IconSize } from '@/icons';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 
-type IconNames = keyof typeof dynamicIconImports;
-type IconSize = 16 | 24 | 40;
-type ReactComponent = React.FC<{ className?: string }>;
+// Types
+type LucideIconNames = keyof typeof dynamicIconImports;
+type CustomIconNames = keyof typeof customIconImports;
+type IconNames = LucideIconNames | CustomIconNames;
+type ReactComponent = React.FC<{ className?: string; size?: IconSize }>;
 
-const icons = Object.keys(dynamicIconImports) as IconNames[];
+// Initialize dynamic components
 const iconComponents = {} as Record<IconNames, ReactComponent>;
 
-for (const name of icons) {
-  const NewIcon = dynamic(dynamicIconImports[name], {
+// Load Lucide Icons
+for (const name of Object.keys(dynamicIconImports) as LucideIconNames[]) {
+  iconComponents[name] = dynamic(dynamicIconImports[name], {
     ssr: false,
   }) as ReactComponent;
-
-  iconComponents[name] = NewIcon;
 }
 
+// Load Custom Icons
+for (const name of Object.keys(customIconImports) as CustomIconNames[]) {
+  iconComponents[name] = dynamic(customIconImports[name], {
+    ssr: false,
+  }) as ReactComponent;
+}
+
+// Dynamic Icon Component
 type DynamicIconProps = {
-  name: string | undefined;
+  name: IconNames | undefined;
   className?: string;
   size?: IconSize;
 };
 
 const DynamicIcon = memo(({ name, ...props }: DynamicIconProps) => {
-  const Icon = iconComponents[name as IconNames];
-
-  if (!Icon) {
+  if (!name || !(name in iconComponents)) {
     return null;
   }
 
+  const Icon = iconComponents[name];
+
   return <Icon {...props} />;
 });
+
 DynamicIcon.displayName = 'DynamicIcon';
 
 export default DynamicIcon;
