@@ -27,7 +27,7 @@ export const linkGroupField: LinkGroupType = ({
     admin: {
       initCollapsed: true,
       components: {
-        RowLabel: '@/fields/linkGroup/LinkRowLabel', // Custom row label component for the array field
+        RowLabel: '@/fields/linkGroup/LinkLabel',
       },
     },
   };

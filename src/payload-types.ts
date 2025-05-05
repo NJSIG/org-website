@@ -678,6 +678,9 @@ export interface Header {
             label: string;
           };
         };
+        /**
+         * Links are displayed using grid layout from left to right, top to bottom.
+         */
         links?:
           | {
               link: {

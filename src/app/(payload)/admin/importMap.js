@@ -29,9 +29,10 @@ import { BlockquoteFeatureClient as BlockquoteFeatureClient_e70f5e05f09f93e00b99
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LucideIconPickerComponent as LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06 } from '@/fields/lucideIconPicker/LucideIconPickerComponent'
-import { default as default_31d98a8d9335145a7a39eb666fdbf03b } from '@/globals/Header/NavRowLabel'
-import { default as default_f0ffe3827f7ed6651cd6359ac7e7b0dc } from '@/fields/linkGroup/LinkRowLabel'
-import { default as default_6b2d9f0859e6b61221f7c9bbb3f7e217 } from '@/globals/Footer/GroupRowLabel'
+import { default as default_d8d4f8b836facc01bc30ce3da60643b8 } from '@/globals/Header/admin/NavLinkLabel'
+import { default as default_36da8d5ac52e64cc186c4e90bd0be630 } from '@/globals/Header/admin/NavGroupLabel'
+import { default as default_ffd965a062a94bd70a8ba03fe4e534d4 } from '@/fields/linkGroup/LinkLabel'
+import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/Footer/admin/NavGroupLabel'
 
 export const importMap = {
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -65,7 +66,8 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/fields/lucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06,
-  "@/globals/Header/NavRowLabel#default": default_31d98a8d9335145a7a39eb666fdbf03b,
-  "@/fields/linkGroup/LinkRowLabel#default": default_f0ffe3827f7ed6651cd6359ac7e7b0dc,
-  "@/globals/Footer/GroupRowLabel#default": default_6b2d9f0859e6b61221f7c9bbb3f7e217
+  "@/globals/Header/admin/NavLinkLabel#default": default_d8d4f8b836facc01bc30ce3da60643b8,
+  "@/globals/Header/admin/NavGroupLabel#default": default_36da8d5ac52e64cc186c4e90bd0be630,
+  "@/fields/linkGroup/LinkLabel#default": default_ffd965a062a94bd70a8ba03fe4e534d4,
+  "@/globals/Footer/admin/NavGroupLabel#default": default_4279f94a5be184600522edbb3823cd6d
 }

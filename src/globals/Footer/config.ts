@@ -31,7 +31,7 @@ export const Footer: GlobalConfig = {
       admin: {
         description: 'Add up to 6 navigation groups for the footer.',
         components: {
-          RowLabel: '@/globals/Footer/GroupRowLabel', // Custom row label component for the array field
+          RowLabel: '@/globals/Footer/admin/NavGroupLabel',
         },
       },
     },

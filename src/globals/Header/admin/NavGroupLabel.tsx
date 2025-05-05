@@ -3,14 +3,14 @@
 import { Header } from '@/payload-types';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 
-const NavRowLabel: React.FC<RowLabelProps> = () => {
+const NavGroupLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<NonNullable<Header['navGroups']>[number]>();
 
-  const label = data?.buttonText
-    ? `${data.buttonText}`
+  const label = data?.label
+    ? `${data.label}`
     : `Navigation Group ${rowNumber ? rowNumber + 1 : ''}`;
 
   return <div>{label}</div>;
 };
 
-export default NavRowLabel;
+export default NavGroupLabel;

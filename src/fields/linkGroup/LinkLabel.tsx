@@ -6,12 +6,12 @@ import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';
 import { LinkField } from '../link';
 
-interface LinkRowLabel {
+interface LinkLabel {
   link: LinkField;
 }
 
-const LinkRowLabel: React.FC<RowLabelProps> = () => {
-  const { rowNumber, data } = useRowLabel<LinkRowLabel>();
+const LinkLabel: React.FC<RowLabelProps> = () => {
+  const { rowNumber, data } = useRowLabel<LinkLabel>();
   const link = data?.link;
 
   const label =
@@ -35,4 +35,4 @@ const LinkRowLabel: React.FC<RowLabelProps> = () => {
   );
 };
 
-export default LinkRowLabel;
+export default LinkLabel;

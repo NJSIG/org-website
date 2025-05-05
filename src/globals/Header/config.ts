@@ -110,13 +110,16 @@ export const Header: GlobalConfig = {
           ],
           admin: {
             initCollapsed: true,
-            // TODO: Custom Row Label
+            description: 'Links are displayed using grid layout from left to right, top to bottom.',
+            components: {
+              RowLabel: '@/globals/Header/admin/NavLinkLabel',
+            },
           },
         },
       ],
       admin: {
         components: {
-          RowLabel: '@/globals/Header/NavRowLabel', // Custom row label component for the array field
+          RowLabel: '@/globals/Header/admin/NavGroupLabel',
         },
       },
     },
