@@ -708,6 +708,26 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  ctaButtons?:
+    | {
+        link: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link will be displayed.
+           */
+          appearance?: 'cta' | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -805,6 +825,22 @@ export interface HeaderSelect<T extends boolean = true> {
                     linkDescription?: T;
                   };
               id?: T;
+            };
+        id?: T;
+      };
+  ctaButtons?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              allowReferrer?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
             };
         id?: T;
       };

@@ -1,37 +1,26 @@
-import { Page } from '@/payload-types';
 import { deepMerge, Field, GroupField } from 'payload';
+import { LinkAppearanceOptions, LinkDestinations, LinkType } from './types';
 
-export type LinkField = {
-  type?: 'reference' | 'custom' | null | undefined;
-  newTab?: boolean | null | undefined;
-  allowReferrer?: boolean | null | undefined;
-  reference?:
-    | {
-        relationTo: 'pages'; // Add other collections here
-        value: string | Page;
-      }
-    | null
-    | undefined;
-  url?: string | null | undefined;
-  label?: string | null | undefined;
-};
-
-export type LinkAppearances = 'default' | 'button'; // TODO: add more appearances
-
-export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
+export const linkAppearanceOptions: LinkAppearanceOptions = {
   default: {
     label: 'Default (Text Link)',
     value: 'default',
   },
   button: {
-    label: 'Button Link',
+    label: 'Button',
     value: 'button',
+  },
+  cta: {
+    label: 'Call to Action Button',
+    value: 'cta',
+  },
+  icon: {
+    label: 'Icon Button',
+    value: 'icon',
   },
 };
 
-export type LinkDestinations = 'reference' | 'custom';
-
-export const destinationOptions: Record<LinkDestinations, { label: string; value: string }> = {
+export const linkDestinationOptions: Record<LinkDestinations, { label: string; value: string }> = {
   reference: {
     label: 'Internal Link',
     value: 'reference',
@@ -42,25 +31,23 @@ export const destinationOptions: Record<LinkDestinations, { label: string; value
   },
 };
 
-type LinkType = (options?: {
-  appearances?: LinkAppearances[] | false;
-  destinations?: LinkDestinations[];
-  disableNewTab?: boolean;
-  disableLabel?: boolean;
-  overrides?: Partial<GroupField>;
-}) => Field;
-
 export const linkField: LinkType = ({
   appearances,
+  variants,
   destinations,
   disableNewTab = false,
   disableLabel = false,
   overrides = {},
 } = {}) => {
-  let destinationOptionsToUse = [destinationOptions.reference, destinationOptions.custom];
+  let linkDestinationOptionsToUse = [
+    linkDestinationOptions.reference,
+    linkDestinationOptions.custom,
+  ];
 
   if (destinations) {
-    destinationOptionsToUse = destinations.map((destination) => destinationOptions[destination]);
+    linkDestinationOptionsToUse = destinations.map(
+      (destination) => linkDestinationOptions[destination],
+    );
   }
 
   const linkResult: GroupField = {
@@ -76,12 +63,12 @@ export const linkField: LinkType = ({
           {
             name: 'type',
             type: 'radio',
-            options: [...destinationOptionsToUse],
+            options: [...linkDestinationOptionsToUse],
             defaultValue: 'reference',
             admin: {
               layout: 'horizontal',
               width: '50%',
-              hidden: destinationOptionsToUse.length === 1,
+              hidden: linkDestinationOptionsToUse.length === 1,
             },
           },
           {
@@ -165,17 +152,19 @@ export const linkField: LinkType = ({
   }
 
   if (appearances !== false) {
-    let appearanceOptionsToUse = [appearanceOptions.default];
+    let linkAppearanceOptionsToUse = [linkAppearanceOptions.default];
 
     if (appearances) {
-      appearanceOptionsToUse = appearances.map((appearance) => appearanceOptions[appearance]);
+      linkAppearanceOptionsToUse = appearances.map(
+        (appearance) => linkAppearanceOptions[appearance],
+      );
     }
 
     linkResult.fields.push({
       name: 'appearance',
       type: 'select',
-      defaultValue: 'default',
-      options: appearanceOptionsToUse,
+      defaultValue: linkAppearanceOptionsToUse[0].value,
+      options: linkAppearanceOptionsToUse,
       admin: {
         description: 'Choose how the link will be displayed.',
       },

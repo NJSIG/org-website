@@ -1,5 +1,6 @@
 import { admin, anyone } from '@/access';
 import { linkField } from '@/fields/link';
+import { linkGroupField } from '@/fields/linkGroup';
 import { lucideIconPickerField } from '@/fields/lucideIconPicker';
 import { GlobalConfig } from 'payload';
 import { revalidateHeaderHook } from './hooks/revalidateHeaderHook';
@@ -31,14 +32,12 @@ export const Header: GlobalConfig = {
           fields: [
             {
               name: 'title',
-              label: 'Title',
               type: 'text',
               required: true,
               maxLength: 100,
             },
             {
               name: 'text',
-              label: 'Text',
               type: 'textarea',
               required: true,
               maxLength: 300,
@@ -123,7 +122,18 @@ export const Header: GlobalConfig = {
         },
       },
     },
-    // TODO: Add fields for cta buttons
+    linkGroupField({
+      appearances: ['cta'],
+      variants: {
+        styles: ['flat'],
+      },
+      destinations: ['reference'],
+      disableNewTab: true,
+      overrides: {
+        name: 'ctaButtons',
+        label: 'Call to Action Buttons',
+      },
+    }),
   ],
   hooks: {
     afterChange: [revalidateHeaderHook],
