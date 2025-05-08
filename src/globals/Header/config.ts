@@ -132,6 +132,7 @@ export const Header: GlobalConfig = {
       overrides: {
         name: 'ctaButtons',
         label: 'Call to Action Buttons',
+        maxRows: 3,
       },
     }),
   ],
