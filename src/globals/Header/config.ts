@@ -15,6 +15,10 @@ export const Header: GlobalConfig = {
     {
       name: 'navGroups',
       label: 'Navigation',
+      labels: {
+        singular: 'Navigation Group',
+        plural: 'Navigation Groups',
+      },
       type: 'array',
       fields: [
         {
@@ -123,15 +127,15 @@ export const Header: GlobalConfig = {
       },
     },
     linkGroupField({
-      appearances: ['cta'],
-      variants: {
-        styles: ['flat'],
-      },
       destinations: ['reference'],
       disableNewTab: true,
       overrides: {
         name: 'ctaButtons',
         label: 'Call to Action Buttons',
+        labels: {
+          singular: 'Call to Action Button',
+          plural: 'Call to Action Buttons',
+        },
         maxRows: 3,
       },
     }),

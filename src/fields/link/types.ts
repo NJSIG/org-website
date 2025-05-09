@@ -16,45 +16,26 @@ export type LinkField = {
   label?: string | null | undefined;
 };
 
-export type LinkAppearances = 'default' | 'button' | 'cta' | 'icon';
-export type LinkAppearanceOptions = Record<LinkAppearances, { label: string; value: string }>;
+export type LinkDestinations = 'reference' | 'custom';
+export type LinkDestinationOptions = Record<LinkDestinations, Options>;
 
-// Define valid values for each variant type
-type StyleVariants = 'flat' | 'outline' | 'ghost';
-type ColorVariants = 'default' | 'primary' | 'accent';
-type SizeVariants = 'small' | 'medium';
-type IconsPositionVariants = 'none' | 'before' | 'after';
+// Helper type for options
+type Options = { label: string; value: string };
 
-// Define a mapping of appearance types to their valid variant properties
+// Link Appearances
+export type LinkAppearances = 'button' | 'cta' | 'icon';
+export type LinkAppearanceOptions = Record<LinkAppearances, Options>;
+
+// Style Variants
+export type StyleVariants = 'flat' | 'outline' | 'ghost';
+export type StyleVariantOptions = Record<StyleVariants, Options>;
+
 type AppearanceStyleMap = {
-  default: never;
   button: StyleVariants;
   cta: Extract<StyleVariants, 'flat' | 'outline'>;
   icon: never;
 };
 
-type AppearanceColorMap = {
-  default: never;
-  button: ColorVariants;
-  cta: ColorVariants;
-  icon: Extract<ColorVariants, 'default'>;
-};
-
-type AppearanceSizeMap = {
-  default: never;
-  button: SizeVariants;
-  cta: SizeVariants;
-  icon: SizeVariants;
-};
-
-type AppearanceIconsPositionMap = {
-  default: never;
-  button: IconsPositionVariants;
-  cta: IconsPositionVariants;
-  icon: never;
-};
-
-// Filter out invalid variant types based on the appearance type
 type AllowedStyleVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
@@ -63,6 +44,16 @@ type AllowedStyleVariantsForAppearances<T extends LinkAppearances[] | false | un
         : never
       : never
     : StyleVariants;
+
+// Color Variants
+export type ColorVariants = 'default' | 'primary' | 'accent';
+export type ColorVariantOptions = Record<ColorVariants, Options>;
+
+type AppearanceColorMap = {
+  button: Extract<ColorVariants, 'primary' | 'accent'>;
+  cta: Extract<ColorVariants, 'primary' | 'accent'>;
+  icon: Extract<ColorVariants, 'default'>;
+};
 
 type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
@@ -73,6 +64,16 @@ type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | un
       : never
     : ColorVariants;
 
+// Size Variants
+export type SizeVariants = 'small' | 'medium';
+export type SizeVariantOptions = Record<SizeVariants, Options>;
+
+type AppearanceSizeMap = {
+  button: SizeVariants;
+  cta: SizeVariants;
+  icon: SizeVariants;
+};
+
 type AllowedSizeVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
@@ -82,6 +83,16 @@ type AllowedSizeVariantsForAppearances<T extends LinkAppearances[] | false | und
       : never
     : SizeVariants;
 
+// Icon Position Variants
+export type IconPositionVariants = 'none' | 'before' | 'after';
+export type IconPositionVariantOptions = Record<IconPositionVariants, Options>;
+
+type AppearanceIconsPositionMap = {
+  button: IconPositionVariants;
+  cta: IconPositionVariants;
+  icon: never;
+};
+
 type AllowedIconsPositionVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
@@ -89,17 +100,16 @@ type AllowedIconsPositionVariantsForAppearances<T extends LinkAppearances[] | fa
         ? AppearanceIconsPositionMap[A]
         : never
       : never
-    : IconsPositionVariants;
+    : IconPositionVariants;
 
-export type LinkDestinations = 'reference' | 'custom';
-
+// Final Link Type
 export type LinkType = <T extends LinkAppearances[] | false | undefined = undefined>(options?: {
   appearances?: T;
   variants?: {
-    styles?: AllowedStyleVariantsForAppearances<T>[];
-    colors?: AllowedColorVariantsForAppearances<T>[];
-    sizes?: AllowedSizeVariantsForAppearances<T>[];
-    icons?: AllowedIconsPositionVariantsForAppearances<T>[];
+    styles?: AllowedStyleVariantsForAppearances<T>[] | false | undefined;
+    colors?: AllowedColorVariantsForAppearances<T>[] | false | undefined;
+    sizes?: AllowedSizeVariantsForAppearances<T>[] | false | undefined;
+    icons?: AllowedIconsPositionVariantsForAppearances<T>[] | false | undefined;
   };
   destinations?: LinkDestinations[];
   disableNewTab?: boolean;

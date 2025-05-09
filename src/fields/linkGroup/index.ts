@@ -15,6 +15,7 @@ export type LinkGroupType = <T extends LinkAppearances[] | false | undefined = u
 
 export const linkGroupField: LinkGroupType = ({
   appearances,
+  variants,
   destinations,
   disableNewTab,
   overrides = {},
@@ -25,6 +26,7 @@ export const linkGroupField: LinkGroupType = ({
     fields: [
       linkField({
         appearances,
+        variants,
         destinations,
         disableNewTab,
       }),

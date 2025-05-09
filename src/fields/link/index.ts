@@ -1,11 +1,27 @@
 import { deepMerge, Field, GroupField } from 'payload';
-import { LinkAppearanceOptions, LinkDestinations, LinkType } from './types';
+import { lucideIconPickerField } from '../lucideIconPicker';
+import {
+  ColorVariantOptions,
+  IconPositionVariantOptions,
+  LinkAppearanceOptions,
+  LinkDestinationOptions,
+  LinkType,
+  SizeVariantOptions,
+  StyleVariantOptions,
+} from './types';
+
+export const linkDestinationOptions: LinkDestinationOptions = {
+  reference: {
+    label: 'Internal Link',
+    value: 'reference',
+  },
+  custom: {
+    label: 'Custom URL',
+    value: 'custom',
+  },
+};
 
 export const linkAppearanceOptions: LinkAppearanceOptions = {
-  default: {
-    label: 'Default (Text Link)',
-    value: 'default',
-  },
   button: {
     label: 'Button',
     value: 'button',
@@ -20,14 +36,59 @@ export const linkAppearanceOptions: LinkAppearanceOptions = {
   },
 };
 
-export const linkDestinationOptions: Record<LinkDestinations, { label: string; value: string }> = {
-  reference: {
-    label: 'Internal Link',
-    value: 'reference',
+export const linkStyleVariantOptions: StyleVariantOptions = {
+  flat: {
+    label: 'Flat',
+    value: 'flat',
   },
-  custom: {
-    label: 'Custom URL',
-    value: 'custom',
+  outline: {
+    label: 'Outline',
+    value: 'outline',
+  },
+  ghost: {
+    label: 'Ghost',
+    value: 'ghost',
+  },
+};
+
+export const linkColorVariantOptions: ColorVariantOptions = {
+  default: {
+    label: 'Default',
+    value: 'default',
+  },
+  primary: {
+    label: 'Primary',
+    value: 'primary',
+  },
+  accent: {
+    label: 'Accent',
+    value: 'accent',
+  },
+};
+
+export const linkSizeVariantOptions: SizeVariantOptions = {
+  small: {
+    label: 'Small',
+    value: 'small',
+  },
+  medium: {
+    label: 'Medium',
+    value: 'medium',
+  },
+};
+
+export const linkIconPositionVariantOptions: IconPositionVariantOptions = {
+  none: {
+    label: 'None',
+    value: 'none',
+  },
+  before: {
+    label: 'Before',
+    value: 'before',
+  },
+  after: {
+    label: 'After',
+    value: 'after',
   },
 };
 
@@ -50,6 +111,7 @@ export const linkField: LinkType = ({
     );
   }
 
+  // Core Fields
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
@@ -62,6 +124,7 @@ export const linkField: LinkType = ({
         fields: [
           {
             name: 'type',
+            label: 'Link Type',
             type: 'radio',
             options: [...linkDestinationOptionsToUse],
             defaultValue: 'reference',
@@ -85,7 +148,6 @@ export const linkField: LinkType = ({
           },
           {
             name: 'allowReferrer',
-            label: 'Allow Referrer',
             type: 'checkbox',
             defaultValue: false,
             admin: {
@@ -98,61 +160,58 @@ export const linkField: LinkType = ({
           },
         ],
       },
+      {
+        type: 'row',
+        fields: [
+          {
+            name: 'reference',
+            label: 'Document to Link To',
+            type: 'relationship',
+            relationTo: ['pages'], // Add other collections here
+            required: true,
+            admin: {
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) => siblingData?.type === 'reference',
+            },
+          },
+          {
+            name: 'url',
+            label: 'Custom URL',
+            type: 'text',
+            required: true,
+            admin: {
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) => siblingData?.type === 'custom',
+            },
+          },
+          {
+            name: 'label',
+            type: 'text',
+            required: true,
+            admin: {
+              style: {
+                flexGrow: 1,
+              },
+              condition: () => !disableLabel,
+            },
+          },
+        ],
+      },
     ],
   };
 
-  const linkTypes: Field[] = [
-    {
-      name: 'reference',
-      label: 'Document to Link To',
-      type: 'relationship',
-      relationTo: ['pages'], // Add other collections here
-      required: true,
-      admin: {
-        condition: (_, siblingData) => siblingData?.type === 'reference',
-      },
-    },
-    {
-      name: 'url',
-      label: 'Custom URL',
-      type: 'text',
-      required: true,
-      admin: {
-        condition: (_, siblingData) => siblingData?.type === 'custom',
-      },
-    },
-  ];
-
-  if (!disableLabel) {
-    linkTypes.map((linkType) => ({
-      ...linkType,
-      admin: {
-        ...linkType.admin,
-        width: '50%',
-      },
-    }));
-
-    linkResult.fields.push({
-      type: 'row',
-      fields: [
-        ...linkTypes,
-        {
-          name: 'label',
-          label: 'Label',
-          type: 'text',
-          required: true,
-          admin: {
-            width: '50%',
-          },
-        },
-      ],
-    });
-  } else {
-    linkResult.fields = [...linkResult.fields, ...linkTypes];
-  }
-
+  // If appearances are not disabled, add the appearance field
+  // and set the default value to the first appearance
   if (appearances !== false) {
-    let linkAppearanceOptionsToUse = [linkAppearanceOptions.default];
+    let linkAppearanceOptionsToUse = [
+      linkAppearanceOptions.button,
+      linkAppearanceOptions.cta,
+      linkAppearanceOptions.icon,
+    ];
 
     if (appearances) {
       linkAppearanceOptionsToUse = appearances.map(
@@ -160,15 +219,131 @@ export const linkField: LinkType = ({
       );
     }
 
-    linkResult.fields.push({
-      name: 'appearance',
-      type: 'select',
-      defaultValue: linkAppearanceOptionsToUse[0].value,
-      options: linkAppearanceOptionsToUse,
-      admin: {
-        description: 'Choose how the link will be displayed.',
+    const appearanceFields: Field[] = [
+      {
+        name: 'appearance',
+        type: 'select',
+        options: linkAppearanceOptionsToUse,
+        defaultValue: linkAppearanceOptionsToUse[0].value,
+        admin: {
+          isClearable: false,
+          description: 'Choose how the link will be displayed.',
+        },
       },
-    });
+      {
+        type: 'row',
+        fields: [
+          {
+            name: 'styleVariant',
+            label: 'Button Type',
+            type: 'text',
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'style',
+                    variantOptions: linkStyleVariantOptions,
+                    optionOverrides: variants?.styles || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) =>
+                variants?.styles !== false &&
+                (siblingData?.appearance === 'button' || siblingData?.appearance === 'cta'),
+            },
+          },
+          {
+            name: 'colorVariant',
+            label: 'Button Color',
+            type: 'text',
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'color',
+                    variantOptions: linkColorVariantOptions,
+                    optionOverrides: variants?.colors || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: () => variants?.colors !== false,
+            },
+          },
+          {
+            name: 'sizeVariant',
+            label: 'Button Size',
+            type: 'text',
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'size',
+                    variantOptions: linkSizeVariantOptions,
+                    optionOverrides: variants?.sizes || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: () => variants?.sizes !== false,
+            },
+          },
+        ],
+      },
+      {
+        type: 'row',
+        fields: [
+          {
+            name: 'iconPosition',
+            label: 'Icon Position',
+            type: 'text',
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'iconPosition',
+                    variantOptions: linkIconPositionVariantOptions,
+                    optionOverrides: variants?.icons || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) =>
+                (variants?.icons !== false && siblingData?.appearance === 'button') ||
+                siblingData?.appearance === 'cta',
+            },
+          },
+          lucideIconPickerField({
+            overrides: {
+              name: 'icon',
+              label: 'Icon',
+              admin: {
+                style: {
+                  flexGrow: 2,
+                },
+                condition: (_, siblingData) =>
+                  variants?.icons !== false && siblingData?.iconPosition !== 'none',
+              },
+            },
+          }),
+        ],
+      },
+    ];
+
+    linkResult.fields = [...linkResult.fields, ...appearanceFields];
   }
 
   return deepMerge(linkResult, overrides);

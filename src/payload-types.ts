@@ -666,7 +666,7 @@ export interface Header {
         callout: {
           title: string;
           text: string;
-          'Callout Link': {
+          'Callout Link'?: {
             type?: 'reference' | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
@@ -675,7 +675,7 @@ export interface Header {
               value: string | Page;
             } | null;
             url?: string | null;
-            label: string;
+            label?: string | null;
           };
         };
         /**
@@ -692,6 +692,7 @@ export interface Header {
                   value: string | Page;
                 } | null;
                 url?: string | null;
+                label?: string | null;
                 linkIcon?: string | null;
                 /**
                  * The primary link text should be a page title or concise label.
@@ -710,7 +711,7 @@ export interface Header {
     | null;
   ctaButtons?:
     | {
-        link: {
+        link?: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -719,11 +720,16 @@ export interface Header {
             value: string | Page;
           } | null;
           url?: string | null;
-          label: string;
+          label?: string | null;
           /**
            * Choose how the link will be displayed.
            */
-          appearance?: 'cta' | null;
+          appearance?: ('button' | 'cta' | 'icon') | null;
+          styleVariant?: string | null;
+          colorVariant?: string | null;
+          sizeVariant?: string | null;
+          iconPosition?: string | null;
+          icon?: string | null;
         };
         id?: string | null;
       }[]
@@ -745,7 +751,7 @@ export interface Footer {
         label: string;
         links?:
           | {
-              link: {
+              link?: {
                 type?: ('reference' | 'custom') | null;
                 newTab?: boolean | null;
                 allowReferrer?: boolean | null;
@@ -754,7 +760,7 @@ export interface Footer {
                   value: string | Page;
                 } | null;
                 url?: string | null;
-                label: string;
+                label?: string | null;
               };
               id?: string | null;
             }[]
@@ -767,7 +773,7 @@ export interface Footer {
    */
   policyLinks?:
     | {
-        link: {
+        link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -776,7 +782,7 @@ export interface Footer {
             value: string | Page;
           } | null;
           url?: string | null;
-          label: string;
+          label?: string | null;
         };
         id?: string | null;
       }[]
@@ -820,6 +826,7 @@ export interface HeaderSelect<T extends boolean = true> {
                     allowReferrer?: T;
                     reference?: T;
                     url?: T;
+                    label?: T;
                     linkIcon?: T;
                     linkTitle?: T;
                     linkDescription?: T;
@@ -841,6 +848,11 @@ export interface HeaderSelect<T extends boolean = true> {
               url?: T;
               label?: T;
               appearance?: T;
+              styleVariant?: T;
+              colorVariant?: T;
+              sizeVariant?: T;
+              iconPosition?: T;
+              icon?: T;
             };
         id?: T;
       };
