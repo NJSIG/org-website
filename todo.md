@@ -4,9 +4,6 @@ NJSIG's website is a great resource for information about the organization, incl
 
 ### TASKS
 
-- [ ] Icon Picker Enhancements
-  - [ ] Make Clearable
-  - [ ] Add Read Only or Disable Option
 - [ ] Access Controls
   - [ ] Add Authenticated and Role (TBD) Control
 - [ ] Add fields to User Collection
