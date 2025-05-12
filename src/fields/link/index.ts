@@ -1,5 +1,6 @@
 import { deepMerge, Field, GroupField } from 'payload';
 import { lucideIconPickerField } from '../lucideIconPicker';
+import { clearIconHook } from './hooks/clearIconHook';
 import {
   ColorVariantOptions,
   IconPositionVariantOptions,
@@ -336,6 +337,9 @@ export const linkField: LinkType = ({
                 },
                 condition: (_, siblingData) =>
                   variants?.icons !== false && siblingData?.iconPosition !== 'none',
+              },
+              hooks: {
+                beforeChange: [clearIconHook],
               },
             },
           }),
