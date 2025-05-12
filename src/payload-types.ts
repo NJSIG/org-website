@@ -724,7 +724,7 @@ export interface Header {
           /**
            * Choose how the link will be displayed.
            */
-          appearance?: ('button' | 'cta' | 'icon') | null;
+          appearance?: 'cta' | null;
           styleVariant?: string | null;
           colorVariant?: string | null;
           sizeVariant?: string | null;

@@ -127,6 +127,13 @@ export const Header: GlobalConfig = {
       },
     },
     linkGroupField({
+      appearances: ['cta'],
+      variants: {
+        styles: ['flat'],
+        colors: ['primary', 'accent'],
+        sizes: ['small'],
+        icons: ['before'],
+      },
       destinations: ['reference'],
       disableNewTab: true,
       overrides: {

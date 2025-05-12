@@ -17,6 +17,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { headerTheme } = useHeaderTheme();
   const [theme, setTheme] = useState<Theme | null>('dark');
 
+  const { navGroups, ctaButtons } = data;
+
   const baseStyles = 'w-full h-20';
   const darkStyles = 'bg-azure-to-r text-foreground-inverted';
   const lightStyles = 'bg-white text-foreground';
@@ -44,9 +46,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Logo style="wordmark" theme={theme} width={150} />
         </Link>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-white">
-            {data?.navGroups?.map((group) => <>{(group?.label && group.label) || 'no label'}</>)}
-          </div>
+          <div className="flex items-center gap-2"></div>
         </div>
       </div>
     </header>
