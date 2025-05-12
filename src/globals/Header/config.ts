@@ -131,7 +131,7 @@ export const Header: GlobalConfig = {
       variants: {
         styles: ['flat'],
         colors: ['primary', 'accent'],
-        sizes: ['small'],
+        sizes: ['medium'],
         icons: ['before'],
       },
       destinations: ['reference'],

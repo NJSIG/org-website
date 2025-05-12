@@ -72,13 +72,13 @@ type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | un
     : ColorVariants;
 
 // Size Variants
-export type SizeVariants = 'small' | 'medium';
+export type SizeVariants = 'small' | 'medium' | 'large';
 export type SizeVariantOptions = Record<SizeVariants, Options>;
 
 type AppearanceSizeMap = {
-  button: SizeVariants;
-  cta: SizeVariants;
-  icon: SizeVariants;
+  button: Extract<SizeVariants, 'small' | 'medium'>;
+  cta: Extract<SizeVariants, 'medium' | 'large'>;
+  icon: Extract<SizeVariants, 'small' | 'medium'>;
 };
 
 type AllowedSizeVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =

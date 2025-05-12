@@ -3,8 +3,6 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --radius: 0.625rem;
-
   --background: oklch(0.9821 0 252.95); /* Battleship Gray 50 */
   --foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
   --muted: oklch(0.9385 0.002 252.95); /* Battleship Gray 200 */
@@ -166,48 +164,63 @@
 @theme inline {
   /* NJSIG Color Tokens */
   --color-brand-primary: var(--color-azure-600);
-  --color-brand-secondary: var(--color-dandelion-300);
+  --color-brand-accent: var(--color-dandelion-300);
 
+  --color-njsig-primary: var(--color-azure-600);
   --color-njsig-background: var(--color-azure-50);
   --color-njsig-tint: var(--color-azure-300);
   --color-njsig-midtone: var(--color-azure-400);
   --color-njsig-shade: var(--color-azure-800);
 
-  --color-njsig-secondary-background: var(--color-dandelion-50);
-  --color-njsig-secondary-tint: var(--color-dandelion-300);
-  --color-njsig-secondary-midtone: var(--color-dandelion-400);
-  --color-njsig-secondary-shade: var(--color-dandelion-700);
+  --color-njsig-accent-primary: var(--color-dandelion-300);
+  --color-njsig-accent-background: var(--color-dandelion-50);
+  --color-njsig-accent-tint: var(--color-dandelion-300);
+  --color-njsig-accent-midtone: var(--color-dandelion-400);
+  --color-njsig-accent-shade: var(--color-dandelion-700);
 
+  --color-njsig-neutral-primary: var(--color-battleship-gray-600);
+  --color-njsig-neutral-background: var(--color-battleship-gray-50);
+  --color-njsig-neutral-tint: var(--color-battleship-gray-200);
+  --color-njsig-neutral-midtone: var(--color-battleship-gray-400);
+  --color-njsig-neutral-shade: var(--color-battleship-gray-800);
+
+  --color-bacceic-primary: var(--color-bondi-blue-400);
   --color-bacceic-background: var(--color-bondi-blue-50);
   --color-bacceic-tint: var(--color-bondi-blue-300);
   --color-bacceic-midtone: var(--color-bondi-blue-400);
   --color-bacceic-shade: var(--color-bondi-blue-700);
 
+  --color-caip-primary: var(--color-sea-green-400);
   --color-caip-background: var(--color-sea-green-50);
   --color-caip-tint: var(--color-sea-green-300);
   --color-caip-midtone: var(--color-sea-green-400);
   --color-caip-shade: var(--color-sea-green-700);
 
+  --color-ericnorth-primary: var(--color-cerulean-400);
   --color-ericnorth-background: var(--color-cerulean-50);
   --color-ericnorth-tint: var(--color-cerulean-300);
   --color-ericnorth-midtone: var(--color-cerulean-400);
   --color-ericnorth-shade: var(--color-cerulean-700);
 
+  --color-ericsouth-primary: var(--color-sushi-400);
   --color-ericsouth-background: var(--color-sushi-50);
   --color-ericsouth-tint: var(--color-sushi-300);
   --color-ericsouth-midtone: var(--color-sushi-400);
   --color-ericsouth-shade: var(--color-sushi-700);
 
+  --color-ericwest-primary: var(--color-trendy-pink-400);
   --color-ericwest-background: var(--color-trendy-pink-50);
   --color-ericwest-tint: var(--color-trendy-pink-300);
   --color-ericwest-midtone: var(--color-trendy-pink-400);
   --color-ericwest-shade: var(--color-trendy-pink-700);
 
+  --color-mocssif-primary: var(--color-tahiti-gold-400);
   --color-mocssif-background: var(--color-tahiti-gold-50);
   --color-mocssif-tint: var(--color-tahiti-gold-300);
   --color-mocssif-midtone: var(--color-tahiti-gold-400);
   --color-mocssif-shade: var(--color-tahiti-gold-700);
 
+  --color-njeif-primary: var(--color-raspberry-400);
   --color-njeif-background: var(--color-raspberry-50);
   --color-njeif-tint: var(--color-raspberry-300);
   --color-njeif-midtone: var(--color-raspberry-400);
@@ -218,12 +231,7 @@
   --color-foreground-link: var(--color-blue-700);
 
   /* shadcn/ui Tokens */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -273,5 +281,45 @@
     var(--color-azure-900) 0%,
     var(--color-azure-900) 30%,
     var(--color-azure-700) 100%
+  );
+}
+
+@utility text-tint-* {
+  color: color-mix(in oklch, --value(--color- *, [ *]), white calc(--modifier(integer) * 1%));
+}
+
+@utility text-shade-* {
+  color: color-mix(in oklch, --value(--color- *, [ *]), black calc(--modifier(integer) * 1%));
+}
+
+@utility bg-tint-* {
+  background-color: color-mix(
+    in oklch,
+    --value(--color- *, [ *]),
+    white calc(--modifier(integer) * 1%)
+  );
+}
+
+@utility bg-shade-* {
+  background-color: color-mix(
+    in oklch,
+    --value(--color- *, [ *]),
+    black calc(--modifier(integer) * 1%)
+  );
+}
+
+@utility border-tint-* {
+  border-color: color-mix(
+    in oklch,
+    --value(--color- *, [ *]),
+    white calc(--modifier(integer) * 1%)
+  );
+}
+
+@utility border-shade-* {
+  border-color: color-mix(
+    in oklch,
+    --value(--color- *, [ *]),
+    black calc(--modifier(integer) * 1%)
   );
 }
