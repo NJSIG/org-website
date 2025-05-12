@@ -4,7 +4,7 @@ import { isObject } from '@/utilities/isObject';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';
-import { LinkField } from '../link';
+import { LinkField } from '../link/types';
 
 interface LinkLabel {
   link: LinkField;
@@ -13,23 +13,22 @@ interface LinkLabel {
 const LinkLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<LinkLabel>();
   const link = data?.link;
-
   const label =
-    (link.label && link.label !== '' ? link.label : undefined) ??
-    (link.type === 'reference' && link.reference
+    (link?.label && link?.label !== '' ? link.label : undefined) ??
+    (link?.type === 'reference' && link?.reference
       ? `Reference to: ${link.reference?.relationTo} - ${isObject(link.reference?.value) ? link.reference.value.title : link.reference.value}`
       : undefined) ??
-    (link.type === 'custom' && link.url ? `Custom URL: ${link.url}` : undefined) ??
+    (link?.type === 'custom' && link?.url ? `Custom URL: ${link.url}` : undefined) ??
     `Link ${rowNumber !== undefined ? rowNumber + 1 : ''}`;
 
   return (
     <div className="linkRowLabel">
       <span>{label}</span>
       <div className="linkModifiers">
-        {link.type === 'reference' && <Link size={16} />}
-        {link.type === 'custom' && <Globe size={16} />}
-        {link.newTab && <ExternalLink size={16} />}
-        {link.type === 'custom' && link.allowReferrer && <Binoculars size={16} />}
+        {link?.type === 'reference' && <Link size={16} />}
+        {link?.type === 'custom' && <Globe size={16} />}
+        {link?.newTab && <ExternalLink size={16} />}
+        {link?.type === 'custom' && link?.allowReferrer && <Binoculars size={16} />}
       </div>
     </div>
   );
