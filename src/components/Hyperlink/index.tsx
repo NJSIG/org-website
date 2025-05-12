@@ -1,4 +1,4 @@
-import { LinkField } from '@/fields/link';
+import { LinkField } from '@/fields/link/types';
 import { cn } from '@/utilities/cn';
 import Link from 'next/link';
 

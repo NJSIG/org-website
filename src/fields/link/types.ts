@@ -1,3 +1,4 @@
+import { IconNames } from '@/fields/lucideIconPicker/types';
 import { Page } from '@/payload-types';
 import { Field, GroupField } from 'payload';
 
@@ -14,6 +15,12 @@ export type LinkField = {
     | undefined;
   url?: string | null | undefined;
   label?: string | null | undefined;
+  appearance?: LinkAppearances | false | undefined;
+  styleVariant?: StyleVariants | false | undefined;
+  colorVariant?: ColorVariants | false | undefined;
+  sizeVariant?: SizeVariants | false | undefined;
+  iconPosition?: IconPositionVariants | false | undefined;
+  icon?: IconNames | null | undefined;
 };
 
 export type LinkDestinations = 'reference' | 'custom';
