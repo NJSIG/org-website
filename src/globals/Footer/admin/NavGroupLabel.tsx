@@ -4,7 +4,7 @@ import { Footer } from '@/payload-types';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import React from 'react';
 
-const GroupRowLabel: React.FC<RowLabelProps> = () => {
+const NavGroupLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<NonNullable<Footer['navGroups']>[number]>();
 
   const label = data?.label
@@ -14,4 +14,4 @@ const GroupRowLabel: React.FC<RowLabelProps> = () => {
   return <div>{label}</div>;
 };
 
-export default GroupRowLabel;
+export default NavGroupLabel;

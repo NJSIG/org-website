@@ -1,4 +1,4 @@
-import { anyone } from '@/access/anyone';
+import { admin, anyone } from '@/access';
 import { linkGroupField } from '@/fields/linkGroup';
 import { GlobalConfig } from 'payload';
 import { revalidateFooterHook } from './hooks/revalidateFooterHook';
@@ -6,7 +6,8 @@ import { revalidateFooterHook } from './hooks/revalidateFooterHook';
 export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
-    read: anyone, // Allow anyone to read the footer settings
+    read: anyone,
+    update: admin,
   },
   fields: [
     {
@@ -30,7 +31,7 @@ export const Footer: GlobalConfig = {
       admin: {
         description: 'Add up to 6 navigation groups for the footer.',
         components: {
-          RowLabel: '@/globals/Footer/GroupRowLabel', // Custom row label component for the array field
+          RowLabel: '@/globals/Footer/admin/NavGroupLabel',
         },
       },
     },

@@ -6,7 +6,7 @@ import { Phone, Printer } from 'lucide-react';
 import Link from 'next/link';
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)();
+  const footerData: Footer = (await getCachedGlobal('footer', 1)()) as Footer;
   const navGroups = footerData?.navGroups || [];
   const policyLinks = footerData?.policyLinks || [];
 
