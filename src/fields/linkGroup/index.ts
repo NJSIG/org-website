@@ -1,24 +1,52 @@
 import { ArrayField, deepMerge, Field } from 'payload';
-import { LinkAppearances, linkField } from '../link';
+import { linkField } from '../link';
+import {
+  AllowedColorVariantsForAppearances,
+  AllowedIconsPositionVariantsForAppearances,
+  AllowedSizeVariantsForAppearances,
+  AllowedStyleVariantsForAppearances,
+  LinkAppearances,
+  LinkDestinations,
+} from '../link/types';
 
-type LinkGroupType = (options?: {
-  appearances?: LinkAppearances[] | false;
+export type LinkGroupType = <
+  T extends LinkAppearances[] | false | undefined = undefined,
+>(options?: {
+  appearances?: T;
+  variants?: {
+    styles?: AllowedStyleVariantsForAppearances<T>[] | false | undefined;
+    colors?: AllowedColorVariantsForAppearances<T>[] | false | undefined;
+    sizes?: AllowedSizeVariantsForAppearances<T>[] | false | undefined;
+    icons?: AllowedIconsPositionVariantsForAppearances<T>[] | false | undefined;
+  };
+  destinations?: LinkDestinations[];
+  disableNewTab?: boolean;
+  disableLabel?: boolean;
   overrides?: Partial<ArrayField>;
 }) => Field;
 
-export const linkGroupField: LinkGroupType = ({ appearances, overrides = {} } = {}) => {
+export const linkGroupField: LinkGroupType = ({
+  appearances,
+  variants,
+  destinations,
+  disableNewTab,
+  overrides = {},
+} = {}) => {
   const generatedLinkGroup: Field = {
     name: 'links',
     type: 'array',
     fields: [
       linkField({
         appearances,
+        variants,
+        destinations,
+        disableNewTab,
       }),
     ],
     admin: {
       initCollapsed: true,
       components: {
-        RowLabel: '@/fields/linkGroup/LinkRowLabel', // Custom row label component for the array field
+        RowLabel: '@/fields/linkGroup/LinkLabel',
       },
     },
   };
