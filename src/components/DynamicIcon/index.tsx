@@ -30,7 +30,7 @@ for (const name of Object.keys(customIconImports) as CustomIconNames[]) {
 
 // Dynamic Icon Component
 type DynamicIconProps = {
-  name: IconNames | undefined;
+  name: IconNames | string | undefined;
   className?: string;
   size?: IconSize;
 };
@@ -40,7 +40,7 @@ const DynamicIcon = memo(({ name, ...props }: DynamicIconProps) => {
     return null;
   }
 
-  const Icon = iconComponents[name];
+  const Icon = iconComponents[name as IconNames];
 
   return <Icon {...props} />;
 });

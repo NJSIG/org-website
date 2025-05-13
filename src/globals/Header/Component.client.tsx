@@ -2,6 +2,7 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import React, { useEffect, useState } from 'react';
 
+import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
 import type { Header } from '@/payload-types';
 import { Theme } from '@/providers/Theme/types';
@@ -20,7 +21,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { navGroups, ctaButtons } = data;
 
   const baseStyles = 'w-full h-20';
-  const darkStyles = 'bg-azure-to-r text-foreground-inverted';
+  const darkStyles = 'bg-azure-to-r text-foreground-inverted dark';
   const lightStyles = 'bg-white text-foreground';
 
   // TODO: Do we really need to set the theme on every route change?
@@ -47,6 +48,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </Link>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2"></div>
+          {ctaButtons &&
+            ctaButtons.map(
+              (ctaButton) => ctaButton.link && <Button link={ctaButton.link} key={ctaButton.id} />,
+            )}
         </div>
       </div>
     </header>

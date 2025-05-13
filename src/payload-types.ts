@@ -725,10 +725,10 @@ export interface Header {
            * Choose how the link will be displayed.
            */
           appearance?: 'cta' | null;
-          styleVariant?: string | null;
-          colorVariant?: string | null;
-          sizeVariant?: string | null;
-          iconPosition?: string | null;
+          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          sizeVariant?: ('small' | 'medium' | 'large') | false;
+          iconPosition?: ('none' | 'before' | 'after') | false;
           icon?: string | null;
         };
         id?: string | null;

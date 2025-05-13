@@ -3,13 +3,22 @@ import { lucideIconPickerField } from '../lucideIconPicker';
 import { clearIconHook } from './hooks/clearIconHook';
 import {
   ColorVariantOptions,
+  ColorVariants,
   IconPositionVariantOptions,
+  IconPositionVariants,
   LinkAppearanceOptions,
   LinkDestinationOptions,
   LinkType,
   SizeVariantOptions,
+  SizeVariants,
   StyleVariantOptions,
+  StyleVariants,
 } from './types';
+
+const styleVariantsEnum: StyleVariants[] = ['flat', 'outline', 'ghost'];
+const colorVariantsEnum: ColorVariants[] = ['default', 'primary', 'accent'];
+const sizeVariantsEnum: SizeVariants[] = ['small', 'medium', 'large'];
+const iconPositionVariantsEnum: IconPositionVariants[] = ['none', 'before', 'after'];
 
 export const linkDestinationOptions: LinkDestinationOptions = {
   reference: {
@@ -75,6 +84,10 @@ export const linkSizeVariantOptions: SizeVariantOptions = {
   medium: {
     label: 'Medium',
     value: 'medium',
+  },
+  large: {
+    label: 'Large',
+    value: 'large',
   },
 };
 
@@ -238,6 +251,14 @@ export const linkField: LinkType = ({
             name: 'styleVariant',
             label: 'Button Type',
             type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: styleVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
             admin: {
               components: {
                 Field: {
@@ -261,6 +282,14 @@ export const linkField: LinkType = ({
             name: 'colorVariant',
             label: 'Button Color',
             type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: colorVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
             admin: {
               components: {
                 Field: {
@@ -282,6 +311,14 @@ export const linkField: LinkType = ({
             name: 'sizeVariant',
             label: 'Button Size',
             type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: sizeVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
             admin: {
               components: {
                 Field: {
@@ -308,6 +345,14 @@ export const linkField: LinkType = ({
             name: 'iconPosition',
             label: 'Icon Position',
             type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: iconPositionVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
             admin: {
               components: {
                 Field: {

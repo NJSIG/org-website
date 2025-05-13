@@ -15,19 +15,20 @@ export type LinkField = {
     | undefined;
   url?: string | null | undefined;
   label?: string | null | undefined;
-  appearance?: LinkAppearances | false | undefined;
+  appearance?: LinkAppearances | false | null | undefined;
   styleVariant?: StyleVariants | false | undefined;
   colorVariant?: ColorVariants | false | undefined;
   sizeVariant?: SizeVariants | false | undefined;
   iconPosition?: IconPositionVariants | false | undefined;
-  icon?: IconNames | null | undefined;
+  icon?: IconNames | string | null | undefined;
 };
-
-export type LinkDestinations = 'reference' | 'custom';
-export type LinkDestinationOptions = Record<LinkDestinations, Options>;
 
 // Helper type for options
 type Options = { label: string; value: string };
+
+// Link Destinations
+export type LinkDestinations = 'reference' | 'custom';
+export type LinkDestinationOptions = Record<LinkDestinations, Options>;
 
 // Link Appearances
 export type LinkAppearances = 'button' | 'cta' | 'icon';
@@ -43,7 +44,7 @@ type AppearanceStyleMap = {
   icon: never;
 };
 
-type AllowedStyleVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
+export type AllowedStyleVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
       ? A extends LinkAppearances
@@ -62,7 +63,7 @@ type AppearanceColorMap = {
   icon: Extract<ColorVariants, 'default'>;
 };
 
-type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
+export type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
       ? A extends LinkAppearances
@@ -81,7 +82,7 @@ type AppearanceSizeMap = {
   icon: Extract<SizeVariants, 'small' | 'medium'>;
 };
 
-type AllowedSizeVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
+export type AllowedSizeVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
   T extends LinkAppearances[]
     ? T[number] extends infer A
       ? A extends LinkAppearances
@@ -100,14 +101,15 @@ type AppearanceIconsPositionMap = {
   icon: never;
 };
 
-type AllowedIconsPositionVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
-  T extends LinkAppearances[]
-    ? T[number] extends infer A
-      ? A extends LinkAppearances
-        ? AppearanceIconsPositionMap[A]
-        : never
+export type AllowedIconsPositionVariantsForAppearances<
+  T extends LinkAppearances[] | false | undefined,
+> = T extends LinkAppearances[]
+  ? T[number] extends infer A
+    ? A extends LinkAppearances
+      ? AppearanceIconsPositionMap[A]
       : never
-    : IconPositionVariants;
+    : never
+  : IconPositionVariants;
 
 // Final Link Type
 export type LinkType = <T extends LinkAppearances[] | false | undefined = undefined>(options?: {

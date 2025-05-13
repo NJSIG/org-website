@@ -275,6 +275,15 @@
   }
 }
 
+/*
+ * There is an issue with Prettier and @utility
+ * when creating functional utilities where spaces
+ * are added before `*` characters in the definition.
+ * https://github.com/tailwindlabs/prettier-plugin-tailwindcss/issues/345
+ *
+ * Use the ignore comment to prevent this.
+ */
+
 @utility bg-azure-to-r {
   background-image: linear-gradient(
     to right,
@@ -284,42 +293,56 @@
   );
 }
 
-@utility text-tint-* {
-  color: color-mix(in oklch, --value(--color- *, [ *]), white calc(--modifier(integer) * 1%));
-}
-
-@utility text-shade-* {
-  color: color-mix(in oklch, --value(--color- *, [ *]), black calc(--modifier(integer) * 1%));
-}
-
-@utility bg-tint-* {
-  background-color: color-mix(
+/* prettier-ignore */
+@utility text-mix-tint-* {
+  color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-@utility bg-shade-* {
-  background-color: color-mix(
+/* prettier-ignore */
+@utility text-mix-shade-* {
+  color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
-@utility border-tint-* {
-  border-color: color-mix(
+/* prettier-ignore */
+@utility bg-mix-tint-* {
+  background-color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-@utility border-shade-* {
+/* prettier-ignore */
+@utility bg-mix-shade-* {
+  background-color: color-mix(
+    in oklch,
+    --value(--color-*, [*]),
+    black calc(--modifier(integer) * 1%)
+  );
+}
+
+/* prettier-ignore */
+@utility border-mix-tint-* {
   border-color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
+    white calc(--modifier(integer) * 1%)
+  );
+}
+
+/* prettier-ignore */
+@utility border-mix-shade-* {
+  border-color: color-mix(
+    in oklch,
+    --value(--color-*, [*]),
     black calc(--modifier(integer) * 1%)
   );
 }
