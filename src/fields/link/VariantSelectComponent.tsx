@@ -109,7 +109,9 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
 
     // Set the options to the filtered options
     setOptions(optionsToUse);
-    setValue(optionsToUse[0]?.value || '');
+    setValue(
+      optionsToUse.find((option) => option.value === value)?.value || optionsToUse[0].value || null,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appearance]);
 
