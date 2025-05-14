@@ -8,6 +8,14 @@ import type { Header } from '@/payload-types';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
 import Link from 'next/link';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationSearchTrigger,
+} from './components/navigation-menu';
 
 interface HeaderClientProps {
   data: Header;
@@ -47,7 +55,24 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Logo style="wordmark" theme={theme} width={150} />
         </Link>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2"></div>
+          {navGroups && (
+            <NavigationMenu>
+              <NavigationMenuList>
+                {navGroups.map((group) => (
+                  <React.Fragment key={group.id}>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>{group.label}</NavigationMenuTrigger>
+                      <NavigationMenuContent></NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <span className="h-7 w-px mx-0.5 bg-foreground-inverted opacity-40"></span>
+                  </React.Fragment>
+                ))}
+                <NavigationMenuItem>
+                  <NavigationSearchTrigger>Search</NavigationSearchTrigger>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
           {ctaButtons &&
             ctaButtons.map(
               (ctaButton) => ctaButton.link && <Button link={ctaButton.link} key={ctaButton.id} />,
