@@ -66,11 +66,14 @@ export async function Footer() {
                   <div key={group.id} className="flex flex-col gap-4">
                     <p className="text-xl">{group.label}</p>
                     <ul className="flex flex-col gap-2">
-                      {group.links?.map((item) => (
-                        <li key={item.id}>
-                          <Hyperlink link={item.link}>{item.link.label}</Hyperlink>
-                        </li>
-                      ))}
+                      {group.links?.map(
+                        (item) =>
+                          item.link && (
+                            <li key={item.id}>
+                              <Hyperlink link={item.link}>{item.link.label}</Hyperlink>
+                            </li>
+                          ),
+                      )}
                     </ul>
                   </div>
                 ))}
@@ -80,11 +83,14 @@ export async function Footer() {
                   <div key={group.id} className="flex flex-col gap-4">
                     <p className="text-xl">{group.label}</p>
                     <ul className="flex flex-col gap-2">
-                      {group.links?.map((item) => (
-                        <li key={item.id}>
-                          <Hyperlink link={item.link}>{item.link.label}</Hyperlink>
-                        </li>
-                      ))}
+                      {group.links?.map(
+                        (item) =>
+                          item.link && (
+                            <li key={item.id}>
+                              <Hyperlink link={item.link}>{item.link.label}</Hyperlink>
+                            </li>
+                          ),
+                      )}
                     </ul>
                   </div>
                 ))}
@@ -101,13 +107,16 @@ export async function Footer() {
           </p>
           {policyLinks.length > 0 && (
             <ul className="flex gap-3">
-              {policyLinks.map((item) => (
-                <li key={item.id}>
-                  <Hyperlink link={item.link} className="text-foreground-inverted underline">
-                    {item.link.label}
-                  </Hyperlink>
-                </li>
-              ))}
+              {policyLinks.map(
+                (item) =>
+                  item.link && (
+                    <li key={item.id}>
+                      <Hyperlink link={item.link} className="text-foreground-inverted underline">
+                        {item.link.label}
+                      </Hyperlink>
+                    </li>
+                  ),
+              )}
             </ul>
           )}
         </div>
