@@ -16,6 +16,7 @@ NJSIG's website is a great resource for information about the organization, incl
   - [ ] Customize Colors
 - [ ] Customize Login Page
 - [ ] Base Layout
+- [ ] Conditional Blocks (https://github.com/payloadcms/payload/discussions/7064#discussioncomment-11829476)
 
 ### COMPLETED TASKS ✔
 
