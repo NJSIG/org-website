@@ -2,7 +2,7 @@ import { Hyperlink } from '@/components/Hyperlink';
 import { Logo } from '@/components/Logo';
 import type { Footer } from '@/payload-types';
 import { getCachedGlobal } from '@/utilities/getCachedGlobal';
-import { Phone, Printer } from 'lucide-react';
+import { PhoneIcon, PrinterIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export async function Footer() {
@@ -35,11 +35,11 @@ export async function Footer() {
             </div>
             <div className="flex flex-col gap-2 mt-2">
               <div className="flex items-center gap-2" aria-description="Phone Number">
-                <Phone size={16} />
+                <PhoneIcon size={16} />
                 <Hyperlink link={{ url: 'tel:+16093866060' }}>609-386-6060</Hyperlink>
               </div>
               <div className="flex items-center gap-2" aria-description="Fax Number">
-                <Printer size={16} />
+                <PrinterIcon size={16} />
                 <Hyperlink link={{ url: 'tel:+6093868877' }}>609-386-8877</Hyperlink>
               </div>
             </div>
@@ -47,12 +47,12 @@ export async function Footer() {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2" aria-description="Phone Number">
               <p className="font-bold grow">Off Hours Emergency Claims:</p>
-              <Phone size={16} />
+              <PhoneIcon size={16} />
               <Hyperlink link={{ url: 'tel:+16093866060' }}>609-386-6060</Hyperlink>
             </div>
             <div className="flex items-center gap-2" aria-description="Phone Number">
               <p className="font-bold grow">Workers&apos; Compensation Intake:</p>
-              <Phone size={16} />
+              <PhoneIcon size={16} />
               <Hyperlink link={{ url: 'tel:+16095433377' }}>609-543-3377</Hyperlink>
             </div>
           </div>
