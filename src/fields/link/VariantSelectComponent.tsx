@@ -152,6 +152,7 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
       onChange={(e) => setValue((e as OptionObject).value)}
       style={styles}
       isClearable={false}
+      readOnly={options.length === 1}
     />
   );
 };

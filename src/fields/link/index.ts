@@ -259,6 +259,7 @@ export const linkField: LinkType = ({
         defaultValue: linkAppearanceOptionsToUse[0].value,
         admin: {
           isClearable: false,
+          readOnly: linkAppearanceOptionsToUse.length === 1,
           description: 'Choose how the link will be displayed.',
         },
       },
@@ -354,6 +355,36 @@ export const linkField: LinkType = ({
               condition: () => variants?.sizes !== false,
             },
           },
+          {
+            name: 'microInteraction',
+            label: 'Micro-Interaction',
+            type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: microInteractionVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'microInteraction',
+                    variantOptions: linkMicroInteractionVariantOptions,
+                    optionOverrides: variants?.microInteractions || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) =>
+                variants?.icons !== false && siblingData?.iconPosition !== 'none',
+            },
+          },
         ],
       },
       {
@@ -396,7 +427,7 @@ export const linkField: LinkType = ({
               label: 'Icon',
               admin: {
                 style: {
-                  flexGrow: 1,
+                  flexGrow: 2,
                 },
                 condition: (_, siblingData) =>
                   variants?.icons !== false && siblingData?.iconPosition !== 'none',
@@ -406,36 +437,6 @@ export const linkField: LinkType = ({
               },
             },
           }),
-          {
-            name: 'microInteraction',
-            label: 'Micro-Interaction',
-            type: 'text',
-            typescriptSchema: [
-              () => ({
-                oneOf: [
-                  { type: 'string', enum: microInteractionVariantsEnum },
-                  { type: 'boolean', enum: [false] },
-                ],
-              }),
-            ],
-            admin: {
-              components: {
-                Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
-                  clientProps: {
-                    variant: 'microInteraction',
-                    variantOptions: linkMicroInteractionVariantOptions,
-                    optionOverrides: variants?.microInteractions || [],
-                  },
-                },
-              },
-              style: {
-                flexGrow: 1,
-              },
-              condition: (_, siblingData) =>
-                variants?.icons !== false && siblingData?.iconPosition !== 'none',
-            },
-          },
         ],
       },
     ];

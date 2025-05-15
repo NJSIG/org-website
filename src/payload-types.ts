@@ -728,9 +728,9 @@ export interface Header {
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
           colorVariant?: ('default' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
           icon?: string | null;
-          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
         };
         id?: string | null;
       }[]
@@ -852,9 +852,9 @@ export interface HeaderSelect<T extends boolean = true> {
               styleVariant?: T;
               colorVariant?: T;
               sizeVariant?: T;
+              microInteraction?: T;
               iconPosition?: T;
               icon?: T;
-              microInteraction?: T;
             };
         id?: T;
       };
