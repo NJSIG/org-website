@@ -21,7 +21,7 @@ export type LinkField = {
   sizeVariant?: SizeVariants | false | undefined;
   iconPosition?: IconPositionVariants | false | undefined;
   icon?: IconNames | string | null | undefined;
-  microInteractions?: MicroInteractionVariants | false | undefined;
+  microInteraction?: MicroInteractionVariants | false | undefined;
 };
 
 // Helper type for options
