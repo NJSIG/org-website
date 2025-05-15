@@ -21,6 +21,7 @@ export type LinkField = {
   sizeVariant?: SizeVariants | false | undefined;
   iconPosition?: IconPositionVariants | false | undefined;
   icon?: IconNames | string | null | undefined;
+  microInteractions?: MicroInteractionVariants | false | undefined;
 };
 
 // Helper type for options
@@ -111,6 +112,26 @@ export type AllowedIconsPositionVariantsForAppearances<
     : never
   : IconPositionVariants;
 
+// Micro Interaction Variants
+export type MicroInteractionVariants = 'none' | 'wiggle' | 'upRight';
+export type MicroInteractionVariantOptions = Record<MicroInteractionVariants, Options>;
+
+type AppearanceMicroInteractionMap = {
+  button: MicroInteractionVariants;
+  cta: MicroInteractionVariants;
+  icon: Extract<MicroInteractionVariants, 'none' | 'wiggle'>;
+};
+
+export type AllowedMicroInteractionVariantsForAppearances<
+  T extends LinkAppearances[] | false | undefined,
+> = T extends LinkAppearances[]
+  ? T[number] extends infer A
+    ? A extends LinkAppearances
+      ? AppearanceMicroInteractionMap[A]
+      : never
+    : never
+  : MicroInteractionVariants;
+
 // Final Link Type
 export type LinkType = <T extends LinkAppearances[] | false | undefined = undefined>(options?: {
   appearances?: T;
@@ -119,9 +140,56 @@ export type LinkType = <T extends LinkAppearances[] | false | undefined = undefi
     colors?: AllowedColorVariantsForAppearances<T>[] | false | undefined;
     sizes?: AllowedSizeVariantsForAppearances<T>[] | false | undefined;
     icons?: AllowedIconsPositionVariantsForAppearances<T>[] | false | undefined;
+    microInteractions?: AllowedMicroInteractionVariantsForAppearances<T>[] | false | undefined;
   };
   destinations?: LinkDestinations[];
   disableNewTab?: boolean;
   disableLabel?: boolean;
   overrides?: Partial<GroupField>;
 }) => Field;
+
+// Appearance Helper Type
+// Use this when forcing a specific appearance in a hook
+export type LinkAppearanceHelper<T extends LinkAppearances> = {
+  appearance: T;
+  styleVariant: AppearanceStyleMap[T] extends never ? never : AppearanceStyleMap[T];
+  colorVariant: AppearanceColorMap[T];
+  sizeVariant: AppearanceSizeMap[T];
+  iconPosition: AppearanceIconsPositionMap[T] extends never ? never : AppearanceIconsPositionMap[T];
+  icon: IconNames | null | undefined;
+  microInteraction: AppearanceMicroInteractionMap[T] extends never
+    ? never
+    : AppearanceMicroInteractionMap[T];
+};
+
+// Usage Examples for the Appearance Helper Type
+// Usage examples with proper type restrictions:
+// const buttonAppearance: LinkAppearanceHelper<'button'> = {
+//   appearance: "button",
+//   styleVariant: "flat", // Only allows: 'flat', 'outline', or 'ghost'
+//   colorVariant: "primary", // Only allows: 'primary' or 'accent'
+//   sizeVariant: "medium", // Only allows: 'small' or 'medium'
+//   iconPosition: "after", // Only allows: 'none', 'before', or 'after'
+//   icon: "arrow-up-right",
+//   microInteraction: "wiggle", // Only allows: 'none', 'wiggle', or 'up-right'
+// };
+
+// const ctaAppearance: LinkAppearanceHelper<'cta'> = {
+//   appearance: "cta",
+//   styleVariant: "outline", // Only allows: 'flat' or 'outline'
+//   colorVariant: "accent", // Only allows: 'primary' or 'accent'
+//   sizeVariant: "large", // Only allows: 'medium' or 'large'
+//   iconPosition: "before", // Only allows: 'none', 'before', or 'after'
+//   icon: "arrow-right",
+//   microInteraction: "up-right", // Only allows: 'none', 'wiggle', or 'up-right'
+// };
+
+// const iconAppearance: LinkAppearanceHelper<'icon'> = {
+//   appearance: "icon",
+//   styleVariant: undefined as never, // Must be never/undefined since icons have no style
+//   colorVariant: "default", // Only allows: 'default'
+//   sizeVariant: "small", // Only allows: 'small' or 'medium'
+//   iconPosition: undefined as never, // Must be never/undefined since icons have no position
+//   icon: "settings", // Required for icon appearance
+//   microInteraction: "wiggle", // Only allows: 'none', 'wiggle'
+// };

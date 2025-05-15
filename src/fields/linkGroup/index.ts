@@ -3,6 +3,7 @@ import { linkField } from '../link';
 import {
   AllowedColorVariantsForAppearances,
   AllowedIconsPositionVariantsForAppearances,
+  AllowedMicroInteractionVariantsForAppearances,
   AllowedSizeVariantsForAppearances,
   AllowedStyleVariantsForAppearances,
   LinkAppearances,
@@ -18,6 +19,7 @@ export type LinkGroupType = <
     colors?: AllowedColorVariantsForAppearances<T>[] | false | undefined;
     sizes?: AllowedSizeVariantsForAppearances<T>[] | false | undefined;
     icons?: AllowedIconsPositionVariantsForAppearances<T>[] | false | undefined;
+    microInteractions?: AllowedMicroInteractionVariantsForAppearances<T>[] | false | undefined;
   };
   destinations?: LinkDestinations[];
   disableNewTab?: boolean;
