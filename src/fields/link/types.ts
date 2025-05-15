@@ -151,13 +151,15 @@ export type LinkType = <T extends LinkAppearances[] | false | undefined = undefi
 // Appearance Helper Type
 // Use this when forcing a specific appearance in a hook
 export type LinkAppearanceHelper<T extends LinkAppearances> = {
-  appearance: T;
-  styleVariant: AppearanceStyleMap[T] extends never ? never : AppearanceStyleMap[T];
-  colorVariant: AppearanceColorMap[T];
-  sizeVariant: AppearanceSizeMap[T];
-  iconPosition: AppearanceIconsPositionMap[T] extends never ? never : AppearanceIconsPositionMap[T];
-  icon: IconNames | null | undefined;
-  microInteraction: AppearanceMicroInteractionMap[T] extends never
+  appearance?: T;
+  styleVariant?: AppearanceStyleMap[T] extends never ? never : AppearanceStyleMap[T];
+  colorVariant?: AppearanceColorMap[T];
+  sizeVariant?: AppearanceSizeMap[T];
+  iconPosition?: AppearanceIconsPositionMap[T] extends never
+    ? never
+    : AppearanceIconsPositionMap[T];
+  icon?: IconNames | null | undefined;
+  microInteraction?: AppearanceMicroInteractionMap[T] extends never
     ? never
     : AppearanceMicroInteractionMap[T];
 };

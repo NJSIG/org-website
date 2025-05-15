@@ -413,9 +413,7 @@ export const linkField: LinkType = ({
                   },
                 },
               },
-              style: {
-                flexGrow: 1,
-              },
+              width: '25%',
               condition: (_, siblingData) =>
                 (variants?.icons !== false && siblingData?.appearance === 'button') ||
                 siblingData?.appearance === 'cta',
@@ -427,7 +425,7 @@ export const linkField: LinkType = ({
               label: 'Icon',
               admin: {
                 style: {
-                  flexGrow: 2,
+                  flexGrow: 1,
                 },
                 condition: (_, siblingData) =>
                   variants?.icons !== false && siblingData?.iconPosition !== 'none',
