@@ -1,6 +1,7 @@
 import { LinkField } from '@/fields/link/types';
 import { buttonVariants } from '@/primitives/ui/button-prime';
 import { cn } from '@/utilities/cn';
+import { cva } from 'class-variance-authority';
 import Link from 'next/link';
 import DynamicIcon from '../DynamicIcon';
 import { Hyperlink } from '../Hyperlink';
@@ -12,7 +13,17 @@ interface Props {
 
 const errorPageUrl = '/404';
 
-export const Button = (props: Props) => {
+const buttonMicroInteractionVariants = cva('', {
+  variants: {
+    animation: {
+      none: '',
+      wiggle: 'hover:motion-safe:[&_svg]:animate-micro-wiggle',
+      upRight: 'hover:motion-safe:[&_svg]:animate-micro-up-right',
+    },
+  },
+});
+
+const Button = (props: Props) => {
   const {
     link,
     link: {
@@ -28,6 +39,7 @@ export const Button = (props: Props) => {
       sizeVariant,
       iconPosition,
       icon,
+      microInteraction,
     },
     className,
   } = props;
@@ -36,6 +48,9 @@ export const Button = (props: Props) => {
   if (appearance !== false && appearance !== undefined) {
     // Determine Icon Size
     const iconSize = sizeVariant === 'small' ? 16 : 24;
+
+    // Determine the micro interaction
+    const desiredMicroInteraction = microInteraction || 'none';
 
     // Return a styled anchor tag for custom links
     if (type === 'custom') {
@@ -52,6 +67,7 @@ export const Button = (props: Props) => {
               color: colorVariant ? colorVariant : undefined,
               size: sizeVariant ? sizeVariant : undefined,
             }),
+            buttonMicroInteractionVariants({ animation: desiredMicroInteraction }),
             className,
           )}
         >
@@ -68,8 +84,8 @@ export const Button = (props: Props) => {
         <Link
           href={
             reference
-              ? typeof reference?.value === 'object'
-                ? (reference.value.slug as string)
+              ? typeof reference?.value === 'object' && reference.value.slug
+                ? `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
                 : errorPageUrl
               : url || errorPageUrl
           }
@@ -80,6 +96,7 @@ export const Button = (props: Props) => {
               color: colorVariant ? colorVariant : undefined,
               size: sizeVariant ? sizeVariant : undefined,
             }),
+            buttonMicroInteractionVariants({ animation: desiredMicroInteraction }),
             className,
           )}
         >
@@ -94,3 +111,5 @@ export const Button = (props: Props) => {
   // If no appearance is set, return a hyperlink
   return <Hyperlink link={link} className={className} />;
 };
+
+export { Button, buttonMicroInteractionVariants };

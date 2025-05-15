@@ -273,11 +273,11 @@
     }
 
     25% {
-      rotate: 2deg;
+      rotate: 5deg;
     }
 
     75% {
-      rotate: -5deg;
+      rotate: -2deg;
     }
   }
 

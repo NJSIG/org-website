@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
+import { LinkAppearanceHelper } from '@/fields/link/types';
 import type { Header } from '@/payload-types';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
@@ -20,6 +21,25 @@ import {
 interface HeaderClientProps {
   data: Header;
 }
+
+// We limit the options the user can set for the CTA buttons in the CMS
+// so we're adding setting the missing options here
+const ctaButtonAppearance: LinkAppearanceHelper<'cta'> = {
+  styleVariant: 'flat',
+  sizeVariant: 'medium',
+};
+
+// We don't allow users to set the appearance of the Callout Link in the CMS
+// so we're using a default appearance
+const calloutLinkAppearance: LinkAppearanceHelper<'button'> = {
+  appearance: 'button',
+  styleVariant: 'flat',
+  colorVariant: 'primary',
+  sizeVariant: 'medium',
+  iconPosition: 'after',
+  icon: 'arrow-up-right',
+  microInteraction: 'upRight',
+};
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
@@ -56,26 +76,54 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </Link>
         <div className="flex items-center gap-4">
           {navGroups && (
-            <NavigationMenu>
+            <NavigationMenu aria-label="Main Navigation">
               <NavigationMenuList>
                 {navGroups.map((group) => (
                   <React.Fragment key={group.id}>
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>{group.label}</NavigationMenuTrigger>
-                      <NavigationMenuContent></NavigationMenuContent>
+                      <NavigationMenuContent>
+                        <div className="flex gap-6 justify-center items-start">
+                          {group.callout && (
+                            <div className="flex flex-col gap-6 min-w-80 max-w-lg w-min">
+                              <div className="flex flex-col gap-3">
+                                <h2 className="text-2xl font-medium">{group.callout.title}</h2>
+                                <p>{group.callout.text}</p>
+                              </div>
+                              {group.callout.calloutLink && (
+                                <Button
+                                  link={{
+                                    ...group.callout.calloutLink,
+                                    ...calloutLinkAppearance,
+                                  }}
+                                  className="w-max"
+                                />
+                              )}
+                            </div>
+                          )}
+                          {group.callout && group.links && (
+                            <span className="w-px self-stretch bg-divider"></span>
+                          )}
+                          {group.links && <div className="grid grid-cols-2 gap-x-6 gap-y-3"></div>}
+                        </div>
+                      </NavigationMenuContent>
                     </NavigationMenuItem>
                     <span className="h-7 w-px mx-0.5 bg-foreground-inverted opacity-40"></span>
                   </React.Fragment>
                 ))}
                 <NavigationMenuItem>
                   <NavigationSearchTrigger>Search</NavigationSearchTrigger>
+                  <NavigationMenuContent></NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           )}
           {ctaButtons &&
             ctaButtons.map(
-              (ctaButton) => ctaButton.link && <Button link={ctaButton.link} key={ctaButton.id} />,
+              (ctaButton) =>
+                ctaButton.link && (
+                  <Button link={{ ...ctaButton.link, ...ctaButtonAppearance }} key={ctaButton.id} />
+                ),
             )}
         </div>
       </div>
