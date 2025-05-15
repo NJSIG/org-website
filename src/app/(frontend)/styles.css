@@ -3,7 +3,6 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: oklch(0.9821 0 252.95); /* Battleship Gray 50 */
   --foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
   --muted: oklch(0.9385 0.002 252.95); /* Battleship Gray 200 */
   --muted-foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
@@ -230,8 +229,10 @@
   --color-foreground-inverted: var(--color-battleship-gray-50);
   --color-foreground-link: var(--color-blue-700);
 
+  --color-divider: var(--color-njsig-neutral-midtone);
+
   /* shadcn/ui Tokens */
-  --color-background: var(--background);
+  --color-background: var(--color-njsig-neutral-background);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -264,7 +265,7 @@
 }
 
 /* Override prefers-color-scheme */
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
 
 @layer base {
   * {

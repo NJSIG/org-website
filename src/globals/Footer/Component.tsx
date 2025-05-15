@@ -59,7 +59,7 @@ export async function Footer() {
         </div>
         {navGroups.length > 0 && (
           <>
-            <div className="h-px w-full bg-border lg:w-px lg:h-auto"></div>
+            <div className="h-px w-full bg-divider lg:w-px lg:h-auto"></div>
             <div className="flex flex-wrap gap-x-12 gap-y-6 lg:grow lg:justify-center">
               <div className="flex flex-col gap-8">
                 {leftColumn.map((group) => (
