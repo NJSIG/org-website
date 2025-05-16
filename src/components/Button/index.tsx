@@ -23,7 +23,7 @@ const buttonMicroInteractionVariants = cva('', {
   },
 });
 
-const Button = (props: Props) => {
+const Button: React.FC<Props> = (props) => {
   const {
     link,
     link: {
