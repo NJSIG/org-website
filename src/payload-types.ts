@@ -666,7 +666,7 @@ export interface Header {
         callout: {
           title: string;
           text: string;
-          'Callout Link'?: {
+          calloutLink?: {
             type?: 'reference' | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
@@ -728,6 +728,7 @@ export interface Header {
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
           colorVariant?: ('default' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
           icon?: string | null;
         };
@@ -804,7 +805,7 @@ export interface HeaderSelect<T extends boolean = true> {
           | {
               title?: T;
               text?: T;
-              'Callout Link'?:
+              calloutLink?:
                 | T
                 | {
                     type?: T;
@@ -851,6 +852,7 @@ export interface HeaderSelect<T extends boolean = true> {
               styleVariant?: T;
               colorVariant?: T;
               sizeVariant?: T;
+              microInteraction?: T;
               iconPosition?: T;
               icon?: T;
             };

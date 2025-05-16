@@ -9,6 +9,8 @@ import {
   LinkAppearanceOptions,
   LinkDestinationOptions,
   LinkType,
+  MicroInteractionVariantOptions,
+  MicroInteractionVariants,
   SizeVariantOptions,
   SizeVariants,
   StyleVariantOptions,
@@ -19,6 +21,7 @@ const styleVariantsEnum: StyleVariants[] = ['flat', 'outline', 'ghost'];
 const colorVariantsEnum: ColorVariants[] = ['default', 'primary', 'accent'];
 const sizeVariantsEnum: SizeVariants[] = ['small', 'medium', 'large'];
 const iconPositionVariantsEnum: IconPositionVariants[] = ['none', 'before', 'after'];
+const microInteractionVariantsEnum: MicroInteractionVariants[] = ['none', 'wiggle', 'upRight'];
 
 export const linkDestinationOptions: LinkDestinationOptions = {
   reference: {
@@ -103,6 +106,21 @@ export const linkIconPositionVariantOptions: IconPositionVariantOptions = {
   after: {
     label: 'After',
     value: 'after',
+  },
+};
+
+export const linkMicroInteractionVariantOptions: MicroInteractionVariantOptions = {
+  none: {
+    label: 'None',
+    value: 'none',
+  },
+  wiggle: {
+    label: 'Wiggle',
+    value: 'wiggle',
+  },
+  upRight: {
+    label: 'Up Right',
+    value: 'upRight',
   },
 };
 
@@ -241,6 +259,7 @@ export const linkField: LinkType = ({
         defaultValue: linkAppearanceOptionsToUse[0].value,
         admin: {
           isClearable: false,
+          readOnly: linkAppearanceOptionsToUse.length === 1,
           description: 'Choose how the link will be displayed.',
         },
       },
@@ -336,6 +355,36 @@ export const linkField: LinkType = ({
               condition: () => variants?.sizes !== false,
             },
           },
+          {
+            name: 'microInteraction',
+            label: 'Micro-Interaction',
+            type: 'text',
+            typescriptSchema: [
+              () => ({
+                oneOf: [
+                  { type: 'string', enum: microInteractionVariantsEnum },
+                  { type: 'boolean', enum: [false] },
+                ],
+              }),
+            ],
+            admin: {
+              components: {
+                Field: {
+                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  clientProps: {
+                    variant: 'microInteraction',
+                    variantOptions: linkMicroInteractionVariantOptions,
+                    optionOverrides: variants?.microInteractions || [],
+                  },
+                },
+              },
+              style: {
+                flexGrow: 1,
+              },
+              condition: (_, siblingData) =>
+                variants?.icons !== false && siblingData?.iconPosition !== 'none',
+            },
+          },
         ],
       },
       {
@@ -364,9 +413,7 @@ export const linkField: LinkType = ({
                   },
                 },
               },
-              style: {
-                flexGrow: 1,
-              },
+              width: '25%',
               condition: (_, siblingData) =>
                 (variants?.icons !== false && siblingData?.appearance === 'button') ||
                 siblingData?.appearance === 'cta',
@@ -378,7 +425,7 @@ export const linkField: LinkType = ({
               label: 'Icon',
               admin: {
                 style: {
-                  flexGrow: 2,
+                  flexGrow: 1,
                 },
                 condition: (_, siblingData) =>
                   variants?.icons !== false && siblingData?.iconPosition !== 'none',
