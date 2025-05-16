@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '@/utilities/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0  focus-visible:ring-4 cursor-pointer outline-offset-4',
   {
     variants: {
       variant: {
@@ -44,7 +44,7 @@ const buttonVariants = cva(
         style: 'flat',
         color: 'primary',
         class:
-          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint',
+          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40',
       },
       // [Button, CTA] Flat | Accent
       {
@@ -52,7 +52,7 @@ const buttonVariants = cva(
         style: 'flat',
         color: 'accent',
         class:
-          'text-foreground bg-njsig-accent-primary hover:bg-mix-tint-njsig-accent-primary/10 focus-visible:ring-njsig-accent-primary dark:bg-njsig-accent-midtone dark:hover:bg-mix-shade-njsig-accent-midtone/10 dark:focus-visible:ring-njsig-accent-midtone',
+          'text-foreground bg-njsig-accent-primary hover:bg-mix-tint-njsig-accent-primary/10 focus-visible:ring-njsig-accent-primary/40 dark:bg-njsig-accent-midtone dark:hover:bg-mix-shade-njsig-accent-midtone/10 dark:focus-visible:ring-njsig-accent-midtone/40',
       },
       // [Button, CTA] Outline | Disabled
       {
@@ -68,7 +68,7 @@ const buttonVariants = cva(
         style: 'outline',
         color: 'primary',
         class:
-          'text-foreground hover:bg-njsig-tint border-njsig-shade focus-visible:ring-njsig-shade dark:text-foreground-inverted dark:hover:bg-njsig-shade dark:border-njsig-midtone dark:focus-visible:ring-njsig-midtone',
+          'text-foreground hover:bg-njsig-tint border-njsig-shade focus-visible:ring-njsig-shade/40 dark:text-foreground-inverted dark:hover:bg-njsig-shade dark:border-njsig-midtone dark:focus-visible:ring-njsig-midtone/40',
       },
       // [Button, CTA] Outline | Accent
       {
@@ -76,7 +76,7 @@ const buttonVariants = cva(
         style: 'outline',
         color: 'accent',
         class:
-          'text-foreground hover:bg-njsig-accent-tint border-njsig-accent-primary focus-visible:ring-njsig-accent-primary dark:text-foreground-inverted dark:hover:bg-njsig-accent-shade dark:border-njsig-accent-midtone dark:focus-visible:ring-njsig-accent-midtone',
+          'text-foreground hover:bg-njsig-accent-tint border-njsig-accent-primary focus-visible:ring-njsig-accent-primary/40 dark:text-foreground-inverted dark:hover:bg-njsig-accent-shade dark:border-njsig-accent-midtone dark:focus-visible:ring-njsig-accent-midtone/40',
       },
       // [Button, Icon] Ghost | Disabled
       {
@@ -99,7 +99,7 @@ const buttonVariants = cva(
         style: 'ghost',
         color: 'primary',
         class:
-          'text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone dark:text-foreground-inverted',
+          'text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted',
       },
       // [Button] Ghost | Accent
       {
@@ -107,7 +107,7 @@ const buttonVariants = cva(
         style: 'ghost',
         color: 'accent',
         class:
-          'text-foreground hover:bg-njsig-accent-midtone/10 focus-visible:ring-njsig-accent-midtone dark:text-foreground-inverted',
+          'text-foreground hover:bg-njsig-accent-midtone/10 focus-visible:ring-njsig-accent-midtone/40 dark:text-foreground-inverted',
       },
       // [Icon] Medium
       {

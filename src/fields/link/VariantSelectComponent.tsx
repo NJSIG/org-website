@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   ColorVariantOptions,
   IconPositionVariantOptions,
+  MicroInteractionVariantOptions,
   SizeVariantOptions,
   StyleVariantOptions,
 } from './types';
@@ -14,7 +15,7 @@ import {
 type BaseProps = {
   path: string;
   field: TextFieldClient;
-  variant: 'style' | 'color' | 'size' | 'iconPosition';
+  variant: 'style' | 'color' | 'size' | 'iconPosition' | 'microInteraction';
   optionOverrides: string[];
 };
 
@@ -33,12 +34,22 @@ type SizeSelect = BaseProps & {
   variantOptions: SizeVariantOptions;
 };
 
+type MicroInteractionSelect = BaseProps & {
+  variant: 'microInteraction';
+  variantOptions: MicroInteractionVariantOptions;
+};
+
 type IconPositionSelect = BaseProps & {
   variant: 'iconPosition';
   variantOptions: IconPositionVariantOptions;
 };
 
-type ComponentProps = StyleSelect | ColorSelect | SizeSelect | IconPositionSelect;
+type ComponentProps =
+  | StyleSelect
+  | ColorSelect
+  | SizeSelect
+  | IconPositionSelect
+  | MicroInteractionSelect;
 
 export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
   const {
@@ -100,6 +111,16 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
           optionsToUse = [variantOptions.none, variantOptions.before, variantOptions.after];
           break;
       }
+    } else if (variant === 'microInteraction') {
+      switch (appearance) {
+        case 'button':
+        case 'cta':
+          optionsToUse = [variantOptions.none, variantOptions.wiggle, variantOptions.upRight];
+          break;
+        case 'icon':
+          optionsToUse = [variantOptions.none, variantOptions.wiggle];
+          break;
+      }
     }
 
     // Filter the default options by the optionOverrides
@@ -109,7 +130,9 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
 
     // Set the options to the filtered options
     setOptions(optionsToUse);
-    setValue(optionsToUse[0]?.value || '');
+    setValue(
+      optionsToUse.find((option) => option.value === value)?.value || optionsToUse[0].value || null,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appearance]);
 
@@ -129,6 +152,7 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
       onChange={(e) => setValue((e as OptionObject).value)}
       style={styles}
       isClearable={false}
+      readOnly={options.length === 1}
     />
   );
 };

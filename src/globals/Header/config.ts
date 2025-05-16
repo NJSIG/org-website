@@ -51,7 +51,8 @@ export const Header: GlobalConfig = {
               destinations: ['reference'],
               disableNewTab: true,
               overrides: {
-                name: 'Callout Link',
+                name: 'calloutLink',
+                label: 'Callout Link',
               },
             }),
           ],
@@ -129,10 +130,11 @@ export const Header: GlobalConfig = {
     linkGroupField({
       appearances: ['cta'],
       variants: {
-        styles: ['flat'],
+        styles: false,
         colors: ['primary', 'accent'],
-        sizes: ['medium'],
+        sizes: false,
         icons: ['before'],
+        microInteractions: ['none', 'wiggle'],
       },
       destinations: ['reference'],
       disableNewTab: true,
