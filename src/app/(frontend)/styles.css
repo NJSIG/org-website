@@ -7,6 +7,7 @@
   --muted: oklch(0.9385 0.002 252.95); /* Battleship Gray 200 */
   --muted-foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
   --border: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
+  --ring: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -20,7 +21,6 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -37,7 +37,7 @@
 }
 
 @theme {
-  /* NJSIG Color Palettes */
+  /** NJSIG Color Palettes **/
   --color-azure-50: oklch(0.9735 0.005 263.54);
   --color-azure-100: oklch(0.9458 0.01 263.54);
   --color-azure-200: oklch(0.8811 0.021 263.54);
@@ -74,7 +74,7 @@
   --color-battleship-gray-900: oklch(0.4618 0.008 252.85);
   --color-battleship-gray-950: oklch(0.3476 0.006 252.85);
 
-  /* Sub-fund Color Palettes */
+  /** Sub-fund Color Palettes **/
   --color-bondi-blue-50: oklch(0.9799 0.012 215.36);
   --color-bondi-blue-100: oklch(0.9431 0.028 215.36);
   --color-bondi-blue-200: oklch(0.8888 0.048 215.36);
@@ -161,7 +161,7 @@
 }
 
 @theme inline {
-  /* NJSIG Color Tokens */
+  /** NJSIG Color Tokens **/
   --color-brand-primary: var(--color-azure-600);
   --color-brand-accent: var(--color-dandelion-300);
 
@@ -226,12 +226,14 @@
   --color-njeif-shade: var(--color-raspberry-700);
 
   --color-foreground: var(--color-battleship-gray-950);
+  --color-foreground-muted: var(--color-battleship-gray-800);
   --color-foreground-inverted: var(--color-battleship-gray-50);
+  --color-foreground-inverted-muted: var(--color-battleship-gray-200);
   --color-foreground-link: var(--color-blue-700);
 
   --color-divider: var(--color-njsig-neutral-midtone);
 
-  /* shadcn/ui Tokens */
+  /** shadcn/ui Tokens **/
   --color-background: var(--color-njsig-neutral-background);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -263,7 +265,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Animations */
+  /** Animations **/
   --animate-micro-wiggle: wiggle 0.6s ease-in-out;
 
   @keyframes wiggle {
@@ -299,8 +301,21 @@
   }
 }
 
-/* Override prefers-color-scheme */
+/*
+ * Override prefers-color-scheme
+ *
+ * If a parent is dark, then all children are dark
+ *
+ * If a child needs to be light, it can use the `light` class to
+ * override the `dark` class from the parent.
+ */
 @custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/*
+ * Base Styles
+ *
+ * These are the base styles for the application.
+ */
 
 @layer base {
   * {
@@ -320,6 +335,12 @@
  * Use the ignore comment to prevent this.
  */
 
+/*
+ * Background Gradients
+ *
+ * These are used to create a gradient background.
+ */
+
 @utility bg-azure-to-r {
   background-image: linear-gradient(
     to right,
@@ -328,6 +349,16 @@
     var(--color-azure-700) 100%
   );
 }
+
+/**
+ * Color Mixes
+ *
+ * These are used to create a color mix of the base color
+ * and a tint (white) or shade (black).
+ *
+ * Usage: text-mix-tint-azure-500/10
+ * Will result in 10% white tint on azure-500
+ */
 
 /* prettier-ignore */
 @utility text-mix-tint-* {
