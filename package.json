@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
+    "@payloadcms/email-nodemailer": "^3.38.0",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",
@@ -32,6 +33,7 @@
     "lucide-react": "^0.507.0",
     "lucide-static": "^0.507.0",
     "next": "15.2.3",
+    "nodemailer": "^7.0.3",
     "payload": "latest",
     "postcss": "^8.5.3",
     "react": "19.0.0",
