@@ -63,6 +63,10 @@ const navigationMenuTriggerStyle = cva([
   'group w-max justify-center data-[state=open]:bg-njsig-midtone/5 data-[state=open]:hover:bg-njsig-midtone/10 data-[state=open]:focus:bg-njsig-midtone/10',
 ]);
 
+// TODO: Menu closes when clicking on the trigger to open the menu
+// This behavior may be confusing and should be avoided
+// More here: https://github.com/radix-ui/primitives/issues/1630
+
 function NavigationMenuTrigger({
   className,
   children,

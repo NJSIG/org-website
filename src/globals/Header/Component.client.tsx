@@ -9,6 +9,7 @@ import type { Header } from '@/payload-types';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
 import Link from 'next/link';
+import { NavLink } from './components/nav-link';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -102,9 +103,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                             </div>
                           )}
                           {group.callout && group.links && (
-                            <span className="w-px self-stretch bg-divider"></span>
+                            <span className="w-px self-stretch bg-divider shrink-0"></span>
                           )}
-                          {group.links && <div className="grid grid-cols-2 gap-x-6 gap-y-3"></div>}
+                          {group.links && (
+                            <div className="grid grid-cols-2 gap-x-6 gap-y-3 w-max">
+                              {group.links.map((item) => (
+                                <NavLink key={item.id} link={item.link} />
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
@@ -113,7 +120,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 ))}
                 <NavigationMenuItem>
                   <NavigationSearchTrigger>Search</NavigationSearchTrigger>
-                  <NavigationMenuContent></NavigationMenuContent>
+                  <NavigationMenuContent>
+                    <p>TODO: Implement search functionality</p>
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
