@@ -45,15 +45,19 @@ export async function Footer() {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2" aria-description="Phone Number">
+            <div className="flex items-center gap-2 flex-wrap" aria-description="Phone Number">
               <p className="font-bold grow">Off Hours Emergency Claims:</p>
-              <PhoneIcon size={16} />
-              <Hyperlink link={{ url: 'tel:+16093866060' }}>609-386-6060</Hyperlink>
+              <div className="flex items-center gap-2">
+                <PhoneIcon size={16} />
+                <Hyperlink link={{ url: 'tel:+16093866060' }}>609-386-6060</Hyperlink>
+              </div>
             </div>
-            <div className="flex items-center gap-2" aria-description="Phone Number">
+            <div className="flex items-center gap-2 flex-wrap" aria-description="Phone Number">
               <p className="font-bold grow">Workers&apos; Compensation Intake:</p>
-              <PhoneIcon size={16} />
-              <Hyperlink link={{ url: 'tel:+16095433377' }}>609-543-3377</Hyperlink>
+              <div className="flex items-center gap-2">
+                <PhoneIcon size={16} />
+                <Hyperlink link={{ url: 'tel:+16095433377' }}>609-543-3377</Hyperlink>
+              </div>
             </div>
           </div>
         </div>
