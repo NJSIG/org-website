@@ -299,6 +299,23 @@
       translate: -0.5px 0.5px;
     }
   }
+
+  --animate-micro-shake: shake 0.2s ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+
+    25% {
+      translate: 1px 0px;
+    }
+
+    75% {
+      translate: -0.5px 0px;
+    }
+  }
 }
 
 /*
@@ -412,4 +429,10 @@
     --value(--color-*, [*]),
     black calc(--modifier(integer) * 1%)
   );
+}
+
+/* prettier-ignore */
+@utility zm-* {
+  zoom: --value('normal', 'reset');
+  zoom: calc(--value(integer) * 1%);
 }

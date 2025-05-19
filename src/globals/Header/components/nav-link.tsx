@@ -4,7 +4,6 @@ import { cn } from '@/utilities/cn';
 import { cva } from 'class-variance-authority';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { NavigationMenuLink } from './navigation-menu';
 
 type NavLinkType = LinkField & {
   linkIcon?: LinkField['icon'];
@@ -38,40 +37,34 @@ export const NavLink: React.FC<Props> = (props) => {
   const iconSize = sizeVariant === 'small' ? 16 : 24;
 
   return (
-    <div className="flex items-start">
-      <NavigationMenuLink asChild>
-        <Link
-          href={
-            reference
-              ? typeof reference?.value === 'object' && reference.value.slug
-                ? `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
-                : errorPageUrl
-              : errorPageUrl
-          }
-          className={cn(
-            'flex items-start gap-2 p-3 transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 focus-visible:ring-4 cursor-pointer outline-offset-4 text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted group/nav-link rounded-lg w-full',
-            className,
-          )}
-        >
-          <div
-            className={cn('flex-auto flex-col pr-2 gap-1', navLinkVariants({ size: sizeVariant }))}
-          >
-            <div className="inline-flex items-center gap-1 h-6">
-              {linkIcon && <DynamicIcon name={linkIcon} size={iconSize} />}
-              <h3 className="font-semibold">{linkTitle}</h3>
-            </div>
-            {linkDescription && (
-              <p className="text-foreground-muted dark:text-foreground-inverted-muted max-w-64 text-sm">
-                {linkDescription}
-              </p>
-            )}
-          </div>
-          <ArrowUpRightIcon
-            size={iconSize}
-            className="opacity-0 group-hover/nav-link:opacity-100 group-hover/nav-link:motion-safe:animate-micro-up-right"
-          />
-        </Link>
-      </NavigationMenuLink>
-    </div>
+    <Link
+      href={
+        reference
+          ? typeof reference?.value === 'object' && reference.value.slug
+            ? `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
+            : errorPageUrl
+          : errorPageUrl
+      }
+      className={cn(
+        'flex items-start gap-2 p-3 transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 focus-visible:ring-4 cursor-pointer outline-offset-4 text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted group/nav-link rounded-lg w-full',
+        className,
+      )}
+    >
+      <div className={cn('flex-auto flex-col pr-2 gap-1', navLinkVariants({ size: sizeVariant }))}>
+        <div className="inline-flex items-center gap-1 h-6">
+          {linkIcon && <DynamicIcon name={linkIcon} size={iconSize} />}
+          <h3 className="font-semibold">{linkTitle}</h3>
+        </div>
+        {linkDescription && (
+          <p className="text-foreground-muted dark:text-foreground-inverted-muted max-w-64 text-sm">
+            {linkDescription}
+          </p>
+        )}
+      </div>
+      <ArrowUpRightIcon
+        size={iconSize}
+        className="opacity-0 group-hover/nav-link:opacity-100 group-hover/nav-link:motion-safe:animate-micro-up-right"
+      />
+    </Link>
   );
 };

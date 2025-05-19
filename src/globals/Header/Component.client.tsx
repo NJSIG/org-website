@@ -6,18 +6,30 @@ import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import type { Header } from '@/payload-types';
+import { buttonVariants } from '@/primitives/ui/button-prime';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
+import { PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-react';
 import Link from 'next/link';
 import { NavLink } from './components/nav-link';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationSearchTrigger,
 } from './components/navigation-menu';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from './components/sheet';
 
 interface HeaderClientProps {
   data: Header;
@@ -68,14 +80,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className={cn(baseStyles, theme === 'dark' ? darkStyles : lightStyles)}
+      className={cn(baseStyles, theme === 'dark' ? darkStyles : lightStyles, '@container/header')}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4 xl:px-0">
         <Link href="/">
           <Logo style="wordmark" theme={theme} width={150} />
         </Link>
-        <div className="flex items-center gap-4">
+
+        {/* Full Navigation */}
+        <div className="items-center gap-4 zm-80 @5xl/header:zm-normal hidden @3xl/header:flex">
           {navGroups && (
             <NavigationMenu aria-label="Main Navigation">
               <NavigationMenuList>
@@ -92,13 +106,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                                 <p>{group.callout.text}</p>
                               </div>
                               {group.callout.calloutLink && (
-                                <Button
-                                  link={{
-                                    ...group.callout.calloutLink,
-                                    ...calloutLinkAppearance,
-                                  }}
-                                  className="w-max"
-                                />
+                                <NavigationMenuLink asChild>
+                                  <Button
+                                    link={{
+                                      ...group.callout.calloutLink,
+                                      ...calloutLinkAppearance,
+                                    }}
+                                    className="w-max"
+                                  />
+                                </NavigationMenuLink>
                               )}
                             </div>
                           )}
@@ -108,7 +124,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                           {group.links && (
                             <div className="grid grid-cols-2 gap-x-6 gap-y-3 w-max">
                               {group.links.map((item) => (
-                                <NavLink key={item.id} link={item.link} />
+                                <div className="flex items-start" key={item.id}>
+                                  <NavigationMenuLink asChild>
+                                    <NavLink link={item.link} />
+                                  </NavigationMenuLink>
+                                </div>
                               ))}
                             </div>
                           )}
@@ -119,7 +139,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   </React.Fragment>
                 ))}
                 <NavigationMenuItem>
-                  <NavigationSearchTrigger>Search</NavigationSearchTrigger>
+                  <NavigationSearchTrigger aria-label="Search">
+                    <span className="hidden @5xl/header:inline">Search</span>
+                  </NavigationSearchTrigger>
                   <NavigationMenuContent>
                     <p>TODO: Implement search functionality</p>
                   </NavigationMenuContent>
@@ -134,6 +156,47 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <Button link={{ ...ctaButton.link, ...ctaButtonAppearance }} key={ctaButton.id} />
                 ),
             )}
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="@3xl/header:hidden">
+          <Sheet>
+            <SheetTrigger
+              className={cn(buttonVariants({ variant: 'button', style: 'ghost', size: 'medium' }))}
+            >
+              Menu
+              <PanelRightOpenIcon />
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle className="invisible h-0">Navigation Menu</SheetTitle>
+                <SheetClose
+                  className={cn(
+                    buttonVariants({ variant: 'button', style: 'ghost', size: 'medium' }),
+                    'self-end',
+                  )}
+                >
+                  Close
+                  <PanelRightCloseIcon />
+                </SheetClose>
+              </SheetHeader>
+              <SheetFooter>
+                {ctaButtons && (
+                  <div className="flex flex-col gap-2">
+                    {ctaButtons.map(
+                      (ctaButton) =>
+                        ctaButton.link && (
+                          <Button
+                            link={{ ...ctaButton.link, ...ctaButtonAppearance }}
+                            key={ctaButton.id}
+                          />
+                        ),
+                    )}
+                  </div>
+                )}
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
