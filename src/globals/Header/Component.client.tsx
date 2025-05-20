@@ -7,6 +7,7 @@ import { Logo } from '@/components/Logo';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import type { Header } from '@/payload-types';
 import { buttonVariants } from '@/primitives/ui/button-prime';
+import { CollapsiblePrime, CollapsiblePrimeTrigger } from '@/primitives/ui/collapsible-prime';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
 import { PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-react';
@@ -198,7 +199,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <PanelRightCloseIcon />
                 </SheetClose>
               </SheetHeader>
-
+              {navGroups && (
+                <nav className="h-full" aria-label="Main Navigation">
+                  {navGroups.map((group) => (
+                    <CollapsiblePrime key={group.id}>
+                      <CollapsiblePrimeTrigger>{group.label}</CollapsiblePrimeTrigger>
+                    </CollapsiblePrime>
+                  ))}
+                </nav>
+              )}
               <SheetFooter>
                 {ctaButtons && (
                   <div className="flex flex-col gap-2">
