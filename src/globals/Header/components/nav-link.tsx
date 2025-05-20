@@ -50,8 +50,13 @@ export const NavLink: React.FC<Props> = (props) => {
         className,
       )}
     >
-      <div className={cn('flex-auto flex-col pr-2 gap-1', navLinkVariants({ size: sizeVariant }))}>
-        <div className="inline-flex items-center gap-1 h-6">
+      <div
+        className={cn(
+          'flex-auto flex-col pr-2 gap-1 leading-none',
+          navLinkVariants({ size: sizeVariant }),
+        )}
+      >
+        <div className="inline-flex items-center gap-1">
           {linkIcon && <DynamicIcon name={linkIcon} size={iconSize} />}
           <h3 className="font-semibold">{linkTitle}</h3>
         </div>

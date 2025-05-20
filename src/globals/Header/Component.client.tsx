@@ -58,10 +58,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const { headerTheme } = useHeaderTheme();
   const [theme, setTheme] = useState<Theme | null>('dark');
+  const [navSheetOpen, setNavSheetOpen] = useState(false);
 
   const { navGroups, ctaButtons } = data;
 
-  const baseStyles = 'w-full h-20';
   const darkStyles = 'bg-azure-to-r text-foreground-inverted dark';
   const lightStyles = 'bg-white text-foreground';
 
@@ -78,9 +78,27 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme]);
 
+  useEffect(() => {
+    // We change nav modes at 768px = @3xl container breakpoint
+    const mql = window.matchMedia('(min-width: 768px)');
+
+    const handleScreenResize = (e: Event) => {
+      if (navSheetOpen && (e as MediaQueryListEvent).matches) {
+        console.log('Close nav sheet');
+        setNavSheetOpen(false);
+      }
+    };
+
+    mql.addEventListener('change', handleScreenResize);
+
+    return () => {
+      mql.removeEventListener('change', handleScreenResize);
+    };
+  }, [navSheetOpen]);
+
   return (
     <header
-      className={cn(baseStyles, theme === 'dark' ? darkStyles : lightStyles, '@container/header')}
+      className={cn('w-full h-20 @container/header', theme === 'dark' ? darkStyles : lightStyles)}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4 xl:px-0">
@@ -160,14 +178,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         {/* Mobile Navigation */}
         <div className="@3xl/header:hidden">
-          <Sheet>
+          <Sheet open={navSheetOpen} onOpenChange={setNavSheetOpen}>
             <SheetTrigger
               className={cn(buttonVariants({ variant: 'button', style: 'ghost', size: 'medium' }))}
             >
               Menu
               <PanelRightOpenIcon />
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent aria-describedby={undefined}>
               <SheetHeader>
                 <SheetTitle className="invisible h-0">Navigation Menu</SheetTitle>
                 <SheetClose
@@ -180,6 +198,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <PanelRightCloseIcon />
                 </SheetClose>
               </SheetHeader>
+
               <SheetFooter>
                 {ctaButtons && (
                   <div className="flex flex-col gap-2">
