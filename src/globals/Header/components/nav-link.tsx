@@ -25,6 +25,9 @@ const navLinkVariants = cva('', {
       medium: '[&>div]:gap-2 [_svg]:size-6 [_svg]:stroke-2 [&_h3]:text-base [&>p]:pl-8',
     },
   },
+  defaultVariants: {
+    size: 'medium',
+  },
 });
 
 export const NavLink: React.FC<Props> = (props) => {

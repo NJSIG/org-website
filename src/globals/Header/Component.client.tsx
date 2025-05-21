@@ -2,12 +2,17 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import React, { useEffect, useState } from 'react';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/Accordion';
 import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import type { Header } from '@/payload-types';
 import { buttonVariants } from '@/primitives/ui/button-prime';
-import { CollapsiblePrime, CollapsiblePrimeTrigger } from '@/primitives/ui/collapsible-prime';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
 import { PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-react';
@@ -179,7 +184,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         {/* Mobile Navigation */}
         <div className="@3xl/header:hidden">
-          <Sheet open={navSheetOpen} onOpenChange={setNavSheetOpen}>
+          <Sheet open={navSheetOpen} onOpenChange={setNavSheetOpen} modal>
             <SheetTrigger
               className={cn(buttonVariants({ variant: 'button', style: 'ghost', size: 'medium' }))}
             >
@@ -192,7 +197,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <SheetClose
                   className={cn(
                     buttonVariants({ variant: 'button', style: 'ghost', size: 'medium' }),
-                    'self-end',
+                    'w-full justify-end',
                   )}
                 >
                   Close
@@ -200,12 +205,60 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 </SheetClose>
               </SheetHeader>
               {navGroups && (
-                <nav className="h-full" aria-label="Main Navigation">
-                  {navGroups.map((group) => (
-                    <CollapsiblePrime key={group.id}>
-                      <CollapsiblePrimeTrigger>{group.label}</CollapsiblePrimeTrigger>
-                    </CollapsiblePrime>
-                  ))}
+                <nav className="h-full p-4 overflow-y-auto" aria-label="Main Navigation">
+                  <Accordion type="single" collapsible>
+                    {navGroups.map((group) => (
+                      <AccordionItem key={group.id} value={group.label} className="py-3">
+                        <AccordionTrigger>{group.label}</AccordionTrigger>
+                        <AccordionContent className="pointer-events-none">
+                          <div className="flex flex-col gap-4 pt-3 px-1.5">
+                            {group.callout && (
+                              <div className="flex flex-col gap-4">
+                                <h2 className="text-base font-semibold">{group.callout.title}</h2>
+                                <p className="text-sm">{group.callout.text}</p>
+                                {group.callout.calloutLink && (
+                                  <Button
+                                    link={{
+                                      ...group.callout.calloutLink,
+                                      ...calloutLinkAppearance,
+                                    }}
+                                    className="w-full [&_svg]:ml-auto pointer-events-auto"
+                                  />
+                                )}
+                              </div>
+                            )}
+                            {group.callout && group.links && (
+                              <span className="w-full h-px bg-divider shrink-0"></span>
+                            )}
+                            {group.links && (
+                              <div className="flex flex-col gap-2">
+                                {group.links
+                                  .sort((a, b) =>
+                                    (a.link.mobileOrder || 1) > (b.link.mobileOrder || 1) ? 1 : -1,
+                                  )
+                                  .map((item) => (
+                                    <NavLink
+                                      link={item.link}
+                                      key={item.id}
+                                      sizeVariant="small"
+                                      className="pointer-events-auto"
+                                    />
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                    <AccordionItem value="Search" className="py-3">
+                      <AccordionTrigger icon="search" className="[&[data-state=open]>svg]:rotate-0">
+                        Search
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <p>TODO: Implement search functionality</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </nav>
               )}
               <SheetFooter>
