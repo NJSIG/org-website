@@ -108,6 +108,17 @@ export const Header: GlobalConfig = {
                         'The secondary link text should be a short description of the link.',
                     },
                   },
+                  {
+                    name: 'mobileOrder',
+                    label: 'Mobile Sorting Override',
+                    type: 'number',
+                    required: false,
+                    defaultValue: 1,
+                    admin: {
+                      description:
+                        'Override the order of this link on mobile. The default order is based on the order of the links in the array.',
+                    },
+                  },
                 ],
               },
             }),

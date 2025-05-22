@@ -69,5 +69,6 @@
     "shadcn",
     "wordmark",
     "xlarge"
-  ]
+  ],
+  "tailwindCSS.classFunctions": ["cva", "cn"]
 }
