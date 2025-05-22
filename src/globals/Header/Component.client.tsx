@@ -79,18 +79,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [pathname]);
 
+  //  Set the Header Theme
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme]);
 
+  // Close the nav sheet when the screen is resized to desktop size
   useEffect(() => {
     // We change nav modes at 768px = @3xl container breakpoint
     const mql = window.matchMedia('(min-width: 768px)');
 
     const handleScreenResize = (e: Event) => {
       if (navSheetOpen && (e as MediaQueryListEvent).matches) {
-        console.log('Close nav sheet');
         setNavSheetOpen(false);
       }
     };
@@ -210,7 +211,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     {navGroups.map((group) => (
                       <AccordionItem key={group.id} value={group.label} className="py-3">
                         <AccordionTrigger>{group.label}</AccordionTrigger>
-                        <AccordionContent className="pointer-events-none">
+                        <AccordionContent>
                           <div className="flex flex-col gap-4 pt-3 px-1.5">
                             {group.callout && (
                               <div className="flex flex-col gap-4">
@@ -222,7 +223,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                                       ...group.callout.calloutLink,
                                       ...calloutLinkAppearance,
                                     }}
-                                    className="w-full [&_svg]:ml-auto pointer-events-auto"
+                                    className="w-full [&_svg]:ml-auto"
                                   />
                                 )}
                               </div>
@@ -237,12 +238,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                                     (a.link.mobileOrder || 1) > (b.link.mobileOrder || 1) ? 1 : -1,
                                   )
                                   .map((item) => (
-                                    <NavLink
-                                      link={item.link}
-                                      key={item.id}
-                                      sizeVariant="small"
-                                      className="pointer-events-auto"
-                                    />
+                                    <NavLink link={item.link} key={item.id} sizeVariant="small" />
                                   ))}
                               </div>
                             )}

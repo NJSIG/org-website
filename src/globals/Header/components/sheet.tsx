@@ -29,7 +29,7 @@ function SheetOverlay({
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
       className={cn(
-        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50 data-[state=closed]:duration-200 data-[state=open]:duration-100',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50 data-[state=closed]:duration-200 data-[state=open]:duration-100 pointer-events-auto',
         className,
       )}
       {...props}
@@ -45,13 +45,54 @@ function SheetContent({
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
 }) {
+  // Create a ref to prevent bubbling issues (scrolling)
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  // Use an effect to handle the scroll events
+  // Prevent scroll events from bubbling up beyond the sheet content when needed
+  React.useEffect(() => {
+    const handleScroll = (e: Event) => {
+      try {
+        if (e.target && contentRef.current) {
+          if (e.target instanceof Node) {
+            if (contentRef.current.contains(e.target)) {
+              e.stopPropagation();
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error in handleScroll:', error);
+      }
+    };
+
+    // Scroll & Wheel events
+    document.addEventListener('scroll', handleScroll, { capture: true, passive: false });
+    document.addEventListener('wheel', handleScroll, { capture: true, passive: false });
+
+    // Touch events
+    document.addEventListener('touchmove', handleScroll, { capture: true, passive: false });
+    document.addEventListener('touchstart', handleScroll, { capture: true, passive: false });
+    document.addEventListener('touchend', handleScroll, { capture: true, passive: false });
+    document.addEventListener('touchcancel', handleScroll, { capture: true, passive: false });
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll, { capture: true });
+      document.removeEventListener('wheel', handleScroll, { capture: true });
+      document.removeEventListener('touchmove', handleScroll, { capture: true });
+      document.removeEventListener('touchstart', handleScroll, { capture: true });
+      document.removeEventListener('touchend', handleScroll, { capture: true });
+      document.removeEventListener('touchcancel', handleScroll, { capture: true });
+    };
+  }, []);
+
   return (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content
+        ref={contentRef}
         data-slot="sheet-content"
         className={cn(
-          'bg-njsig-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-200 data-[state=open]:duration-100',
+          'bg-njsig-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-200 data-[state=open]:duration-100 overscroll-contain',
           side === 'right' &&
             'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
           side === 'left' &&
@@ -62,6 +103,13 @@ function SheetContent({
             'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
           className,
         )}
+        onClick={(e) => e.stopPropagation()}
+        onScroll={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
+        onTouchCancel={(e) => e.stopPropagation()}
         {...props}
       >
         {children}
