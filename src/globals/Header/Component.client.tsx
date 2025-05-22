@@ -90,8 +90,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     // We change nav modes at 768px = @3xl container breakpoint
     const mql = window.matchMedia('(min-width: 768px)');
 
-    const handleScreenResize = (e: Event) => {
-      if (navSheetOpen && (e as MediaQueryListEvent).matches) {
+    const handleScreenResize = (e: MediaQueryListEvent) => {
+      if (navSheetOpen && e.matches) {
         setNavSheetOpen(false);
       }
     };
