@@ -702,6 +702,10 @@ export interface Header {
                  * The secondary link text should be a short description of the link.
                  */
                 linkDescription?: string | null;
+                /**
+                 * Override the order of this link on mobile. The default order is based on the order of the links in the array.
+                 */
+                mobileOrder?: number | null;
               };
               id?: string | null;
             }[]
@@ -831,6 +835,7 @@ export interface HeaderSelect<T extends boolean = true> {
                     linkIcon?: T;
                     linkTitle?: T;
                     linkDescription?: T;
+                    mobileOrder?: T;
                   };
               id?: T;
             };

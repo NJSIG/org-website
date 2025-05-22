@@ -8,8 +8,8 @@ const NavGroupLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<NonNullable<Footer['navGroups']>[number]>();
 
   const label = data?.label
-    ? `Group ${rowNumber !== undefined ? rowNumber + 1 : ''}: ${data.label}`
-    : 'Row';
+    ? `${data.label}`
+    : `Navigation Group ${rowNumber ? rowNumber + 1 : ''}`;
 
   return <div>{label}</div>;
 };
