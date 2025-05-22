@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
-    "@payloadcms/email-nodemailer": "^3.38.0",
+    "@payloadcms/email-nodemailer": "^3.39.1",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",
