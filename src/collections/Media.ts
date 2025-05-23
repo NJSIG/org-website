@@ -1,4 +1,5 @@
 import { admin, anyone } from '@/access';
+import { snakeCaseUploadsHook } from '@/hooks';
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
@@ -76,5 +77,8 @@ export const Media: CollectionConfig = {
         crop: 'center',
       },
     ],
+  },
+  hooks: {
+    beforeOperation: [snakeCaseUploadsHook],
   },
 };

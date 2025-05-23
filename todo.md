@@ -15,6 +15,7 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Conditional Blocks (https://github.com/payloadcms/payload/discussions/7064#discussioncomment-11829476)
 - [ ] Main Nav Click Trigger Bug (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Expecting change to how folders are enabled on collections, keep an eye on release notes and update when available
+- [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
 
 ### COMPLETED TASKS ✔
 

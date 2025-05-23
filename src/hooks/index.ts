@@ -1,4 +1,5 @@
 import { populatePublishedAtHook } from './populatePublishedAtHook';
-import { revalidateRedirects } from './revalidateRedirects';
+import { revalidateRedirectsHook } from './revalidateRedirectsHook';
+import { snakeCaseUploadsHook } from './snakeCaseUploadsHook';
 
-export { populatePublishedAtHook, revalidateRedirects };
+export { populatePublishedAtHook, revalidateRedirectsHook, snakeCaseUploadsHook };
