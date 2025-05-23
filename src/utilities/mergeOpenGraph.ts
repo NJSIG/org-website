@@ -10,7 +10,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
       url: `${getServerSideUrl()}/assets/og/njsig-keeping-dollars-in-the-classroom.webp`,
     },
   ],
-  siteName: 'New Jsersey Schools Insurance Group',
+  siteName: 'New Jersey Schools Insurance Group',
   title: 'New Jersey Schools Insurance Group',
 };
 
