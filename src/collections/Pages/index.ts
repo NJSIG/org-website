@@ -106,5 +106,6 @@ export const Pages: CollectionConfig<'pages'> = {
         req,
       }),
     useAsTitle: 'title',
+    folders: true,
   },
 };
