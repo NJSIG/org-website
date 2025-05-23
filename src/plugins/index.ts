@@ -1,4 +1,4 @@
-import { revalidateRedirects } from '@/hooks';
+import { revalidateRedirectsHook } from '@/hooks';
 import { Page } from '@/payload-types';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
@@ -37,7 +37,7 @@ export const plugins: Plugin[] = [
         });
       },
       hooks: {
-        afterChange: [revalidateRedirects],
+        afterChange: [revalidateRedirectsHook],
       },
     },
   }),
