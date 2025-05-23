@@ -1,3 +1,4 @@
 import { populatePublishedAtHook } from './populatePublishedAtHook';
+import { revalidateRedirects } from './revalidateRedirects';
 
-export { populatePublishedAtHook };
+export { populatePublishedAtHook, revalidateRedirects };

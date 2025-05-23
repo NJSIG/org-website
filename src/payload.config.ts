@@ -1,7 +1,6 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import path from 'path';
 import { buildConfig } from 'payload';
@@ -13,6 +12,7 @@ import { Pages } from './collections/Pages';
 import { Users } from './collections/Users';
 import { Footer } from './globals/Footer/config';
 import { Header } from './globals/Header/config';
+import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -48,9 +48,5 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    redirectsPlugin({
-      collections: ['pages'],
-    }),
-  ],
+  plugins: [...plugins],
 });
