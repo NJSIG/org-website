@@ -1,3 +1,4 @@
+import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { PayloadRedirects } from '@/components/PayloadRedirects';
 import { generateMetaGraph } from '@/utilities/generateMetaGraph';
 import configPromise from '@payload-config';
@@ -26,8 +27,8 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     collection: 'pages',
     draft,
     limit: 1,
-    overrideAccess: false,
     pagination: false,
+    overrideAccess: draft,
     where: {
       slug: {
         equals: slug,
@@ -98,6 +99,9 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     <article>
       <PageClient />
+
+      {draft && <LivePreviewListener />}
+
       <h1>{page.title}</h1>
       <h3>TODO: Render the page content here.</h3>
     </article>

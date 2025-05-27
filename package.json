@@ -18,6 +18,7 @@
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/email-nodemailer": "^3.39.1",
+    "@payloadcms/live-preview-react": "^3.39.1",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",

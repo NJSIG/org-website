@@ -144,6 +144,12 @@ export interface UserAuthOperations {
 export interface Page {
   id: string;
   title: string;
+  layout: {
+    /**
+     * The selected template will determine which blocks are available.
+     */
+    template: 'default' | 'home';
+  };
   meta?: {
     title?: string | null;
     /**
@@ -491,6 +497,11 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  layout?:
+    | T
+    | {
+        template?: T;
+      };
   meta?:
     | T
     | {

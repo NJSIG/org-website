@@ -37,6 +37,32 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'tabs',
       tabs: [
         {
+          name: 'layout',
+          label: 'CONTENT',
+          fields: [
+            {
+              name: 'template',
+              type: 'select',
+              required: true,
+              options: [
+                {
+                  label: 'Default',
+                  value: 'default',
+                },
+                {
+                  label: 'Home',
+                  value: 'home',
+                },
+              ],
+              defaultValue: 'default',
+              admin: {
+                isClearable: false,
+                description: 'The selected template will determine which blocks are available.',
+              },
+            },
+          ],
+        },
+        {
           name: 'meta',
           label: 'SEO',
           fields: [
