@@ -233,7 +233,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                             )}
                             {group.links && (
                               <div className="flex flex-col gap-2">
-                                {group.links
+                                {[...group.links]
                                   .sort((a, b) =>
                                     (a.link.mobileOrder || 1) > (b.link.mobileOrder || 1) ? 1 : -1,
                                   )
