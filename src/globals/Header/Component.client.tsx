@@ -147,14 +147,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                             <span className="w-px self-stretch bg-divider shrink-0"></span>
                           )}
                           {group.links && (
-                            <div className="grid grid-cols-2 gap-x-6 gap-y-3 w-max">
-                              {group.links.map((item) => (
-                                <div className="flex items-start" key={item.id}>
-                                  <NavigationMenuLink asChild>
-                                    <NavLink link={item.link} />
-                                  </NavigationMenuLink>
+                            <div className="flex gap-6">
+                              {group.links.colOne && group.links.colOne.length > 0 && (
+                                <div className="flex flex-col gap-3">
+                                  {group.links.colOne.map((item) => (
+                                    <NavigationMenuLink asChild key={item.id}>
+                                      <NavLink link={item.link} />
+                                    </NavigationMenuLink>
+                                  ))}
                                 </div>
-                              ))}
+                              )}
+                              {group.links.colTwo && group.links.colTwo.length > 0 && (
+                                <div className="flex flex-col gap-3">
+                                  {group.links.colTwo.map((item) => (
+                                    <NavigationMenuLink asChild key={item.id}>
+                                      <NavLink link={item.link} />
+                                    </NavigationMenuLink>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -232,14 +243,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                               <span className="w-full h-px bg-divider shrink-0"></span>
                             )}
                             {group.links && (
-                              <div className="flex flex-col gap-2">
-                                {[...group.links]
-                                  .sort((a, b) =>
-                                    (a.link.mobileOrder || 1) > (b.link.mobileOrder || 1) ? 1 : -1,
-                                  )
-                                  .map((item) => (
-                                    <NavLink link={item.link} key={item.id} sizeVariant="small" />
-                                  ))}
+                              <div className="flex flex-col gap-3">
+                                {group.links.colOne && group.links.colOne.length > 0 && (
+                                  <div className="flex flex-col gap-3">
+                                    {group.links.colOne.map((item) => (
+                                      <NavigationMenuLink asChild key={item.id}>
+                                        <NavLink link={item.link} />
+                                      </NavigationMenuLink>
+                                    ))}
+                                  </div>
+                                )}
+                                {group.links.colTwo && group.links.colTwo.length > 0 && (
+                                  <div className="flex flex-col gap-3">
+                                    {group.links.colTwo.map((item) => (
+                                      <NavigationMenuLink asChild key={item.id}>
+                                        <NavLink link={item.link} />
+                                      </NavigationMenuLink>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>

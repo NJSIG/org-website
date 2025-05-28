@@ -747,37 +747,60 @@ export interface Header {
           };
         };
         /**
-         * Links are displayed using grid layout from left to right, top to bottom.
+         * Links are shown in two columns on desktop. On mobile the columns stack vertically.
          */
-        links?:
-          | {
-              link: {
-                type?: 'reference' | null;
-                newTab?: boolean | null;
-                allowReferrer?: boolean | null;
-                reference?: {
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label?: string | null;
-                linkIcon?: string | null;
-                /**
-                 * The primary link text should be a page title or concise label.
-                 */
-                linkTitle: string;
-                /**
-                 * The secondary link text should be a short description of the link.
-                 */
-                linkDescription?: string | null;
-                /**
-                 * Override the order of this link on mobile. The default order is based on the order of the links in the array.
-                 */
-                mobileOrder?: number | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
+        links?: {
+          colOne?:
+            | {
+                link: {
+                  type?: 'reference' | null;
+                  newTab?: boolean | null;
+                  allowReferrer?: boolean | null;
+                  reference?: {
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null;
+                  url?: string | null;
+                  label?: string | null;
+                  linkIcon?: string | null;
+                  /**
+                   * The primary link text should be a page title or concise label.
+                   */
+                  linkTitle: string;
+                  /**
+                   * The secondary link text should be a short description of the link.
+                   */
+                  linkDescription?: string | null;
+                };
+                id?: string | null;
+              }[]
+            | null;
+          colTwo?:
+            | {
+                link: {
+                  type?: 'reference' | null;
+                  newTab?: boolean | null;
+                  allowReferrer?: boolean | null;
+                  reference?: {
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null;
+                  url?: string | null;
+                  label?: string | null;
+                  linkIcon?: string | null;
+                  /**
+                   * The primary link text should be a page title or concise label.
+                   */
+                  linkTitle: string;
+                  /**
+                   * The secondary link text should be a short description of the link.
+                   */
+                  linkDescription?: string | null;
+                };
+                id?: string | null;
+              }[]
+            | null;
+        };
         id?: string | null;
       }[]
     | null;
@@ -891,21 +914,42 @@ export interface HeaderSelect<T extends boolean = true> {
         links?:
           | T
           | {
-              link?:
+              colOne?:
                 | T
                 | {
-                    type?: T;
-                    newTab?: T;
-                    allowReferrer?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                    linkIcon?: T;
-                    linkTitle?: T;
-                    linkDescription?: T;
-                    mobileOrder?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          allowReferrer?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          linkIcon?: T;
+                          linkTitle?: T;
+                          linkDescription?: T;
+                        };
+                    id?: T;
                   };
-              id?: T;
+              colTwo?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          allowReferrer?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          linkIcon?: T;
+                          linkTitle?: T;
+                          linkDescription?: T;
+                        };
+                    id?: T;
+                  };
             };
         id?: T;
       };
