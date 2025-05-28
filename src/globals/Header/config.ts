@@ -64,72 +64,146 @@ export const Header: GlobalConfig = {
         },
         {
           name: 'links',
-          type: 'array',
-          fields: [
-            linkField({
-              appearances: false,
-              destinations: ['reference'],
-              disableNewTab: true,
-              disableLabel: true,
-              overrides: {
-                fields: [
-                  {
-                    type: 'row',
-                    fields: [
-                      lucideIconPickerField({
-                        overrides: {
-                          name: 'linkIcon',
-                          label: 'Link Icon',
-                          admin: {
-                            width: '30%',
-                          },
-                        },
-                      }),
-                      {
-                        name: 'linkTitle',
-                        type: 'text',
-                        required: true,
-                        maxLength: 80,
-                        admin: {
-                          description:
-                            'The primary link text should be a page title or concise label.',
-                          width: '70%',
-                        },
-                      },
-                    ],
-                  },
-                  {
-                    name: 'linkDescription',
-                    type: 'textarea',
-                    required: false,
-                    maxLength: 200,
-                    admin: {
-                      description:
-                        'The secondary link text should be a short description of the link.',
-                    },
-                  },
-                  {
-                    name: 'mobileOrder',
-                    label: 'Mobile Sorting Override',
-                    type: 'number',
-                    required: false,
-                    defaultValue: 1,
-                    admin: {
-                      description:
-                        'Override the order of this link on mobile. The default order is based on the order of the links in the array.',
-                    },
-                  },
-                ],
-              },
-            }),
-          ],
+          type: 'group',
           admin: {
-            initCollapsed: true,
-            description: 'Links are displayed using grid layout from left to right, top to bottom.',
-            components: {
-              RowLabel: '@/globals/Header/admin/NavLinkLabel',
-            },
+            hideGutter: true,
+            description:
+              'Links are shown in two columns on desktop. On mobile the columns stack vertically.',
           },
+          fields: [
+            {
+              type: 'row',
+              admin: {
+                className: 'twoColumnRow',
+              },
+              fields: [
+                {
+                  name: 'colOne',
+                  label: 'Column One',
+                  labels: {
+                    singular: 'Link',
+                    plural: 'Links',
+                  },
+                  type: 'array',
+                  fields: [
+                    linkField({
+                      appearances: false,
+                      destinations: ['reference'],
+                      disableNewTab: true,
+                      disableLabel: true,
+                      overrides: {
+                        fields: [
+                          {
+                            type: 'row',
+                            fields: [
+                              lucideIconPickerField({
+                                overrides: {
+                                  name: 'linkIcon',
+                                  label: 'Link Icon',
+                                  admin: {
+                                    width: '30%',
+                                  },
+                                },
+                              }),
+                              {
+                                name: 'linkTitle',
+                                type: 'text',
+                                required: true,
+                                maxLength: 80,
+                                admin: {
+                                  description:
+                                    'The primary link text should be a page title or concise label.',
+                                  width: '70%',
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            name: 'linkDescription',
+                            type: 'textarea',
+                            required: false,
+                            maxLength: 200,
+                            admin: {
+                              description:
+                                'The secondary link text should be a short description of the link.',
+                            },
+                          },
+                        ],
+                      },
+                    }),
+                  ],
+                  admin: {
+                    initCollapsed: true,
+                    components: {
+                      RowLabel: '@/globals/Header/admin/NavLinkLabel',
+                    },
+                  },
+                },
+                {
+                  name: 'colTwo',
+                  label: 'Column Two',
+                  labels: {
+                    singular: 'Link',
+                    plural: 'Links',
+                  },
+                  type: 'array',
+                  fields: [
+                    linkField({
+                      appearances: false,
+                      destinations: ['reference'],
+                      disableNewTab: true,
+                      disableLabel: true,
+                      overrides: {
+                        fields: [
+                          {
+                            type: 'row',
+                            fields: [
+                              lucideIconPickerField({
+                                overrides: {
+                                  name: 'linkIcon',
+                                  label: 'Link Icon',
+                                  admin: {
+                                    width: '30%',
+                                  },
+                                },
+                              }),
+                              {
+                                name: 'linkTitle',
+                                type: 'text',
+                                required: true,
+                                maxLength: 80,
+                                admin: {
+                                  description:
+                                    'The primary link text should be a page title or concise label.',
+                                  width: '70%',
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            name: 'linkDescription',
+                            type: 'textarea',
+                            required: false,
+                            maxLength: 200,
+                            admin: {
+                              description:
+                                'The secondary link text should be a short description of the link.',
+                            },
+                          },
+                        ],
+                      },
+                    }),
+                  ],
+                  admin: {
+                    initCollapsed: true,
+                    components: {
+                      RowLabel: '@/globals/Header/admin/NavLinkLabel',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
         },
       ],
       admin: {

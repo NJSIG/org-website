@@ -1,6 +1,9 @@
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
 import { Providers } from '@/providers';
+import { getServerSideUrl } from '@/utilities/getServerSideUrl';
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
+import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import React from 'react';
 import './styles.css';
@@ -25,3 +28,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   );
 }
+
+export const metadata: Metadata = {
+  metadataBase: new URL(getServerSideUrl()),
+  openGraph: mergeOpenGraph(),
+  twitter: {
+    card: 'summary_large_image',
+    creator: 'NJSIG',
+  },
+};

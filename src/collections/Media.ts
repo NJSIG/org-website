@@ -1,4 +1,5 @@
 import { admin, anyone } from '@/access';
+import { snakeCaseUploadsHook } from '@/hooks';
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
@@ -19,6 +20,9 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: admin,
   },
+  admin: {
+    folders: true,
+  },
   fields: [
     {
       name: 'alt',
@@ -36,7 +40,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Updloads to the plublic/media directory in Next.js making files puiblically accessible even outside of Payload
+    // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
@@ -73,5 +77,8 @@ export const Media: CollectionConfig = {
         crop: 'center',
       },
     ],
+  },
+  hooks: {
+    beforeOperation: [snakeCaseUploadsHook],
   },
 };

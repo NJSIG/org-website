@@ -12,3 +12,11 @@
     opacity: 0.4;
   }
 }
+
+.twoColumnRow {
+  > .render-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}

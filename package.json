@@ -18,6 +18,7 @@
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/email-nodemailer": "^3.39.1",
+    "@payloadcms/live-preview-react": "^3.39.1",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",
@@ -49,7 +50,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.23",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^9.27.0",
