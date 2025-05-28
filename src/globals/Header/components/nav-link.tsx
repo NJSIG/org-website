@@ -49,7 +49,7 @@ export const NavLink: React.FC<Props> = (props) => {
           : errorPageUrl
       }
       className={cn(
-        'flex items-start gap-2 p-3 transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 focus-visible:ring-4 cursor-pointer outline-offset-4 text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted group/nav-link rounded-lg w-full',
+        'flex items-start gap-2 p-3 transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 focus-visible:ring-4 cursor-pointer outline-offset-4 text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted group/nav-link rounded-lg w-full min-w-80',
         className,
       )}
     >
@@ -61,7 +61,7 @@ export const NavLink: React.FC<Props> = (props) => {
       >
         <div className="inline-flex items-center gap-1">
           {linkIcon && <DynamicIcon name={linkIcon} size={iconSize} />}
-          <h3 className="font-semibold">{linkTitle}</h3>
+          <h3 className="font-semibold whitespace-nowrap">{linkTitle}</h3>
         </div>
         {linkDescription && (
           <p className="text-foreground-muted dark:text-foreground-inverted-muted max-w-64 text-sm">
