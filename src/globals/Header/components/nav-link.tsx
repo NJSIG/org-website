@@ -61,7 +61,7 @@ export const NavLink: React.FC<Props> = (props) => {
       >
         <div className="inline-flex items-center gap-1">
           {linkIcon && <DynamicIcon name={linkIcon} size={iconSize} />}
-          <h3 className="font-semibold text-nowrap">{linkTitle}</h3>
+          <h3 className="font-semibold whitespace-nowrap">{linkTitle}</h3>
         </div>
         {linkDescription && (
           <p className="text-foreground-muted dark:text-foreground-inverted-muted max-w-64 text-sm">
