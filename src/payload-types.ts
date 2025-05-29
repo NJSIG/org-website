@@ -172,6 +172,41 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
+  slides?:
+    | {
+        image: 'yellow-classroom' | 'call-center';
+        /**
+         * Themes are displayed as a smaller title above the headline.
+         */
+        theme: string;
+        /**
+         * The main title of the slide.
+         */
+        headline: string;
+        heroLink?: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+          /**
+           * Choose how the link will be displayed.
+           */
+          appearance?: 'cta' | null;
+          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
+          iconPosition?: ('none' | 'before' | 'after') | false;
+          icon?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -547,6 +582,31 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
+  slides?:
+    | T
+    | {
+        image?: T;
+        theme?: T;
+        headline?: T;
+        heroLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              allowReferrer?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+              styleVariant?: T;
+              colorVariant?: T;
+              sizeVariant?: T;
+              microInteraction?: T;
+              iconPosition?: T;
+              icon?: T;
+            };
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
