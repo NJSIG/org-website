@@ -148,7 +148,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                           )}
                           {group.links && (
                             <div className="flex gap-6">
-                              {group.links.colOne && group.links.colOne.length > 0 && (
+                              {group.links.colOne && group.links.colOne.length && (
                                 <div className="flex flex-col gap-3">
                                   {group.links.colOne.map((item) => (
                                     <NavigationMenuLink asChild key={item.id}>
@@ -157,7 +157,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                                   ))}
                                 </div>
                               )}
-                              {group.links.colTwo && group.links.colTwo.length > 0 && (
+                              {group.links.colTwo && group.links.colTwo.length && (
                                 <div className="flex flex-col gap-3">
                                   {group.links.colTwo.map((item) => (
                                     <NavigationMenuLink asChild key={item.id}>

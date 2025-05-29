@@ -1,5 +1,6 @@
 import { admin, adminOrPublished } from '@/access';
 import { revalidateDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
+import { dynamicBlocksField } from '@/fields/dynamicBlocks';
 import { slugField } from '@/fields/slug';
 import { populatePublishedAtHook } from '@/hooks';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -39,28 +40,7 @@ export const Pages: CollectionConfig<'pages'> = {
         {
           name: 'layout',
           label: 'CONTENT',
-          fields: [
-            {
-              name: 'template',
-              type: 'select',
-              required: true,
-              options: [
-                {
-                  label: 'Default',
-                  value: 'default',
-                },
-                {
-                  label: 'Home',
-                  value: 'home',
-                },
-              ],
-              defaultValue: 'default',
-              admin: {
-                isClearable: false,
-                description: 'The selected template will determine which blocks are available.',
-              },
-            },
-          ],
+          fields: [...dynamicBlocksField()],
         },
         {
           name: 'meta',
