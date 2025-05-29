@@ -146,9 +146,10 @@ export interface Page {
   title: string;
   layout: {
     /**
-     * The selected template will determine which blocks are available.
+     * Select the template for this page. The template value will determine which blocks are available.
      */
-    template: 'default' | 'home';
+    template: 'default' | 'home' | 'subfund';
+    blocks: (HeroBlock | SectionBlock)[];
   };
   meta?: {
     title?: string | null;
@@ -165,6 +166,24 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -501,6 +520,12 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         template?: T;
+        blocks?:
+          | T
+          | {
+              hero?: T | HeroBlockSelect<T>;
+              section?: T | SectionBlockSelect<T>;
+            };
       };
   meta?:
     | T
@@ -516,6 +541,22 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock_select".
+ */
+export interface HeroBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock_select".
+ */
+export interface SectionBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
