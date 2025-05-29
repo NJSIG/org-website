@@ -21,7 +21,7 @@ export const dynamicBlocksField: DynamicBlocksType = ({
   templateOverrides = {},
   blocksOverrides = {},
 } = {}) => {
-  const blockSlugs = defaultBlockSlugs;
+  const blockSlugs = { ...defaultBlockSlugs };
 
   // Override allowed blocks if provided
   if (allowedBlockSlugs) {
