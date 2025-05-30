@@ -6,11 +6,22 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 import path from 'path';
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { fileURLToPath } from 'url';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const webp: ImageUploadFormatOptions = {
+  format: 'webp',
+  options: {
+    quality: 80,
+  },
+};
+
+const png: ImageUploadFormatOptions = {
+  format: 'png',
+};
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -46,33 +57,40 @@ export const Media: CollectionConfig = {
       {
         name: 'thumbnail',
         width: 300,
+        formatOptions: webp,
       },
       {
         name: 'square',
         width: 500,
         height: 500,
+        formatOptions: webp,
       },
       {
         name: 'small',
         width: 600,
+        formatOptions: webp,
       },
       {
         name: 'medium',
         width: 900,
+        formatOptions: webp,
       },
       {
         name: 'large',
         width: 1400,
+        formatOptions: webp,
       },
       {
         name: 'xlarge',
         width: 1920,
+        formatOptions: webp,
       },
       {
         name: 'og',
         width: 1200,
         height: 630,
         crop: 'center',
+        formatOptions: png,
       },
     ],
   },

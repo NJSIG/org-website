@@ -7,6 +7,7 @@ import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
+import { HeroImages } from './collections/HeroImages';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
 import { Users } from './collections/Users';
@@ -46,7 +47,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Media, Users],
+  collections: [Pages, Media, HeroImages, Users],
   globals: [Header, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

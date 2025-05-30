@@ -5,6 +5,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
 import { Plugin } from 'payload';
+import computeBlurhash from 'payload-blurhash-plugin';
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title
@@ -45,4 +46,5 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
   }),
+  computeBlurhash(),
 ];

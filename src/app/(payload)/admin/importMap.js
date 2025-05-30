@@ -1,3 +1,4 @@
+import { SlideImageSelectComponent as SlideImageSelectComponent_435f0db740dfdb96d04f83dfda59d8bb } from '@/blocks/Hero/admin/SlideImageSelectComponent'
 import { VariantSelectComponent as VariantSelectComponent_d307d0f47a3707080e06970456566883 } from '@/fields/link/VariantSelectComponent'
 import { LucideIconPickerComponent as LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06 } from '@/fields/lucideIconPicker/LucideIconPickerComponent'
 import { DynamicBlocksComponent as DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c } from '@/fields/dynamicBlocks/DynamicBlocksComponent'
@@ -39,6 +40,7 @@ import { default as default_ffd965a062a94bd70a8ba03fe4e534d4 } from '@/fields/li
 import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/Footer/admin/NavGroupLabel'
 
 export const importMap = {
+  "@/blocks/Hero/admin/SlideImageSelectComponent#SlideImageSelectComponent": SlideImageSelectComponent_435f0db740dfdb96d04f83dfda59d8bb,
   "@/fields/link/VariantSelectComponent#VariantSelectComponent": VariantSelectComponent_d307d0f47a3707080e06970456566883,
   "@/fields/lucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06,
   "@/fields/dynamicBlocks/DynamicBlocksComponent#DynamicBlocksComponent": DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c,
