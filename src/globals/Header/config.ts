@@ -74,7 +74,7 @@ export const Header: GlobalConfig = {
             {
               type: 'row',
               admin: {
-                className: 'twoColumnRow',
+                className: 'njsig__two-column-row',
               },
               fields: [
                 {
