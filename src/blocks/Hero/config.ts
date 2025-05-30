@@ -10,25 +10,18 @@ export const Hero: Block = {
       type: 'array',
       minRows: 1,
       maxRows: 4,
+      admin: {
+        initCollapsed: true,
+        components: {
+          RowLabel: '@/blocks/Hero/admin/SlideLabel',
+        },
+      },
       fields: [
         {
-          name: 'image',
-          type: 'select',
+          name: 'backgroundImage',
+          type: 'upload',
+          relationTo: 'hero-images',
           required: true,
-          admin: {
-            isClearable: false,
-            // TODO: Custom component to display the selected image
-          },
-          options: [
-            {
-              label: 'Yellow Classroom',
-              value: 'yellow-classroom',
-            },
-            {
-              label: 'Call Center',
-              value: 'call-center',
-            },
-          ],
         },
         {
           name: 'theme',

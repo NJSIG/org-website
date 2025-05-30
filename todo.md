@@ -16,6 +16,7 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Main nav icon FOUC (Flash of Unstyled Content) (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
 - [ ] Previews for global elements
+- [ ] Changing templates hides unavailable blocks but they remain in the data, unavailable blocks should be removed by a hook when the template change is saved.
 
 ### COMPLETED TASKS ✔
 
