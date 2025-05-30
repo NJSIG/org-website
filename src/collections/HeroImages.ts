@@ -1,5 +1,5 @@
 import { admin, anyone } from '@/access';
-import { snakeCaseUploadsHook } from '@/hooks';
+import { computeBlurhashHook, snakeCaseUploadsHook } from '@/hooks';
 import path from 'path';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { fileURLToPath } from 'url';
@@ -28,7 +28,17 @@ export const HeroImages: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'blurhash',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+    },
   ],
+  admin: {
+    defaultColumns: ['filename', 'alt'],
+  },
   upload: {
     // Uploads to the public/hero-images directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/hero-images'),
@@ -57,6 +67,7 @@ export const HeroImages: CollectionConfig = {
     ],
   },
   hooks: {
-    beforeChange: [snakeCaseUploadsHook],
+    beforeOperation: [snakeCaseUploadsHook],
+    beforeChange: [computeBlurhashHook],
   },
 };

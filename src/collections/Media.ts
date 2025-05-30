@@ -1,5 +1,5 @@
 import { admin, anyone } from '@/access';
-import { snakeCaseUploadsHook } from '@/hooks';
+import { computeBlurhashHook, snakeCaseUploadsHook } from '@/hooks';
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
@@ -47,7 +47,17 @@ export const Media: CollectionConfig = {
         },
       }),
     },
+    {
+      name: 'blurhash',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+    },
   ],
+  admin: {
+    defaultColumns: ['filename', 'alt', 'caption', 'folder'],
+  },
   upload: {
     // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
@@ -96,5 +106,6 @@ export const Media: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
+    beforeChange: [computeBlurhashHook],
   },
 };
