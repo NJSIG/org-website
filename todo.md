@@ -14,7 +14,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Customize Login Page
 - [ ] Main Nav Click Trigger Bug (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Main nav icon FOUC (Flash of Unstyled Content) (see @globals/Header/components/navigation-menu.tsx)
-- [ ] Expecting change to how folders are enabled on collections, keep an eye on release notes and update when available
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
 - [ ] Previews for global elements
 
@@ -27,3 +26,4 @@ NJSIG's website is a great resource for information about the organization, incl
   - [x] Footer
 - [x] Base Layout
 - [x] Conditional Blocks (https://github.com/payloadcms/payload/discussions/7064#discussioncomment-11829476)
+- [x] Expecting change to how folders are enabled on collections, keep an eye on release notes and update when available

@@ -20,9 +20,7 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: admin,
   },
-  admin: {
-    folders: true,
-  },
+  folders: true,
   fields: [
     {
       name: 'alt',

@@ -92,6 +92,7 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     maxPerDoc: 50,
   },
+  folders: true,
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
@@ -112,6 +113,5 @@ export const Pages: CollectionConfig<'pages'> = {
         req,
       }),
     useAsTitle: 'title',
-    folders: true,
   },
 };
