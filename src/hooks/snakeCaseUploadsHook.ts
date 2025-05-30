@@ -1,6 +1,6 @@
-import { BeforeOperationHook } from 'node_modules/payload/dist/collections/config/types';
+import { CollectionBeforeOperationHook } from 'payload';
 
-export const snakeCaseUploadsHook: BeforeOperationHook = ({ req, operation }) => {
+export const snakeCaseUploadsHook: CollectionBeforeOperationHook = ({ req, operation }) => {
   if ((operation === 'create' || operation === 'update') && req.file) {
     const { name } = req.file;
     const lastDotIndex = name.lastIndexOf('.');
