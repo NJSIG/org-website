@@ -1,6 +1,6 @@
 import { VariantSelectComponent as VariantSelectComponent_d307d0f47a3707080e06970456566883 } from '@/fields/link/VariantSelectComponent'
 import { LucideIconPickerComponent as LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06 } from '@/fields/lucideIconPicker/LucideIconPickerComponent'
-import { default as default_079aa1e69e0b78c7b8b0201d7b37e782 } from '@/blocks/Hero/admin/SlideLabel'
+import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/HeroSpinner/admin/SlideLabel'
 import { DynamicBlocksComponent as DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c } from '@/fields/dynamicBlocks/DynamicBlocksComponent'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -42,7 +42,7 @@ import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/F
 export const importMap = {
   "@/fields/link/VariantSelectComponent#VariantSelectComponent": VariantSelectComponent_d307d0f47a3707080e06970456566883,
   "@/fields/lucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06,
-  "@/blocks/Hero/admin/SlideLabel#default": default_079aa1e69e0b78c7b8b0201d7b37e782,
+  "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31,
   "@/fields/dynamicBlocks/DynamicBlocksComponent#DynamicBlocksComponent": DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,

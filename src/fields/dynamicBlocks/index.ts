@@ -1,6 +1,12 @@
-import { Hero, Section } from '@/blocks';
+import { HeroSpinner, Section } from '@/blocks';
 import { Block, BlocksField, deepMerge, SelectField } from 'payload';
-import { AllowedBlocks, DynamicBlocksType, TemplateOptions, Templates } from './types';
+import {
+  AllowedBlocks,
+  DynamicBlocksType,
+  SubfundThemeOptions,
+  TemplateOptions,
+  Templates,
+} from './types';
 
 export const templateOptions: TemplateOptions = {
   default: { label: 'Default', value: 'default' },
@@ -8,18 +14,27 @@ export const templateOptions: TemplateOptions = {
   subfund: { label: 'Sub-fund', value: 'subfund' },
 };
 
-const allBlocks: Block[] = [Hero, Section];
+export const subfundThemeOptions: SubfundThemeOptions = {
+  bacceic: { label: 'BACCEIC', value: 'bacceic' },
+  caip: { label: 'CAIP', value: 'caip' },
+  ericnorth: { label: 'ERIC NORTH', value: 'ericnorth' },
+  ericsouth: { label: 'ERIC SOUTH', value: 'ericsouth' },
+  ericwest: { label: 'ERIC WEST', value: 'ericwest' },
+  mocssif: { label: 'MOCSSIF', value: 'mocssif' },
+  njeif: { label: 'NJEIF', value: 'njeif' },
+};
+
+const allBlocks: Block[] = [HeroSpinner, Section];
 
 const defaultBlockSlugs: AllowedBlocks = {
   default: ['section'],
-  home: ['hero', 'section'],
+  home: ['heroSpinner', 'section'],
   subfund: ['section'],
 };
 
 export const dynamicBlocksField: DynamicBlocksType = ({
   allowedBlocks: allowedBlockSlugs,
-  templateOverrides = {},
-  blocksOverrides = {},
+  overrides = {},
 } = {}) => {
   const blockSlugs = { ...defaultBlockSlugs };
 
@@ -45,7 +60,30 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     },
   };
 
-  const templateFieldWithOverrides: SelectField = deepMerge(templateField, templateOverrides);
+  const templateFieldWithOverrides: SelectField = deepMerge(
+    templateField,
+    overrides.templateField || {},
+  );
+
+  // Subfund Theme Field
+  const subfundThemeField: SelectField = {
+    name: 'subfundTheme',
+    label: 'Subfund Theme',
+    type: 'select',
+    options: Object.values(subfundThemeOptions),
+    required: true,
+    admin: {
+      isClearable: false,
+      description:
+        'Select the theme for this page. The theme value will determine the styling of the blocks.',
+      condition: (_, siblingData) => siblingData?.template === 'subfund',
+    },
+  };
+
+  const subfundThemeFieldWithOverrides: SelectField = deepMerge(
+    subfundThemeField,
+    overrides.subfundThemeField || {},
+  );
 
   // Blocks Field
   const blocksField: BlocksField = {
@@ -66,7 +104,7 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     blocks: allBlocks,
   };
 
-  const blocksFieldWithOverrides: BlocksField = deepMerge(blocksField, blocksOverrides);
+  const blocksFieldWithOverrides: BlocksField = deepMerge(blocksField, overrides.blocksField || {});
 
-  return [templateFieldWithOverrides, blocksFieldWithOverrides];
+  return [templateFieldWithOverrides, subfundThemeFieldWithOverrides, blocksFieldWithOverrides];
 };

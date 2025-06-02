@@ -1,9 +1,9 @@
 import { linkField } from '@/fields/link';
 import { Block } from 'payload';
 
-export const Hero: Block = {
-  slug: 'hero',
-  interfaceName: 'HeroBlock',
+export const HeroSpinner: Block = {
+  slug: 'heroSpinner',
+  interfaceName: 'HeroSpinnerBlock',
   fields: [
     {
       name: 'slides',
@@ -13,7 +13,7 @@ export const Hero: Block = {
       admin: {
         initCollapsed: true,
         components: {
-          RowLabel: '@/blocks/Hero/admin/SlideLabel',
+          RowLabel: '@/blocks/HeroSpinner/admin/SlideLabel',
         },
       },
       fields: [

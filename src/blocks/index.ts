@@ -1,4 +1,4 @@
-import { Hero } from './Hero/config';
+import { HeroSpinner } from './HeroSpinner/config';
 import { Section } from './Section/config';
 
-export { Hero, Section };
+export { HeroSpinner, Section };

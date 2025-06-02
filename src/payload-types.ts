@@ -151,7 +151,11 @@ export interface Page {
      * Select the template for this page. The template value will determine which blocks are available.
      */
     template: 'default' | 'home' | 'subfund';
-    blocks: (HeroBlock | SectionBlock)[];
+    /**
+     * Select the theme for this page. The theme value will determine the styling of the blocks.
+     */
+    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
+    blocks: (HeroSpinnerBlock | SectionBlock)[];
   };
   meta?: {
     title?: string | null;
@@ -171,9 +175,9 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
+ * via the `definition` "HeroSpinnerBlock".
  */
-export interface HeroBlock {
+export interface HeroSpinnerBlock {
   slides?:
     | {
         backgroundImage: string | HeroImage;
@@ -211,7 +215,7 @@ export interface HeroBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'hero';
+  blockType: 'heroSpinner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -608,10 +612,11 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         template?: T;
+        subfundTheme?: T;
         blocks?:
           | T
           | {
-              hero?: T | HeroBlockSelect<T>;
+              heroSpinner?: T | HeroSpinnerBlockSelect<T>;
               section?: T | SectionBlockSelect<T>;
             };
       };
@@ -632,9 +637,9 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock_select".
+ * via the `definition` "HeroSpinnerBlock_select".
  */
-export interface HeroBlockSelect<T extends boolean = true> {
+export interface HeroSpinnerBlockSelect<T extends boolean = true> {
   slides?:
     | T
     | {
