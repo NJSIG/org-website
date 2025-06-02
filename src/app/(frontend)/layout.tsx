@@ -15,8 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <meta name="apple-mobile-web-app-title" content="NJSIG" />
       </head>
       <body className="flex flex-col min-h-screen bg-background text-foreground">
         <Providers>

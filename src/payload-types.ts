@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     media: Media;
+    'hero-images': HeroImage;
     users: User;
     redirects: Redirect;
     'payload-folders': FolderInterface;
@@ -85,6 +86,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -146,9 +148,14 @@ export interface Page {
   title: string;
   layout: {
     /**
-     * The selected template will determine which blocks are available.
+     * Select the template for this page. The template value will determine which blocks are available.
      */
-    template: 'default' | 'home';
+    template: 'default' | 'home' | 'subfund';
+    /**
+     * Select the theme for this page. The theme value will determine the styling of the blocks.
+     */
+    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
+    blocks: (HeroSpinnerBlock | SectionBlock)[];
   };
   meta?: {
     title?: string | null;
@@ -165,6 +172,105 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroSpinnerBlock".
+ */
+export interface HeroSpinnerBlock {
+  slides?:
+    | {
+        backgroundImage: string | HeroImage;
+        /**
+         * Themes are displayed as a smaller title above the headline.
+         */
+        theme: string;
+        /**
+         * The main title of the slide.
+         */
+        headline: string;
+        heroLink?: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+          /**
+           * Choose how the link will be displayed.
+           */
+          appearance?: 'cta' | null;
+          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
+          iconPosition?: ('none' | 'before' | 'after') | false;
+          icon?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroSpinner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-images".
+ */
+export interface HeroImage {
+  id: string;
+  alt: string;
+  blurhash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    small?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -188,6 +294,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  blurhash?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -434,6 +541,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'hero-images';
+        value: string | HeroImage;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null)
@@ -501,6 +612,13 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         template?: T;
+        subfundTheme?: T;
+        blocks?:
+          | T
+          | {
+              heroSpinner?: T | HeroSpinnerBlockSelect<T>;
+              section?: T | SectionBlockSelect<T>;
+            };
       };
   meta?:
     | T
@@ -519,11 +637,53 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroSpinnerBlock_select".
+ */
+export interface HeroSpinnerBlockSelect<T extends boolean = true> {
+  slides?:
+    | T
+    | {
+        backgroundImage?: T;
+        theme?: T;
+        headline?: T;
+        heroLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              allowReferrer?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+              styleVariant?: T;
+              colorVariant?: T;
+              sizeVariant?: T;
+              microInteraction?: T;
+              iconPosition?: T;
+              icon?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock_select".
+ */
+export interface SectionBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  blurhash?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -600,6 +760,59 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-images_select".
+ */
+export interface HeroImagesSelect<T extends boolean = true> {
+  alt?: T;
+  blurhash?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
           | T
           | {
               url?: T;
