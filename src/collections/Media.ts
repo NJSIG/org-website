@@ -1,5 +1,6 @@
 import { admin, anyone } from '@/access';
-import { computeBlurhashHook, snakeCaseUploadsHook } from '@/hooks';
+import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
@@ -35,6 +36,7 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'Alt Text',
       type: 'text',
       required: true,
     },
@@ -49,9 +51,11 @@ export const Media: CollectionConfig = {
     },
     {
       name: 'blurhash',
+      label: 'Blurhash',
       type: 'text',
       admin: {
         readOnly: true,
+        description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
   ],
@@ -67,33 +71,58 @@ export const Media: CollectionConfig = {
       {
         name: 'thumbnail',
         width: 300,
-        formatOptions: webp,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 60,
+          },
+        },
+        generateImageName: imageNameGenerators.bySize,
       },
       {
-        name: 'square',
-        width: 500,
-        height: 500,
-        formatOptions: webp,
+        name: 'xs',
+        width: 640,
+        height: 360,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 75,
+          },
+        },
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
-        name: 'small',
-        width: 600,
-        formatOptions: webp,
+        name: 'sm',
+        width: 960,
+        height: 540,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 75,
+          },
+        },
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
-        name: 'medium',
-        width: 900,
+        name: 'md',
+        width: 1280,
+        height: 720,
         formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
-        name: 'large',
-        width: 1400,
-        formatOptions: webp,
-      },
-      {
-        name: 'xlarge',
+        name: 'lg',
         width: 1920,
+        height: 1080,
         formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'xl',
+        width: 2400,
+        height: 1350,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
         name: 'og',
@@ -101,11 +130,12 @@ export const Media: CollectionConfig = {
         height: 630,
         crop: 'center',
         formatOptions: png,
+        generateImageName: imageNameGenerators.bySize,
       },
     ],
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [computeBlurhashHook],
+    beforeChange: [computeBlurDataHook],
   },
 };

@@ -224,6 +224,9 @@ export interface HeroSpinnerBlock {
 export interface HeroImage {
   id: string;
   alt: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
   blurhash?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -237,7 +240,7 @@ export interface HeroImage {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
-    small?: {
+    thumbnail?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -245,7 +248,7 @@ export interface HeroImage {
       filesize?: number | null;
       filename?: string | null;
     };
-    medium?: {
+    xs?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -253,7 +256,31 @@ export interface HeroImage {
       filesize?: number | null;
       filename?: string | null;
     };
-    large?: {
+    sm?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    md?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    lg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xl?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -294,6 +321,9 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
   blurhash?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -316,7 +346,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    square?: {
+    xs?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -324,7 +354,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    small?: {
+    sm?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -332,7 +362,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    medium?: {
+    md?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -340,7 +370,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    large?: {
+    lg?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -348,7 +378,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    xlarge?: {
+    xl?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -709,7 +739,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        square?:
+        xs?:
           | T
           | {
               url?: T;
@@ -719,7 +749,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        small?:
+        sm?:
           | T
           | {
               url?: T;
@@ -729,7 +759,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        medium?:
+        md?:
           | T
           | {
               url?: T;
@@ -739,7 +769,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        large?:
+        lg?:
           | T
           | {
               url?: T;
@@ -749,7 +779,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        xlarge?:
+        xl?:
           | T
           | {
               url?: T;
@@ -792,7 +822,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
-        small?:
+        thumbnail?:
           | T
           | {
               url?: T;
@@ -802,7 +832,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        medium?:
+        xs?:
           | T
           | {
               url?: T;
@@ -812,7 +842,37 @@ export interface HeroImagesSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        large?:
+        sm?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        md?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        lg?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xl?:
           | T
           | {
               url?: T;

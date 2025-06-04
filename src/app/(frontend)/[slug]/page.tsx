@@ -101,8 +101,6 @@ export default async function Page({ params: paramsPromise }: Args) {
     layout: { template, subfundTheme, blocks },
   } = page;
 
-  console.log('Page Rendered:', { slug, template, subfundTheme, blocks });
-
   // TODO: Render Page
   return (
     <article

@@ -1,5 +1,6 @@
 import { admin, anyone } from '@/access';
-import { computeBlurhashHook, snakeCaseUploadsHook } from '@/hooks';
+import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import path from 'path';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { fileURLToPath } from 'url';
@@ -25,14 +26,17 @@ export const HeroImages: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'Alt Text',
       type: 'text',
       required: true,
     },
     {
       name: 'blurhash',
+      label: 'Blurhash',
       type: 'text',
       admin: {
         readOnly: true,
+        description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
   ],
@@ -43,11 +47,23 @@ export const HeroImages: CollectionConfig = {
     // Uploads to the public/hero-images directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/hero-images'),
     focalPoint: true,
-    adminThumbnail: 'small',
+    adminThumbnail: 'thumbnail',
     mimeTypes: ['image/*'],
     imageSizes: [
       {
-        name: 'small',
+        name: 'thumbnail',
+        width: 320,
+        height: 180,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 60,
+          },
+        },
+        generateImageName: imageNameGenerators.bySize,
+      },
+      {
+        name: 'xs',
         width: 640,
         height: 360,
         formatOptions: {
@@ -56,23 +72,45 @@ export const HeroImages: CollectionConfig = {
             quality: 75,
           },
         },
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
-        name: 'medium',
+        name: 'sm',
+        width: 960,
+        height: 540,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 75,
+          },
+        },
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'md',
         width: 1280,
         height: 720,
         formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
-        name: 'large',
+        name: 'lg',
+        width: 1920,
+        height: 1080,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'xl',
         width: 2400,
         height: 1350,
         formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
     ],
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [computeBlurhashHook],
+    beforeChange: [computeBlurDataHook],
   },
 };
