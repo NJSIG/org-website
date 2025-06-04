@@ -50,7 +50,12 @@ export const HeroImages: CollectionConfig = {
         name: 'small',
         width: 640,
         height: 360,
-        formatOptions: webp,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 75,
+          },
+        },
       },
       {
         name: 'medium',
