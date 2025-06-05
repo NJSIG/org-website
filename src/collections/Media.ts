@@ -16,7 +16,7 @@ const dirname = path.dirname(filename);
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
   options: {
-    quality: 80,
+    quality: 90,
   },
 };
 
@@ -48,10 +48,13 @@ export const Media: CollectionConfig = {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];
         },
       }),
+      admin: {
+        description: 'Captions may or may not be displayed depending on where an image is used.',
+      },
     },
     {
-      name: 'blurhash',
-      label: 'Blurhash',
+      name: 'blurData',
+      label: 'Blur Data',
       type: 'text',
       admin: {
         readOnly: true,
@@ -67,10 +70,18 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    formatOptions: {
+      ...webp,
+      options: {
+        quality: 100,
+        lossless: true,
+      },
+    },
     imageSizes: [
       {
         name: 'thumbnail',
         width: 300,
+        height: 180,
         formatOptions: {
           ...webp,
           options: {
@@ -78,6 +89,13 @@ export const Media: CollectionConfig = {
           },
         },
         generateImageName: imageNameGenerators.bySize,
+      },
+      {
+        name: 'square',
+        width: 500,
+        height: 500,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
       {
         name: 'xs',
@@ -98,7 +116,7 @@ export const Media: CollectionConfig = {
         formatOptions: {
           ...webp,
           options: {
-            quality: 75,
+            quality: 80,
           },
         },
         generateImageName: imageNameGenerators.byWidth,

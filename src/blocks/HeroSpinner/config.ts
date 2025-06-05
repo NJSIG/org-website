@@ -20,7 +20,7 @@ export const HeroSpinner: Block = {
         {
           name: 'backgroundImage',
           type: 'upload',
-          relationTo: 'hero-images',
+          relationTo: 'media',
           required: true,
         },
         {
