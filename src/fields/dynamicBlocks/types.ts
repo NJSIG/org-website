@@ -1,4 +1,4 @@
-import { HeroSpinnerBlock, SectionBlock } from '@/payload-types';
+import { HeroSpinnerBlock, HiddenTitleBlock, SectionBlock } from '@/payload-types';
 import { BlocksField, BlocksFieldClient, Field, FieldClientComponent, SelectField } from 'payload';
 import { MarkOptional } from 'ts-essentials';
 
@@ -18,7 +18,7 @@ export type SubfundTheme =
   | 'njeif';
 export type SubfundThemeOptions = Record<SubfundTheme, Options>;
 
-type Blocks = HeroSpinnerBlock | SectionBlock;
+type Blocks = HeroSpinnerBlock | HiddenTitleBlock | SectionBlock;
 export type BlockSlugs = Blocks['blockType'];
 
 export type AllowedBlocks = {

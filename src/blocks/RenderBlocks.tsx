@@ -1,6 +1,7 @@
 import { Page } from '@/payload-types';
 import { Fragment } from 'react';
 import { HeroSpinnerBlock } from './HeroSpinner/Component';
+import { HiddenTitleBlock } from './HiddenTitle/Component';
 
 type RenderBlocksProps = {
   blocks: Page['layout']['blocks'];
@@ -8,6 +9,7 @@ type RenderBlocksProps = {
 
 const blockComponents = {
   heroSpinner: HeroSpinnerBlock,
+  hiddenTitle: HiddenTitleBlock,
 };
 
 export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {

@@ -1,4 +1,4 @@
-import { HeroSpinner, Section } from '@/blocks';
+import { HeroSpinner, HiddenTitle, Section } from '@/blocks';
 import { Block, BlocksField, deepMerge, SelectField } from 'payload';
 import {
   AllowedBlocks,
@@ -24,12 +24,12 @@ export const subfundThemeOptions: SubfundThemeOptions = {
   njeif: { label: 'NJEIF', value: 'njeif' },
 };
 
-const allBlocks: Block[] = [HeroSpinner, Section];
+const allBlocks: Block[] = [HeroSpinner, HiddenTitle, Section];
 
 const defaultBlockSlugs: AllowedBlocks = {
-  default: ['section'],
-  home: ['heroSpinner', 'section'],
-  subfund: ['section'],
+  default: ['hiddenTitle', 'section'],
+  home: ['heroSpinner', 'hiddenTitle', 'section'],
+  subfund: ['hiddenTitle', 'section'],
 };
 
 export const dynamicBlocksField: DynamicBlocksType = ({
