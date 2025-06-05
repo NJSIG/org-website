@@ -33,6 +33,9 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
+      },
     },
     {
       type: 'tabs',
