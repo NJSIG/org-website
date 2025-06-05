@@ -17,7 +17,7 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
 - [ ] Previews for global elements
 - [ ] Changing templates hides unavailable blocks but they remain in the data, unavailable blocks should be removed by a hook when the template change is saved.
-- [ ] Revisit blur hash creation and decoding, see blurred.dev
+- [ ] Slug field unlock button styles
 
 ### COMPLETED TASKS ✔
 
@@ -29,3 +29,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Base Layout
 - [x] Conditional Blocks (https://github.com/payloadcms/payload/discussions/7064#discussioncomment-11829476)
 - [x] Expecting change to how folders are enabled on collections, keep an eye on release notes and update when available
+- [x] Revisit blur hash creation and decoding, see blurred.dev
