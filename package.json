@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
-    "@payloadcms/email-nodemailer": "^3.40.0",
-    "@payloadcms/live-preview-react": "^3.40.0",
+    "@payloadcms/email-nodemailer": "^3.41.0",
+    "@payloadcms/live-preview-react": "^3.41.0",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.15.29",
+    "@types/node": "^22.15.30",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^9.28.0",
