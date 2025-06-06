@@ -381,6 +381,8 @@
  * https://github.com/tailwindlabs/prettier-plugin-tailwindcss/issues/345
  *
  * Use the ignore comment to prevent this.
+ *
+ * NOTE: TailwindCSS has been written to work with this Prettier formatting issue.
  */
 
 /*
@@ -408,64 +410,60 @@
  * Will result in 10% white tint on azure-500
  */
 
-/* prettier-ignore */
 @utility text-mix-tint-* {
-  color: color-mix(
-    in oklch,
-    --value(--color-*, [*]),
-    white calc(--modifier(integer) * 1%)
-  );
+  color: color-mix(in oklch, --value(--color- *, [ *]), white calc(--modifier(integer) * 1%));
 }
 
-/* prettier-ignore */
 @utility text-mix-shade-* {
-  color: color-mix(
-    in oklch,
-    --value(--color-*, [*]),
-    black calc(--modifier(integer) * 1%)
-  );
+  color: color-mix(in oklch, --value(--color- *, [ *]), black calc(--modifier(integer) * 1%));
 }
 
-/* prettier-ignore */
 @utility bg-mix-tint-* {
   background-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility bg-mix-shade-* {
   background-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility border-mix-tint-* {
   border-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility border-mix-shade-* {
   border-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
+/**
+ * Zoom
+ *
+ * These are used to create a zoom effect on elements.
+ * Usage: zm-150 will result in 150% zoom
+ * Usage: zm-normal will reset the zoom to normal
+ */
 @utility zm-* {
   zoom: --value('normal', 'reset');
   zoom: calc(--value(integer) * 1%);
+}
+
+@utility clip-path-polygon-* {
+  clip-path: polygon(--value([ *]));
 }
 
 /**
@@ -517,4 +515,18 @@
   --animate-from-opacity: calc(--value(number) / 100);
   --animate-from-opacity: --value(--percentage- *, [ *]);
   --animate-to-opacity: 0;
+}
+
+/** Overrides for tw-animate-css slide utilities */
+@utility slide-in-from-bottom {
+  --animate-from-translate-y: 100%;
+  --animate-to-translate-y: 0;
+}
+
+@utility slide-in-from-bottom-* {
+  --animate-from-translate-y: calc(--value(integer) * var(--spacing));
+  --animate-from-translate-y: calc(--value(--percentage- *, --percentage-translate- *) * 100%);
+  --animate-from-translate-y: calc(--value(ratio) * 100%);
+  --animate-from-translate-y: --value(--translate- *, [percentage], [length]);
+  --animate-to-translate-y: 0;
 }

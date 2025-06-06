@@ -179,6 +179,10 @@ export interface Page {
  * via the `definition` "HeroSpinnerBlock".
  */
 export interface HeroSpinnerBlock {
+  /**
+   * Time in seconds before automatically transitioning to the next slide.
+   */
+  slideTimeout: number;
   slides?:
     | {
         backgroundImage: string | Media;
@@ -619,6 +623,7 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroSpinnerBlock_select".
  */
 export interface HeroSpinnerBlockSelect<T extends boolean = true> {
+  slideTimeout?: T;
   slides?:
     | T
     | {

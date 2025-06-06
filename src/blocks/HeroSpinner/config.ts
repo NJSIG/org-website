@@ -6,6 +6,16 @@ export const HeroSpinner: Block = {
   interfaceName: 'HeroSpinnerBlock',
   fields: [
     {
+      name: 'slideTimeout',
+      label: 'Slide Timeout (seconds)',
+      type: 'number',
+      required: true,
+      defaultValue: 5,
+      admin: {
+        description: 'Time in seconds before automatically transitioning to the next slide.',
+      },
+    },
+    {
       name: 'slides',
       type: 'array',
       minRows: 1,
