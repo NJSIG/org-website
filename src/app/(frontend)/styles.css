@@ -158,6 +158,12 @@
   --color-raspberry-800: oklch(0.4409 0.151 11.62);
   --color-raspberry-900: oklch(0.4004 0.131 11.62);
   --color-raspberry-950: oklch(0.2653 0.089 11.62);
+
+  /** TailwindCSS Customizations **/
+  --breakpoint-3xl: 120rem;
+
+  --container-8xl: 96rem;
+  --container-9xl: 120rem;
 }
 
 @theme inline {

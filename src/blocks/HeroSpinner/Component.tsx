@@ -18,6 +18,8 @@ const ctaButtonAppearance: LinkAppearanceHelper<'cta'> = {
   icon: 'arrow-up-right',
 };
 
+const BREAKPOINT_MD = 768;
+
 export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout, slides }) => {
   const [selectedSlide, setSelectedSlide] = useState<number>(0);
   const { screenSize, initializeScreenSize } = useScreenSize();
@@ -31,21 +33,32 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
 
-    if (screenSize.width === undefined || screenSize.width < 768) {
+    const createInterval = () => {
+      interval = setInterval(
+        () => {
+          setSelectedSlide((prev) => (slides && slides.length ? (prev + 1) % slides.length : 0));
+        },
+        slideTimeout * 1000 || 5000,
+      );
+    };
+
+    // Disable auto-advance on small screens
+    if (screenSize.width === undefined || screenSize.width < BREAKPOINT_MD) {
       if (interval !== null) {
         clearInterval(interval);
         interval = null;
       }
     } else {
+      // Auto-advance slides every `slideTimeout` seconds or reset the interval on manual slide change
       if (interval === null) {
-        interval = setInterval(
-          () => {
-            setSelectedSlide((prev) => (slides && slides.length ? (prev + 1) % slides.length : 0));
-          },
-          slideTimeout * 1000 || 5000,
-        );
+        createInterval();
+      } else {
+        clearInterval(interval);
+        interval = null;
+        createInterval();
       }
     }
+
     return () => {
       if (interval !== null) {
         clearInterval(interval);
@@ -59,7 +72,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
   }
 
   return (
-    <div className="relative">
+    <div className="relative @container">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -76,7 +89,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
               priority={index === 0}
               placeholder="blur"
               blurDataURL={blurDataToBlurDataURL((slide.backgroundImage as Media).blurData)}
-              className="object-cover object-bottom-right lg:object-[center_right] lg:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
+              className="object-cover object-bottom-right @5xl:object-[center_right] @5xl:@max-9xl:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
             />
           </div>
           <div
@@ -104,14 +117,17 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
           </div>
         </div>
       ))}
-      <div className="flex gap-4 items-center absolute right-8 bottom-9 z-20 lg:-rotate-8 lg:bottom-24 xl:bottom-32">
+      <div className="flex gap-4 items-center absolute right-8 bottom-9 z-20 @5xl:@max-9xl:-rotate-8 @5xl:@max-7xl:bottom-24 @7xl:@max-9xl:bottom-32 @9xl:gap-2 @9xl:p-2 @9xl:rounded-[14px] @9xl:bg-njsig-neutral-background/30">
         {slides.map((_, index) => (
           <button
             key={index}
-            className={cn('w-4 h-4 rounded-full border-njsig-accent-shade border-2', {
-              'bg-njsig-accent-shade': index === selectedSlide,
-              'hover:bg-njsig-accent-shade/35': index !== selectedSlide,
-            })}
+            className={cn(
+              'rounded-full border-njsig-accent-shade border-2 w-4 h-4 @9xl:h-3 @9xl:w-3',
+              {
+                'bg-njsig-accent-shade': index === selectedSlide,
+                'hover:bg-njsig-accent-shade/35': index !== selectedSlide,
+              },
+            )}
             onClick={() => setSelectedSlide(index)}
           />
         ))}
