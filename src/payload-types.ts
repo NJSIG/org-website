@@ -143,13 +143,20 @@ export interface UserAuthOperations {
  */
 export interface Page {
   id: string;
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
   title: string;
   layout: {
     /**
      * Select the template for this page. The template value will determine which blocks are available.
      */
     template: 'default' | 'home' | 'subfund';
-    blocks: (HeroBlock | SectionBlock)[];
+    /**
+     * Select the theme for this page. The theme value will determine the styling of the blocks.
+     */
+    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
+    blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
   };
   meta?: {
     title?: string | null;
@@ -169,21 +176,51 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
+ * via the `definition` "HeroSpinnerBlock".
  */
-export interface HeroBlock {
+export interface HeroSpinnerBlock {
+  /**
+   * Time in seconds before automatically transitioning to the next slide.
+   */
+  slideTimeout: number;
+  slides?:
+    | {
+        backgroundImage: string | Media;
+        /**
+         * Themes are displayed as a smaller title above the headline.
+         */
+        theme: string;
+        /**
+         * The main title of the slide.
+         */
+        headline: string;
+        heroLink?: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+          /**
+           * Choose how the link will be displayed.
+           */
+          appearance?: 'cta' | null;
+          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
+          iconPosition?: ('none' | 'before' | 'after') | false;
+          icon?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'hero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionBlock".
- */
-export interface SectionBlock {
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'section';
+  blockType: 'heroSpinner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -192,6 +229,9 @@ export interface SectionBlock {
 export interface Media {
   id: string;
   alt: string;
+  /**
+   * Captions may or may not be displayed depending on where an image is used.
+   */
   caption?: {
     root: {
       type: string;
@@ -207,6 +247,10 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -236,7 +280,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    small?: {
+    xs?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -244,7 +288,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    medium?: {
+    sm?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -252,7 +296,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    large?: {
+    md?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -260,7 +304,15 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    xlarge?: {
+    lg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xl?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -306,6 +358,28 @@ export interface FolderInterface {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HiddenTitleBlock".
+ */
+export interface HiddenTitleBlock {
+  /**
+   * A visually hidden title for accessibility purposes. This should only be used if there is no visible title on the page.
+   */
+  title: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hiddenTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -520,10 +594,12 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         template?: T;
+        subfundTheme?: T;
         blocks?:
           | T
           | {
-              hero?: T | HeroBlockSelect<T>;
+              heroSpinner?: T | HeroSpinnerBlockSelect<T>;
+              hiddenTitle?: T | HiddenTitleBlockSelect<T>;
               section?: T | SectionBlockSelect<T>;
             };
       };
@@ -544,9 +620,44 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock_select".
+ * via the `definition` "HeroSpinnerBlock_select".
  */
-export interface HeroBlockSelect<T extends boolean = true> {
+export interface HeroSpinnerBlockSelect<T extends boolean = true> {
+  slideTimeout?: T;
+  slides?:
+    | T
+    | {
+        backgroundImage?: T;
+        theme?: T;
+        headline?: T;
+        heroLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              allowReferrer?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+              styleVariant?: T;
+              colorVariant?: T;
+              sizeVariant?: T;
+              microInteraction?: T;
+              iconPosition?: T;
+              icon?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HiddenTitleBlock_select".
+ */
+export interface HiddenTitleBlockSelect<T extends boolean = true> {
+  title?: T;
   id?: T;
   blockName?: T;
 }
@@ -565,6 +676,7 @@ export interface SectionBlockSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  blurData?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -600,7 +712,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        small?:
+        xs?:
           | T
           | {
               url?: T;
@@ -610,7 +722,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        medium?:
+        sm?:
           | T
           | {
               url?: T;
@@ -620,7 +732,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        large?:
+        md?:
           | T
           | {
               url?: T;
@@ -630,7 +742,17 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        xlarge?:
+        lg?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xl?:
           | T
           | {
               url?: T;

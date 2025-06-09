@@ -1,22 +1,30 @@
-.linkRowLabel {
-  align-items: center;
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
-
-  > .linkModifiers {
+.njsig {
+  &__link-row-label {
     align-items: center;
     display: flex;
-    gap: 8px;
-    margin-right: 24px;
-    opacity: 0.4;
-  }
-}
+    flex-grow: 1;
+    justify-content: space-between;
 
-.twoColumnRow {
-  > .render-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    &__link-modifiers {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+      margin-right: 24px;
+      opacity: 0.4;
+    }
+  }
+
+  &__two-column-row {
+    > .render-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+  }
+
+  &__hero-slide-row-label {
+    &__theme {
+      font-weight: bold;
+    }
   }
 }

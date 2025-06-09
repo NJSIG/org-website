@@ -33,6 +33,9 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
+      },
     },
     {
       type: 'tabs',
@@ -92,6 +95,7 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     maxPerDoc: 50,
   },
+  folders: true,
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
@@ -112,6 +116,5 @@ export const Pages: CollectionConfig<'pages'> = {
         req,
       }),
     useAsTitle: 'title',
-    folders: true,
   },
 };
