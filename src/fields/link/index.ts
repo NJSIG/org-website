@@ -415,8 +415,8 @@ export const linkField: LinkType = ({
               },
               width: '25%',
               condition: (_, siblingData) =>
-                (variants?.icons !== false && siblingData?.appearance === 'button') ||
-                siblingData?.appearance === 'cta',
+                variants?.icons !== false &&
+                (siblingData?.appearance === 'button' || siblingData?.appearance === 'cta'),
             },
           },
           lucideIconPickerField({

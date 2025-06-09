@@ -58,6 +58,7 @@ export const Logo = (props: Props) => {
       decoding="async"
       src={`/assets/logo/${props.style}-${theme}.svg`}
       className={cn(props.className)}
+      unoptimized
     />
   );
 };

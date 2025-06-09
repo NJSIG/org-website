@@ -1,5 +1,7 @@
+import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { PayloadRedirects } from '@/components/PayloadRedirects';
+import { cn } from '@/utilities/cn';
 import { generateMetaGraph } from '@/utilities/generateMetaGraph';
 import configPromise from '@payload-config';
 import { Metadata } from 'next';
@@ -95,15 +97,20 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />;
   }
 
+  const {
+    layout: { template, subfundTheme, blocks },
+  } = page;
+
   // TODO: Render Page
   return (
-    <article>
-      <PageClient />
+    <article
+      className={cn({ [`subfund-theme-${subfundTheme}`]: template === 'subfund' && subfundTheme })}
+    >
+      <PageClient template={template} />
 
       {draft && <LivePreviewListener />}
 
-      <h1>{page.title}</h1>
-      <h3>TODO: Render the page content here.</h3>
+      <RenderBlocks blocks={blocks} />
     </article>
   );
 }

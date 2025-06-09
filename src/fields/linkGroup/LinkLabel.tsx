@@ -22,9 +22,9 @@ const LinkLabel: React.FC<RowLabelProps> = () => {
     `Link ${rowNumber !== undefined ? rowNumber + 1 : ''}`;
 
   return (
-    <div className="linkRowLabel">
+    <div className="njsig__link-row-label">
       <span>{label}</span>
-      <div className="linkModifiers">
+      <div className="njsig__link-row-label__link-modifiers">
         {link?.type === 'reference' && <Link size={16} />}
         {link?.type === 'custom' && <Globe size={16} />}
         {link?.newTab && <ExternalLink size={16} />}

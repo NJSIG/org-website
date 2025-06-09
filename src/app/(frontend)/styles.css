@@ -158,6 +158,12 @@
   --color-raspberry-800: oklch(0.4409 0.151 11.62);
   --color-raspberry-900: oklch(0.4004 0.131 11.62);
   --color-raspberry-950: oklch(0.2653 0.089 11.62);
+
+  /** TailwindCSS Customizations **/
+  --breakpoint-3xl: 120rem;
+
+  --container-8xl: 96rem;
+  --container-9xl: 120rem;
 }
 
 @theme inline {
@@ -175,7 +181,7 @@
   --color-njsig-accent-background: var(--color-dandelion-50);
   --color-njsig-accent-tint: var(--color-dandelion-300);
   --color-njsig-accent-midtone: var(--color-dandelion-400);
-  --color-njsig-accent-shade: var(--color-dandelion-700);
+  --color-njsig-accent-shade: var(--color-dandelion-500);
 
   --color-njsig-neutral-primary: var(--color-battleship-gray-600);
   --color-njsig-neutral-background: var(--color-battleship-gray-50);
@@ -316,6 +322,37 @@
       translate: -0.5px 0px;
     }
   }
+
+  /** Animation to works as an extension to the `tw-animate-css` plugin
+   * This extension solves the issue of delayed animations no playing properly
+   * see the utility overrides below for more information.
+   */
+  --animate-to: to-state var(--tw-animation-duration, var(--tw-duration, 150ms))
+    var(--tw-ease, ease) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1)
+    var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+
+  @keyframes to-state {
+    from {
+      opacity: var(--animate-from-opacity, 1);
+      transform: translate3d(
+          var(--animate-from-translate-x, 0),
+          var(--animate-from-translate-y, 0),
+          0
+        )
+        scale3d(
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1)
+        )
+        rotate(var(--animate-from-rotate, 0));
+    }
+    to {
+      opacity: var(--animate-to-opacity, 1);
+      transform: translate3d(var(--animate-to-translate-x, 0), var(--animate-to-translate-y, 0), 0)
+        scale3d(var(--animate-to-scale, 1), var(--animate-to-scale, 1), var(--animate-to-scale, 1))
+        rotate(var(--animate-to-rotate, 0));
+    }
+  }
 }
 
 /*
@@ -350,6 +387,8 @@
  * https://github.com/tailwindlabs/prettier-plugin-tailwindcss/issues/345
  *
  * Use the ignore comment to prevent this.
+ *
+ * NOTE: TailwindCSS has been written to work with this Prettier formatting issue.
  */
 
 /*
@@ -377,62 +416,123 @@
  * Will result in 10% white tint on azure-500
  */
 
-/* prettier-ignore */
 @utility text-mix-tint-* {
-  color: color-mix(
-    in oklch,
-    --value(--color-*, [*]),
-    white calc(--modifier(integer) * 1%)
-  );
+  color: color-mix(in oklch, --value(--color- *, [ *]), white calc(--modifier(integer) * 1%));
 }
 
-/* prettier-ignore */
 @utility text-mix-shade-* {
-  color: color-mix(
-    in oklch,
-    --value(--color-*, [*]),
-    black calc(--modifier(integer) * 1%)
-  );
+  color: color-mix(in oklch, --value(--color- *, [ *]), black calc(--modifier(integer) * 1%));
 }
 
-/* prettier-ignore */
 @utility bg-mix-tint-* {
   background-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility bg-mix-shade-* {
   background-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility border-mix-tint-* {
   border-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     white calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
 @utility border-mix-shade-* {
   border-color: color-mix(
     in oklch,
-    --value(--color-*, [*]),
+    --value(--color- *, [ *]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
-/* prettier-ignore */
+/**
+ * Zoom
+ *
+ * These are used to create a zoom effect on elements.
+ * Usage: zm-150 will result in 150% zoom
+ * Usage: zm-normal will reset the zoom to normal
+ */
 @utility zm-* {
   zoom: --value('normal', 'reset');
   zoom: calc(--value(integer) * 1%);
+}
+
+@utility clip-path-polygon-* {
+  clip-path: polygon(--value([ *]));
+}
+
+/**
+ * Animation Overrides
+ *
+ * These are used to create override animations for elements.
+ * Animations available the in `tw-animate-css` plugin use either
+ * `to` or `from` to define the start and end of the animation.
+ * This causes issues if you want to delay enter or exit animations.
+ *
+ * See `tw-animate-css` for usage, this extension follow the same conventions.
+ *
+ * TODO: Add support for more transitions
+ */
+
+/** New fade-from and fade-to utilities */
+@utility fade-from-* {
+  --animate-from-opacity: calc(--value(integer) / 100);
+}
+
+@utility fade-to-* {
+  --animate-to-opacity: calc(--value(integer) / 100);
+}
+
+/** Overrides for tw-animate-css fade utilities */
+@utility fade-in {
+  --tw-enter-opacity: 0;
+  --animate-from-opacity: 0;
+  --animate-to-opacity: 1;
+}
+
+@utility fade-in-* {
+  --tw-enter-opacity: calc(--value(number) / 100);
+  --tw-enter-opacity: --value(--percentage- *, [ *]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage- *, [ *]);
+  --animate-to-opacity: 1;
+}
+
+@utility fade-out {
+  --tw-exit-opacity: 0;
+  --animate-from-opacity: 1;
+  --animate-to-opacity: 0;
+}
+
+@utility fade-out-* {
+  --tw-exit-opacity: calc(--value(number) / 100);
+  --tw-exit-opacity: --value(--percentage- *, [ *]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage- *, [ *]);
+  --animate-to-opacity: 0;
+}
+
+/** Overrides for tw-animate-css slide utilities */
+@utility slide-in-from-bottom {
+  --animate-from-translate-y: 100%;
+  --animate-to-translate-y: 0;
+}
+
+@utility slide-in-from-bottom-* {
+  --animate-from-translate-y: calc(--value(integer) * var(--spacing));
+  --animate-from-translate-y: calc(--value(--percentage- *, --percentage-translate- *) * 100%);
+  --animate-from-translate-y: calc(--value(ratio) * 100%);
+  --animate-from-translate-y: --value(--translate- *, [percentage], [length]);
+  --animate-to-translate-y: 0;
 }
