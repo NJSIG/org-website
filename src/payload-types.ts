@@ -382,6 +382,11 @@ export interface HiddenTitleBlock {
  * via the `definition` "SectionBlock".
  */
 export interface SectionBlock {
+  contentWidth: 'normal' | 'wide';
+  /**
+   * Some styles will enforce local dark mode for better contrast.
+   */
+  backgroundStyle: 'default' | 'azureGradient';
   sectionBlocks: SectionTitleBlock[];
   id?: string | null;
   blockName?: string | null;
