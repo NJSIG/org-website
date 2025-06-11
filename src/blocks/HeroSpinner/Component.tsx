@@ -72,7 +72,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
   }
 
   return (
-    <div className="relative @container">
+    <div className="relative @container [&+section]:2xl:pt-10">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -135,43 +135,3 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
     </div>
   );
 };
-
-// <Carousel className={cn('w-full', className)} orientation="horizontal">
-//   <CarouselContent>
-//     {slides &&
-//       slides.map((slide, index) => (
-//         <CarouselItem key={slide.id}>
-//           {slide.backgroundImage && (
-//             <div className="h-[465px] relative flex flex-col">
-//               <div className="absolute top-0 h-[380px] w-full">
-//                 <Image
-//                   src={(slide.backgroundImage as Media)?.url || ''}
-//                   alt={(slide.backgroundImage as Media)?.alt || ''}
-//                   fill
-//                   priority={index === 0}
-//                   placeholder="blur"
-//                   blurDataURL={blurDataToBlurDataURL((slide.backgroundImage as Media).blurData)}
-//                   className="object-cover object-bottom-right"
-//                 />
-//               </div>
-//               <div className="flex flex-col items-center gap-6 py-6 px-8 mt-auto">
-//                 <div className='flex items-center justify-around'>
-//                   {slide.heroLink && (
-//                     <Button
-//                       link={{
-//                         ...slide.heroLink,
-//                         ...ctaButtonAppearance,
-//                       }}
-//                     />
-//                   )}
-//                   <div className='flex items-center gap-4'>
-//                     {{slides}}
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-//         </CarouselItem>
-//       ))}
-//   </CarouselContent>
-// </Carousel>
