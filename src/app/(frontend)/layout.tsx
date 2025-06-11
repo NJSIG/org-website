@@ -4,16 +4,19 @@ import { Providers } from '@/providers';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import { draftMode } from 'next/headers';
 import React from 'react';
 import './styles.css';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode();
 
   // TODO: Does the html element need "suppressHydrationWarning"?
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <head>
         <meta name="apple-mobile-web-app-title" content="NJSIG" />
       </head>
