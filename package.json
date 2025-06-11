@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
-    "@payloadcms/email-nodemailer": "^3.41.0",
-    "@payloadcms/live-preview-react": "^3.41.0",
+    "@payloadcms/email-nodemailer": "latest",
+    "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-redirects": "latest",
     "@payloadcms/plugin-seo": "latest",
@@ -44,14 +44,14 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "sharp": "0.32.6",
-    "tailwind-merge": "^3.3.0",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.8",
     "tw-animate-css": "^1.3.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.15.30",
+    "@types/node": "^22.15.31",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^9.28.0",

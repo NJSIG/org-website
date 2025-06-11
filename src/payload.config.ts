@@ -6,6 +6,7 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import { HeroSpinner, HiddenTitle, Section, SectionTitle } from './blocks';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
 import { Users } from './collections/Users';
@@ -47,6 +48,7 @@ export default buildConfig({
   },
   collections: [Pages, Media, Users],
   globals: [Header, Footer],
+  blocks: [HeroSpinner, HiddenTitle, Section, SectionTitle],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
