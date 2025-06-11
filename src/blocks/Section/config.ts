@@ -1,7 +1,5 @@
 import { Block } from 'payload';
 
-const sectionBlocks: Block[] = [];
-
 export const Section: Block = {
   slug: 'section',
   interfaceName: 'SectionBlock',
@@ -9,7 +7,10 @@ export const Section: Block = {
     {
       type: 'blocks',
       name: 'sectionBlocks',
-      blocks: sectionBlocks,
+      required: true,
+      blocks: [],
+      blockReferences: ['sectionTitle'],
+      defaultValue: [{ blockType: 'sectionTitle' }],
     },
   ],
 };

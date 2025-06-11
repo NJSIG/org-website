@@ -65,7 +65,12 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    heroSpinner: HeroSpinnerBlock;
+    hiddenTitle: HiddenTitleBlock;
+    section: SectionBlock;
+    sectionTitle: SectionTitleBlock;
+  };
   collections: {
     pages: Page;
     media: Media;
@@ -136,43 +141,6 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: string;
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  layout: {
-    /**
-     * Select the template for this page. The template value will determine which blocks are available.
-     */
-    template: 'default' | 'home' | 'subfund';
-    /**
-     * Select the theme for this page. The theme value will determine the styling of the blocks.
-     */
-    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
-    blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
-  };
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -361,6 +329,43 @@ export interface FolderInterface {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
+  title: string;
+  layout: {
+    /**
+     * Select the template for this page. The template value will determine which blocks are available.
+     */
+    template: 'default' | 'home' | 'subfund';
+    /**
+     * Select the theme for this page. The theme value will determine the styling of the blocks.
+     */
+    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
+    blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HiddenTitleBlock".
  */
 export interface HiddenTitleBlock {
@@ -377,9 +382,31 @@ export interface HiddenTitleBlock {
  * via the `definition` "SectionBlock".
  */
 export interface SectionBlock {
+  sectionBlocks: SectionTitleBlock[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionTitleBlock".
+ */
+export interface SectionTitleBlock {
+  /**
+   * The theme is displayed as a pre-title above the main title.
+   */
+  theme: string;
+  /**
+   * The main title of the section.
+   */
+  title: string;
+  /**
+   * You can choose to visually hide the theme or title.
+   */
+  viewOptions: 'titleAndTheme' | 'titleOnly' | 'themeOnly';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionTitle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -595,13 +622,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         template?: T;
         subfundTheme?: T;
-        blocks?:
-          | T
-          | {
-              heroSpinner?: T | HeroSpinnerBlockSelect<T>;
-              hiddenTitle?: T | HiddenTitleBlockSelect<T>;
-              section?: T | SectionBlockSelect<T>;
-            };
+        blocks?: T | {};
       };
   meta?:
     | T
@@ -617,57 +638,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroSpinnerBlock_select".
- */
-export interface HeroSpinnerBlockSelect<T extends boolean = true> {
-  slideTimeout?: T;
-  slides?:
-    | T
-    | {
-        backgroundImage?: T;
-        theme?: T;
-        headline?: T;
-        heroLink?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              allowReferrer?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-              styleVariant?: T;
-              colorVariant?: T;
-              sizeVariant?: T;
-              microInteraction?: T;
-              iconPosition?: T;
-              icon?: T;
-            };
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HiddenTitleBlock_select".
- */
-export interface HiddenTitleBlockSelect<T extends boolean = true> {
-  title?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionBlock_select".
- */
-export interface SectionBlockSelect<T extends boolean = true> {
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
