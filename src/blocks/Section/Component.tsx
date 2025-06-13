@@ -5,7 +5,7 @@ import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const sectionBlockComponents = {
   sectionTitle: SectionTitleBlock,
-  responsiveColumns: ResponsiveColumnsBlock,
+  responsiveCols: ResponsiveColumnsBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
