@@ -1,0 +1,69 @@
+import { Block, Field } from 'payload';
+
+const columnField: Field[] = [
+  {
+    name: 'visibility',
+    type: 'select',
+    required: true,
+    defaultValue: 'mobile',
+    options: [
+      { label: 'Desktop Only', value: 'desktop' },
+      { label: 'Tablet & Larger', value: 'tablet' },
+      { label: 'Mobile & Larger', value: 'mobile' },
+    ],
+    admin: {
+      isClearable: false,
+    },
+  },
+  {
+    name: 'colBlocks',
+    type: 'blocks',
+    blocks: [],
+    blockReferences: ['sectionTitle'],
+  },
+];
+
+export const ResponsiveColumns: Block = {
+  slug: 'responsiveCols',
+  interfaceName: 'ResponsiveColumnsBlock',
+  labels: {
+    singular: 'Responsive Columns',
+    plural: 'Responsive Columns',
+  },
+  fields: [
+    {
+      name: 'vertAlign',
+      label: 'Vertical Alignment',
+      type: 'select',
+      required: true,
+      defaultValue: 'top',
+      options: [
+        { label: 'Top', value: 'top' },
+        { label: 'Center', value: 'center' },
+        { label: 'Bottom', value: 'bottom' },
+      ],
+      admin: {
+        isClearable: false,
+        description:
+          'This setting determines how columns with different heights are aligned vertically.',
+      },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          type: 'group',
+          name: 'colOne',
+          label: 'Column One',
+          fields: [...columnField],
+        },
+        {
+          type: 'group',
+          name: 'colTwo',
+          label: 'Column Two',
+          fields: [...columnField],
+        },
+      ],
+    },
+  ],
+};

@@ -1,9 +1,11 @@
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { ResponsiveColumnsBlock } from '../ResponsiveColumns/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const sectionBlockComponents = {
   sectionTitle: SectionTitleBlock,
+  responsiveColumns: ResponsiveColumnsBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
@@ -36,6 +38,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
               const Block =
                 sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
+              /* @ts-expect-error There will be mismatches between expected types here */
               return <Block {...block} key={block.id} />;
             }
 
