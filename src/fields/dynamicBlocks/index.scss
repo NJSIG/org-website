@@ -1,0 +1,25 @@
+.dynamic-blocks-field {
+  &__warning {
+    background-color: var(--theme-warning-100);
+    border: 1px solid var(--theme-warning-250);
+    border-radius: 4px;
+    color: var(--theme-warning-800);
+    margin-bottom: calc(var(--base) / 2);
+    padding: 15px 23px;
+
+    &__message {
+      margin-bottom: calc(var(--base) / 3);
+    }
+
+    &__block:not(:last-child) {
+      margin-bottom: calc(var(--base) / 6);
+    }
+
+    &__block-name {
+      font-weight: bold;
+    }
+  }
+
+  &.has-disallowed-blocks {
+  }
+}

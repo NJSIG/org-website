@@ -1,5 +1,5 @@
 import { HeroSpinnerBlock, HiddenTitleBlock, SectionBlock } from '@/payload-types';
-import { BlocksField, BlocksFieldClient, Field, FieldClientComponent, SelectField } from 'payload';
+import { BlocksFieldClient, Field, FieldClientComponent, SelectField } from 'payload';
 import { MarkOptional } from 'ts-essentials';
 
 // Helper type for options
@@ -42,6 +42,5 @@ export type DynamicBlocksType = (options?: {
   overrides?: {
     templateField?: Partial<SelectField>;
     subfundThemeField?: Partial<SelectField>;
-    blocksField?: Partial<BlocksField>;
   };
 }) => Field[];
