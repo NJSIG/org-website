@@ -70,6 +70,7 @@ export interface Config {
     hiddenTitle: HiddenTitleBlock;
     section: SectionBlock;
     sectionTitle: SectionTitleBlock;
+    responsiveCols: ResponsiveColumnsBlock;
   };
   collections: {
     pages: Page;
@@ -382,7 +383,12 @@ export interface HiddenTitleBlock {
  * via the `definition` "SectionBlock".
  */
 export interface SectionBlock {
-  sectionBlocks: SectionTitleBlock[];
+  contentWidth: 'normal' | 'wide';
+  /**
+   * Some styles will enforce local dark mode for better contrast.
+   */
+  backgroundStyle: 'default' | 'azureGradient';
+  sectionBlocks: (SectionTitleBlock | ResponsiveColumnsBlock)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
@@ -407,6 +413,27 @@ export interface SectionTitleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'sectionTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResponsiveColumnsBlock".
+ */
+export interface ResponsiveColumnsBlock {
+  /**
+   * This setting determines how columns with different heights are aligned vertically.
+   */
+  vertAlign: 'top' | 'center' | 'bottom';
+  colOne: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?: SectionTitleBlock[] | null;
+  };
+  colTwo: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?: SectionTitleBlock[] | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'responsiveCols';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
