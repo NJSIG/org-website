@@ -21,10 +21,5 @@
   }
 
   &.has-disallowed-blocks {
-    [class*='disallow-block-'] {
-      color: var(--theme-warning-800);
-      border-color: var(--theme-warning-250);
-      background-color: var(--theme-warning-100);
-    }
   }
 }
