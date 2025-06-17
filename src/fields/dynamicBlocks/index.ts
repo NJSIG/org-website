@@ -105,7 +105,5 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     blockReferences: allBlocks,
   };
 
-  const blocksFieldWithOverrides: BlocksField = deepMerge(blocksField, overrides.blocksField || {});
-
-  return [templateFieldWithOverrides, subfundThemeFieldWithOverrides, blocksFieldWithOverrides];
+  return [templateFieldWithOverrides, subfundThemeFieldWithOverrides, blocksField];
 };
