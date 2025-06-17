@@ -36,11 +36,16 @@ jobs:
 
       - name: Setup Environment
         run: |
-          echo $PREVIEW_ENV_FILE >> .env
+          # Generate a random string for testing purposes
+          RANDOM_KEY=$(openssl rand -base64 32)
+
+          # Create the test .env file with the random key
+          echo "PAYLOAD_SECRET=$RANDOM_KEY" >> .env
+
+          # Display the contents of the .env file for debugging purposes
+          # This should ONLY be done when using gibberish secrets for testing
           cat .env
         shell: bash
-        env:
-          PREVIEW_ENV_FILE: ${{ secrets.ENV }}
 
       - name: Build Application
         run: pnpm build
