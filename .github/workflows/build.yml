@@ -6,6 +6,7 @@ jobs:
   build:
     name: Build Validation
     runs-on: ubuntu-latest
+    environment: preview
     strategy:
       matrix:
         node-version: [22]
@@ -28,6 +29,14 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Setup Environment
+        run: |
+          echo $PREVIEW_ENV_FILE >> .env
+          cat .env
+        shell: bash
+        env:
+          PREVIEW_ENV_FILE: ${{ secrets.ENV }}
 
       - name: Build Application
         run: pnpm build
