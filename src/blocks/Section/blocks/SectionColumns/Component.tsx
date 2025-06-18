@@ -1,4 +1,4 @@
-import { ResponsiveColumnsBlock as ResponsiveColumnsBlockProps } from '@/payload-types';
+import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
@@ -8,7 +8,7 @@ const columnBlockComponents = {
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
 
-export const ResponsiveColumnsBlock: React.FC<ResponsiveColumnsBlockProps> = ({
+export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   vertAlign,
   colOne,
   colTwo,

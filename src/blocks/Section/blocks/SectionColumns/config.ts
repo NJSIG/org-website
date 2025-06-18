@@ -23,12 +23,12 @@ const columnField: Field[] = [
   },
 ];
 
-export const ResponsiveColumns: Block = {
-  slug: 'responsiveCols',
-  interfaceName: 'ResponsiveColumnsBlock',
+export const SectionColumns: Block = {
+  slug: 'sectionCols',
+  interfaceName: 'SectionColumnsBlock',
   labels: {
-    singular: 'Responsive Columns',
-    plural: 'Responsive Columns',
+    singular: 'Section Columns',
+    plural: 'Section Columns',
   },
   fields: [
     {
