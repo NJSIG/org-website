@@ -1,12 +1,18 @@
-import { BlocksField, deepMerge, SelectField } from 'payload';
+import { BlocksField, deepMerge, JSONField, SelectField } from 'payload';
 import {
   AllowedBlocks,
   BlockSlugs,
+  BlockStub,
   DynamicBlocksType,
   SubfundThemeOptions,
   TemplateOptions,
   Templates,
 } from './types';
+
+type DynamicBlocksStub = {
+  allowedBlocks: AllowedBlocks;
+  template: Templates;
+};
 
 export const templateOptions: TemplateOptions = {
   default: { label: 'Default', value: 'default' },
@@ -44,6 +50,17 @@ export const dynamicBlocksField: DynamicBlocksType = ({
       blockSlugs[template as Templates] = allowedBlockSlugs[template as Templates];
     });
   }
+
+  // Allowed Blocks Field
+  const allowedBlocksField: JSONField = {
+    name: 'allowedBlocks',
+    type: 'json',
+    defaultValue: blockSlugs,
+    virtual: true,
+    admin: {
+      hidden: true,
+    },
+  };
 
   // Template Field
   const templateField: SelectField = {
@@ -103,7 +120,27 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     },
     blocks: [],
     blockReferences: allBlocks,
+    validate: (value, { siblingData }) => {
+      const template = (siblingData as DynamicBlocksStub)?.template;
+      const allowedBlocks = (siblingData as DynamicBlocksStub)?.allowedBlocks?.[template] || [];
+      const invalidBlocks = [];
+
+      if (Array.isArray(value) && value.length > 0) {
+        (value as BlockStub[]).map((block) => {
+          if (!allowedBlocks.includes(block.blockType as BlockSlugs)) {
+            invalidBlocks.push(block.blockType);
+          }
+        });
+      }
+
+      return invalidBlocks.length === 0 || 'Some blocks are not allowed for the selected template.';
+    },
   };
 
-  return [templateFieldWithOverrides, subfundThemeFieldWithOverrides, blocksField];
+  return [
+    allowedBlocksField,
+    templateFieldWithOverrides,
+    subfundThemeFieldWithOverrides,
+    blocksField,
+  ];
 };

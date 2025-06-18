@@ -4,14 +4,7 @@ import { cn } from '@/utilities/cn';
 import { BlocksField, useWatchForm, withCondition } from '@payloadcms/ui';
 import { useMemo } from 'react';
 import './index.scss';
-import { BlockSlugs, DynamicBlocksFieldClientComponent, Templates } from './types';
-
-type BlockStub = {
-  blockName: string | undefined;
-  blockType: string;
-  id: string;
-  [k: string]: unknown;
-};
+import { BlockSlugs, BlockStub, DynamicBlocksFieldClientComponent, Templates } from './types';
 
 const Component: DynamicBlocksFieldClientComponent = (props) => {
   const { allowedBlocks, field, path } = props;
