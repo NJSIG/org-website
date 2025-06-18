@@ -19,6 +19,7 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Changing templates hides unavailable blocks but they remain in the data, unavailable blocks should be removed by a hook when the template change is saved.
 - [ ] Slug field unlock button styles
 - [ ] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
+- [ ] Revisit actions for build and deploy on multiple environments
 
 ### COMPLETED TASKS ✔
 
