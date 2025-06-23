@@ -62,6 +62,18 @@ const Component: DynamicBlocksFieldClientComponent = (props) => {
           }
         }
       }
+
+      .blocks-field.blocks-field--has-error #layout-blocks-row-${listIndex} {
+        color: var(--theme-error-800);
+
+        .collapsible--style-default {
+          border-color: var(--theme-error-250);
+
+          .collapsible__toggle-wrap {
+            background-color: var(--theme-error-100);
+          }
+        }
+      }
     `,
       )
       .join(' ');
