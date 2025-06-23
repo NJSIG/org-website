@@ -5,6 +5,14 @@ import { MarkOptional } from 'ts-essentials';
 // Helper type for options
 type Options = { label: string; value: string };
 
+// Helper type for validation and working with blocks
+export type BlockStub = {
+  blockName: string | undefined;
+  blockType: string;
+  id: string;
+  [k: string]: unknown;
+};
+
 export type Templates = 'default' | 'home' | 'subfund';
 export type TemplateOptions = Record<Templates, Options>;
 
