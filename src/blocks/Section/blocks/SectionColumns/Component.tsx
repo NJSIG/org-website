@@ -1,9 +1,11 @@
 import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { SectionContentBlock } from '../SectionContent/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const columnBlockComponents = {
   sectionTitle: SectionTitleBlock,
+  sectionContent: SectionContentBlock,
 };
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
@@ -43,6 +45,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
                 const Block =
                   columnBlockComponents[blockType as keyof typeof columnBlockComponents];
 
+                /* @ts-expect-error There will be mismatches between expected types here */
                 return <Block {...block} key={block.id} />;
               }
 
@@ -65,6 +68,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
                 const Block =
                   columnBlockComponents[blockType as keyof typeof columnBlockComponents];
 
+                /* @ts-expect-error There will be mismatches between expected types here */
                 return <Block {...block} key={block.id} />;
               }
 

@@ -48,7 +48,7 @@ export default buildConfig({
   },
   collections: [Pages, Media, Users],
   globals: [Header, Footer],
-  blocks: [HeroSpinner, HiddenTitle, Section.Root, Section.Title, Section.Columns],
+  blocks: [HeroSpinner, HiddenTitle, Section.Root, Section.Title, Section.Columns, Section.Content],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
