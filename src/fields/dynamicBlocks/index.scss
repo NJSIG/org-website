@@ -18,8 +18,11 @@
     &__block-name {
       font-weight: bold;
     }
-  }
 
-  &.has-disallowed-blocks {
+    &:has(+ .blocks-field.blocks-field--has-error) {
+      background-color: var(--theme-error-100);
+      border-color: var(--theme-error-250);
+      color: var(--theme-error-800);
+    }
   }
 }
