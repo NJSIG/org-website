@@ -17,6 +17,11 @@ const columnField: Field[] = [
   },
   {
     name: 'colBlocks',
+    label: 'Column Blocks',
+    labels: {
+      singular: 'Column Block',
+      plural: 'Column Blocks',
+    },
     type: 'blocks',
     blocks: [],
     blockReferences: ['sectionTitle'],
