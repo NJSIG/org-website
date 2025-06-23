@@ -24,13 +24,15 @@ const columnField: Field[] = [
     },
     type: 'blocks',
     blocks: [],
-    blockReferences: ['sectionTitle'],
+    blockReferences: ['sectionContent', 'sectionTitle'],
   },
 ];
 
 export const SectionColumns: Block = {
   slug: 'sectionCols',
   interfaceName: 'SectionColumnsBlock',
+  imageURL: '/blocks/section/section-columns.png',
+  imageAltText: 'Section Columns Block',
   labels: {
     singular: 'Section Columns',
     plural: 'Section Columns',

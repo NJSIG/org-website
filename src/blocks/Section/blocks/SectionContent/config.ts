@@ -16,6 +16,8 @@ import { Block } from 'payload';
 export const SectionContent: Block = {
   slug: 'sectionContent',
   interfaceName: 'SectionContentBlock',
+  imageURL: '/blocks/section/section-content.png',
+  imageAltText: 'Section Content Block',
   fields: [
     {
       name: 'content',
