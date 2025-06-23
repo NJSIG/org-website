@@ -4,14 +4,7 @@ import { cn } from '@/utilities/cn';
 import { BlocksField, useWatchForm, withCondition } from '@payloadcms/ui';
 import { useMemo } from 'react';
 import './index.scss';
-import { BlockSlugs, DynamicBlocksFieldClientComponent, Templates } from './types';
-
-type BlockStub = {
-  blockName: string | undefined;
-  blockType: string;
-  id: string;
-  [k: string]: unknown;
-};
+import { BlockSlugs, BlockStub, DynamicBlocksFieldClientComponent, Templates } from './types';
 
 const Component: DynamicBlocksFieldClientComponent = (props) => {
   const { allowedBlocks, field, path } = props;
@@ -66,6 +59,18 @@ const Component: DynamicBlocksFieldClientComponent = (props) => {
 
           .collapsible__toggle-wrap {
             background-color: var(--theme-warning-100);
+          }
+        }
+      }
+
+      .blocks-field.blocks-field--has-error #layout-blocks-row-${listIndex} {
+        color: var(--theme-error-800);
+
+        .collapsible--style-default {
+          border-color: var(--theme-error-250);
+
+          .collapsible__toggle-wrap {
+            background-color: var(--theme-error-100);
           }
         }
       }

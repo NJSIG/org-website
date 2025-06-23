@@ -339,6 +339,15 @@ export interface Page {
    */
   title: string;
   layout: {
+    allowedBlocks?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
     /**
      * Select the template for this page. The template value will determine which blocks are available.
      */
@@ -647,6 +656,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        allowedBlocks?: T;
         template?: T;
         subfundTheme?: T;
         blocks?: T | {};
