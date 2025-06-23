@@ -126,7 +126,7 @@ export const dynamicBlocksField: DynamicBlocksType = ({
       const invalidBlocks = [];
 
       if (Array.isArray(value) && value.length > 0) {
-        (value as BlockStub[]).map((block) => {
+        (value as BlockStub[]).forEach((block) => {
           if (!allowedBlocks.includes(block.blockType as BlockSlugs)) {
             invalidBlocks.push(block.blockType);
           }
