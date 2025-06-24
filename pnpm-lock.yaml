@@ -1649,6 +1649,7 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <5.9.0'
 
+
   '@typescript-eslint/utils@8.35.0':
     resolution: {integrity: sha512-nqoMu7WWM7ki5tPgLVsmPM8CkqtoPUG6xXGeefM5t4x3XumOEKMoUZPdi+7F+/EotukN4R9OWdmDxN80fqoZeg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
