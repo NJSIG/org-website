@@ -3,6 +3,8 @@ import { Block } from 'payload';
 export const HiddenTitle: Block = {
   slug: 'hiddenTitle',
   interfaceName: 'HiddenTitleBlock',
+  imageURL: '/blocks/hidden-title.png',
+  imageAltText: 'Hidden Title Block',
   fields: [
     {
       name: 'title',

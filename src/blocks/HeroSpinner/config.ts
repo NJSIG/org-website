@@ -4,6 +4,8 @@ import { Block } from 'payload';
 export const HeroSpinner: Block = {
   slug: 'heroSpinner',
   interfaceName: 'HeroSpinnerBlock',
+  imageURL: '/blocks/hero-spinner.png',
+  imageAltText: 'Hero Spinner Block',
   fields: [
     {
       name: 'slideTimeout',

@@ -3,6 +3,8 @@ import { Block } from 'payload';
 export const Section: Block = {
   slug: 'section',
   interfaceName: 'SectionBlock',
+  imageURL: '/blocks/section.png',
+  imageAltText: 'Section Block',
   fields: [
     {
       type: 'row',
