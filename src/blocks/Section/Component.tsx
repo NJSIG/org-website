@@ -1,11 +1,13 @@
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { ResponsiveColumnsBlock } from '../ResponsiveColumns/Component';
-import { SectionTitleBlock } from '../SectionTitle/Component';
+import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
+import { SectionContentBlock } from './blocks/SectionContent/Component';
+import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 
 const sectionBlockComponents = {
   sectionTitle: SectionTitleBlock,
-  responsiveCols: ResponsiveColumnsBlock,
+  sectionCols: SectionColumnsBlock,
+  sectionContent: SectionContentBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({

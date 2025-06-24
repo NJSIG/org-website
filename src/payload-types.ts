@@ -70,7 +70,8 @@ export interface Config {
     hiddenTitle: HiddenTitleBlock;
     section: SectionBlock;
     sectionTitle: SectionTitleBlock;
-    responsiveCols: ResponsiveColumnsBlock;
+    sectionCols: SectionColumnsBlock;
+    sectionContent: SectionContentBlock;
   };
   collections: {
     pages: Page;
@@ -397,10 +398,58 @@ export interface SectionBlock {
    * Some styles will enforce local dark mode for better contrast.
    */
   backgroundStyle: 'default' | 'azureGradient';
-  sectionBlocks: (SectionTitleBlock | ResponsiveColumnsBlock)[];
+  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionColumnsBlock".
+ */
+export interface SectionColumnsBlock {
+  /**
+   * This setting determines how columns with different heights are aligned vertically.
+   */
+  vertAlign: 'top' | 'center' | 'bottom';
+  colOne: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+  };
+  colTwo: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionCols';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionContentBlock".
+ */
+export interface SectionContentBlock {
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionContent';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -422,27 +471,6 @@ export interface SectionTitleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'sectionTitle';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ResponsiveColumnsBlock".
- */
-export interface ResponsiveColumnsBlock {
-  /**
-   * This setting determines how columns with different heights are aligned vertically.
-   */
-  vertAlign: 'top' | 'center' | 'bottom';
-  colOne: {
-    visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: SectionTitleBlock[] | null;
-  };
-  colTwo: {
-    visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: SectionTitleBlock[] | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'responsiveCols';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
