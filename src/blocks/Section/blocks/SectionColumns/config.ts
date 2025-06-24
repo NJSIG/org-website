@@ -61,14 +61,20 @@ export const SectionColumns: Block = {
         {
           type: 'group',
           name: 'colOne',
-          label: 'Column One',
+          label: 'Column One (Left)',
           fields: [...columnField],
+          admin: {
+            width: '50%',
+          },
         },
         {
           type: 'group',
           name: 'colTwo',
-          label: 'Column Two',
+          label: 'Column Two (Right)',
           fields: [...columnField],
+          admin: {
+            width: '50%',
+          },
         },
       ],
     },
