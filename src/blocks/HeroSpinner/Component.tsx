@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 // We limit the options the user can set for the CTA buttons in the CMS
-// so we're adding setting the missing options here
+// so we're setting the missing options here
 const ctaButtonAppearance: LinkAppearanceHelper<'cta'> = {
   sizeVariant: 'large',
   iconPosition: 'after',
