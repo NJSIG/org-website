@@ -1,3 +1,15 @@
+/* Payload Override Styles */
+@layer payload {
+  .document-fields {
+    --doc-sidebar-width: 274px;
+  }
+
+  .document-fields__sidebar-wrap {
+    width: 15%;
+  }
+}
+
+/* NJSIG Custom Styles */
 .njsig {
   &__link-row-label {
     align-items: center;

@@ -3,6 +3,8 @@ import { Block } from 'payload';
 export const Section: Block = {
   slug: 'section',
   interfaceName: 'SectionBlock',
+  imageURL: '/blocks/section.png',
+  imageAltText: 'Section Block',
   fields: [
     {
       type: 'row',
@@ -41,7 +43,7 @@ export const Section: Block = {
       name: 'sectionBlocks',
       required: true,
       blocks: [],
-      blockReferences: ['sectionTitle', 'responsiveCols'],
+      blockReferences: ['sectionCols', 'sectionContent', 'sectionTitle'],
       defaultValue: [{ blockType: 'sectionTitle' }],
     },
   ],

@@ -17,18 +17,25 @@ const columnField: Field[] = [
   },
   {
     name: 'colBlocks',
+    label: 'Column Blocks',
+    labels: {
+      singular: 'Column Block',
+      plural: 'Column Blocks',
+    },
     type: 'blocks',
     blocks: [],
-    blockReferences: ['sectionTitle'],
+    blockReferences: ['sectionContent', 'sectionTitle'],
   },
 ];
 
-export const ResponsiveColumns: Block = {
-  slug: 'responsiveCols',
-  interfaceName: 'ResponsiveColumnsBlock',
+export const SectionColumns: Block = {
+  slug: 'sectionCols',
+  interfaceName: 'SectionColumnsBlock',
+  imageURL: '/blocks/section/section-columns.png',
+  imageAltText: 'Section Columns Block',
   labels: {
-    singular: 'Responsive Columns',
-    plural: 'Responsive Columns',
+    singular: 'Section Columns',
+    plural: 'Section Columns',
   },
   fields: [
     {
@@ -54,14 +61,20 @@ export const ResponsiveColumns: Block = {
         {
           type: 'group',
           name: 'colOne',
-          label: 'Column One',
+          label: 'Column One (Left)',
           fields: [...columnField],
+          admin: {
+            width: '50%',
+          },
         },
         {
           type: 'group',
           name: 'colTwo',
-          label: 'Column Two',
+          label: 'Column Two (Right)',
           fields: [...columnField],
+          admin: {
+            width: '50%',
+          },
         },
       ],
     },
