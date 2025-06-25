@@ -7,6 +7,7 @@ import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { HeroSpinner, HiddenTitle, Section } from './blocks';
+import { CMSButton } from './blocks/CMSButton/config';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
 import { Users } from './collections/Users';
@@ -16,6 +17,16 @@ import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const blocks = [
+  HeroSpinner,
+  HiddenTitle,
+  Section.Root,
+  Section.Title,
+  Section.Columns,
+  Section.Content,
+  CMSButton,
+];
 
 export default buildConfig({
   admin: {
@@ -48,7 +59,7 @@ export default buildConfig({
   },
   collections: [Pages, Media, Users],
   globals: [Header, Footer],
-  blocks: [HeroSpinner, HiddenTitle, Section.Root, Section.Title, Section.Columns, Section.Content],
+  blocks,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

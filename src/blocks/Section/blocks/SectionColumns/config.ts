@@ -24,7 +24,7 @@ const columnField: Field[] = [
     },
     type: 'blocks',
     blocks: [],
-    blockReferences: ['sectionContent', 'sectionTitle'],
+    blockReferences: ['sectionContent', 'sectionTitle', 'cmsButton'],
   },
 ];
 
