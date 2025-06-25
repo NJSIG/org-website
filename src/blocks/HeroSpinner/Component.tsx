@@ -3,6 +3,7 @@
 import { Button } from '@/components/Button';
 import { useScreenSize } from '@/components/hooks/useScreenSize';
 import TitleTheme from '@/components/TitleTheme';
+import { cssVariables } from '@/css-variables';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import { HeroSpinnerBlock as HeroSpinnerBlockProps, Media } from '@/payload-types';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
@@ -18,7 +19,7 @@ const ctaButtonAppearance: LinkAppearanceHelper<'cta'> = {
   icon: 'arrow-up-right',
 };
 
-const BREAKPOINT_MD = 768;
+const { breakpoints } = cssVariables;
 
 export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout, slides }) => {
   const [selectedSlide, setSelectedSlide] = useState<number>(0);
@@ -43,7 +44,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
     };
 
     // Disable auto-advance on small screens
-    if (screenSize.width === undefined || screenSize.width < BREAKPOINT_MD) {
+    if (screenSize.width === undefined || screenSize.width < breakpoints.md) {
       if (interval !== null) {
         clearInterval(interval);
         interval = null;
