@@ -43,7 +43,7 @@ export const Section: Block = {
       name: 'sectionBlocks',
       required: true,
       blocks: [],
-      blockReferences: ['sectionCols', 'sectionContent', 'sectionTitle'],
+      blockReferences: ['sectionCols', 'sectionContent', 'sectionTitle', 'cmsButton'],
       defaultValue: [{ blockType: 'sectionTitle' }],
     },
   ],

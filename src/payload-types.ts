@@ -72,6 +72,7 @@ export interface Config {
     sectionTitle: SectionTitleBlock;
     sectionCols: SectionColumnsBlock;
     sectionContent: SectionContentBlock;
+    cmsButton: CMSButtonBlock;
   };
   collections: {
     pages: Page;
@@ -398,7 +399,7 @@ export interface SectionBlock {
    * Some styles will enforce local dark mode for better contrast.
    */
   backgroundStyle: 'default' | 'azureGradient';
-  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock)[];
+  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
@@ -414,11 +415,11 @@ export interface SectionColumnsBlock {
   vertAlign: 'top' | 'center' | 'bottom';
   colOne: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
   };
   colTwo: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -471,6 +472,39 @@ export interface SectionTitleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'sectionTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CMSButtonBlock".
+ */
+export interface CMSButtonBlock {
+  /**
+   * Link to a CMS page or collection item. The button will render with an arrow-up-right icon after the label.
+   */
+  cmsButtonLink?: {
+    type?: 'reference' | null;
+    newTab?: boolean | null;
+    allowReferrer?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: string | Page;
+    } | null;
+    url?: string | null;
+    label?: string | null;
+    /**
+     * Choose how the link will be displayed.
+     */
+    appearance?: 'button' | null;
+    styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+    colorVariant?: ('default' | 'primary' | 'accent') | false;
+    sizeVariant?: ('small' | 'medium' | 'large') | false;
+    microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
+    iconPosition?: ('none' | 'before' | 'after') | false;
+    icon?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cmsButton';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
