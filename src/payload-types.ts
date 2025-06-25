@@ -399,7 +399,7 @@ export interface SectionBlock {
    * Some styles will enforce local dark mode for better contrast.
    */
   backgroundStyle: 'default' | 'azureGradient';
-  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock)[];
+  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
@@ -415,11 +415,11 @@ export interface SectionColumnsBlock {
   vertAlign: 'top' | 'center' | 'bottom';
   colOne: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
   };
   colTwo: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
   };
   id?: string | null;
   blockName?: string | null;
