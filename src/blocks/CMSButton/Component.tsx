@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import { CMSButtonBlock as CMSButtonBlockProps } from '@/payload-types';
 
@@ -7,8 +8,16 @@ const cmsButtonAppearance: LinkAppearanceHelper<'button'> = {
   sizeVariant: 'medium',
   iconPosition: 'after',
   icon: 'arrow-up-right',
+  microInteraction: 'upRight',
 };
 
-export const CMSButtonBlock: React.FC<CMSButtonBlockProps> = ({ link }) => {
-  return <p>CMS Button Block Works!</p>;
+export const CMSButtonBlock: React.FC<CMSButtonBlockProps> = ({ cmsButtonLink }) => {
+  return (
+    <Button
+      link={{
+        ...cmsButtonLink,
+        ...cmsButtonAppearance,
+      }}
+    />
+  );
 };

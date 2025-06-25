@@ -4,6 +4,10 @@ import { Block } from 'payload';
 export const CMSButton: Block = {
   slug: 'cmsButton',
   interfaceName: 'CMSButtonBlock',
+  labels: {
+    singular: 'CMS Button',
+    plural: 'CMS Buttons',
+  },
   imageURL: '/blocks/cms-button.png',
   imageAltText: 'CMS Button Block',
   fields: [
@@ -12,8 +16,8 @@ export const CMSButton: Block = {
       variants: {
         styles: ['outline'],
         colors: ['primary', 'accent'],
+        sizes: false,
         icons: false,
-        microInteractions: ['none', 'upRight'],
       },
       destinations: ['reference'],
       disableNewTab: true,
