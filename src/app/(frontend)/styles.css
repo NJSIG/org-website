@@ -120,7 +120,7 @@
   --color-sushi-600: oklch(0.5657 0.105 119.65);
   --color-sushi-700: oklch(0.4707 0.083 119.65);
   --color-sushi-800: oklch(0.4079 0.065 119.65);
-  --color-sushi-900: oklch(0.3694 0.53 119.65);
+  --color-sushi-900: oklch(0.3701 0.0542 119.97);
   --color-sushi-950: oklch(0.248 0.037 119.65);
 
   --color-trendy-pink-50: oklch(0.9798 0.007 311.86);
@@ -178,7 +178,7 @@
 
   --color-njsig-primary: var(--color-azure-600);
   --color-njsig-background: var(--color-azure-50);
-  --color-njsig-tint: var(--color-azure-300);
+  --color-njsig-tint: var(--color-azure-200);
   --color-njsig-midtone: var(--color-azure-400);
   --color-njsig-shade: var(--color-azure-800);
 
@@ -422,17 +422,17 @@
  */
 
 @utility text-mix-tint-* {
-  color: color-mix(in oklch, --value(--color- *, [ *]), white calc(--modifier(integer) * 1%));
+  color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
 
 @utility text-mix-shade-* {
-  color: color-mix(in oklch, --value(--color- *, [ *]), black calc(--modifier(integer) * 1%));
+  color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
 }
 
 @utility bg-mix-tint-* {
   background-color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
     white calc(--modifier(integer) * 1%)
   );
 }
@@ -440,25 +440,17 @@
 @utility bg-mix-shade-* {
   background-color: color-mix(
     in oklch,
-    --value(--color- *, [ *]),
+    --value(--color-*, [*]),
     black calc(--modifier(integer) * 1%)
   );
 }
 
 @utility border-mix-tint-* {
-  border-color: color-mix(
-    in oklch,
-    --value(--color- *, [ *]),
-    white calc(--modifier(integer) * 1%)
-  );
+  border-color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
 
 @utility border-mix-shade-* {
-  border-color: color-mix(
-    in oklch,
-    --value(--color- *, [ *]),
-    black calc(--modifier(integer) * 1%)
-  );
+  border-color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
 }
 
 /**
@@ -474,7 +466,7 @@
 }
 
 @utility clip-path-polygon-* {
-  clip-path: polygon(--value([ *]));
+  clip-path: polygon(--value([*]));
 }
 
 /**
@@ -508,9 +500,9 @@
 
 @utility fade-in-* {
   --tw-enter-opacity: calc(--value(number) / 100);
-  --tw-enter-opacity: --value(--percentage- *, [ *]);
+  --tw-enter-opacity: --value(--percentage-*, [*]);
   --animate-from-opacity: calc(--value(number) / 100);
-  --animate-from-opacity: --value(--percentage- *, [ *]);
+  --animate-from-opacity: --value(--percentage-*, [*]);
   --animate-to-opacity: 1;
 }
 
@@ -522,9 +514,9 @@
 
 @utility fade-out-* {
   --tw-exit-opacity: calc(--value(number) / 100);
-  --tw-exit-opacity: --value(--percentage- *, [ *]);
+  --tw-exit-opacity: --value(--percentage-*, [*]);
   --animate-from-opacity: calc(--value(number) / 100);
-  --animate-from-opacity: --value(--percentage- *, [ *]);
+  --animate-from-opacity: --value(--percentage-*, [*]);
   --animate-to-opacity: 0;
 }
 
@@ -536,8 +528,8 @@
 
 @utility slide-in-from-bottom-* {
   --animate-from-translate-y: calc(--value(integer) * var(--spacing));
-  --animate-from-translate-y: calc(--value(--percentage- *, --percentage-translate- *) * 100%);
+  --animate-from-translate-y: calc(--value(--percentage-*, --percentage-translate-*) * 100%);
   --animate-from-translate-y: calc(--value(ratio) * 100%);
-  --animate-from-translate-y: --value(--translate- *, [percentage], [length]);
+  --animate-from-translate-y: --value(--translate-*, [percentage], [length]);
   --animate-to-translate-y: 0;
 }
