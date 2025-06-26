@@ -1,5 +1,6 @@
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { OptimizedImageBlock } from '../OptimizedImage/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
@@ -8,6 +9,7 @@ const sectionBlockComponents = {
   sectionTitle: SectionTitleBlock,
   sectionCols: SectionColumnsBlock,
   sectionContent: SectionContentBlock,
+  optimizedImage: OptimizedImageBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
@@ -28,9 +30,9 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
         )}
       >
         <div
-          className={cn('mx-auto', {
-            'max-w-4xl': contentWidth === 'normal',
-            'max-w-7xl': contentWidth === 'wide',
+          className={cn('mx-auto group', {
+            'section-normal max-w-section': contentWidth === 'normal',
+            'section-wide max-w-section-wide': contentWidth === 'wide',
           })}
         >
           {sectionBlocks.map((block) => {
