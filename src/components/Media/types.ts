@@ -16,12 +16,16 @@ export interface MediaProps {
 
   // Next Image
   loading?: 'lazy' | 'eager';
-  priority?: boolean;
+  priority?: boolean | null;
   size?: string;
   fill?: boolean;
 
   // Payload Media
   resource?: MediaType | string | number | null;
+
+  // Optimized Image
+  height?: number | null;
+  width?: number | null;
 
   // Static Media
   src?: StaticImageData;

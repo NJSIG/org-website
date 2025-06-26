@@ -11,6 +11,11 @@ export const getMediaUrl = (url: string | null | undefined, cacheTag?: string | 
     return '';
   }
 
+  // Check if the URL is an API call
+  if (url.startsWith('/api/')) {
+    return cacheTag ? `${url}?${cacheTag}` : url;
+  }
+
   // Check if the URL already has http protocol
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return cacheTag ? `${url}?${cacheTag}` : url;

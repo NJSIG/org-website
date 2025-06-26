@@ -25,6 +25,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
+    height: heightFromProps,
+    width: widthFromProps,
   } = props;
 
   let width: number | undefined;
@@ -40,13 +42,15 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       url,
     } = resource;
 
-    width = widthFromResource!;
-    height = heightFromResource!;
+    width = widthFromProps || widthFromResource!;
+    height = heightFromProps || heightFromResource!;
     alt = altFromResource || '';
 
     const cacheTag = resource.updatedAt;
 
+    console.log('Resource URL', url);
     src = getMediaUrl(url, cacheTag);
+    console.log('Media URL', src);
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined);
