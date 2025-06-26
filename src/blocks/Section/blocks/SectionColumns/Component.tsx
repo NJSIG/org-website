@@ -15,7 +15,7 @@ const columnBlockComponents = {
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
 const columnStyleVariants = cva(
-  'group-[.section-normal]:max-w-section-content group-[.section-wide]:max-w-section-wide-content flex flex-col items-start gap-8',
+  'group-[.section-normal]:max-w-section-content group-[.section-wide]:max-w-section-wide-content flex flex-col items-center md:items-start gap-8',
   {
     variants: {
       visibility: {
