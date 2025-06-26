@@ -9,7 +9,9 @@ export const SectionTitleBlock: React.FC<SectionTitleBlockProps> = ({
   return (
     <div className="flex flex-col gap-2 items-start mb-10">
       {(viewOptions === 'themeOnly' || viewOptions === 'titleAndTheme') && (
-        <TitleTheme size="responsive">{theme}</TitleTheme>
+        <TitleTheme size="responsive" animated={true}>
+          {theme}
+        </TitleTheme>
       )}
       {(viewOptions === 'titleOnly' || viewOptions === 'titleAndTheme') && (
         <h2 className="text-2xl lg:text-5xl font-medium dark:text-foreground-inverted">{title}</h2>
