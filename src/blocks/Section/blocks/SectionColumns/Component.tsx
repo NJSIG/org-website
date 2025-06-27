@@ -1,6 +1,8 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
+import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { cva } from 'class-variance-authority';
 import { SectionContentBlock } from '../SectionContent/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
@@ -8,9 +10,22 @@ const columnBlockComponents = {
   sectionTitle: SectionTitleBlock,
   sectionContent: SectionContentBlock,
   cmsButton: CMSButtonBlock,
+  optimizedImage: OptimizedImageBlock,
 };
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
+const columnStyleVariants = cva(
+  'group-[.section-normal]:max-w-section-content group-[.section-wide]:max-w-section-wide-content flex flex-col items-center md:items-start gap-8',
+  {
+    variants: {
+      visibility: {
+        mobile: '',
+        tablet: 'hidden lg:block',
+        desktop: 'hidden xl:block',
+      },
+    },
+  },
+);
 
 export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   vertAlign,
@@ -26,20 +41,14 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   if (hasColumns) {
     return (
       <div
-        className={cn('flex justify-between', {
+        className={cn('flex justify-between group-[.section-wide]:gap-32', {
           'items-start': vertAlign === 'top',
           'items-center': vertAlign === 'center',
           'items-end': vertAlign === 'bottom',
         })}
       >
         {colOneHasBlocks && (
-          <div
-            className={cn({
-              hidden: colOne.visibility !== 'mobile',
-              'lg:block': colOne.visibility === 'tablet',
-              'xl:block': colOne.visibility === 'desktop',
-            })}
-          >
+          <div className={columnStyleVariants({ visibility: colOne.visibility })}>
             {colOne.colBlocks?.map((block) => {
               const { blockType } = block;
 
@@ -56,13 +65,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
           </div>
         )}
         {colTwoHasBlocks && (
-          <div
-            className={cn({
-              hidden: colTwo.visibility !== 'mobile',
-              'lg:block': colTwo.visibility === 'tablet',
-              'xl:block': colTwo.visibility === 'desktop',
-            })}
-          >
+          <div className={columnStyleVariants({ visibility: colTwo.visibility })}>
             {colTwo.colBlocks?.map((block) => {
               const { blockType } = block;
 

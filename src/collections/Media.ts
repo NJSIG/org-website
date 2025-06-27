@@ -91,6 +91,11 @@ export const Media: CollectionConfig = {
         generateImageName: imageNameGenerators.bySize,
       },
       {
+        name: 'optimized',
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.bySize,
+      },
+      {
         name: 'square',
         width: 500,
         height: 500,
