@@ -32,9 +32,9 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
         )}
       >
         <div
-          className={cn('mx-auto group', {
-            'section-normal max-w-section': contentWidth === 'normal',
-            'section-wide max-w-section-wide': contentWidth === 'wide',
+          className={cn('mx-auto group/section', {
+            'content-width-normal max-w-section': contentWidth === 'normal',
+            'content-width-wide max-w-section-wide': contentWidth === 'wide',
           })}
         >
           {sectionBlocks.map((block) => {

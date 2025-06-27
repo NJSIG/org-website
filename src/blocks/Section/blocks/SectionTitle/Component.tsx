@@ -1,13 +1,19 @@
 import TitleTheme from '@/components/TitleTheme';
 import { SectionTitleBlock as SectionTitleBlockProps } from '@/payload-types';
+import { cn } from '@/utilities/cn';
 
 export const SectionTitleBlock: React.FC<SectionTitleBlockProps> = ({
   theme,
   title,
   viewOptions,
+  bottomMargin,
 }) => {
   return (
-    <div className="flex flex-col gap-2 items-start mb-10 w-full">
+    <div
+      className={cn('section-title flex flex-col gap-2 items-start w-full', {
+        'mb-10': bottomMargin,
+      })}
+    >
       {(viewOptions === 'themeOnly' || viewOptions === 'titleAndTheme') && (
         <TitleTheme size="responsive" animated={true}>
           {theme}
