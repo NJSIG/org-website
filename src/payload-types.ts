@@ -74,6 +74,7 @@ export interface Config {
     sectionContent: SectionContentBlock;
     cmsButton: CMSButtonBlock;
     optimizedImage: OptimizedImageBlock;
+    emphasizedList: EmphasizedListBlock;
   };
   collections: {
     pages: Page;
@@ -414,6 +415,7 @@ export interface SectionBlock {
     | SectionTitleBlock
     | CMSButtonBlock
     | OptimizedImageBlock
+    | EmphasizedListBlock
   )[];
   id?: string | null;
   blockName?: string | null;
@@ -430,11 +432,15 @@ export interface SectionColumnsBlock {
   vertAlign: 'top' | 'center' | 'bottom';
   colOne: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock)[] | null;
+    colBlocks?:
+      | (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock | EmphasizedListBlock)[]
+      | null;
   };
   colTwo: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock)[] | null;
+    colBlocks?:
+      | (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock | EmphasizedListBlock)[]
+      | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -484,6 +490,10 @@ export interface SectionTitleBlock {
    * You can choose to visually hide the theme or title.
    */
   viewOptions: 'titleAndTheme' | 'titleOnly' | 'themeOnly';
+  /**
+   * Include a 40px bottom margin for the section title.
+   */
+  bottomMargin?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'sectionTitle';
@@ -542,6 +552,26 @@ export interface OptimizedImageBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmphasizedListBlock".
+ */
+export interface EmphasizedListBlock {
+  /**
+   * Select the color of the triangular bullets
+   */
+  bullColor?: ('primary' | 'accent') | null;
+  listItems?:
+    | {
+        title: string;
+        content: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emphasizedList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -555,6 +585,13 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
 }
 /**
@@ -901,6 +938,13 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
