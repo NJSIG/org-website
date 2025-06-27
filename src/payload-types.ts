@@ -73,6 +73,7 @@ export interface Config {
     sectionCols: SectionColumnsBlock;
     sectionContent: SectionContentBlock;
     cmsButton: CMSButtonBlock;
+    optimizedImage: OptimizedImageBlock;
   };
   collections: {
     pages: Page;
@@ -243,6 +244,14 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
+    optimized?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
     square?: {
       url?: string | null;
       width?: number | null;
@@ -399,7 +408,13 @@ export interface SectionBlock {
    * Some styles will enforce local dark mode for better contrast.
    */
   backgroundStyle: 'default' | 'azureGradient';
-  sectionBlocks: (SectionColumnsBlock | SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[];
+  sectionBlocks: (
+    | SectionColumnsBlock
+    | SectionContentBlock
+    | SectionTitleBlock
+    | CMSButtonBlock
+    | OptimizedImageBlock
+  )[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'section';
@@ -415,11 +430,11 @@ export interface SectionColumnsBlock {
   vertAlign: 'top' | 'center' | 'bottom';
   colOne: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock)[] | null;
   };
   colTwo: {
     visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock)[] | null;
+    colBlocks?: (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock)[] | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -505,6 +520,25 @@ export interface CMSButtonBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'cmsButton';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OptimizedImageBlock".
+ */
+export interface OptimizedImageBlock {
+  /**
+   * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
+   */
+  image: string | Media;
+  width?: number | null;
+  height?: number | null;
+  /**
+   * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
+   */
+  priority?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'optimizedImage';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -762,6 +796,16 @@ export interface MediaSelect<T extends boolean = true> {
     | T
     | {
         thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        optimized?:
           | T
           | {
               url?: T;

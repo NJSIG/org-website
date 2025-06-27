@@ -169,6 +169,11 @@
 
   --container-8xl: 96rem;
   --container-9xl: 120rem;
+
+  --container-section: 56.25rem;
+  --container-section-wide: 80rem;
+  --container-section-content: 31.25rem;
+  --container-section-wide-content: 37.5rem;
 }
 
 @theme inline {
