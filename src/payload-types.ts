@@ -597,6 +597,7 @@ export interface Event {
  */
 export interface User {
   id: string;
+  role: 'admin' | 'editor' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -969,6 +970,7 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
