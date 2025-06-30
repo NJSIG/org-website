@@ -11,7 +11,7 @@ const sectionBlockComponents = {
   sectionCols: SectionColumnsBlock,
   sectionContent: SectionContentBlock,
   optimizedImage: OptimizedImageBlock,
-  EmphasizedList: EmphasizedListBlock,
+  emphasizedList: EmphasizedListBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
