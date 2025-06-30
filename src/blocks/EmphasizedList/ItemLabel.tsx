@@ -8,7 +8,7 @@ interface ItemLabel {
 
 const ItemLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<ItemLabel>();
-  const label = data?.title && data.title !== '' ? data.title : `Item ${rowNumber || 0 + 1}`;
+  const label = data?.title && data.title !== '' ? data.title : `Item ${(rowNumber ?? 0) + 1}`;
 
   return <div>{label}</div>;
 };
