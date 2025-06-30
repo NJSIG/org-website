@@ -1,4 +1,15 @@
 // storage-adapter-import-placeholder
+import { HeroSpinner, HiddenTitle, Section } from '@/blocks';
+import { CMSButton } from '@/blocks/CMSButton/config';
+import { EmphasizedList } from '@/blocks/EmphasizedList/config';
+import { OptimizedImage } from '@/blocks/OptimizedImage/config';
+import { Events } from '@/collections/events';
+import { Media } from '@/collections/Media';
+import { Pages } from '@/collections/Pages';
+import { Users } from '@/collections/Users';
+import { Footer } from '@/globals/Footer/config';
+import { Header } from '@/globals/Header/config';
+import { plugins } from '@/plugins';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
@@ -6,16 +17,6 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
-import { HeroSpinner, HiddenTitle, Section } from './blocks';
-import { CMSButton } from './blocks/CMSButton/config';
-import { EmphasizedList } from './blocks/EmphasizedList/config';
-import { OptimizedImage } from './blocks/OptimizedImage/config';
-import { Media } from './collections/Media';
-import { Pages } from './collections/Pages';
-import { Users } from './collections/Users';
-import { Footer } from './globals/Footer/config';
-import { Header } from './globals/Header/config';
-import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -61,7 +62,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Media, Users],
+  collections: [Pages, Media, Events, Users],
   globals: [Header, Footer],
   blocks,
   editor: lexicalEditor(),
