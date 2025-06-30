@@ -8,6 +8,7 @@ import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { HeroSpinner, HiddenTitle, Section } from './blocks';
 import { CMSButton } from './blocks/CMSButton/config';
+import { EmphasizedList } from './blocks/EmphasizedList/config';
 import { OptimizedImage } from './blocks/OptimizedImage/config';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
@@ -28,6 +29,7 @@ const blocks = [
   Section.Content,
   CMSButton,
   OptimizedImage,
+  EmphasizedList,
 ];
 
 export default buildConfig({

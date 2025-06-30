@@ -38,6 +38,7 @@ import { VariantSelectComponent as VariantSelectComponent_d307d0f47a3707080e0697
 import { default as default_ffd965a062a94bd70a8ba03fe4e534d4 } from '@/fields/linkGroup/LinkLabel'
 import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/Footer/admin/NavGroupLabel'
 import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/HeroSpinner/admin/SlideLabel'
+import { default as default_7b0da33588c22cbe7e3dd7054120c9e3 } from '@/blocks/EmphasizedList/ItemLabel'
 
 export const importMap = {
   "@/fields/dynamicBlocks/DynamicBlocksComponent#DynamicBlocksComponent": DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c,
@@ -79,5 +80,6 @@ export const importMap = {
   "@/fields/link/VariantSelectComponent#VariantSelectComponent": VariantSelectComponent_d307d0f47a3707080e06970456566883,
   "@/fields/linkGroup/LinkLabel#default": default_ffd965a062a94bd70a8ba03fe4e534d4,
   "@/globals/Footer/admin/NavGroupLabel#default": default_4279f94a5be184600522edbb3823cd6d,
-  "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31
+  "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31,
+  "@/blocks/EmphasizedList/ItemLabel#default": default_7b0da33588c22cbe7e3dd7054120c9e3
 }

@@ -49,6 +49,7 @@ export const Section: Block = {
         'sectionTitle',
         'cmsButton',
         'optimizedImage',
+        'emphasizedList',
       ],
       defaultValue: [{ blockType: 'sectionTitle' }],
     },

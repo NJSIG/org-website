@@ -22,7 +22,7 @@ const navLinkVariants = cva('', {
   variants: {
     size: {
       small: '[&>div]:gap-1 [&_svg]:size-4 [&_svg]:stroke-1 [&_h3]:text-sm [&>p]:pl-5',
-      medium: '[&>div]:gap-2 [_svg]:size-6 [_svg]:stroke-2 [&_h3]:text-base [&>p]:pl-8',
+      medium: '[&>div]:gap-2 [&_svg]:size-6 [&_svg]:stroke-2 [&_h3]:text-base [&>p]:pl-8',
     },
   },
   defaultVariants: {
