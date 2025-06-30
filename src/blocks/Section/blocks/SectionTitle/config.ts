@@ -46,5 +46,14 @@ export const SectionTitle: Block = {
         isClearable: false,
       },
     },
+    {
+      name: 'bottomMargin',
+      type: 'checkbox',
+      label: 'Include Bottom Margin',
+      defaultValue: true,
+      admin: {
+        description: 'Include a 40px bottom margin for the section title.',
+      },
+    },
   ],
 };
