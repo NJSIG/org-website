@@ -80,6 +80,27 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
     },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'category',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'NJSIG', value: 'njsig' },
+            { label: 'BACCEIC', value: 'bacceic' },
+            { label: 'CAIP', value: 'caip' },
+            { label: 'ERIC North', value: 'eric-north' },
+            { label: 'ERIC South', value: 'eric-south' },
+            { label: 'ERIC West', value: 'eric-west' },
+            { label: 'MOCSSIF', value: 'mocssif' },
+            { label: 'NJEIF', value: 'njeif' },
+            { label: 'Other', value: 'other' },
+          ],
+        },
+      ],
+    },
   ],
   versions: {
     drafts: {
