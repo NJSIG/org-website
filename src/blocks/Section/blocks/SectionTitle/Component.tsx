@@ -14,14 +14,18 @@ export const SectionTitleBlock: React.FC<SectionTitleBlockProps> = ({
         'mb-10': bottomMargin,
       })}
     >
-      {(viewOptions === 'themeOnly' || viewOptions === 'titleAndTheme') && (
+      {viewOptions !== 'titleOnly' && (
         <TitleTheme size="responsive" animated={true}>
           {theme}
         </TitleTheme>
       )}
-      {(viewOptions === 'titleOnly' || viewOptions === 'titleAndTheme') && (
-        <h2 className="text-2xl lg:text-5xl font-medium dark:text-foreground-inverted">{title}</h2>
-      )}
+      <h2
+        className={cn('text-2xl lg:text-5xl font-medium dark:text-foreground-inverted', {
+          'sr-only': viewOptions === 'themeOnly',
+        })}
+      >
+        {title}
+      </h2>
     </div>
   );
 };
