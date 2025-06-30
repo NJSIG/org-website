@@ -16,6 +16,7 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
 - [ ] Revisit actions for build and deploy on multiple environments
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
+- [ ] Rework pattern field to match style of other custom fields
 
 ### COMPLETED TASKS ✔
 
