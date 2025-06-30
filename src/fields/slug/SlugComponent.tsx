@@ -1,9 +1,11 @@
 'use client';
 
 import { Button, FieldLabel, TextInput, useField, useForm, useFormFields } from '@payloadcms/ui';
+import { Lock, Unlock } from 'lucide-react';
 import { TextFieldClientProps } from 'payload';
 import React, { useCallback, useEffect } from 'react';
 import { formatSlug } from './formatSlug';
+import './index.scss';
 
 type SlugComponentProps = {
   fieldToUse: string;
@@ -72,7 +74,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
       <div className="label-wrapper">
         <FieldLabel htmlFor={`field-${path}`} label={label} />
         <Button className="lock-button" buttonStyle="none" onClick={handleLock}>
-          {checkboxValue ? 'Unlock' : 'Lock'}
+          {checkboxValue ? <Lock size={16} /> : <Unlock size={16} />}
         </Button>
       </div>
 
