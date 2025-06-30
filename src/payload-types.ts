@@ -80,6 +80,7 @@ export interface Config {
     pages: Page;
     media: Media;
     events: Event;
+    'njsig-contacts': NjsigContact;
     users: User;
     redirects: Redirect;
     'payload-folders': FolderInterface;
@@ -97,6 +98,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    'njsig-contacts': NjsigContactsSelect<false> | NjsigContactsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -587,9 +589,26 @@ export interface Event {
   registrationTime?: string | null;
   startTime: string;
   endTime?: string | null;
+  category: 'njsig' | 'bacceic' | 'caip' | 'eric-north' | 'eric-south' | 'eric-west' | 'mocssif' | 'njeif' | 'other';
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "njsig-contacts".
+ */
+export interface NjsigContact {
+  id: string;
+  /**
+   * The full name of the contact person.
+   */
+  name: string;
+  email: string;
+  phone: string;
+  extension?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -747,6 +766,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'njsig-contacts';
+        value: string | NjsigContact;
       } | null)
     | ({
         relationTo: 'users';
@@ -961,9 +984,22 @@ export interface EventsSelect<T extends boolean = true> {
   registrationTime?: T;
   startTime?: T;
   endTime?: T;
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "njsig-contacts_select".
+ */
+export interface NjsigContactsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  extension?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
