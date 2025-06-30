@@ -1,4 +1,4 @@
-import { admin, anyone } from '@/access';
+import { anyone, editor } from '@/access';
 import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
@@ -27,10 +27,10 @@ const png: ImageUploadFormatOptions = {
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
-    create: admin,
-    delete: admin,
+    create: editor,
+    delete: editor,
     read: anyone,
-    update: admin,
+    update: editor,
   },
   folders: true,
   fields: [

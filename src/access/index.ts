@@ -1,6 +1,7 @@
 import { admin } from './admin';
-import { adminOrPublished } from './adminOrPublished';
 import { anyone } from './anyone';
 import { authenticated } from './authenticated';
+import { editor } from './editor';
+import { editorOrPublished } from './editorOrPublished';
 
-export { admin, adminOrPublished, anyone, authenticated };
+export { admin, anyone, authenticated, editor, editorOrPublished };

@@ -1,4 +1,4 @@
-import { admin, adminOrPublished } from '@/access';
+import { editor, editorOrPublished } from '@/access';
 import { revalidateDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { dynamicBlocksField } from '@/fields/dynamicBlocks';
 import { slugField } from '@/fields/slug';
@@ -16,10 +16,10 @@ import type { CollectionConfig } from 'payload';
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
-    create: admin,
-    delete: admin,
-    read: adminOrPublished,
-    update: admin,
+    create: editor,
+    delete: editor,
+    read: editorOrPublished,
+    update: editor,
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

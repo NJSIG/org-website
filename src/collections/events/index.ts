@@ -1,13 +1,13 @@
-import { admin, adminOrPublished } from '@/access';
+import { editor, editorOrPublished } from '@/access';
 import { CollectionConfig } from 'payload';
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   access: {
-    create: admin,
-    delete: admin,
-    read: adminOrPublished,
-    update: admin,
+    create: editor,
+    delete: editor,
+    read: editorOrPublished,
+    update: editor,
   },
   fields: [
     {
