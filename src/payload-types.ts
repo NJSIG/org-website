@@ -80,7 +80,8 @@ export interface Config {
     pages: Page;
     media: Media;
     events: Event;
-    'njsig-contacts': NjsigContact;
+    contacts: Contact;
+    'contact-portraits': ContactPortrait;
     users: User;
     redirects: Redirect;
     'payload-folders': FolderInterface;
@@ -91,14 +92,15 @@ export interface Config {
   };
   collectionsJoins: {
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'pages' | 'media';
+      documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'contact-portraits';
     };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    'njsig-contacts': NjsigContactsSelect<false> | NjsigContactsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
+    'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -336,6 +338,10 @@ export interface FolderInterface {
       | {
           relationTo?: 'media';
           value: string | Media;
+        }
+      | {
+          relationTo?: 'contact-portraits';
+          value: string | ContactPortrait;
         }
     )[];
     hasNextPage?: boolean;
@@ -576,6 +582,83 @@ export interface EmphasizedListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits".
+ */
+export interface ContactPortrait {
+  id: string;
+  /**
+   * The name of the person in the portrait photo.
+   */
+  name: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    xs?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    sm?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    md?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    lg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xl?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    portrait?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
@@ -590,16 +673,24 @@ export interface Event {
   startTime: string;
   endTime?: string | null;
   category: 'njsig' | 'bacceic' | 'caip' | 'eric-north' | 'eric-south' | 'eric-west' | 'mocssif' | 'njeif' | 'other';
+  /**
+   * The contact person for the event.
+   */
+  contact?: (string | null) | Contact;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "njsig-contacts".
+ * via the `definition` "contacts".
  */
-export interface NjsigContact {
+export interface Contact {
   id: string;
+  /**
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
+   */
+  portrait?: (string | null) | ContactPortrait;
   /**
    * The full name of the contact person.
    */
@@ -768,8 +859,12 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
-        relationTo: 'njsig-contacts';
-        value: string | NjsigContact;
+        relationTo: 'contacts';
+        value: string | Contact;
+      } | null)
+    | ({
+        relationTo: 'contact-portraits';
+        value: string | ContactPortrait;
       } | null)
     | ({
         relationTo: 'users';
@@ -985,21 +1080,107 @@ export interface EventsSelect<T extends boolean = true> {
   startTime?: T;
   endTime?: T;
   category?: T;
+  contact?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "njsig-contacts_select".
+ * via the `definition` "contacts_select".
  */
-export interface NjsigContactsSelect<T extends boolean = true> {
+export interface ContactsSelect<T extends boolean = true> {
+  portrait?: T;
   name?: T;
   email?: T;
   phone?: T;
   extension?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits_select".
+ */
+export interface ContactPortraitsSelect<T extends boolean = true> {
+  name?: T;
+  blurData?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        xs?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        sm?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        md?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        lg?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xl?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        portrait?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

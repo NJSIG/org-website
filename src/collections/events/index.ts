@@ -99,6 +99,14 @@ export const Events: CollectionConfig<'events'> = {
             { label: 'Other', value: 'other' },
           ],
         },
+        {
+          name: 'contact',
+          type: 'relationship',
+          relationTo: 'contacts',
+          admin: {
+            description: 'The contact person for the event.',
+          },
+        },
       ],
     },
   ],
