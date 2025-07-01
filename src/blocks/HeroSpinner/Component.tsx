@@ -95,15 +95,17 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
           </div>
           <div
             className={cn(
-              'flex flex-col items-center gap-6 px-8 py-6 absolute bottom-0 w-full lg:max-w-[500px] lg:top-0 lg:gap-9 xl:gap-12',
+              'flex flex-col items-center @5xl:items-start gap-6 px-8 py-6 absolute bottom-0 w-full lg:top-0 lg:gap-9 xl:gap-12',
               {
                 hidden: index !== selectedSlide,
               },
             )}
           >
-            <div className="w-full rounded-3xl backdrop-blur-2xl bg-njsig-neutral-background/40 flex flex-col p-4 gap-1 motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6">
+            <div className="w-full rounded-3xl backdrop-blur-2xl bg-njsig-neutral-background/40 flex flex-col p-4 gap-1 motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6 @5xl:max-w-[500px] @7xl:max-w-[600px]">
               <TitleTheme className="mr-auto">{slide.theme}</TitleTheme>
-              <h2 className="text-2xl font-bold text-azure-950">{slide.headline}</h2>
+              <h2 className="text-2xl @5xl:text-6xl @7xl:text-7xl font-bold @5xl:font-extrabold text-azure-950">
+                {slide.headline}
+              </h2>
             </div>
             <div className="w-full motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6 lg:delay-300 lg:duration-500">
               {slide.heroLink && (
