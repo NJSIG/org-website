@@ -32,8 +32,8 @@ export const NJSIGContacts: CollectionConfig<'njsig-contacts'> = {
     {
       type: 'row',
       fields: [
-        ...patternField(
-          {
+        patternField({
+          overrides: {
             name: 'phone',
             type: 'text',
             required: true,
@@ -41,25 +41,25 @@ export const NJSIGContacts: CollectionConfig<'njsig-contacts'> = {
               placeholder: '% 20',
             },
           },
-          {
+          pattern: {
             format: '+1 (###) ### ####',
             prefix: '% ',
             allowEmptyFormatting: true,
             mask: '_',
           },
-        ),
-        ...patternField(
-          {
+        }),
+        patternField({
+          overrides: {
             name: 'extension',
             type: 'text',
           },
-          {
+          pattern: {
             format: '####',
             prefix: '',
             allowEmptyFormatting: true,
             mask: '_',
           },
-        ),
+        }),
       ],
     },
   ],

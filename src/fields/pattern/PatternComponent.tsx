@@ -2,35 +2,35 @@
 
 import { mergeFieldStyles } from '@/utilities/mergeFieldStyles';
 import {
-  FieldError as Error,
   fieldBaseClass,
   FieldDescription,
+  FieldError,
   FieldLabel,
   RenderCustomComponent,
   useField,
 } from '@payloadcms/ui';
-import type { NumberFieldClientProps, TextFieldClientProps } from 'payload';
-import React, { useCallback, useMemo } from 'react';
-import { PatternFormat } from 'react-number-format';
-import type { Config } from './index.js';
+import { NumberFieldClientProps, TextFieldClientProps } from 'payload';
+import { useCallback, useMemo } from 'react';
+import { PatternFormat, PatternFormatProps } from 'react-number-format';
 
 type Props = {
-  className?: string;
-  config: Config;
-  path: string;
-  placeholder?: string;
-  readOnly?: boolean;
+  pattern: PatternFormatProps;
 } & (NumberFieldClientProps | TextFieldClientProps);
 
 export const PatternComponent: React.FC<Props> = (props) => {
-  const { config, field, path, readOnly, validate } = props;
-
   const {
-    type,
-    admin: { className, description, placeholder, readOnly: adminReadOnly } = {},
-    label,
-    required,
-  } = field;
+    path,
+    field,
+    field: {
+      type,
+      admin: { className, description, placeholder, readOnly: adminReadOnly } = {},
+      label,
+      required,
+    },
+    readOnly,
+    pattern,
+    validate,
+  } = props;
 
   const memoizedValidate = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,8 +45,7 @@ export const PatternComponent: React.FC<Props> = (props) => {
   const styles = useMemo(() => mergeFieldStyles(field), [field]);
 
   const {
-    customComponents: { AfterInput, BeforeInput, Description, Label } = {},
-    errorMessage,
+    customComponents: { AfterInput, BeforeInput, Description, Error, Label } = {},
     setValue,
     showError,
     value,
@@ -58,7 +57,7 @@ export const PatternComponent: React.FC<Props> = (props) => {
 
   const formatValue = useCallback(
     (value: string) => {
-      const prefix = config.prefix;
+      const prefix = pattern.prefix;
 
       if (type === 'number') {
         let cleanValue: number | string = value;
@@ -74,14 +73,14 @@ export const PatternComponent: React.FC<Props> = (props) => {
         return value;
       }
     },
-    [type, config.prefix],
+    [type, pattern.prefix],
   );
 
-  const isReadonly = readOnly || adminReadOnly;
+  const isReadOnly = readOnly || adminReadOnly;
 
   return (
     <div
-      className={[fieldBaseClass, 'text', className, showError && 'error', readOnly && 'read-only']
+      className={[fieldBaseClass, type, className, showError && 'error', readOnly && 'read-only']
         .filter(Boolean)
         .join(' ')}
       style={styles}
@@ -92,7 +91,10 @@ export const PatternComponent: React.FC<Props> = (props) => {
       />
 
       <div className={`${fieldBaseClass}__wrap`}>
-        <Error message={errorMessage ?? ''} showError={showError} />
+        <RenderCustomComponent
+          CustomComponent={Error}
+          Fallback={<FieldError path={path} showError={showError} />}
+        />
 
         {BeforeInput}
 
@@ -104,10 +106,10 @@ export const PatternComponent: React.FC<Props> = (props) => {
             setValue(formatValue(e.target.value));
           }}
           placeholder={typeof placeholder === 'string' ? placeholder : ''}
-          readOnly={isReadonly}
-          required={config.required}
+          readOnly={isReadOnly}
+          required={required}
           value={value}
-          {...config}
+          {...pattern}
         />
 
         {AfterInput}
