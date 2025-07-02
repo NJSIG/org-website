@@ -21,6 +21,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
           admin: {
             description:
               'Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.',
+            width: '30%',
           },
         },
         {
