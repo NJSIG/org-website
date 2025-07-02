@@ -607,14 +607,6 @@ export interface ContactPortrait {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
-    xs?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
     sm?: {
       url?: string | null;
       width?: number | null;
@@ -647,14 +639,6 @@ export interface ContactPortrait {
       filesize?: number | null;
       filename?: string | null;
     };
-    portrait?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
   };
 }
 /**
@@ -667,16 +651,47 @@ export interface Event {
    * The title of the event, SEO, tabs, and the admin UI.
    */
   title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   startDate: string;
   endDate?: string | null;
   registrationTime?: string | null;
   startTime: string;
   endTime?: string | null;
-  category: 'njsig' | 'bacceic' | 'caip' | 'eric-north' | 'eric-south' | 'eric-west' | 'mocssif' | 'njeif' | 'other';
+  /**
+   * Select all the categories that apply to this event.
+   */
+  category: (
+    | 'njsig'
+    | 'bacceic'
+    | 'caip'
+    | 'eric-north'
+    | 'eric-south'
+    | 'eric-west'
+    | 'mocssif'
+    | 'njeif'
+    | 'other'
+  )[];
   /**
    * The contact person for the event.
    */
-  contact?: (string | null) | Contact;
+  contact: string | Contact;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1074,6 +1089,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   startDate?: T;
   endDate?: T;
   registrationTime?: T;
@@ -1120,16 +1136,6 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
-        xs?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
         sm?:
           | T
           | {
@@ -1161,16 +1167,6 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
               filename?: T;
             };
         xl?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        portrait?:
           | T
           | {
               url?: T;
