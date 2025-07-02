@@ -19,6 +19,13 @@ export const Events: CollectionConfig<'events'> = {
       },
     },
     {
+      name: 'description',
+      type: 'richText',
+      admin: {
+        description: 'Formatting options are limited to maintain consistency across the site.',
+      },
+    },
+    {
       type: 'row',
       fields: [
         {
@@ -87,6 +94,7 @@ export const Events: CollectionConfig<'events'> = {
           name: 'category',
           type: 'select',
           required: true,
+          hasMany: true,
           options: [
             { label: 'NJSIG', value: 'njsig' },
             { label: 'BACCEIC', value: 'bacceic' },
@@ -98,18 +106,25 @@ export const Events: CollectionConfig<'events'> = {
             { label: 'NJEIF', value: 'njeif' },
             { label: 'Other', value: 'other' },
           ],
+          admin: {
+            description: 'Select all the categories that apply to this event.',
+            width: '50%',
+          },
         },
         {
           name: 'contact',
           type: 'relationship',
           relationTo: 'contacts',
+          required: true,
           admin: {
             description: 'The contact person for the event.',
+            width: '50%',
           },
         },
       ],
     },
   ],
+  defaultSort: '-startDate',
   versions: {
     drafts: {
       autosave: {
@@ -120,7 +135,7 @@ export const Events: CollectionConfig<'events'> = {
     maxPerDoc: 10,
   },
   admin: {
-    defaultColumns: ['title', 'startDate'],
+    defaultColumns: ['title', 'startDate', 'contact', 'category'],
     useAsTitle: 'title',
   },
 };
