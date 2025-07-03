@@ -1,5 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
-import { revalidateDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
+import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { dynamicBlocksField } from '@/fields/dynamicBlocks';
 import { slugField } from '@/fields/slug';
 import { populatePublishedAtHook } from '@/hooks';
@@ -84,7 +84,7 @@ export const Pages: CollectionConfig<'pages'> = {
   hooks: {
     beforeChange: [populatePublishedAtHook],
     afterChange: [revalidatePageHook],
-    afterDelete: [revalidateDeleteHook],
+    afterDelete: [revalidatePageDeleteHook],
   },
   versions: {
     drafts: {
