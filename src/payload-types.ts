@@ -648,7 +648,7 @@ export interface ContactPortrait {
 export interface Event {
   id: string;
   /**
-   * The title of the event, SEO, tabs, and the admin UI.
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
   title: string;
   /**
@@ -692,6 +692,9 @@ export interface Event {
    * The contact person for the event.
    */
   contact: string | Contact;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1097,6 +1100,9 @@ export interface EventsSelect<T extends boolean = true> {
   endTime?: T;
   category?: T;
   contact?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

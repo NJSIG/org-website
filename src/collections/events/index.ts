@@ -1,5 +1,8 @@
 import { editor, editorOrPublished } from '@/access';
+import { slugField } from '@/fields/slug';
+import { populatePublishedAtHook } from '@/hooks';
 import { CollectionConfig } from 'payload';
+import { revalidateEventDeleteHook, revalidateEventHook } from './hooks';
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -15,7 +18,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'text',
       required: true,
       admin: {
-        description: 'The title of the event, SEO, tabs, and the admin UI.',
+        description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
       },
     },
     {
@@ -123,8 +126,21 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
     },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    ...slugField(),
   ],
   defaultSort: '-startDate',
+  hooks: {
+    beforeChange: [populatePublishedAtHook],
+    afterChange: [revalidateEventHook],
+    afterDelete: [revalidateEventDeleteHook],
+  },
   versions: {
     drafts: {
       autosave: {
