@@ -693,6 +693,9 @@ export interface Event {
    */
   contact: string | Contact;
   publishedAt?: string | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
