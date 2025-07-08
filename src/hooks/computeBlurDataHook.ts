@@ -32,7 +32,7 @@ export const computeBlurDataHook: CollectionBeforeChangeHook = async ({ data, re
 };
 
 const imageToBlurhash = async (data: Buffer) => {
-  const size = Number(process.env.BLURHASH_SIZE) || 32;
+  const size = Number(process.env.BLURHASH_SIZE) || 10;
   const componentX = Number(process.env.BLURHASH_COMPONENT_X) || 4;
   const componentY = Number(process.env.BLURHASH_COMPONENT_Y) || 3;
 
@@ -42,7 +42,7 @@ const imageToBlurhash = async (data: Buffer) => {
 };
 
 const blurhashToBlurData = async (hash: string): Promise<string> => {
-  const size = Number(process.env.BLURHASH_SIZE) || 32;
+  const size = Number(process.env.BLURHASH_SIZE) || 10;
   const pixels = decode(hash, size, size);
   const buffer = Buffer.from(pixels);
 
