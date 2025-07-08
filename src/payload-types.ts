@@ -556,6 +556,10 @@ export interface OptimizedImageBlock {
    * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
    */
   priority?: boolean | null;
+  /**
+   * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
+   */
+  placeholder?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'optimizedImage';

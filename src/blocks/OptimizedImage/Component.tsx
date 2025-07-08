@@ -6,6 +6,15 @@ export const OptimizedImageBlock: React.FC<OptimizedImageBlockProps> = ({
   height,
   width,
   priority,
+  placeholder,
 }) => {
-  return <Media resource={image} height={height} width={width} priority={priority} />;
+  return (
+    <Media
+      resource={image}
+      height={height}
+      width={width}
+      priority={priority}
+      placeholder={placeholder ? 'blur' : 'empty'}
+    />
+  );
 };
