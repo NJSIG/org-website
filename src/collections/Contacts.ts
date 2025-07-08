@@ -10,6 +10,10 @@ export const Contacts: CollectionConfig<'contacts'> = {
     read: editorOrPublished,
     update: editor,
   },
+  admin: {
+    defaultColumns: ['portrait', 'name', 'email', 'phone', 'extension'],
+    useAsTitle: 'name',
+  },
   fields: [
     {
       type: 'row',
@@ -79,8 +83,4 @@ export const Contacts: CollectionConfig<'contacts'> = {
       ],
     },
   ],
-  admin: {
-    defaultColumns: ['portrait', 'name', 'email', 'phone', 'extension'],
-    useAsTitle: 'name',
-  },
 };
