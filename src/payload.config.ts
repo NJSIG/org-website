@@ -3,7 +3,7 @@ import { HeroSpinner, HiddenTitle, Section } from '@/blocks';
 import { CMSButton } from '@/blocks/CMSButton/config';
 import { EmphasizedList } from '@/blocks/EmphasizedList/config';
 import { OptimizedImage } from '@/blocks/OptimizedImage/config';
-import { Events } from '@/collections/events';
+import { Events } from '@/collections/Events';
 import { Media } from '@/collections/Media';
 import { Pages } from '@/collections/Pages';
 import { Users } from '@/collections/Users';
@@ -18,11 +18,17 @@ import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
+import { Locations } from './collections/Locations';
 import { defaultLexical } from './fields/defaultLexical';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Define the collections to be used in the Payload CMS configuration
+const collections = [Pages, Media, Events, Locations, Contacts, ContactPortraits, Users];
+
+// Define the blocks to be used in the Payload CMS configuration
+// We define all our blocks here so they can be used by reference
 const blocks = [
   HeroSpinner,
   HiddenTitle,
@@ -64,7 +70,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Media, Events, Contacts, ContactPortraits, Users],
+  collections,
   globals: [Header, Footer],
   blocks,
   editor: defaultLexical,
