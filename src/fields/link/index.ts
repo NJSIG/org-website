@@ -159,7 +159,10 @@ export const linkField: LinkType = ({
             label: 'Link Type',
             type: 'radio',
             options: [...linkDestinationOptionsToUse],
-            defaultValue: 'reference',
+            defaultValue:
+              linkDestinationOptionsToUse.length === 1
+                ? linkDestinationOptionsToUse[0].value
+                : 'reference',
             admin: {
               layout: 'horizontal',
               width: '50%',
