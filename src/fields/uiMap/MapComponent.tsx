@@ -3,26 +3,44 @@
 import { GoogleMap } from '@/components/GoogleMap';
 import { useFormFields } from '@payloadcms/ui';
 
-export const MapComponent: React.FC = () => {
-  const name = useFormFields(([fields]) => fields.name);
-  const streetAddress = useFormFields(([fields]) => fields.streetAddress);
-  const streetAddress2 = useFormFields(([fields]) => fields.streetAddress2);
-  const city = useFormFields(([fields]) => fields.city);
-  const state = useFormFields(([fields]) => fields.state);
-  const zipCode = useFormFields(([fields]) => fields.zipCode);
+type Props = {
+  locationField?: string;
+};
 
-  return (
-    <GoogleMap
-      height={400}
-      location={{
-        name: name.value,
-        streetAddress: streetAddress.value,
-        streetAddress2: streetAddress2.value,
-        city: city.value,
-        state: state.value,
-        zipCode: zipCode.value,
-      }}
-      admin={true}
-    />
-  );
+type LocationData = {
+  name?: string;
+  streetAddress?: string;
+  streetAddress2?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+};
+
+export const MapComponent: React.FC<Props> = ({ locationField = 'location' }) => {
+  const formData = useFormFields(([fields]) => ({
+    // Location Collection Fields
+    name: fields.name,
+    streetAddress: fields.streetAddress,
+    streetAddress2: fields.streetAddress2,
+    city: fields.city,
+    state: fields.state,
+    zipCode: fields.zipCode,
+    // Location Relationship Field
+    relatedLocation: fields[locationField],
+  }));
+
+  console.log('Form Data', formData);
+
+  const location: LocationData = {
+    name: (formData.name?.value || '') as string,
+    streetAddress: (formData.streetAddress?.value || '') as string,
+    streetAddress2: (formData.streetAddress2?.value || '') as string,
+    city: (formData.city?.value || '') as string,
+    state: (formData.state?.value || '') as string,
+    zipCode: (formData.zipCode?.value || '') as string,
+  };
+
+  console.log('Location', location);
+
+  return <GoogleMap height={400} location={location} admin={true} />;
 };

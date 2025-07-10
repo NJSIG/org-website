@@ -698,6 +698,20 @@ export interface Event {
    * The contact person for the event.
    */
   contact: string | Contact;
+  /**
+   * Virtual event details should be provided in the description or other communications.
+   */
+  type: 'in-person' | 'virtual' | 'hybrid';
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  locName?: string | null;
+  locStreetAddress?: string | null;
+  locStreetAddress2?: string | null;
+  locCity?: string | null;
+  locState?: string | null;
+  locZipCode?: string | null;
   publishedAt?: string | null;
   /**
    * Event slugs are not unique, as even URLs include the event date.
@@ -1196,6 +1210,14 @@ export interface EventsSelect<T extends boolean = true> {
   endTime?: T;
   category?: T;
   contact?: T;
+  type?: T;
+  location?: T;
+  locName?: T;
+  locStreetAddress?: T;
+  locStreetAddress2?: T;
+  locCity?: T;
+  locState?: T;
+  locZipCode?: T;
   publishedAt?: T;
   slug?: T;
   slugLock?: T;

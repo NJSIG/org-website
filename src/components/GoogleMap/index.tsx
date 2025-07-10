@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/utilities/cn';
-import { MapPinnedIcon } from 'lucide-react';
+import { MapPinXIcon } from 'lucide-react';
 
 type LocationAddress = {
   name?: unknown;
@@ -22,17 +22,19 @@ type MapProps = {
   placeholderClassName?: string;
 };
 
+const defaultLocation: LocationAddress = {
+  name: 'New Jersey Schools Insurance Group',
+  streetAddress: '6000 Midlantic Drive',
+  streetAddress2: 'Suite 300',
+  city: 'Mount Laurel',
+  state: 'NJ',
+  zipCode: '08054',
+};
+
 export const GoogleMap = (props: MapProps) => {
   const {
     mode = 'place',
-    location = {
-      name: 'New Jersey Schools Insurance Group',
-      streetAddress: '6000 Midlantic Drive',
-      streetAddress2: 'Suite 300',
-      city: 'Mount Laurel',
-      state: 'NJ',
-      zipCode: '08054',
-    },
+    location = defaultLocation,
     height: heightFromProps = 400,
     width: widthFromProps,
     admin = false,
@@ -65,7 +67,7 @@ export const GoogleMap = (props: MapProps) => {
 
   return (
     <div className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}>
-      {apiKey !== '' && query !== '' ? (
+      {apiKey !== '' && location !== null && query !== '' ? (
         <iframe
           width={width || '100%'}
           height={height}
@@ -83,7 +85,7 @@ export const GoogleMap = (props: MapProps) => {
           )}
           style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
         >
-          <MapPinnedIcon size={48} />
+          <MapPinXIcon size={48} />
         </div>
       )}
     </div>

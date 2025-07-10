@@ -1,6 +1,8 @@
-import { UIField } from 'payload';
+import { deepMerge, UIField } from 'payload';
 
-export const uiMapField: () => UIField = () => {
+export type UIMapFieldType = (overrides?: Partial<UIField>) => UIField;
+
+export const uiMapField: UIMapFieldType = (overrides = {}) => {
   const fieldResult: UIField = {
     type: 'ui',
     name: 'map',
@@ -13,5 +15,5 @@ export const uiMapField: () => UIField = () => {
     },
   };
 
-  return fieldResult;
+  return deepMerge(fieldResult, overrides);
 };
