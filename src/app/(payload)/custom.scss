@@ -39,4 +39,35 @@
       font-weight: bold;
     }
   }
+
+  &__map-container {
+    border-radius: 3px;
+    overflow: hidden;
+
+    &__placeholder {
+      align-items: center;
+      background: var(--theme-elevation-50);
+      display: flex;
+      justify-content: center;
+
+      > svg {
+        animation: njsig__stoke-pulse 4s infinite;
+      }
+    }
+  }
+}
+
+@keyframes njsig__stoke-pulse {
+  0% {
+    stroke: var(--theme-elevation-400);
+  }
+  40% {
+    stroke: var(--theme-elevation-600);
+  }
+  80% {
+    stroke: var(--theme-elevation-400);
+  }
+  100% {
+    stroke: var(--theme-elevation-400);
+  }
 }

@@ -1,6 +1,7 @@
 import { editor, editorOrPublished } from '@/access';
 import { linkField } from '@/fields/link';
 import { patternField } from '@/fields/pattern';
+import { uiMapField } from '@/fields/uiMap';
 import { CollectionConfig } from 'payload';
 
 export const Locations: CollectionConfig<'locations'> = {
@@ -12,7 +13,7 @@ export const Locations: CollectionConfig<'locations'> = {
     update: editor,
   },
   admin: {
-    defaultColumns: ['name'],
+    defaultColumns: ['name', 'streetAddress', 'city', 'state'],
     useAsTitle: 'name',
   },
   fields: [
@@ -113,49 +114,46 @@ export const Locations: CollectionConfig<'locations'> = {
             type: 'text',
             required: true,
             minLength: 5,
-            maxLength: 9,
+            maxLength: 5,
             admin: {
               width: '20%',
             },
           },
           pattern: {
-            format: '#####-####',
+            format: '#####',
             prefix: '',
             allowEmptyFormatting: false,
           },
         }),
       ],
     },
-    {
-      type: 'row',
-      fields: [
-        patternField({
-          overrides: {
-            name: 'phone',
-            type: 'text',
-            required: true,
-            admin: {
-              placeholder: '% 20',
-              width: '50%',
-            },
-          },
-          pattern: {
-            format: '+1 (###) ### ####',
-            prefix: '% ',
-            allowEmptyFormatting: false,
-          },
-        }),
-        linkField({
-          appearances: false,
-          destinations: ['custom'],
-          overrides: {
-            name: 'website',
-            admin: {
-              width: '50%',
-            },
-          },
-        }),
-      ],
-    },
+    patternField({
+      overrides: {
+        name: 'phone',
+        type: 'text',
+        required: true,
+        admin: {
+          width: '50%',
+        },
+      },
+      pattern: {
+        format: '+1 (###) ### ####',
+        prefix: '% ',
+        allowEmptyFormatting: false,
+      },
+    }),
+    linkField({
+      appearances: false,
+      destinations: ['custom'],
+      disableLabel: true,
+      overrides: {
+        name: 'website',
+        label: 'Venue Website',
+        admin: {
+          width: '50%',
+        },
+      },
+    }),
+    uiMapField(),
   ],
 };
