@@ -11,20 +11,49 @@ export const Contacts: CollectionConfig<'contacts'> = {
     update: editor,
   },
   admin: {
-    defaultColumns: ['portrait', 'name', 'email', 'phone', 'extension'],
+    defaultColumns: ['portrait', 'type', 'name', 'email', 'phone', 'extension'],
     useAsTitle: 'name',
+  },
+  // This config controls what's populated by default when a page is referenced
+  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
+  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
+  defaultPopulate: {
+    portrait: true,
+    type: true,
+    name: true,
   },
   fields: [
     {
       type: 'row',
       fields: [
         {
-          name: 'portrait',
-          type: 'upload',
-          relationTo: 'contact-portraits',
+          type: 'group',
+          fields: [
+            {
+              name: 'portrait',
+              type: 'upload',
+              relationTo: 'contact-portraits',
+              admin: {
+                description:
+                  'Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.',
+              },
+            },
+            {
+              name: 'type',
+              type: 'select',
+              required: true,
+              options: [
+                { label: 'NJSIG', value: 'njsig' },
+                { label: 'Broker', value: 'broker' },
+              ],
+              admin: {
+                isClearable: false,
+                description:
+                  'The user type helps differentiate between NJSIG staff and external brokers.',
+              },
+            },
+          ],
           admin: {
-            description:
-              'Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.',
             width: '30%',
           },
         },

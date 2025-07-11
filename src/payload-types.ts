@@ -733,6 +733,10 @@ export interface Contact {
    */
   portrait?: (string | null) | ContactPortrait;
   /**
+   * The user type helps differentiate between NJSIG staff and external brokers.
+   */
+  type: 'njsig' | 'broker';
+  /**
    * The full name of the contact person.
    */
   name: string;
@@ -1256,6 +1260,7 @@ export interface LocationsSelect<T extends boolean = true> {
  */
 export interface ContactsSelect<T extends boolean = true> {
   portrait?: T;
+  type?: T;
   name?: T;
   email?: T;
   phone?: T;
