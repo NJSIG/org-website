@@ -16,7 +16,8 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
 - [ ] Revisit actions for build and deploy on multiple environments
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
-- [ ] Revisit the `uiMap` field, getting data from the location relationship field is not working as expected, we may need to query the location by ID either using a server component and the local API or with the REST API
+- [ ] Add a generate title hook for the documents collection
+- [ ] Add a documents section to events, documents may be relationships to the documents collection, media collection, or an external link
 
 ### COMPLETED TASKS ✔
 
@@ -35,3 +36,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Add fields to User Collection
 - [x] Slug field unlock button styles
 - [x] Rework pattern field to match style of other custom fields
+- [x] Revisit the `uiMap` field, getting data from the location relationship field is not working as expected, we may need to query the location by ID either using a server component and the local API or with the REST API
