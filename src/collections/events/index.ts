@@ -1,4 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
+import { resourceGroupField } from '@/fields/resourceGroup';
 import { slugField } from '@/fields/slug';
 import { uiMapField } from '@/fields/uiMap';
 import { populatePublishedAtHook } from '@/hooks';
@@ -141,93 +142,60 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
-          name: 'type',
-          label: 'Event Type',
-          type: 'select',
-          required: true,
-          defaultValue: 'in-person',
-          options: [
-            { label: 'In-Person', value: 'in-person' },
-            { label: 'Virtual', value: 'virtual' },
-            { label: 'Hybrid', value: 'hybrid' },
+          type: 'group',
+          fields: [
+            {
+              name: 'type',
+              label: 'Event Type',
+              type: 'select',
+              required: true,
+              defaultValue: 'in-person',
+              options: [
+                { label: 'In-Person', value: 'in-person' },
+                { label: 'Virtual', value: 'virtual' },
+                { label: 'Hybrid', value: 'hybrid' },
+              ],
+              admin: {
+                description:
+                  'Virtual event details should be provided in the description or other communications.',
+                width: '50%',
+                isClearable: false,
+              },
+            },
+            {
+              name: 'location',
+              label: 'Physical Location',
+              type: 'relationship',
+              relationTo: 'locations',
+              admin: {
+                description:
+                  'If no location is selected it will be displayed as "TBA" on the event page.',
+                width: '50%',
+                condition: (_, siblingData) => siblingData.type !== 'virtual',
+              },
+              hooks: {
+                beforeChange: [clearLocationHook],
+              },
+            },
           ],
           admin: {
-            description:
-              'Virtual event details should be provided in the description or other communications.',
-            width: '50%',
-            isClearable: false,
+            hideGutter: true,
           },
         },
-        {
-          name: 'location',
-          label: 'Physical Location',
-          type: 'relationship',
-          relationTo: 'locations',
+        uiMapField({
           admin: {
-            description:
-              'If no location is selected it will be displayed as "TBA" on the event page.',
-            width: '50%',
             condition: (_, siblingData) => siblingData.type !== 'virtual',
           },
-          hooks: {
-            beforeChange: [clearLocationHook],
-          },
-        },
+        }),
       ],
     },
-    uiMapField({
-      admin: {
-        condition: (_, siblingData) => siblingData.type !== 'virtual',
+    resourceGroupField({
+      overrides: {
+        row: {
+          label: '', // Hide the row label
+        },
       },
     }),
-    {
-      type: 'text',
-      name: 'locName',
-      virtual: 'location.name',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      type: 'text',
-      name: 'locStreetAddress',
-      virtual: 'location.streetAddress',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      type: 'text',
-      name: 'locStreetAddress2',
-      virtual: 'location.streetAddress2',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      type: 'text',
-      name: 'locCity',
-      virtual: 'location.city',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      type: 'text',
-      name: 'locState',
-      virtual: 'location.state',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      type: 'text',
-      name: 'locZipCode',
-      virtual: 'location.zipCode',
-      admin: {
-        hidden: true,
-      },
-    },
     {
       name: 'publishedAt',
       type: 'date',
