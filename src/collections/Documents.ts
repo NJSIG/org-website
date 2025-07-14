@@ -1,5 +1,7 @@
 import { anyone, editor } from '@/access';
-import { snakeCaseUploadsHook } from '@/hooks';
+import { populatePublishedAtHook, snakeCaseUploadsHook } from '@/hooks';
+import { populateFileTypeHook } from '@/hooks/populateFileTypeHook';
+import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
 import path from 'path';
 import { CollectionConfig } from 'payload';
 import { fileURLToPath } from 'url';
@@ -25,6 +27,21 @@ export const Documents: CollectionConfig = {
         description: 'If left black the title will be generated from the file name.',
       },
     },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'fileType',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
   ],
   admin: {
     defaultColumns: ['filename', 'folder'],
@@ -36,8 +53,6 @@ export const Documents: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [
-      // TODO: A hook to generate a title from the file name if not provided
-    ],
+    beforeChange: [populatePublishedAtHook, populateTitleFromFileHook, populateFileTypeHook],
   },
 };
