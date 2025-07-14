@@ -1,5 +1,6 @@
 import { anyone, editor } from '@/access';
 import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
   FixedToolbarFeature,
@@ -35,6 +36,14 @@ export const Media: CollectionConfig = {
   folders: true,
   fields: [
     {
+      name: 'title',
+      label: 'Title',
+      type: 'text',
+      admin: {
+        description: 'If left blank the title will be generated from the file name.',
+      },
+    },
+    {
       name: 'alt',
       label: 'Alt Text',
       type: 'text',
@@ -61,14 +70,25 @@ export const Media: CollectionConfig = {
         description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
+    {
+      name: 'relatedEvents',
+      type: 'join',
+      collection: 'events',
+      on: 'resources.resource.audioVideo',
+      admin: {
+        condition: (_, siblingData) =>
+          siblingData?.mimeType?.includes('audio') || siblingData?.mimeType?.includes('video'),
+      },
+    },
   ],
   admin: {
-    defaultColumns: ['filename', 'alt', 'caption', 'folder'],
+    defaultColumns: ['filename', 'title', 'alt', 'folder'],
   },
   upload: {
     // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
+    mimeTypes: ['image/*', 'video/*', 'audio/*'],
     focalPoint: true,
     formatOptions: {
       ...webp,
@@ -159,6 +179,6 @@ export const Media: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [computeBlurDataHook],
+    beforeChange: [computeBlurDataHook, populateTitleFromFileHook],
   },
 };

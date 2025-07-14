@@ -9,6 +9,16 @@ import { fileURLToPath } from 'url';
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+const supportedMimeTypes = [
+  'application/pdf', // .pdf
+  'application/msword', // .doc
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+  'application/vnd.ms-excel', // .xls
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+  'application/vnd.ms-powerpoint', // .ppt
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
+];
+
 export const Documents: CollectionConfig = {
   slug: 'documents',
   access: {
@@ -24,8 +34,14 @@ export const Documents: CollectionConfig = {
       label: 'Title',
       type: 'text',
       admin: {
-        description: 'If left black the title will be generated from the file name.',
+        description: 'If left blank the title will be generated from the file name.',
       },
+    },
+    {
+      name: 'relatedEvents',
+      type: 'join',
+      collection: 'events',
+      on: 'resources.resource.document',
     },
     {
       name: 'publishedAt',
@@ -44,12 +60,12 @@ export const Documents: CollectionConfig = {
     },
   ],
   admin: {
-    defaultColumns: ['filename', 'folder'],
+    defaultColumns: ['filename', 'title', 'folder'],
   },
   upload: {
     // Uploads to the public/documents directory in Next.js making files publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/documents'),
-    mimeTypes: ['application/pdf'],
+    mimeTypes: supportedMimeTypes,
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],

@@ -93,6 +93,12 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    media: {
+      relatedEvents: 'events';
+    };
+    documents: {
+      relatedEvents: 'events';
+    };
     'payload-folders': {
       documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'documents' | 'contact-portraits';
     };
@@ -211,6 +217,10 @@ export interface HeroSpinnerBlock {
  */
 export interface Media {
   id: string;
+  /**
+   * If left blank the title will be generated from the file name.
+   */
+  title?: string | null;
   alt: string;
   /**
    * Captions may or may not be displayed depending on where an image is used.
@@ -234,6 +244,11 @@ export interface Media {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -312,6 +327,194 @@ export interface Media {
       filename?: string | null;
     };
     og?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  startDate: string;
+  endDate?: string | null;
+  registrationTime?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  /**
+   * Select all the categories that apply to this event.
+   */
+  category: (
+    | 'njsig'
+    | 'bacceic'
+    | 'caip'
+    | 'eric-north'
+    | 'eric-south'
+    | 'eric-west'
+    | 'mocssif'
+    | 'njeif'
+    | 'other'
+  )[];
+  /**
+   * The contact person for the event.
+   */
+  contact: string | Contact;
+  /**
+   * Virtual event details should be provided in the description or other communications.
+   */
+  type: 'in-person' | 'virtual' | 'hybrid';
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  resources?:
+    | {
+        resource: {
+          type: 'document' | 'audioVideo' | 'link';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt?: string | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: string;
+  /**
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
+   */
+  portrait?: (string | null) | ContactPortrait;
+  /**
+   * The user type helps differentiate between NJSIG staff and external brokers.
+   */
+  type: 'njsig' | 'broker';
+  /**
+   * The full name of the contact person.
+   */
+  name: string;
+  email: string;
+  phone: string;
+  extension?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits".
+ */
+export interface ContactPortrait {
+  id: string;
+  /**
+   * The name of the person in the portrait photo.
+   */
+  name: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    sm?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    md?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    lg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xl?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -599,181 +802,28 @@ export interface EmphasizedListBlock {
 export interface Document {
   id: string;
   /**
-   * If left black the title will be generated from the file name.
+   * If left blank the title will be generated from the file name.
    */
   title?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-portraits".
- */
-export interface ContactPortrait {
-  id: string;
-  /**
-   * The name of the person in the portrait photo.
-   */
-  name: string;
-  /**
-   * Used for image placeholders. Automatically generated from the image.
-   */
-  blurData?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    sm?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    md?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    lg?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    xl?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: string;
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  /**
-   * Formatting options are limited to maintain consistency across the site.
-   */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  startDate: string;
-  endDate?: string | null;
-  registrationTime?: string | null;
-  startTime: string;
-  endTime?: string | null;
-  /**
-   * Select all the categories that apply to this event.
-   */
-  category: (
-    | 'njsig'
-    | 'bacceic'
-    | 'caip'
-    | 'eric-north'
-    | 'eric-south'
-    | 'eric-west'
-    | 'mocssif'
-    | 'njeif'
-    | 'other'
-  )[];
-  /**
-   * The contact person for the event.
-   */
-  contact: string | Contact;
-  /**
-   * Virtual event details should be provided in the description or other communications.
-   */
-  type: 'in-person' | 'virtual' | 'hybrid';
-  /**
-   * If no location is selected it will be displayed as "TBA" on the event page.
-   */
-  location?: (string | null) | Location;
-  locName?: string | null;
-  locStreetAddress?: string | null;
-  locStreetAddress2?: string | null;
-  locCity?: string | null;
-  locState?: string | null;
-  locZipCode?: string | null;
   publishedAt?: string | null;
-  /**
-   * Event slugs are not unique, as even URLs include the event date.
-   */
-  slug?: string | null;
-  slugLock?: boolean | null;
+  fileType?: string | null;
+  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contacts".
- */
-export interface Contact {
-  id: string;
-  /**
-   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
-   */
-  portrait?: (string | null) | ContactPortrait;
-  /**
-   * The user type helps differentiate between NJSIG staff and external brokers.
-   */
-  type: 'njsig' | 'broker';
-  /**
-   * The full name of the contact person.
-   */
-  name: string;
-  email: string;
-  phone: string;
-  extension?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1123,9 +1173,11 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  title?: T;
   alt?: T;
   caption?: T;
   blurData?: T;
+  relatedEvents?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1239,6 +1291,9 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface DocumentsSelect<T extends boolean = true> {
   title?: T;
+  relatedEvents?: T;
+  publishedAt?: T;
+  fileType?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1268,12 +1323,29 @@ export interface EventsSelect<T extends boolean = true> {
   contact?: T;
   type?: T;
   location?: T;
-  locName?: T;
-  locStreetAddress?: T;
-  locStreetAddress2?: T;
-  locCity?: T;
-  locState?: T;
-  locZipCode?: T;
+  resources?:
+    | T
+    | {
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        id?: T;
+      };
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
