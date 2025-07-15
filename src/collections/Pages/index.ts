@@ -72,6 +72,7 @@ export const Pages: CollectionConfig<'pages'> = {
         },
       ],
     },
+    ...slugField(),
     {
       name: 'publishedAt',
       type: 'date',
@@ -79,7 +80,6 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
-    ...slugField(),
   ],
   hooks: {
     beforeChange: [populatePublishedAtHook],
