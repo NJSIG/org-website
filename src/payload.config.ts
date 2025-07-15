@@ -16,6 +16,7 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import { EventCards } from './blocks/EventCards/config';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -51,6 +52,7 @@ const blocks = [
   CMSButton,
   OptimizedImage,
   EmphasizedList,
+  EventCards,
 ];
 
 export default buildConfig({
