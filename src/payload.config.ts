@@ -19,6 +19,7 @@ import { fileURLToPath } from 'url';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
+import { EventCategories } from './collections/EventCategories';
 import { Locations } from './collections/Locations';
 import { defaultLexical } from './fields/defaultLexical';
 
@@ -26,7 +27,17 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 // Define the collections to be used in the Payload CMS configuration
-const collections = [Pages, Media, Documents, Events, Locations, Contacts, ContactPortraits, Users];
+const collections = [
+  Pages,
+  Media,
+  Documents,
+  Events,
+  EventCategories,
+  Locations,
+  Contacts,
+  ContactPortraits,
+  Users,
+];
 
 // Define the blocks to be used in the Payload CMS configuration
 // We define all our blocks here so they can be used by reference

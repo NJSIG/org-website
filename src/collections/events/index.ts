@@ -107,20 +107,10 @@ export const Events: CollectionConfig<'events'> = {
       fields: [
         {
           name: 'category',
-          type: 'select',
+          type: 'relationship',
+          relationTo: 'event-categories',
           required: true,
           hasMany: true,
-          options: [
-            { label: 'NJSIG', value: 'njsig' },
-            { label: 'BACCEIC', value: 'bacceic' },
-            { label: 'CAIP', value: 'caip' },
-            { label: 'ERIC North', value: 'eric-north' },
-            { label: 'ERIC South', value: 'eric-south' },
-            { label: 'ERIC West', value: 'eric-west' },
-            { label: 'MOCSSIF', value: 'mocssif' },
-            { label: 'NJEIF', value: 'njeif' },
-            { label: 'Other', value: 'other' },
-          ],
           admin: {
             description: 'Select all the categories that apply to this event.',
             width: '50%',
@@ -197,9 +187,10 @@ export const Events: CollectionConfig<'events'> = {
       },
     }),
     {
-      name: 'publishedAt',
-      type: 'date',
+      name: 'important',
+      type: 'checkbox',
       admin: {
+        description: 'Mark this event as important to emphasize its significance.',
         position: 'sidebar',
       },
     },
@@ -211,6 +202,13 @@ export const Events: CollectionConfig<'events'> = {
         },
       },
     }),
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
   defaultSort: '-startDate',
   hooks: {

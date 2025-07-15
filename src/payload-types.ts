@@ -81,6 +81,7 @@ export interface Config {
     media: Media;
     documents: Document;
     events: Event;
+    'event-categories': EventCategory;
     locations: Location;
     contacts: Contact;
     'contact-portraits': ContactPortrait;
@@ -108,6 +109,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
     'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
@@ -372,17 +374,7 @@ export interface Event {
   /**
    * Select all the categories that apply to this event.
    */
-  category: (
-    | 'njsig'
-    | 'bacceic'
-    | 'caip'
-    | 'eric-north'
-    | 'eric-south'
-    | 'eric-west'
-    | 'mocssif'
-    | 'njeif'
-    | 'other'
-  )[];
+  category: (string | EventCategory)[];
   /**
    * The contact person for the event.
    */
@@ -429,15 +421,31 @@ export interface Event {
         id?: string | null;
       }[]
     | null;
-  publishedAt?: string | null;
+  /**
+   * Mark this event as important to emphasize its significance.
+   */
+  important?: boolean | null;
   /**
    * Event slugs are not unique, as even URLs include the event date.
    */
   slug?: string | null;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -599,9 +607,9 @@ export interface Page {
     image?: (string | null) | Media;
     description?: string | null;
   };
-  publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -1070,6 +1078,10 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
+        relationTo: 'event-categories';
+        value: string | EventCategory;
+      } | null)
+    | ({
         relationTo: 'locations';
         value: string | Location;
       } | null)
@@ -1160,9 +1172,9 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  publishedAt?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1346,12 +1358,24 @@ export interface EventsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  important?: T;
+  slug?: T;
+  slugLock?: T;
   publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories_select".
+ */
+export interface EventCategoriesSelect<T extends boolean = true> {
+  name?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
