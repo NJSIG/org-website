@@ -20,6 +20,7 @@ export const EventCards: Block = {
           min: 1,
           max: 4,
           defaultValue: 3,
+          required: true,
           admin: {
             description: 'Set the number of cards to display, including the "View All" card',
           },

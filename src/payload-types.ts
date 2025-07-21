@@ -813,7 +813,7 @@ export interface EventCardsBlock {
   /**
    * Set the number of cards to display, including the "View All" card
    */
-  cards?: number | null;
+  cards: number;
   /**
    * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
    */
