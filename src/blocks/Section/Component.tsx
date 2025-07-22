@@ -34,7 +34,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
         )}
       >
         <div
-          className={cn('mx-auto group/section', {
+          className={cn('mx-auto w-full group/section', {
             'content-width-normal max-w-section': contentWidth === 'normal',
             'content-width-wide max-w-section-wide': contentWidth === 'wide',
           })}

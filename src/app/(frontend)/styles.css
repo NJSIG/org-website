@@ -2,40 +2,6 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
-:root {
-  --foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
-  --muted: oklch(0.9385 0.002 252.95); /* Battleship Gray 200 */
-  --muted-foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
-  --border: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
-  --ring: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
-
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --input: oklch(0.922 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
 @theme {
   /** NJSIG Color Palettes **/
   --color-azure-50: oklch(0.9735 0.005 263.54);
@@ -391,32 +357,6 @@
 @custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
 
 /*
- * Base Styles
- *
- * These are the base styles for the application.
- */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/*
- * There is an issue with Prettier and @utility
- * when creating functional utilities where spaces
- * are added before `*` characters in the definition.
- * https://github.com/tailwindlabs/prettier-plugin-tailwindcss/issues/345
- *
- * Use the ignore comment to prevent this.
- *
- * NOTE: TailwindCSS has been written to work with this Prettier formatting issue.
- */
-
-/*
  * Background Gradients
  *
  * These are used to create a gradient background.
@@ -552,4 +492,63 @@
   --animate-from-translate-y: calc(--value(ratio) * 100%);
   --animate-from-translate-y: --value(--translate-*, [percentage], [length]);
   --animate-to-translate-y: 0;
+}
+
+/*
+ * Root Variables
+ */
+:root {
+  --foreground: var(--color-battleship-gray-950);
+  --muted: var(--color-battleship-gray-200);
+  --muted-foreground: var(--color-battleship-gray-950);
+  --border: var(--color-battleship-gray-400);
+  --ring: var(--color-battleship-gray-400);
+
+  --event-card: var(--color-njsig-neutral-tint);
+  --event-card-foreground: var(--color-foreground);
+  --event-card-bespoke-dark: var(--color-azure-900);
+  --event-card-bespoke-light: var(--color-azure-700);
+  --event-card-bespoke-foreground: var(--color-foreground-inverted);
+  --event-card-bespoke-accent: var(--color-njsig-accent-midtone);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --input: oklch(0.922 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/*
+ * Base Styles
+ *
+ * These are the base styles for the application.
+ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

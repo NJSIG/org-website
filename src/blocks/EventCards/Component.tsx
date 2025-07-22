@@ -1,17 +1,23 @@
-import { Event, EventCardsBlock as EventCardsBlockProps, EventCategory } from '@/payload-types';
+import { EventCard, EventCardData } from '@/components/EventCard';
+import { EventCardsBlock as EventCardsBlockProps, EventCategory } from '@/payload-types';
 import configPromise from '@payload-config';
 import { draftMode } from 'next/headers';
-import { getPayload, RequiredDataFromCollectionSlug, Where } from 'payload';
+import { getPayload, Where } from 'payload';
 
 const queryEvents = async (
   limit: number,
   categoryFilters?: EventCardsBlockProps['categoryFilters'],
-): Promise<Event[] | null> => {
-  console.log('Fetching events with limit:', limit, 'and category filters:', categoryFilters);
-
+): Promise<EventCardData[] | null> => {
   const { isEnabled: draft } = await draftMode();
+  const today = new Date().toISOString();
 
-  const where: Where | undefined =
+  const upcomingFilter: Where = {
+    startDate: {
+      greater_than_equal: today,
+    },
+  };
+
+  const categoryFilter: Where =
     categoryFilters && categoryFilters.length > 0
       ? {
           or: [
@@ -22,7 +28,11 @@ const queryEvents = async (
             })),
           ],
         }
-      : undefined;
+      : {};
+
+  const where: Where = {
+    and: [upcomingFilter, categoryFilter],
+  };
 
   const payload = await getPayload({ config: configPromise });
   const events = await payload.find({
@@ -32,7 +42,16 @@ const queryEvents = async (
     pagination: false,
     overrideAccess: draft,
     where,
-    sort: '-startDate',
+    select: {
+      id: true,
+      slug: true,
+      startDate: true,
+      startTime: true,
+      type: true,
+      title: true,
+      category: true,
+    },
+    sort: 'startDate',
   });
 
   return events.docs || null;
@@ -43,11 +62,20 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
 
   const limit = cards - (showViewAll ? 1 : 0);
 
-  const events: RequiredDataFromCollectionSlug<'events'>[] | null = await queryEvents(
-    limit,
-    categoryFilters,
-  );
-  console.log('EventCardsBlock props:', props);
+  const events: EventCardData[] | null = await queryEvents(limit, categoryFilters);
 
-  return <p>Event Cards Block works!</p>;
+  return (
+    <div className="flex flex-col gap-6 w-full">
+      {/* Event Cards */}
+      {events &&
+        events.length > 0 &&
+        events.map((event) => <EventCard key={event.id} type="event" event={event} />)}
+
+      {/* Show All Events Card */}
+      {showViewAll && <EventCard type="viewAll" />}
+
+      {/* Subscribe Card */}
+      {(!events || events.length <= 0) && enableSubscribe && <EventCard type="subscribe" />}
+    </div>
+  );
 };
