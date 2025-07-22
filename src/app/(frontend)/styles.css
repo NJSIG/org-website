@@ -75,6 +75,21 @@
   --color-battleship-gray-950: oklch(0.3476 0.006 252.85);
 
   /** Sub-fund Color Palettes **/
+  --color-glacial-50: oklch(0.9694 0.0115 264.51);
+  --color-glacial-100: oklch(0.9296 0.0263 264.44);
+  --color-glacial-200: oklch(0.8766 0.048 263.13);
+  --color-glacial-300: oklch(0.7971 0.0786 260.52);
+  --color-glacial-400: oklch(0.6943 0.1216 261.66);
+  --color-glacial-500: oklch(0.6271 0.1496 265.84);
+  --color-glacial-600: oklch(0.5261 0.1857 267.42);
+  --color-glacial-700: oklch(0.4728 0.1861 268.85);
+  --color-glacial-800: oklch(0.415 0.1545 270.79);
+  --color-glacial-900: oklch(0.3709 0.1174 271.49);
+  --color-glacial-950: oklch(0.2814 0.0736 273.31);
+
+  /** Bondi Blue has been deprecated in favor of Glacial.
+    * It will be removed in the future.
+    */
   --color-bondi-blue-50: oklch(0.9799 0.012 215.36);
   --color-bondi-blue-100: oklch(0.9431 0.028 215.36);
   --color-bondi-blue-200: oklch(0.8888 0.048 215.36);
@@ -99,10 +114,6 @@
   --color-sea-green-900: oklch(0.3288 0.058 155.69);
   --color-sea-green-950: oklch(0.2326 0.038 155.69);
 
-  /**
-   * Cerulean has been replaced by Glacial
-   * This will be removed in the future
-   */
   --color-cerulean-50: oklch(0.976 0.009 239.78);
   --color-cerulean-100: oklch(0.9471 0.019 239.78);
   --color-cerulean-200: oklch(0.8874 0.044 239.78);
@@ -114,18 +125,6 @@
   --color-cerulean-800: oklch(0.4009 0.089 239.78);
   --color-cerulean-900: oklch(0.3609 0.074 239.78);
   --color-cerulean-950: oklch(0.2744 0.054 239.78);
-
-  --color-glacial-50: oklch(0.9694 0.0115 264.51);
-  --color-glacial-100: oklch(0.9296 0.0263 264.44);
-  --color-glacial-200: oklch(0.8766 0.048 263.13);
-  --color-glacial-300: oklch(0.7971 0.0786 260.52);
-  --color-glacial-400: oklch(0.6943 0.1216 261.66);
-  --color-glacial-500: oklch(0.6271 0.1496 265.84);
-  --color-glacial-600: oklch(0.5261 0.1857 267.42);
-  --color-glacial-700: oklch(0.4728 0.1861 268.85);
-  --color-glacial-800: oklch(0.415 0.1545 270.79);
-  --color-glacial-900: oklch(0.3709 0.1174 271.49);
-  --color-glacial-950: oklch(0.2814 0.0736 273.31);
 
   --color-sushi-50: oklch(0.9791 0.017 119.65);
   --color-sushi-100: oklch(0.9462 0.033 119.65);
@@ -215,11 +214,11 @@
   --color-njsig-neutral-midtone: var(--color-battleship-gray-400);
   --color-njsig-neutral-shade: var(--color-battleship-gray-800);
 
-  --color-bacceic-primary: var(--color-bondi-blue-400);
-  --color-bacceic-background: var(--color-bondi-blue-50);
-  --color-bacceic-tint: var(--color-bondi-blue-300);
-  --color-bacceic-midtone: var(--color-bondi-blue-400);
-  --color-bacceic-shade: var(--color-bondi-blue-700);
+  --color-bacceic-primary: var(--color-glacial-500);
+  --color-bacceic-background: var(--color-glacial-50);
+  --color-bacceic-tint: var(--color-glacial-300);
+  --color-bacceic-midtone: var(--color-glacial-500);
+  --color-bacceic-shade: var(--color-glacial-700);
 
   --color-caip-primary: var(--color-sea-green-400);
   --color-caip-background: var(--color-sea-green-50);
@@ -227,11 +226,11 @@
   --color-caip-midtone: var(--color-sea-green-400);
   --color-caip-shade: var(--color-sea-green-700);
 
-  --color-ericnorth-primary: var(--color-glacial-500);
-  --color-ericnorth-background: var(--color-glacial-50);
-  --color-ericnorth-tint: var(--color-glacial-300);
-  --color-ericnorth-midtone: var(--color-glacial-500);
-  --color-ericnorth-shade: var(--color-glacial-700);
+  --color-ericnorth-primary: var(--color-cerulean-400);
+  --color-ericnorth-background: var(--color-cerulean-50);
+  --color-ericnorth-tint: var(--color-cerulean-300);
+  --color-ericnorth-midtone: var(--color-cerulean-400);
+  --color-ericnorth-shade: var(--color-cerulean-700);
 
   --color-ericsouth-primary: var(--color-sushi-400);
   --color-ericsouth-background: var(--color-sushi-50);
