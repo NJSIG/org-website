@@ -55,14 +55,14 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.16.4",
+    "@types/node": "^22.16.5",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^9.31.0",
     "eslint-config-next": "15.2.2",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-attributes": "^1.0.0",
-    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-organize-imports": "^4.2.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "ts-essentials": "^10.1.1",
     "typescript": "5.7.3"
