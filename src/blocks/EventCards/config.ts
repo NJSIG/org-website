@@ -1,7 +1,7 @@
 import { Block } from 'payload';
 
 export const EventCards: Block = {
-  slug: 'event-cards',
+  slug: 'eventCards',
   interfaceName: 'EventCardsBlock',
   labels: {
     singular: 'Event Cards',

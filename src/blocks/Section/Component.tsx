@@ -1,8 +1,8 @@
+import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
+import { EventCardsBlock } from '@/blocks/EventCards/Component';
+import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { EmphasizedListBlock } from '../EmphasizedList/Component';
-import { EventCardsBlock } from '../EventCards/Component';
-import { OptimizedImageBlock } from '../OptimizedImage/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
@@ -13,7 +13,7 @@ const sectionBlockComponents = {
   sectionContent: SectionContentBlock,
   optimizedImage: OptimizedImageBlock,
   emphasizedList: EmphasizedListBlock,
-  'event-cards': EventCardsBlock,
+  eventCards: EventCardsBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({

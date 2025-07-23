@@ -66,15 +66,12 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Event Cards */}
       {events &&
         events.length > 0 &&
         events.map((event) => <EventCard key={event.id} type="event" event={event} />)}
 
-      {/* Show All Events Card */}
       {showViewAll && <EventCard type="viewAll" />}
 
-      {/* Subscribe Card */}
       {(!events || events.length <= 0) && enableSubscribe && <EventCard type="subscribe" />}
     </div>
   );

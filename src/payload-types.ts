@@ -75,7 +75,7 @@ export interface Config {
     cmsButton: CMSButtonBlock;
     optimizedImage: OptimizedImageBlock;
     emphasizedList: EmphasizedListBlock;
-    'event-cards': EventCardsBlock;
+    eventCards: EventCardsBlock;
   };
   collections: {
     pages: Page;
@@ -829,7 +829,7 @@ export interface EventCardsBlock {
   enableSubscribe?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'event-cards';
+  blockType: 'eventCards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
