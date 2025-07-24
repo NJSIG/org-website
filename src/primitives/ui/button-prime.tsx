@@ -76,7 +76,7 @@ const buttonVariants = cva(
         style: 'outline',
         color: 'accent',
         class:
-          'text-foreground hover:bg-njsig-accent-tint border-njsig-accent-primary focus-visible:ring-njsig-accent-primary/40 dark:text-foreground-inverted dark:hover:bg-njsig-accent-shade dark:border-njsig-accent-midtone dark:focus-visible:ring-njsig-accent-midtone/40',
+          'text-foreground hover:bg-njsig-accent-tint border-njsig-accent-primary focus-visible:ring-njsig-accent-primary/40 dark:text-foreground-inverted dark:hover:bg-dandelion-700 dark:border-njsig-accent-midtone dark:focus-visible:ring-njsig-accent-midtone/40',
       },
       // [Button, Icon] Ghost | Disabled
       {

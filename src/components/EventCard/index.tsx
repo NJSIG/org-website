@@ -5,6 +5,7 @@ import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
 import { RequiredDataFromCollectionSlug } from 'payload';
 import { ElementType } from 'react';
+import { SubfundPill } from '../SubfundPill';
 
 export type EventCardData = Pick<
   RequiredDataFromCollectionSlug<'events'>,
@@ -12,17 +13,17 @@ export type EventCardData = Pick<
 >;
 
 export type EventCardProps = {
-  type: 'event' | 'viewAll' | 'subscribe';
+  cardType: 'event' | 'viewAll' | 'subscribe';
   event?: EventCardData | null;
   htmlElement?: ElementType | null;
   className?: string;
 };
 
 const cardClasses =
-  'group/event-card p-4 flex flex-col rounded-3xl bg-[var(--event-card)] text-[var(--event-card-foreground)]';
+  'group/event-card p-4 flex flex-col rounded-3xl bg-[var(--event-card)] text-[var(--event-card-foreground)] min-h-52 min-w-52';
 
-export const EventCard: React.FC<EventCardProps> = ({ type, event, className }) => {
-  switch (type) {
+export const EventCard: React.FC<EventCardProps> = ({ cardType, event, className }) => {
+  switch (cardType) {
     case 'event':
       if (!event) {
         return null;
@@ -90,10 +91,20 @@ const Detail: React.FC<{ time?: string; body?: string; tags?: (string | EventCat
 }) => {
   console.log('tags', tags);
   return (
-    <div className="flex flex-col mt-2">
+    <div className="flex flex-col mt-2 text-left grow">
       {time && <small className="text-sm font-medium">{time}</small>}
       {body && <p>{body}</p>}
-      {tags && tags.length > 0 && <div className="flex flex-wrap gap-2 mt-auto"></div>}
+      {tags && tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {tags.map((tag) => {
+            if (typeof tag === 'string') {
+              return null;
+            }
+
+            return <SubfundPill key={tag.id} theme={tag.slug} label={tag.name} />;
+          })}
+        </div>
+      )}
     </div>
   );
 };

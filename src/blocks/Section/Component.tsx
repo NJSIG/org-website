@@ -43,11 +43,11 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
             const { blockType } = block;
 
             if (blockType && blockType in sectionBlockComponents) {
-              const Block =
+              const SectionBlock =
                 sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
               /* @ts-expect-error There will be mismatches between expected types here */
-              return <Block {...block} key={block.id} />;
+              return <SectionBlock {...block} key={block.id} />;
             }
 
             return null;

@@ -25,6 +25,10 @@ export const EventCategories: CollectionConfig<'event-categories'> = {
     }),
   ],
   defaultSort: 'name',
+  defaultPopulate: {
+    name: true,
+    slug: true,
+  },
   admin: {
     defaultColumns: ['name', 'slug'],
     useAsTitle: 'name',

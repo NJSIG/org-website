@@ -1,5 +1,6 @@
 import { EventCard, EventCardData } from '@/components/EventCard';
 import { EventCardsBlock as EventCardsBlockProps, EventCategory } from '@/payload-types';
+import { cn } from '@/utilities/cn';
 import configPromise from '@payload-config';
 import { draftMode } from 'next/headers';
 import { getPayload, Where } from 'payload';
@@ -42,6 +43,7 @@ const queryEvents = async (
     pagination: false,
     overrideAccess: draft,
     where,
+    depth: 1,
     select: {
       id: true,
       slug: true,
@@ -65,14 +67,46 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
   const events: EventCardData[] | null = await queryEvents(limit, categoryFilters);
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       {events &&
         events.length > 0 &&
-        events.map((event) => <EventCard key={event.id} type="event" event={event} />)}
+        events.map((event) => (
+          <EventCard
+            key={event.id}
+            cardType="event"
+            event={event}
+            className={cn({
+              'lg:col-span-3': cards === 4,
+              'lg:col-span-4': cards === 3,
+              'lg:col-span-6': cards === 2,
+              'lg:col-span-12': cards === 1,
+            })}
+          />
+        ))}
 
-      {showViewAll && <EventCard type="viewAll" />}
+      {showViewAll && (
+        <EventCard
+          cardType="viewAll"
+          className={cn({
+            'lg:col-span-3': cards === 4,
+            'lg:col-span-4': cards === 3,
+            'lg:col-span-6': cards === 2,
+            'lg:col-span-12': cards === 1,
+          })}
+        />
+      )}
 
-      {(!events || events.length <= 0) && enableSubscribe && <EventCard type="subscribe" />}
+      {(!events || events.length <= 0) && enableSubscribe && (
+        <EventCard
+          cardType="subscribe"
+          className={cn({
+            'lg:col-span-9': cards === 4,
+            'lg:col-span-8': cards === 3,
+            'lg:col-span-6': cards === 2,
+            'lg:col-span-12': cards === 1,
+          })}
+        />
+      )}
     </div>
   );
 };
