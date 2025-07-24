@@ -34,15 +34,15 @@ export const Logo = (props: Props) => {
 
   switch (true) {
     // Only width is set
-    case width && !height:
+    case width !== undefined && height === undefined:
       height = Math.round(width * aspectRatio[props.style].ratio);
       break;
     // Only height is set
-    case height && !width:
+    case height !== undefined && width === undefined:
       width = Math.round(height * aspectRatio[props.style].ratio);
       break;
     // Neither are set
-    case !width && !height:
+    case width === undefined && height === undefined:
       width = aspectRatio[props.style].width;
       height = aspectRatio[props.style].height;
       break;
