@@ -101,7 +101,6 @@ export default async function Page({ params: paramsPromise }: Args) {
     layout: { template, subfundTheme, blocks },
   } = page;
 
-  // TODO: Render Page
   return (
     <article
       className={cn({ [`subfund-theme-${subfundTheme}`]: template === 'subfund' && subfundTheme })}

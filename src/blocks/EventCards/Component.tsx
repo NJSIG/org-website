@@ -63,7 +63,6 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
   const { cards, categoryFilters, showViewAll, enableSubscribe } = props;
 
   const limit = cards - (showViewAll ? 1 : 0);
-
   const events: EventCardData[] | null = await queryEvents(limit, categoryFilters);
 
   return (

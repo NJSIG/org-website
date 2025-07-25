@@ -3,6 +3,7 @@
 import { EventCategory } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
+import Link from 'next/link';
 import { RequiredDataFromCollectionSlug } from 'payload';
 import { ElementType } from 'react';
 import { SubfundPill } from '../SubfundPill';
@@ -41,7 +42,8 @@ const SingleEventCard: React.FC<{ event: EventCardData; className?: string }> = 
   event,
   className,
 }) => {
-  const date = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(
+  const date = new Date(event.startDate);
+  const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(
     new Date(event.startDate),
   );
 
@@ -52,16 +54,20 @@ const SingleEventCard: React.FC<{ event: EventCardData; className?: string }> = 
     : 'TBA';
 
   return (
-    <button className={cn(cardClasses, 'cursor-pointer', className)}>
-      <Header heading={date} />
+    <Link
+      href={`/events/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/${event.slug}`}
+      className={cn(cardClasses, 'cursor-pointer', className)}
+    >
+      <Header heading={formattedDate} />
       <Detail time={time} body={event.title} tags={event.category} />
-    </button>
+    </Link>
   );
 };
 
 const ViewAllCard: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <button
+    <Link
+      href="/events"
       className={cn(
         cardClasses,
         'cursor-pointer',
@@ -71,7 +77,7 @@ const ViewAllCard: React.FC<{ className?: string }> = ({ className }) => {
     >
       <Header heading="ALL EVENTS" className="[&>svg]:stroke-[var(--event-card-bespoke-accent)]" />
       <Detail body="View our full calendar of upcoming training and meeting events as well as important dates." />
-    </button>
+    </Link>
   );
 };
 
@@ -89,7 +95,6 @@ const Detail: React.FC<{ time?: string; body?: string; tags?: (string | EventCat
   body,
   tags,
 }) => {
-  console.log('tags', tags);
   return (
     <div className="flex flex-col mt-2 text-left grow">
       {time && <small className="text-sm font-medium">{time}</small>}
