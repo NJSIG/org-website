@@ -131,7 +131,6 @@ export const Locations: CollectionConfig<'locations'> = {
       overrides: {
         name: 'phone',
         type: 'text',
-        required: true,
         admin: {
           width: '50%',
         },
@@ -146,6 +145,7 @@ export const Locations: CollectionConfig<'locations'> = {
       appearances: false,
       destinations: ['custom'],
       disableLabel: true,
+      required: false,
       overrides: {
         name: 'website',
         label: 'Venue Website',
