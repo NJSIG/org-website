@@ -1,7 +1,7 @@
 import { FieldHook } from 'payload';
 
 export const clearLocationHook: FieldHook = ({ siblingData, value }) => {
-  if (siblingData.type === 'virtual') {
+  if (siblingData.attendanceOptions === 'virtual') {
     return null;
   }
 

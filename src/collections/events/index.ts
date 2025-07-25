@@ -26,6 +26,21 @@ export const Events: CollectionConfig<'events'> = {
   },
   fields: [
     {
+      name: 'eventType',
+      type: 'select',
+      required: true,
+      defaultValue: 'event',
+      options: [
+        { label: 'Event', value: 'event' },
+        { label: 'Important Date', value: 'importantDate' },
+      ],
+      admin: {
+        isClearable: false,
+        description:
+          'Select the type of event. Important Date is used for non-event dates like the renewal deadline.',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
@@ -62,6 +77,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'dayOnly',
               displayFormat: 'MMM d, yyy',
             },
+            condition: (_, siblingData) => siblingData.eventType === 'event',
           },
         },
       ],
@@ -77,6 +93,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
+            condition: (_, siblingData) => siblingData.eventType === 'event',
           },
         },
         {
@@ -98,6 +115,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
+            condition: (_, siblingData) => siblingData.eventType === 'event',
           },
         },
       ],
@@ -113,7 +131,6 @@ export const Events: CollectionConfig<'events'> = {
           hasMany: true,
           admin: {
             description: 'Select all the categories that apply to this event.',
-            width: '50%',
           },
         },
         {
@@ -123,20 +140,24 @@ export const Events: CollectionConfig<'events'> = {
           required: true,
           admin: {
             description: 'The contact person for the event.',
-            width: '50%',
+            condition: (_, siblingData) => siblingData.eventType === 'event',
           },
         },
       ],
     },
     {
-      type: 'row',
+      type: 'group',
+      admin: {
+        hideGutter: true,
+        condition: (_, siblingData) => siblingData.eventType === 'event',
+      },
       fields: [
         {
           type: 'group',
           fields: [
             {
-              name: 'type',
-              label: 'Event Type',
+              name: 'attendanceOptions',
+              label: 'Attendance Options',
               type: 'select',
               required: true,
               defaultValue: 'in-person',
@@ -146,37 +167,81 @@ export const Events: CollectionConfig<'events'> = {
                 { label: 'Hybrid', value: 'hybrid' },
               ],
               admin: {
-                description:
-                  'Virtual event details should be provided in the description or other communications.',
                 width: '50%',
                 isClearable: false,
               },
             },
             {
-              name: 'location',
-              label: 'Physical Location',
-              type: 'relationship',
-              relationTo: 'locations',
+              type: 'row',
               admin: {
-                description:
-                  'If no location is selected it will be displayed as "TBA" on the event page.',
-                width: '50%',
-                condition: (_, siblingData) => siblingData.type !== 'virtual',
+                condition: (_, siblingData) => siblingData.attendanceOptions !== 'in-person',
               },
-              hooks: {
-                beforeChange: [clearLocationHook],
+              fields: [
+                {
+                  name: 'virtualProvider',
+                  type: 'select',
+                  options: [
+                    { label: 'Zoom', value: 'zoom' },
+                    { label: 'Google Meet', value: 'googleMeet' },
+                    { label: 'Microsoft Teams', value: 'microsoftTeams' },
+                    { label: 'GoTo Meeting', value: 'goToMeeting' },
+                    { label: 'Other', value: 'other' },
+                  ],
+                  defaultValue: 'zoom',
+                  required: true,
+                  admin: {
+                    width: '20%',
+                  },
+                },
+                {
+                  name: 'virtualLink',
+                  label: 'Meeting Link',
+                  type: 'text',
+                  admin: {
+                    description:
+                      'The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.',
+                    width: '60%',
+                  },
+                },
+                {
+                  name: 'virtualPasscode',
+                  label: 'Meeting Passcode',
+                  type: 'text',
+                  admin: {
+                    width: '20%',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'group',
+              admin: {
+                hideGutter: true,
+                condition: (_, siblingData) => siblingData.attendanceOptions !== 'virtual',
               },
+              fields: [
+                {
+                  name: 'location',
+                  label: 'Physical Location',
+                  type: 'relationship',
+                  relationTo: 'locations',
+                  admin: {
+                    description:
+                      'If no location is selected it will be displayed as "TBA" on the event page.',
+                    width: '50%',
+                  },
+                  hooks: {
+                    beforeChange: [clearLocationHook],
+                  },
+                },
+                uiMapField(),
+              ],
             },
           ],
           admin: {
             hideGutter: true,
           },
         },
-        uiMapField({
-          admin: {
-            condition: (_, siblingData) => siblingData.type !== 'virtual',
-          },
-        }),
       ],
     },
     resourceGroupField({
@@ -192,6 +257,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Mark this event as important to emphasize its significance.',
         position: 'sidebar',
+        condition: (_, siblingData) => siblingData.eventType === 'event',
       },
     },
     ...slugField('title', {
@@ -226,7 +292,7 @@ export const Events: CollectionConfig<'events'> = {
     maxPerDoc: 10,
   },
   admin: {
-    defaultColumns: ['title', 'startDate', 'contact', 'category'],
+    defaultColumns: ['title', 'eventType', 'startDate', 'contact', 'category'],
     useAsTitle: 'title',
   },
 };

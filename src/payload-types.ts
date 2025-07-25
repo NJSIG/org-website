@@ -346,6 +346,10 @@ export interface Media {
 export interface Event {
   id: string;
   /**
+   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
+   */
+  eventType: 'event' | 'importantDate';
+  /**
    * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
   title: string;
@@ -379,11 +383,14 @@ export interface Event {
   /**
    * The contact person for the event.
    */
-  contact: string | Contact;
+  contact?: (string | null) | Contact;
+  attendanceOptions: 'in-person' | 'virtual' | 'hybrid';
+  virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
   /**
-   * Virtual event details should be provided in the description or other communications.
+   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
    */
-  type: 'in-person' | 'virtual' | 'hybrid';
+  virtualLink?: string | null;
+  virtualPasscode?: string | null;
   /**
    * If no location is selected it will be displayed as "TBA" on the event page.
    */
@@ -929,7 +936,7 @@ export interface Location {
     | 'WI'
     | 'WY';
   zipCode: string;
-  phone: string;
+  phone?: string | null;
   website?: {
     type?: 'custom' | null;
     newTab?: boolean | null;
@@ -1352,6 +1359,7 @@ export interface DocumentsSelect<T extends boolean = true> {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
+  eventType?: T;
   title?: T;
   description?: T;
   startDate?: T;
@@ -1361,7 +1369,10 @@ export interface EventsSelect<T extends boolean = true> {
   endTime?: T;
   category?: T;
   contact?: T;
-  type?: T;
+  attendanceOptions?: T;
+  virtualProvider?: T;
+  virtualLink?: T;
+  virtualPasscode?: T;
   location?: T;
   resources?:
     | T

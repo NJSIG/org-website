@@ -10,7 +10,7 @@ import { SubfundPill } from '../SubfundPill';
 
 export type EventCardData = Pick<
   RequiredDataFromCollectionSlug<'events'>,
-  'id' | 'slug' | 'startDate' | 'startTime' | 'type' | 'title' | 'category'
+  'id' | 'slug' | 'startDate' | 'startTime' | 'eventType' | 'title' | 'category'
 >;
 
 export type EventCardProps = {
