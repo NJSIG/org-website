@@ -40,14 +40,18 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
           })}
         >
           {sectionBlocks.map((block) => {
-            const { blockType } = block;
+            try {
+              const { blockType } = block;
 
-            if (blockType && blockType in sectionBlockComponents) {
-              const SectionBlock =
-                sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
+              if (blockType && blockType in sectionBlockComponents) {
+                const SectionBlock =
+                  sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
-              /* @ts-expect-error There will be mismatches between expected types here */
-              return <SectionBlock {...block} key={block.id} />;
+                /* @ts-expect-error There will be mismatches between expected types here */
+                return <SectionBlock {...block} key={block.id} />;
+              }
+            } catch (error) {
+              console.error(`Error rendering section block:`, block, error);
             }
 
             return null;

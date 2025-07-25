@@ -21,13 +21,17 @@ export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
     return (
       <Fragment>
         {blocks.map((block) => {
-          const { blockType } = block;
+          try {
+            const { blockType } = block;
 
-          if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType as keyof typeof blockComponents];
+            if (blockType && blockType in blockComponents) {
+              const Block = blockComponents[blockType as keyof typeof blockComponents];
 
-            /* @ts-expect-error There will be mismatches between expected types here */
-            return <Block {...block} key={block.id} />;
+              /* @ts-expect-error There will be mismatches between expected types here */
+              return <Block {...block} key={block.id} />;
+            }
+          } catch (error) {
+            console.error(`Error rendering block:`, block, error);
           }
 
           return null;

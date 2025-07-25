@@ -5,7 +5,6 @@ import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import { RequiredDataFromCollectionSlug } from 'payload';
-import { ElementType } from 'react';
 import { SubfundPill } from '../SubfundPill';
 
 export type EventCardData = Pick<
@@ -16,7 +15,6 @@ export type EventCardData = Pick<
 export type EventCardProps = {
   cardType: 'event' | 'viewAll' | 'subscribe';
   event?: EventCardData | null;
-  htmlElement?: ElementType | null;
   className?: string;
 };
 
@@ -35,6 +33,8 @@ export const EventCard: React.FC<EventCardProps> = ({ cardType, event, className
       return <ViewAllCard className={className} />;
     case 'subscribe':
       return <p>Subscribe Card works!</p>;
+    default:
+      return null;
   }
 };
 
@@ -42,6 +42,10 @@ const SingleEventCard: React.FC<{ event: EventCardData; className?: string }> = 
   event,
   className,
 }) => {
+  if (!event?.startDate || !event?.slug) {
+    return null;
+  }
+
   const date = new Date(event.startDate);
   const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(
     new Date(event.startDate),
@@ -99,10 +103,10 @@ const Detail: React.FC<{ time?: string; body?: string; tags?: (string | EventCat
     <div className="flex flex-col mt-2 text-left grow">
       {time && <small className="text-sm font-medium">{time}</small>}
       {body && <p>{body}</p>}
-      {tags && tags.length > 0 && (
+      {tags && Array.isArray(tags) && tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-auto">
           {tags.map((tag) => {
-            if (typeof tag === 'string') {
+            if (typeof tag !== 'object' || !tag || !tag.id || !tag.slug || !tag.name) {
               return null;
             }
 

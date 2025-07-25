@@ -12,27 +12,35 @@ const queryEvents = async (
   const { isEnabled: draft } = await draftMode();
   const today = new Date().toISOString();
 
-  const upcomingFilter: Where = {
-    startDate: {
-      greater_than_equal: today,
-    },
-  };
-
   const categoryFilter: Where =
-    categoryFilters && categoryFilters.length > 0
+    categoryFilters && Array.isArray(categoryFilters) && categoryFilters.length > 0
       ? {
-          or: [
-            ...categoryFilters.map((category) => ({
+          or: categoryFilters
+            .filter((category): category is EventCategory =>
+              Boolean(category && typeof category === 'object' && 'id' in category),
+            )
+            .map((category) => ({
               category: {
-                equals: (category as EventCategory).id,
+                equals: category.id,
               },
             })),
-          ],
         }
       : {};
 
   const where: Where = {
-    and: [upcomingFilter, categoryFilter],
+    and: [
+      {
+        startDate: {
+          greater_than_equal: today,
+        },
+      },
+      {
+        _status: {
+          equals: 'published',
+        },
+      },
+      categoryFilter,
+    ],
   };
 
   const payload = await getPayload({ config: configPromise });
@@ -41,7 +49,6 @@ const queryEvents = async (
     draft,
     limit,
     pagination: false,
-    overrideAccess: draft,
     where,
     depth: 1,
     select: {
@@ -49,7 +56,7 @@ const queryEvents = async (
       slug: true,
       startDate: true,
       startTime: true,
-      type: true,
+      eventType: true,
       title: true,
       category: true,
     },
@@ -61,9 +68,21 @@ const queryEvents = async (
 
 export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => {
   const { cards, categoryFilters, showViewAll, enableSubscribe } = props;
-
   const limit = cards - (showViewAll ? 1 : 0);
-  const events: EventCardData[] | null = await queryEvents(limit, categoryFilters);
+
+  let events: EventCardData[] | null = null;
+
+  try {
+    events = await queryEvents(limit, categoryFilters);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+
+    return (
+      <div className="flex items-center justify-center">
+        <p>Error loading events. Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
