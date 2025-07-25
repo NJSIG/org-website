@@ -24,7 +24,6 @@ const queryEventByDateAndSlug = cache(async ({ slug }: { slug: string[] }) => {
     draft,
     limit: 1,
     pagination: false,
-    overrideAccess: draft,
     where: {
       startDate: {
         greater_than_equal: startDate.toISOString(),
@@ -48,7 +47,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     <article className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-2xl font-bold">Event Page</h1>
       <p className="mt-4">This page will display details for a specific event.</p>
-      <pre className="mt-4 max-w-5xl font-mono">{JSON.stringify(event)}</pre>
+      <pre className="mt-4 max-w-5xl font-mono whitespace-normal">{JSON.stringify(event)}</pre>
     </article>
   );
 }

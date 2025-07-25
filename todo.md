@@ -17,8 +17,9 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Revisit actions for build and deploy on multiple environments
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
-- [ ] Change block slugs to kebab-case, to align with Payload's conventions
 - [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
+- [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block
+- [ ] Update slug creation to account for `-` characters
 
 ### COMPLETED TASKS ✔
 
