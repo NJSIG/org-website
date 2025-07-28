@@ -4,6 +4,8 @@ export const formatSlug = (val: string): string =>
   val
     .replace(/ /g, '-') // Replace spaces with hyphens
     .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+    .replace(/\//g, '-') // Replace slashes with hyphens
+    .replace(/^-+|-+$/g, '') // Remove leading and trailing hyphens
     .replace(/[^\w-]+/g, '') // Remove non-word characters except hyphens
     .toLowerCase();
 
