@@ -19,7 +19,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
 - [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
 - [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block
-- [ ] Update slug creation to account for `-` characters
 
 ### COMPLETED TASKS ✔
 
@@ -41,3 +40,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Revisit the `uiMap` field, getting data from the location relationship field is not working as expected, we may need to query the location by ID either using a server component and the local API or with the REST API
 - [x] Add a generate title hook for the documents collection
 - [x] Add a documents section to events, documents may be relationships to the documents collection, media collection, or an external link
+- [x] Update slug creation to account for `-` characters

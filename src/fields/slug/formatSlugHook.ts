@@ -2,8 +2,9 @@ import { FieldHook } from 'payload';
 
 export const formatSlug = (val: string): string =>
   val
-    .replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '')
+    .replace(/ /g, '-') // Replace spaces with hyphens
+    .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+    .replace(/[^\w-]+/g, '') // Remove non-word characters except hyphens
     .toLowerCase();
 
 export const formatSlugHook =
