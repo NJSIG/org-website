@@ -511,6 +511,10 @@
   --event-card-bespoke-foreground: var(--color-foreground-inverted);
   --event-card-bespoke-accent: var(--color-njsig-accent-midtone);
 
+  --subfund-contact-ring: var(--color-njsig-neutral-shade);
+
+  --bento-icon-stroke: var(--color-njsig-primary);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);

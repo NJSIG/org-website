@@ -30,25 +30,25 @@ const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      // [Button, CTA] Flat | Disabled
+      // [Button, CTA, Icon] Flat | Disabled
       {
-        variant: ['button', 'cta'],
+        variant: ['button', 'cta', 'icon'],
         style: 'flat',
         color: ['primary', 'accent'],
         class:
           'disabled:text-battleship-gray-800 disabled:bg-battleship-gray-400 dark:disabled:text-battleship-gray-400 dark:disabled:bg-battleship-gray-800',
       },
-      // [Button, CTA] Flat | Primary
+      // [Button, CTA, Icon] Flat | Primary
       {
-        variant: ['button', 'cta'],
+        variant: ['button', 'cta', 'icon'],
         style: 'flat',
         color: 'primary',
         class:
           'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40',
       },
-      // [Button, CTA] Flat | Accent
+      // [Button, CTA, Icon] Flat | Accent
       {
-        variant: ['button', 'cta'],
+        variant: ['button', 'cta', 'icon'],
         style: 'flat',
         color: 'accent',
         class:
