@@ -4,22 +4,26 @@ NJSIG's website is a great resource for information about the organization, incl
 
 ### TASKS
 
-- [ ] Customize Admin Panel
-  - [ ] Add Logo
-  - [ ] Add Favicon
-  - [ ] Customize Colors
-- [ ] Customize Login Page
 - [ ] Main Nav Click Trigger Bug (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Main nav icon FOUC (Flash of Unstyled Content) (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
-- [ ] Previews for global elements
 - [ ] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
 - [ ] Revisit actions for build and deploy on multiple environments
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
 - [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
 - [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block
+
+### Post MVP Features
+
+- [ ] Customize Admin Panel
+  - [ ] Add Logo
+  - [ ] Add Favicon
+  - [ ] Customize Colors
+- [ ] Customize Login Page
+- [ ] Previews for global elements
 - [ ] Add to calendar functionality for events
+- [ ] Event mailing lists
 
 ### COMPLETED TASKS ✔
 

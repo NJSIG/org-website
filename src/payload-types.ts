@@ -348,7 +348,7 @@ export interface Event {
   /**
    * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
    */
-  eventType: 'event' | 'importantDate';
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
   /**
    * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
@@ -384,7 +384,7 @@ export interface Event {
    * The contact person for the event.
    */
   contact?: (string | null) | Contact;
-  attendanceOptions: 'in-person' | 'virtual' | 'hybrid';
+  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
   virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
   /**
    * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.

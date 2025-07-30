@@ -7,6 +7,18 @@ import { CollectionConfig } from 'payload';
 import { revalidateEventDeleteHook, revalidateEventHook } from './hooks';
 import { clearLocationHook } from './hooks/clearLocationHook';
 
+enum EventType {
+  TrusteeMeeting = 'trusteeMeeting',
+  SubfundMeeting = 'subfundMeeting',
+  ImportantDate = 'importantDate',
+}
+
+enum AttendanceOptions {
+  InPerson = 'inPerson',
+  Virtual = 'virtual',
+  Hybrid = 'hybrid',
+}
+
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   access: {
@@ -29,10 +41,10 @@ export const Events: CollectionConfig<'events'> = {
       name: 'eventType',
       type: 'select',
       required: true,
-      defaultValue: 'event',
       options: [
-        { label: 'Event', value: 'event' },
-        { label: 'Important Date', value: 'importantDate' },
+        { label: 'Trustee Meeting', value: EventType.TrusteeMeeting },
+        { label: 'Sub-fund Meeting', value: EventType.SubfundMeeting },
+        { label: 'Important Date', value: EventType.ImportantDate },
       ],
       admin: {
         isClearable: false,
@@ -77,7 +89,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'dayOnly',
               displayFormat: 'MMM d, yyy',
             },
-            condition: (_, siblingData) => siblingData.eventType === 'event',
+            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
           },
         },
       ],
@@ -93,7 +105,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType === 'event',
+            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
           },
         },
         {
@@ -115,7 +127,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType === 'event',
+            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
           },
         },
       ],
@@ -140,7 +152,7 @@ export const Events: CollectionConfig<'events'> = {
           required: true,
           admin: {
             description: 'The contact person for the event.',
-            condition: (_, siblingData) => siblingData.eventType === 'event',
+            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
           },
         },
       ],
@@ -149,7 +161,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'group',
       admin: {
         hideGutter: true,
-        condition: (_, siblingData) => siblingData.eventType === 'event',
+        condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
       },
       fields: [
         {
@@ -160,11 +172,11 @@ export const Events: CollectionConfig<'events'> = {
               label: 'Attendance Options',
               type: 'select',
               required: true,
-              defaultValue: 'in-person',
+              defaultValue: AttendanceOptions.InPerson,
               options: [
-                { label: 'In-Person', value: 'in-person' },
-                { label: 'Virtual', value: 'virtual' },
-                { label: 'Hybrid', value: 'hybrid' },
+                { label: 'In-Person', value: AttendanceOptions.InPerson },
+                { label: 'Virtual', value: AttendanceOptions.Virtual },
+                { label: 'Hybrid', value: AttendanceOptions.Hybrid },
               ],
               admin: {
                 width: '50%',
@@ -174,7 +186,8 @@ export const Events: CollectionConfig<'events'> = {
             {
               type: 'row',
               admin: {
-                condition: (_, siblingData) => siblingData.attendanceOptions !== 'in-person',
+                condition: (_, siblingData) =>
+                  siblingData.attendanceOptions !== AttendanceOptions.InPerson,
               },
               fields: [
                 {
@@ -217,7 +230,8 @@ export const Events: CollectionConfig<'events'> = {
               type: 'group',
               admin: {
                 hideGutter: true,
-                condition: (_, siblingData) => siblingData.attendanceOptions !== 'virtual',
+                condition: (_, siblingData) =>
+                  siblingData.attendanceOptions !== AttendanceOptions.Virtual,
               },
               fields: [
                 {
@@ -257,7 +271,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Mark this event as important to emphasize its significance.',
         position: 'sidebar',
-        condition: (_, siblingData) => siblingData.eventType === 'event',
+        condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
       },
     },
     ...slugField('title', {
