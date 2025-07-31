@@ -1,5 +1,5 @@
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
-import { EventCardsBlock } from '@/blocks/EventCards/Component';
+import { EventTilesBlock } from '@/blocks/EventTiles/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
@@ -13,7 +13,7 @@ const sectionBlockComponents = {
   sectionContent: SectionContentBlock,
   optimizedImage: OptimizedImageBlock,
   emphasizedList: EmphasizedListBlock,
-  eventCards: EventCardsBlock,
+  eventTiles: EventTilesBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
@@ -47,7 +47,6 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
                 const SectionBlock =
                   sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
-                /* @ts-expect-error There will be mismatches between expected types here */
                 return <SectionBlock {...block} key={block.id} />;
               }
             } catch (error) {

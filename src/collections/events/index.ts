@@ -136,7 +136,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
-          name: 'category',
+          name: 'categories',
           type: 'relationship',
           relationTo: 'event-categories',
           required: true,

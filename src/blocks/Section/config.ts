@@ -50,7 +50,7 @@ export const Section: Block = {
         'cmsButton',
         'optimizedImage',
         'emphasizedList',
-        'eventCards',
+        'eventTiles',
       ],
       defaultValue: [{ blockType: 'sectionTitle' }],
     },

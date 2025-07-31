@@ -1,5 +1,6 @@
-import { EventCard, EventCardData } from '@/components/EventCard';
-import { EventCardsBlock as EventCardsBlockProps, EventCategory } from '@/payload-types';
+import EventTile from '@/components/EventTile';
+import { EventTileData } from '@/components/EventTile/types';
+import { EventCategory, EventTilesBlock as EventTilesBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import configPromise from '@payload-config';
 import { draftMode } from 'next/headers';
@@ -7,8 +8,8 @@ import { getPayload, Where } from 'payload';
 
 const queryEvents = async (
   limit: number,
-  categoryFilters?: EventCardsBlockProps['categoryFilters'],
-): Promise<EventCardData[] | null> => {
+  categoryFilters?: EventTilesBlockProps['categoryFilters'],
+): Promise<EventTileData[] | null> => {
   const { isEnabled: draft } = await draftMode();
   const today = new Date().toISOString();
 
@@ -66,11 +67,11 @@ const queryEvents = async (
   return events.docs || null;
 };
 
-export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => {
-  const { cards, categoryFilters, showViewAll, enableSubscribe } = props;
-  const limit = cards - (showViewAll ? 1 : 0);
+export const EventTilesBlock: React.FC<EventTilesBlockProps> = async (props) => {
+  const { tiles, categoryFilters, showViewAll, enableSubscribe } = props;
+  const limit = tiles - (showViewAll ? 1 : 0);
 
-  let events: EventCardData[] | null = null;
+  let events: EventTileData[] | null = null;
 
   try {
     events = await queryEvents(limit, categoryFilters);
@@ -79,7 +80,10 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
 
     return (
       <div className="flex items-center justify-center">
-        <p>Error loading events. Please try again later.</p>
+        <p className="text-2xl font-thin text-foreground-muted">
+          <span className="font-medium">ERROR</span> | Failed to load events. Please try again
+          later.
+        </p>
       </div>
     );
   }
@@ -89,41 +93,48 @@ export const EventCardsBlock: React.FC<EventCardsBlockProps> = async (props) => 
       {events &&
         events.length > 0 &&
         events.map((event) => (
-          <EventCard
+          <EventTile
             key={event.id}
-            cardType="event"
             event={event}
             className={cn({
-              'lg:col-span-3': cards === 4,
-              'lg:col-span-4': cards === 3,
-              'lg:col-span-6': cards === 2,
-              'lg:col-span-12': cards === 1,
+              'lg:col-span-3': tiles === 4,
+              'lg:col-span-4': tiles === 3,
+              'lg:col-span-6': tiles === 2,
+              'lg:col-span-12': tiles === 1,
             })}
-          />
+          >
+            <EventTile.Header />
+            <EventTile.Detail />
+          </EventTile>
         ))}
 
       {showViewAll && (
-        <EventCard
-          cardType="viewAll"
+        <EventTile
+          event="all"
           className={cn({
-            'lg:col-span-3': cards === 4,
-            'lg:col-span-4': cards === 3,
-            'lg:col-span-6': cards === 2,
-            'lg:col-span-12': cards === 1,
+            'lg:col-span-3': tiles === 4,
+            'lg:col-span-4': tiles === 3,
+            'lg:col-span-6': tiles === 2,
+            'lg:col-span-12': tiles === 1,
           })}
-        />
+        >
+          <EventTile.Header />
+          <EventTile.Detail />
+        </EventTile>
       )}
 
       {(!events || events.length <= 0) && enableSubscribe && (
-        <EventCard
-          cardType="subscribe"
+        <EventTile
           className={cn({
-            'lg:col-span-9': cards === 4,
-            'lg:col-span-8': cards === 3,
-            'lg:col-span-6': cards === 2,
-            'lg:col-span-12': cards === 1,
+            'lg:col-span-9': tiles === 4,
+            'lg:col-span-8': tiles === 3,
+            'lg:col-span-6': tiles === 2,
+            'lg:col-span-12': tiles === 1,
           })}
-        />
+        >
+          <EventTile.Header heading="Get Notified" />
+          <EventTile.Subscribe />
+        </EventTile>
       )}
     </div>
   );

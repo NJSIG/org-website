@@ -75,7 +75,7 @@ export interface Config {
     cmsButton: CMSButtonBlock;
     optimizedImage: OptimizedImageBlock;
     emphasizedList: EmphasizedListBlock;
-    eventCards: EventCardsBlock;
+    eventTiles: EventTilesBlock;
   };
   collections: {
     pages: Page;
@@ -379,7 +379,7 @@ export interface Event {
   /**
    * Select all the categories that apply to this event.
    */
-  category: (string | EventCategory)[];
+  categories: (string | EventCategory)[];
   /**
    * The contact person for the event.
    */
@@ -654,7 +654,7 @@ export interface SectionBlock {
     | CMSButtonBlock
     | OptimizedImageBlock
     | EmphasizedListBlock
-    | EventCardsBlock
+    | EventTilesBlock
   )[];
   id?: string | null;
   blockName?: string | null;
@@ -815,28 +815,28 @@ export interface EmphasizedListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventCardsBlock".
+ * via the `definition` "EventTilesBlock".
  */
-export interface EventCardsBlock {
+export interface EventTilesBlock {
   /**
-   * Set the number of cards to display, including the "View All" card
+   * Set the number of tiles to display, including the "View All" tile
    */
-  cards: number;
+  tiles: number;
   /**
    * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
    */
   categoryFilters?: (string | EventCategory)[] | null;
   /**
-   * Toggle to show or hide the "View All" card at the end of the list.
+   * Toggle to show or hide the "View All" tile at the end of the list.
    */
   showViewAll?: boolean | null;
   /**
-   * Enable the "Subscribe" card when there are no events to display.
+   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
    */
   enableSubscribe?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'eventCards';
+  blockType: 'eventTiles';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1367,7 +1367,7 @@ export interface EventsSelect<T extends boolean = true> {
   registrationTime?: T;
   startTime?: T;
   endTime?: T;
-  category?: T;
+  categories?: T;
   contact?: T;
   attendanceOptions?: T;
   virtualProvider?: T;

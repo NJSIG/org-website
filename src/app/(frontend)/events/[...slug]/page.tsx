@@ -1,4 +1,4 @@
-import { EventCardData } from '@/components/EventCard';
+import { EventTileData } from '@/components/EventTile/types';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { Event, EventCategory } from '@/payload-types';
 import { generateEventMetaGraph } from '@/utilities/generateEventMetaGraph';
@@ -48,8 +48,8 @@ const queryRelatedEventsByCategory = cache(
     categories,
   }: {
     currentId: string;
-    categories: Event['category'];
-  }): Promise<EventCardData[]> => {
+    categories: Event['categories'];
+  }): Promise<EventTileData[]> => {
     if (!categories || !Array.isArray(categories) || categories.length === 0) {
       return [];
     }
@@ -135,10 +135,9 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     redirect('/events');
   }
 
-  // const relatedEvents: Event[] = [];
   const relatedEvents = await queryRelatedEventsByCategory({
     currentId: event.id,
-    categories: event.category,
+    categories: event.categories,
   });
 
   return (

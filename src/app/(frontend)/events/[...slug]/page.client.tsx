@@ -1,8 +1,9 @@
 'use client';
 
-import { Bento, BentoItem } from '@/components/Bento';
+import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
-import { EventCard, EventCardData } from '@/components/EventCard';
+import EventTile from '@/components/EventTile';
+import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
 import RichText from '@/components/RichText';
@@ -17,7 +18,7 @@ import React, { useEffect } from 'react';
 
 type EventPageClientProps = {
   event: Event;
-  related: EventCardData[];
+  related: EventTileData[];
 };
 
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
@@ -46,18 +47,24 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
  * It displays the event category, title, and contact person.
  * It also includes a button to add the event to the calendar.
  */
-const EventHeader: React.FC<Event> = ({ category, title, contact }) => {
+const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
   return (
     <div className="bg-azure-to-r px-6 py-10">
       <div className="max-w-section mx-auto flex flex-col gap-4 text-foreground-inverted">
-        {category && Array.isArray(category) && category.length > 0 && (
+        {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {category.map((tag) => {
-              if (typeof tag !== 'object' || !tag || !tag.id || !tag.slug || !tag.name) {
+            {categories.map((category) => {
+              if (
+                typeof category !== 'object' ||
+                !category ||
+                !category.id ||
+                !category.slug ||
+                !category.name
+              ) {
                 return null;
               }
 
-              return <SubfundPill key={tag.id} theme={tag.slug} label={tag.name} />;
+              return <SubfundPill key={category.id} theme={category.slug} label={category.name} />;
             })}
           </div>
         )}
@@ -76,7 +83,7 @@ const EventHeader: React.FC<Event> = ({ category, title, contact }) => {
 /**
  * This component renders the details of the event.
  * It includes the event description, date, time, virtual attendance options, and location.
- * It uses the Bento and BentoItem components to organize the information.
+ * It uses the Bento and Bento.Item components to organize the information.
  * It also formats the date and time for better readability.
  */
 const EventDetails: React.FC<Event> = ({
@@ -131,12 +138,12 @@ const EventDetails: React.FC<Event> = ({
         <div className="w-full mt-4">
           <Bento className="">
             {/* Date */}
-            <BentoItem icon="calendar" label="Date">
+            <Bento.Item icon="calendar" label="Date">
               <span className="text-lg font-medium">{`${formattedStartDate}${formattedEndDate ? ` \u2014 ${formattedEndDate}` : ''}`}</span>
-            </BentoItem>
+            </Bento.Item>
 
             {/* Time */}
-            <BentoItem icon="clock" label="Time">
+            <Bento.Item icon="clock" label="Time">
               <div className="flex flex-col gap-1 text-lg font-medium">
                 <span>
                   {`${formattedStartTime}${formattedEndTime ? ` \u2014 ${formattedEndTime}` : ''}`}
@@ -147,11 +154,11 @@ const EventDetails: React.FC<Event> = ({
                   </span>
                 )}
               </div>
-            </BentoItem>
+            </Bento.Item>
 
             {/* Virtual */}
-            <BentoItem icon="webcam" label="Virtual Attendance">
-              {attendanceOptions === 'in-person' ? (
+            <Bento.Item icon="webcam" label="Virtual Attendance">
+              {attendanceOptions === 'inPerson' ? (
                 <span className="text-lg font-medium">In-Person Only</span>
               ) : virtualLink ? (
                 <div className="flex flex-col gap-1">
@@ -171,10 +178,10 @@ const EventDetails: React.FC<Event> = ({
               ) : (
                 <span className="text-lg font-medium">Virtual Attendance Details Unavailable</span>
               )}
-            </BentoItem>
+            </Bento.Item>
 
             {/* Location */}
-            <BentoItem icon="map-pin" label="Location">
+            <Bento.Item icon="map-pin" label="Location">
               {location ? (
                 <div className="flex flex-col gap-1">
                   {location.website ? (
@@ -196,7 +203,7 @@ const EventDetails: React.FC<Event> = ({
               ) : (
                 <span className="text-lg font-medium">Location details not provided</span>
               )}
-            </BentoItem>
+            </Bento.Item>
           </Bento>
         </div>
       </div>
@@ -218,7 +225,7 @@ const EventResources: React.FC<Event> = ({ resources }) => {
   );
 };
 
-const EventRelated: React.FC<{ events: EventCardData[] }> = ({ events }) => {
+const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-section mx-auto flex flex-col items-start gap-4">
@@ -227,9 +234,15 @@ const EventRelated: React.FC<{ events: EventCardData[] }> = ({ events }) => {
         </TitleTheme>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {events.map((event) => (
-            <EventCard key={event.id} cardType="event" event={event} className="lg:col-span-4" />
+            <EventTile key={event.id} event={event} className="lg:col-span-4">
+              <EventTile.Header />
+              <EventTile.Detail />
+            </EventTile>
           ))}
-          <EventCard cardType="viewAll" className="lg:col-span-4" />
+          <EventTile event="all" className="lg:col-span-4">
+            <EventTile.Header />
+            <EventTile.Detail />
+          </EventTile>
         </div>
       </div>
     </div>

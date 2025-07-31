@@ -14,11 +14,14 @@ export type BentoItemProps = {
   children: React.ReactNode;
 };
 
-const Bento: React.FC<BentoProps> = ({ className, children }) => {
+const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } = ({
+  className,
+  children,
+}) => {
   return <div className={cn('grid grid-cols-1 gap-4', className)}>{children}</div>;
 };
 
-const BentoItem: React.FC<BentoItemProps> = ({ icon, label, className, children }) => {
+Bento.Item = function Item({ icon, label, className, children }: BentoItemProps) {
   return (
     <div className={cn('rounded-3xl bg-njsig-neutral-tint p-4', className)}>
       <div className="flex items-center gap-2 mb-1">
@@ -30,4 +33,4 @@ const BentoItem: React.FC<BentoItemProps> = ({ icon, label, className, children 
   );
 };
 
-export { Bento, BentoItem };
+export default Bento;

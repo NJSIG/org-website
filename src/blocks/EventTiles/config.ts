@@ -1,28 +1,28 @@
 import { Block } from 'payload';
 
-export const EventCards: Block = {
-  slug: 'eventCards',
-  interfaceName: 'EventCardsBlock',
+export const EventTiles: Block = {
+  slug: 'eventTiles',
+  interfaceName: 'EventTilesBlock',
   labels: {
-    singular: 'Event Cards',
-    plural: 'Event Cards',
+    singular: 'Event Tile',
+    plural: 'Event Tiles',
   },
-  imageURL: '/blocks/event-cards.png',
-  imageAltText: 'Event Cards Block',
+  imageURL: '/blocks/event-tiles.png',
+  imageAltText: 'Event Tiles Block',
   fields: [
     {
       type: 'row',
       fields: [
         {
-          name: 'cards',
-          label: 'Number of Cards',
+          name: 'tiles',
+          label: 'Number of Tiles',
           type: 'number',
           min: 1,
           max: 4,
           defaultValue: 3,
           required: true,
           admin: {
-            description: 'Set the number of cards to display, including the "View All" card',
+            description: 'Set the number of tiles to display, including the "View All" tile',
           },
         },
         {
@@ -43,20 +43,21 @@ export const EventCards: Block = {
       fields: [
         {
           name: 'showViewAll',
-          label: 'Show "View All" Card',
+          label: 'Show "View All" Tile',
           type: 'checkbox',
           defaultValue: true,
           admin: {
-            description: 'Toggle to show or hide the "View All" card at the end of the list.',
+            description: 'Toggle to show or hide the "View All" tile at the end of the list.',
           },
         },
         {
           name: 'enableSubscribe',
-          label: 'Enable Subscribe Card',
+          label: 'Enable Subscribe Tile',
           type: 'checkbox',
           defaultValue: true,
           admin: {
-            description: 'Enable the "Subscribe" card when there are no events to display.',
+            description:
+              'Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.',
           },
         },
       ],
