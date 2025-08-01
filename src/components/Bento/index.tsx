@@ -18,7 +18,7 @@ const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } = ({
   className,
   children,
 }) => {
-  return <div className={cn('grid grid-cols-1 gap-4', className)}>{children}</div>;
+  return <div className={cn('grid grid-cols-1 gap-4 lg:grid-cols-2', className)}>{children}</div>;
 };
 
 Bento.Item = function Item({ icon, label, className, children }: BentoItemProps) {

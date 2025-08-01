@@ -2,6 +2,21 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
+/*
+ * Override prefers-color-scheme
+ *
+ * If a parent is dark, then all children are dark
+ *
+ * If a child needs to be light, it can use the `light` class to
+ * override the `dark` class from the parent.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/*
+ * Core theme definitions
+ */
+
 @theme {
   /** NJSIG Color Palettes **/
   --color-azure-50: oklch(0.9735 0.005 263.54);
@@ -157,6 +172,10 @@
   --container-section-wide-content: 37.5rem;
 }
 
+/*
+ * Theme tokens
+ */
+
 @theme inline {
   /** NJSIG Color Tokens **/
   --color-brand-primary: var(--color-azure-600);
@@ -262,59 +281,64 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /** Animations **/
-  --animate-micro-wiggle: wiggle 0.2s ease-in-out;
+  /**
+   * Micro Animations
+   *
+   * Basic micro animations for simple icons.
+   * Some additional utilities exist for more complex animations
+   * on multi-part svg icons.
+   *
+   * Some variables are set up here to make the animation consistent
+   */
+  --micro-animation-time: 0.2s;
+  --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  --animate-micro-wiggle: wiggle var(--micro-animation-time) var(--ease-out-back);
 
   @keyframes wiggle {
     0%,
     100% {
       rotate: 0deg;
     }
-
     25% {
       rotate: 5deg;
     }
-
     75% {
       rotate: -3deg;
     }
   }
 
-  --animate-micro-up-right: up-right 0.2s ease-in-out;
+  --animate-micro-up-right: micro-up-right var(--micro-animation-time);
 
-  @keyframes up-right {
+  @keyframes micro-up-right {
     0%,
     100% {
       translate: 0 0;
+      animation-timing-function: ease-out;
     }
 
     25% {
-      translate: 1px -1px;
-    }
-
-    75% {
-      translate: -0.5px 0.5px;
+      translate: 1.5px -1.5px;
+      animation-timing-function: var(--ease-out-back);
     }
   }
 
-  --animate-micro-shake: shake 0.2s ease-in-out;
+  --animate-micro-bounce: micro-bounce var(--micro-animation-time);
 
-  @keyframes shake {
+  @keyframes micro-bounce {
     0%,
     100% {
       translate: 0 0;
+      animation-timing-function: ease-out;
     }
 
     25% {
-      translate: 1px 0px;
-    }
-
-    75% {
-      translate: -0.5px 0px;
+      translate: 0 -3px;
+      animation-timing-function: var(--ease-out-back);
     }
   }
 
-  /** Animation to works as an extension to the `tw-animate-css` plugin
+  /** Animate to works as an extension to the `tw-animate-css` plugin
    * This extension solves the issue of delayed animations no playing properly
    * see the utility overrides below for more information.
    */
@@ -347,16 +371,6 @@
 }
 
 /*
- * Override prefers-color-scheme
- *
- * If a parent is dark, then all children are dark
- *
- * If a child needs to be light, it can use the `light` class to
- * override the `dark` class from the parent.
- */
-@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
-
-/*
  * Background Gradients
  *
  * These are used to create a gradient background.
@@ -380,7 +394,6 @@
  * Usage: text-mix-tint-azure-500/10
  * Will result in 10% white tint on azure-500
  */
-
 @utility text-mix-tint-* {
   color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
@@ -414,12 +427,13 @@
 }
 
 /**
- * Zoom
- *
- * These are used to create a zoom effect on elements.
- * Usage: zm-150 will result in 150% zoom
- * Usage: zm-normal will reset the zoom to normal
- */
+  * Zoom
+  *
+  * These are used to create a zoom effect on elements.
+  * Usage: zm-150 will result in 150% zoom
+  * Usage: zm-normal will reset the zoom to normal
+  */
+
 @utility zm-* {
   zoom: --value('normal', 'reset');
   zoom: calc(--value(integer) * 1%);
@@ -427,6 +441,25 @@
 
 @utility clip-path-polygon-* {
   clip-path: polygon(--value([*]));
+}
+
+/** Complex Animation Helpers
+ *
+ * These utilities are used for complex icon animations
+ * that require targeting specific parts of an SVG with
+ * one or more animation properties.
+ */
+@utility animate-icon-download {
+  & > polyline,
+  & > line {
+    animation: var(--animate-micro-bounce);
+  }
+}
+
+@utility animate-icon-external-link {
+  & > path:nth-child(-n + 2) {
+    animation: var(--animate-micro-up-right);
+  }
 }
 
 /**
@@ -497,6 +530,7 @@
 /*
  * Root Variables
  */
+
 :root {
   --foreground: var(--color-battleship-gray-950);
   --muted: var(--color-battleship-gray-200);
@@ -549,6 +583,7 @@
  *
  * These are the base styles for the application.
  */
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

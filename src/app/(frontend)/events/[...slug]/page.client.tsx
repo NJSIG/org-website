@@ -6,12 +6,14 @@ import EventTile from '@/components/EventTile';
 import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
+import ResourceList from '@/components/ResourceList';
 import RichText from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { useSubfundTheme } from '@/providers/SubfundTheme';
+import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
@@ -90,6 +92,7 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
  * It also formats the date and time for better readability.
  */
 const EventDetails: React.FC<Event> = ({
+  eventType,
   description,
   startDate,
   endDate,
@@ -137,16 +140,20 @@ const EventDetails: React.FC<Event> = ({
         <TitleTheme size="responsive" animated={true}>
           Event Details
         </TitleTheme>
-        {description && <RichText data={description} enableProse={true} />}
+        {description && <RichText data={description} enableProse={true} className="mx-0" />}
         <div className="w-full mt-4">
-          <Bento className="">
+          <Bento>
             {/* Date */}
-            <Bento.Item icon="calendar" label="Date">
+            <Bento.Item icon="calendar" label="Date" className="lg:col-start-1">
               <span className="text-lg font-medium">{`${formattedStartDate}${formattedEndDate ? ` \u2014 ${formattedEndDate}` : ''}`}</span>
             </Bento.Item>
 
             {/* Time */}
-            <Bento.Item icon="clock" label="Time">
+            <Bento.Item
+              icon="clock"
+              label="Time"
+              className={cn({ 'lg:col-start-1': eventType !== 'importantDate' })}
+            >
               <div className="flex flex-col gap-1 text-lg font-medium">
                 <span>
                   {`${formattedStartTime}${formattedEndTime ? ` \u2014 ${formattedEndTime}` : ''}`}
@@ -160,53 +167,63 @@ const EventDetails: React.FC<Event> = ({
             </Bento.Item>
 
             {/* Virtual */}
-            <Bento.Item icon="webcam" label="Virtual Attendance">
-              {attendanceOptions === 'inPerson' ? (
-                <span className="text-lg font-medium">In-Person Only</span>
-              ) : virtualLink ? (
-                <div className="flex flex-col gap-1">
-                  <Hyperlink
-                    link={{ url: virtualLink, newTab: true, allowReferrer: false }}
-                    className="text-lg font-medium"
-                  >
-                    {virtualProvider ? `${virtualProvider} Meeting Link` : 'Virtual Meeting Link'}{' '}
-                    <ArrowUpRightIcon size={16} className="inline-block" />
-                  </Hyperlink>
-                  {virtualPasscode && (
-                    <span className="text-lg text-foreground-muted">
-                      Passcode: <strong>{virtualPasscode}</strong>
-                    </span>
-                  )}
-                </div>
-              ) : (
-                <span className="text-lg font-medium">Virtual Attendance Details Unavailable</span>
-              )}
-            </Bento.Item>
+            {eventType !== 'importantDate' && (
+              <Bento.Item icon="webcam" label="Virtual Attendance" className="lg:col-start-1">
+                {attendanceOptions === 'inPerson' ? (
+                  <span className="text-lg font-medium">In-Person Only</span>
+                ) : virtualLink ? (
+                  <div className="flex flex-col gap-1">
+                    <Hyperlink
+                      link={{ url: virtualLink, newTab: true, allowReferrer: false }}
+                      className="text-lg font-medium"
+                    >
+                      {virtualProvider ? `${virtualProvider} Meeting Link` : 'Virtual Meeting Link'}{' '}
+                      <ArrowUpRightIcon size={16} className="inline-block" />
+                    </Hyperlink>
+                    {virtualPasscode && (
+                      <span className="text-lg text-foreground-muted">
+                        Passcode: <strong>{virtualPasscode}</strong>
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-lg font-medium">
+                    Virtual Attendance Details Unavailable
+                  </span>
+                )}
+              </Bento.Item>
+            )}
 
             {/* Location */}
-            <Bento.Item icon="map-pin" label="Location">
-              {location ? (
-                <div className="flex flex-col gap-1">
-                  {location.website ? (
-                    <Hyperlink link={location.website} className="text-lg font-medium">
-                      {location.name} <ArrowUpRightIcon size={16} className="inline-block" />
-                    </Hyperlink>
-                  ) : (
-                    <span className="text-lg font-medium">{location.name}</span>
-                  )}
-                  <span className="text-lg text-foreground-muted">
-                    {`${location.streetAddress}${location.streetAddress2 ? ` ${location.streetAddress2}` : ''}, ${location.city}, ${location.state} ${location.zipCode}`}
-                  </span>
-                  <GoogleMap
-                    location={location}
-                    height={200}
-                    containerClassName="rounded-lg overflow-hidden"
-                  />
-                </div>
-              ) : (
-                <span className="text-lg font-medium">Location details not provided</span>
-              )}
-            </Bento.Item>
+            {eventType !== 'importantDate' && (
+              <Bento.Item
+                icon="map-pin"
+                label="Location"
+                className="lg:col-start-2 lg:row-start-1 lg:row-span-3"
+              >
+                {location ? (
+                  <div className="flex flex-col gap-1">
+                    {location.website ? (
+                      <Hyperlink link={location.website} className="text-lg font-medium">
+                        {location.name} <ArrowUpRightIcon size={16} className="inline-block" />
+                      </Hyperlink>
+                    ) : (
+                      <span className="text-lg font-medium">{location.name}</span>
+                    )}
+                    <span className="text-lg text-foreground-muted">
+                      {`${location.streetAddress}${location.streetAddress2 ? ` ${location.streetAddress2}` : ''}, ${location.city}, ${location.state} ${location.zipCode}`}
+                    </span>
+                    <GoogleMap
+                      location={location}
+                      height={200}
+                      containerClassName="rounded-lg overflow-hidden"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-lg font-medium">Location Details Unavailable</span>
+                )}
+              </Bento.Item>
+            )}
           </Bento>
         </div>
       </div>
@@ -222,7 +239,7 @@ const EventResources: React.FC<Event> = ({ resources }) => {
         <TitleTheme size="responsive" animated={true}>
           Meeting Resources
         </TitleTheme>
-        {/* TODO */}
+        <ResourceList resources={resources} />
       </div>
     </div>
   );
@@ -230,7 +247,7 @@ const EventResources: React.FC<Event> = ({ resources }) => {
 
 const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 pt-8 pb-12 lg:pb-20">
       <div className="max-w-section mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={true}>
           Related Events
@@ -238,7 +255,14 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {events && events.length > 0 ? (
             events.map((event) => (
-              <EventTile key={event.id} event={event} className="lg:col-span-4">
+              <EventTile
+                key={event.id}
+                event={event}
+                className={cn({
+                  'lg:col-span-4': events.length > 1,
+                  'lg:col-span-6': events.length === 1,
+                })}
+              >
                 <EventTile.Header />
                 <EventTile.Detail />
               </EventTile>
@@ -248,7 +272,13 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
               <EventTile.NoEvents />
             </EventTile>
           )}
-          <EventTile event="all" className="lg:col-span-4">
+          <EventTile
+            event="all"
+            className={cn({
+              'lg:col-span-4': events.length > 1,
+              'lg:col-span-6': events.length === 1,
+            })}
+          >
             <EventTile.Header />
             <EventTile.Detail />
           </EventTile>
