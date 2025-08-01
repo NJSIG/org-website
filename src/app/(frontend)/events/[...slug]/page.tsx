@@ -63,7 +63,7 @@ const queryRelatedEventsByCategory = cache(
         .filter((category): category is EventCategory =>
           Boolean(category && typeof category === 'object' && 'id' in category),
         )
-        .map((category) => ({ category: { equals: category.id } })),
+        .map((category) => ({ categories: { equals: category.id } })),
     };
 
     const where: Where = {
@@ -101,7 +101,7 @@ const queryRelatedEventsByCategory = cache(
         startTime: true,
         eventType: true,
         title: true,
-        category: true,
+        categories: true,
       },
       sort: 'startDate',
     });
