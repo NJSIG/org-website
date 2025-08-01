@@ -10,10 +10,9 @@ import RichText from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
-import { ButtonPrime } from '@/primitives/ui/button-prime';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { useSubfundTheme } from '@/providers/SubfundTheme';
-import { ArrowUpRightIcon, CalendarPlusIcon } from 'lucide-react';
+import { ArrowUpRightIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
 type EventPageClientProps = {
@@ -71,9 +70,13 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
         <h2 className="text-3xl font-medium">{title}</h2>
         <div className="flex items-center w-full mt-2">
           {contact && typeof contact === 'object' && <ContactPerson contact={contact} size="sm" />}
-          <ButtonPrime variant="icon" style="flat" color="accent" size="medium" className="ml-auto">
-            <CalendarPlusIcon size={24} />
-          </ButtonPrime>
+          {/*
+            TODO: Implement add to calendar functionality
+            This button should open a modal or redirect to a calendar integration.
+            <ButtonPrime variant="icon" style="flat" color="accent" size="medium" className="ml-auto">
+              <CalendarPlusIcon size={24} />
+            </ButtonPrime>
+          */}
         </div>
       </div>
     </div>
@@ -233,12 +236,18 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
           Related Events
         </TitleTheme>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {events.map((event) => (
-            <EventTile key={event.id} event={event} className="lg:col-span-4">
-              <EventTile.Header />
-              <EventTile.Detail />
+          {events && events.length > 0 ? (
+            events.map((event) => (
+              <EventTile key={event.id} event={event} className="lg:col-span-4">
+                <EventTile.Header />
+                <EventTile.Detail />
+              </EventTile>
+            ))
+          ) : (
+            <EventTile className="lg:col-span-8">
+              <EventTile.NoEvents />
             </EventTile>
-          ))}
+          )}
           <EventTile event="all" className="lg:col-span-4">
             <EventTile.Header />
             <EventTile.Detail />
