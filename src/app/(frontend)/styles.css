@@ -504,16 +504,18 @@
   --border: var(--color-battleship-gray-400);
   --ring: var(--color-battleship-gray-400);
 
-  --event-card: var(--color-njsig-neutral-tint);
-  --event-card-foreground: var(--color-foreground);
-  --event-card-bespoke-dark: var(--color-azure-900);
-  --event-card-bespoke-light: var(--color-azure-700);
-  --event-card-bespoke-foreground: var(--color-foreground-inverted);
-  --event-card-bespoke-accent: var(--color-njsig-accent-midtone);
-
-  --subfund-contact-ring: var(--color-njsig-neutral-shade);
+  --event-tile: var(--color-njsig-neutral-tint);
+  --event-tile-foreground: var(--color-foreground);
+  --event-tile-bespoke-dark: var(--color-azure-900);
+  --event-tile-bespoke-light: var(--color-azure-700);
+  --event-tile-bespoke-foreground: var(--color-foreground-inverted);
+  --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
 
   --bento-icon-stroke: var(--color-njsig-primary);
+
+  --resource-theme: var(--color-njsig-primary);
+
+  --subfund-contact-ring: var(--color-njsig-neutral-shade);
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

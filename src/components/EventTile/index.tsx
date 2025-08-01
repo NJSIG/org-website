@@ -22,10 +22,10 @@ const EventTile: React.FC<EventTileProps> & {
   Subscribe: React.FC<SubscribeProps>;
 } = ({ event, className, children }) => {
   const tileClasses = cn(
-    'group/event-card p-4 flex flex-col rounded-3xl bg-[var(--event-card)] text-[var(--event-card-foreground)] min-h-52 min-w-52',
+    'group/event-card p-4 flex flex-col rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] min-h-52 min-w-52',
     {
       'cursor-pointer': event !== undefined,
-      'bg-linear-to-tr from-[var(--event-card-bespoke-dark)] from-30% to-[var(--event-card-bespoke-light)] text-[var(--event-card-bespoke-foreground)]':
+      'bg-linear-to-tr from-[var(--event-tile-bespoke-dark)] from-30% to-[var(--event-tile-bespoke-light)] text-[var(--event-tile-bespoke-foreground)]':
         event === 'all',
     },
     className,
@@ -67,7 +67,7 @@ EventTile.Header = function Header({ heading, className }: EventHeaderProps) {
       <span className="text-xl font-bold uppercase">{title}</span>
       <ArrowUpRightIcon
         className={cn('group-hover/event-card:motion-safe:animate-micro-up-right', {
-          'stroke-[var(--event-card-bespoke-accent)]': event === 'all',
+          'stroke-[var(--event-tile-bespoke-accent)]': event === 'all',
         })}
       />
     </div>
