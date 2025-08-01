@@ -65,7 +65,11 @@ EventTile.Header = function Header({ heading, className }: EventHeaderProps) {
   return (
     <div className={cn('flex items-center justify-between w-full', className)}>
       <span className="text-xl font-bold uppercase">{title}</span>
-      <ArrowUpRightIcon className="group-hover/event-card:motion-safe:animate-micro-up-right" />
+      <ArrowUpRightIcon
+        className={cn('group-hover/event-card:motion-safe:animate-micro-up-right', {
+          'stroke-[var(--event-card-bespoke-accent)]': event === 'all',
+        })}
+      />
     </div>
   );
 };
