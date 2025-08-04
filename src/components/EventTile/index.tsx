@@ -15,14 +15,9 @@ import {
   SubscribeProps,
 } from './types';
 
-const EventTile: React.FC<EventTileProps> & {
-  Header: React.FC<EventHeaderProps>;
-  Detail: React.FC<EventDetailProps>;
-  NoEvents: React.FC<NoEventsProps>;
-  Subscribe: React.FC<SubscribeProps>;
-} = ({ event, className, children }) => {
+const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => {
   const tileClasses = cn(
-    'group/event-card p-4 flex flex-col rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] min-h-52 min-w-52',
+    'group/event-card rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] min-h-52 min-w-52',
     {
       'cursor-pointer': event !== undefined,
       'bg-linear-to-tr from-[var(--event-tile-bespoke-dark)] from-30% to-[var(--event-tile-bespoke-light)] text-[var(--event-tile-bespoke-foreground)]':
@@ -46,9 +41,11 @@ const EventTile: React.FC<EventTileProps> & {
   return (
     <EventTileContext.Provider value={{ event, formattedDate, formattedTime }}>
       {href ? (
-        <Link href={href} className={tileClasses}>
-          {children}
-        </Link>
+        <article className={tileClasses}>
+          <Link href={href} className="flex flex-col p-4 w-full h-full">
+            {children}
+          </Link>
+        </article>
       ) : (
         <div className={tileClasses}>{children}</div>
       )}
@@ -56,7 +53,7 @@ const EventTile: React.FC<EventTileProps> & {
   );
 };
 
-EventTile.Header = function Header({ heading, className }: EventHeaderProps) {
+const EventTileHeader: React.FC<EventHeaderProps> = ({ heading, className }) => {
   const { event, formattedDate } = useEventTileContext();
   const title = heading
     ? heading.toUpperCase()
@@ -74,7 +71,7 @@ EventTile.Header = function Header({ heading, className }: EventHeaderProps) {
   );
 };
 
-EventTile.Detail = function Detail({ content: contentFromProps, className }: EventDetailProps) {
+const EventTileDetail: React.FC<EventDetailProps> = ({ content: contentFromProps, className }) => {
   const { event, formattedTime } = useEventTileContext();
   const content = contentFromProps
     ? contentFromProps
@@ -110,10 +107,10 @@ EventTile.Detail = function Detail({ content: contentFromProps, className }: Eve
   );
 };
 
-EventTile.NoEvents = function NoEvents({
+const EventTileNoEvents: React.FC<NoEventsProps> = ({
   message = 'No Upcoming Events',
   className,
-}: NoEventsProps) {
+}) => {
   return (
     <div className={cn('h-full w-full flex items-center justify-center', className)}>
       <p className="text-lg font-medium">{message}</p>
@@ -121,7 +118,7 @@ EventTile.NoEvents = function NoEvents({
   );
 };
 
-EventTile.Subscribe = function Subscribe({ className }: SubscribeProps) {
+const EventTileSubscribe: React.FC<SubscribeProps> = ({ className }) => {
   // TODO: Implement Subscribe Form
   return null;
 };
@@ -130,7 +127,7 @@ const generateEventLink = (event: EventTileData): string => {
   const { slug, startDate } = event;
   const date = new Date(startDate);
 
-  return `/events/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/${slug}`;
+  return `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate()}/${slug}`;
 };
 
-export default EventTile;
+export { EventTile, EventTileDetail, EventTileHeader, EventTileNoEvents, EventTileSubscribe };

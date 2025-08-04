@@ -2,7 +2,12 @@
 
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
-import EventTile from '@/components/EventTile';
+import {
+  EventTile,
+  EventTileDetail,
+  EventTileHeader,
+  EventTileNoEvents,
+} from '@/components/EventTile';
 import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
@@ -263,13 +268,13 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
                   'lg:col-span-6': events.length === 1,
                 })}
               >
-                <EventTile.Header />
-                <EventTile.Detail />
+                <EventTileHeader />
+                <EventTileDetail />
               </EventTile>
             ))
           ) : (
             <EventTile className="lg:col-span-8">
-              <EventTile.NoEvents />
+              <EventTileNoEvents />
             </EventTile>
           )}
           <EventTile
@@ -279,8 +284,8 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
               'lg:col-span-6': events.length === 1,
             })}
           >
-            <EventTile.Header />
-            <EventTile.Detail />
+            <EventTileHeader />
+            <EventTileDetail />
           </EventTile>
         </div>
       </div>

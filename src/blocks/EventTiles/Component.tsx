@@ -1,4 +1,9 @@
-import EventTile from '@/components/EventTile';
+import {
+  EventTile,
+  EventTileDetail,
+  EventTileHeader,
+  EventTileSubscribe,
+} from '@/components/EventTile';
 import { EventTileData } from '@/components/EventTile/types';
 import { EventCategory, EventTilesBlock as EventTilesBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
@@ -103,8 +108,8 @@ export const EventTilesBlock: React.FC<EventTilesBlockProps> = async (props) => 
               'lg:col-span-12': tiles === 1,
             })}
           >
-            <EventTile.Header />
-            <EventTile.Detail />
+            <EventTileHeader />
+            <EventTileDetail />
           </EventTile>
         ))}
 
@@ -118,8 +123,8 @@ export const EventTilesBlock: React.FC<EventTilesBlockProps> = async (props) => 
             'lg:col-span-12': tiles === 1,
           })}
         >
-          <EventTile.Header />
-          <EventTile.Detail />
+          <EventTileHeader />
+          <EventTileDetail />
         </EventTile>
       )}
 
@@ -132,8 +137,8 @@ export const EventTilesBlock: React.FC<EventTilesBlockProps> = async (props) => 
             'lg:col-span-12': tiles === 1,
           })}
         >
-          <EventTile.Header heading="Get Notified" />
-          <EventTile.Subscribe />
+          <EventTileHeader heading="Get Notified" />
+          <EventTileSubscribe />
         </EventTile>
       )}
     </div>

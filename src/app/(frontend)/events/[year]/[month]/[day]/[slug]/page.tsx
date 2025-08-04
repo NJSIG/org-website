@@ -11,36 +11,48 @@ import { cache } from 'react';
 import EventPageClient from './page.client';
 
 type Args = {
-  params: Promise<{ slug?: string[] }>;
+  params: Promise<{ year: string; month: string; day: string; slug: string }>;
 };
 
-const queryEventByDateAndSlug = cache(async ({ slug }: { slug: string[] }) => {
-  if (!slug || slug.length < 4) {
-    return null; // Invalid slug format
-  }
+const queryEventByDateAndSlug = cache(
+  async ({
+    year,
+    month,
+    day,
+    slug,
+  }: {
+    year: string;
+    month: string;
+    day: string;
+    slug: string;
+  }) => {
+    if (!year || !month || !day || !slug) {
+      return null; // Invalid slug format
+    }
 
-  const { isEnabled: draft } = await draftMode();
-  const payload = await getPayload({ config: configPromise });
+    const { isEnabled: draft } = await draftMode();
+    const payload = await getPayload({ config: configPromise });
 
-  const startDate = new Date(`${slug[0]}-${slug[1]}-${slug[2]}`);
+    const startDate = new Date(`${year}-${month}-${day}`);
 
-  const result = await payload.find({
-    collection: 'events',
-    draft,
-    limit: 1,
-    pagination: false,
-    where: {
-      startDate: {
-        greater_than_equal: startDate.toISOString(),
+    const result = await payload.find({
+      collection: 'events',
+      draft,
+      limit: 1,
+      pagination: false,
+      where: {
+        startDate: {
+          greater_than_equal: startDate.toISOString(),
+        },
+        slug: {
+          equals: slug,
+        },
       },
-      slug: {
-        equals: slug[3],
-      },
-    },
-  });
+    });
 
-  return result.docs?.[0] || null;
-});
+    return result.docs?.[0] || null;
+  },
+);
 
 const queryRelatedEventsByCategory = cache(
   async ({
@@ -114,8 +126,8 @@ const queryRelatedEventsByCategory = cache(
  * This function generates metadata for the event page based on its slug.
  */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = [] } = await paramsPromise;
-  const event = await queryEventByDateAndSlug({ slug });
+  const { year, month, day, slug } = await paramsPromise;
+  const event = await queryEventByDateAndSlug({ year, month, day, slug });
 
   return generateEventMetaGraph({ doc: event });
 }
@@ -128,8 +140,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
  */
 export default async function EventPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
-  const { slug = [] } = await paramsPromise;
-  const event = await queryEventByDateAndSlug({ slug });
+  const { year, month, day, slug } = await paramsPromise;
+  const event = await queryEventByDateAndSlug({ year, month, day, slug });
 
   if (!event) {
     redirect('/events');

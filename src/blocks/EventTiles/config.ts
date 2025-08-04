@@ -4,7 +4,7 @@ export const EventTiles: Block = {
   slug: 'eventTiles',
   interfaceName: 'EventTilesBlock',
   labels: {
-    singular: 'Event Tile',
+    singular: 'Event Tiles',
     plural: 'Event Tiles',
   },
   imageURL: '/blocks/event-tiles.png',

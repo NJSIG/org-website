@@ -95,7 +95,7 @@ const buttonVariants = cva(
       },
       // [Button] Ghost | Primary
       {
-        variant: 'button',
+        variant: ['button', 'icon'],
         style: 'ghost',
         color: 'primary',
         class:
@@ -103,7 +103,7 @@ const buttonVariants = cva(
       },
       // [Button] Ghost | Accent
       {
-        variant: 'button',
+        variant: ['button', 'icon'],
         style: 'ghost',
         color: 'accent',
         class:

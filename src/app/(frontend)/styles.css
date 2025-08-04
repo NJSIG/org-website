@@ -338,6 +338,36 @@
     }
   }
 
+  --animate-micro-bounce-right: micro-bounce-right var(--micro-animation-time);
+
+  @keyframes micro-bounce-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  --animate-micro-bounce-left: micro-bounce-left var(--micro-animation-time);
+
+  @keyframes micro-bounce-left {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: -3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
   /** Animate to works as an extension to the `tw-animate-css` plugin
    * This extension solves the issue of delayed animations no playing properly
    * see the utility overrides below for more information.
