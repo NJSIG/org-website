@@ -1,4 +1,4 @@
-import { editor, editorOrPublished } from '@/access';
+import { anyone, editor } from '@/access';
 import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import path from 'path';
@@ -20,7 +20,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   access: {
     create: editor,
     delete: editor,
-    read: editorOrPublished,
+    read: anyone,
     update: editor,
   },
   fields: [
