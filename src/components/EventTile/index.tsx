@@ -30,9 +30,16 @@ const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => 
   const startDate = typeof event === 'object' ? new Date(event.startDate) : null;
   const startTime = typeof event === 'object' ? new Date(event.startTime) : null;
 
-  const formattedDate = startDate
-    ? new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(startDate)
+  const formattedMonth = startDate
+    ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(startDate)
     : undefined;
+
+  const formattedDay = startDate
+    ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate)
+    : undefined;
+
+  const formattedDate =
+    formattedMonth && formattedDay ? `${formattedDay} ${formattedMonth}` : undefined;
 
   const formattedTime = startTime
     ? new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' }).format(startTime)
