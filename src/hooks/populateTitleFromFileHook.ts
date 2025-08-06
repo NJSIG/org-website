@@ -21,7 +21,7 @@ export const populateTitleFromFileHook: CollectionBeforeChangeHook = ({ data, op
 
       return {
         ...data,
-        title: title,
+        title,
       };
     }
   }
