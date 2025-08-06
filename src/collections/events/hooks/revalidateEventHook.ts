@@ -10,7 +10,7 @@ export const revalidateEventHook: CollectionAfterChangeHook<Event> = ({
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {
       const date = new Date(doc.startDate);
-      const path = `/events/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/${doc.slug}`;
+      const path = `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${doc.slug}`;
 
       payload.logger.info(`Revalidating event at path: ${path}`);
 
