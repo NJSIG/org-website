@@ -47,6 +47,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
                 const SectionBlock =
                   sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
+                /* @ts-expect-error There will be mismatches between expected types here */
                 return <SectionBlock {...block} key={block.id} />;
               }
             } catch (error) {
