@@ -8,7 +8,7 @@ export const revalidateEventDeleteHook: CollectionAfterDeleteHook<Event> = ({
 }) => {
   if (!context.disableRevalidate) {
     const date = new Date(doc.startDate);
-    const path = `/events/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/${doc.slug}`;
+    const path = `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${doc.slug}`;
 
     revalidatePath(path);
     revalidateTag('events-sitemap');
