@@ -11,7 +11,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
     update: editor,
   },
   admin: {
-    defaultColumns: ['portrait', 'type', 'name', 'email', 'phone', 'extension'],
+    defaultColumns: ['portrait', 'type', 'name', 'title'],
     useAsTitle: 'name',
   },
   // This config controls what's populated by default when a page is referenced
@@ -21,6 +21,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
     portrait: true,
     type: true,
     name: true,
+    title: true,
   },
   fields: [
     {
@@ -66,6 +67,14 @@ export const Contacts: CollectionConfig<'contacts'> = {
               required: true,
               admin: {
                 description: 'The full name of the contact person.',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              admin: {
+                description:
+                  "The contact person's job title. If not provided, the contact type will be used.",
               },
             },
             {

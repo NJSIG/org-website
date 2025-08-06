@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/utilities/cn';
+import { generateEventLink } from '@/utilities/generateEventLink';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -9,7 +10,6 @@ import { EventTileContext, useEventTileContext } from './context';
 import {
   EventDetailProps,
   EventHeaderProps,
-  EventTileData,
   EventTileProps,
   NoEventsProps,
   SubscribeProps,
@@ -128,13 +128,6 @@ const EventTileNoEvents: React.FC<NoEventsProps> = ({
 const EventTileSubscribe: React.FC<SubscribeProps> = ({ className }) => {
   // TODO: Implement Subscribe Form
   return null;
-};
-
-const generateEventLink = (event: EventTileData): string => {
-  const { slug, startDate } = event;
-  const date = new Date(startDate);
-
-  return `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate()}/${slug}`;
 };
 
 export { EventTile, EventTileDetail, EventTileHeader, EventTileNoEvents, EventTileSubscribe };

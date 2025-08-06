@@ -7,6 +7,7 @@ type ContactPersonProps = {
   contact: Contact;
   size?: 'sm' | 'md';
   title?: string;
+  priority?: boolean;
   className?: string;
 };
 
@@ -26,14 +27,15 @@ const portraitVariants = cva(['rounded-full'], {
 export const ContactPerson: React.FC<ContactPersonProps> = ({
   contact,
   size = 'md',
-  title,
+  title: titleFromProps,
+  priority = false,
   className,
 }) => {
   if (!contact) {
     return null;
   }
 
-  const { portrait, type, name } = contact;
+  const { portrait, type, name, title } = contact;
 
   const src =
     size === 'sm'
@@ -53,7 +55,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           alt={`${name} Portrait`}
           width={size === 'sm' ? 40 : 56}
           height={size === 'sm' ? 40 : 56}
-          loading="lazy"
+          priority={priority}
           decoding="async"
           src={src}
           className={portraitVariants({ size, type })}
@@ -64,7 +66,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           alt={`${name} Placeholder`}
           width={size === 'sm' ? 40 : 56}
           height={size === 'sm' ? 40 : 56}
-          loading="lazy"
+          priority={priority}
           decoding="async"
           src={`/assets/placeholder/contact-${size}.webp`}
           className={portraitVariants({ size, type })}
@@ -76,7 +78,13 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           {name}
         </span>
         <small className="font-medium text-xs">
-          {title ? title : type === 'njsig' ? 'NJSIG Representative' : 'Broker'}
+          {titleFromProps
+            ? titleFromProps
+            : title
+              ? title
+              : type === 'njsig'
+                ? 'NJSIG Representative'
+                : 'Broker'}
         </small>
       </div>
     </div>

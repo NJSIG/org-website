@@ -56,7 +56,7 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
 const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
   return (
     <div className="bg-azure-to-r px-6 py-10">
-      <div className="max-w-section mx-auto flex flex-col gap-4 text-foreground-inverted">
+      <div className="max-w-7xl mx-auto flex flex-col gap-4 text-foreground-inverted">
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
@@ -76,7 +76,9 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
         )}
         <h2 className="text-3xl font-medium">{title}</h2>
         <div className="flex items-center w-full mt-2">
-          {contact && typeof contact === 'object' && <ContactPerson contact={contact} size="sm" />}
+          {contact && typeof contact === 'object' && (
+            <ContactPerson contact={contact} priority={true} size="sm" />
+          )}
           {/*
             TODO: Implement add to calendar functionality
             This button should open a modal or redirect to a calendar integration.
@@ -141,11 +143,11 @@ const EventDetails: React.FC<Event> = ({
 
   return (
     <div className="px-4 pt-8 pb-5">
-      <div className="max-w-section mx-auto flex flex-col items-start gap-4">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={true}>
           Event Details
         </TitleTheme>
-        {description && <RichText data={description} enableProse={true} className="mx-0" />}
+        {description && <RichText data={description} className="mx-0" />}
         <div className="w-full mt-4">
           <Bento>
             {/* Date */}
@@ -240,7 +242,7 @@ const EventResources: React.FC<Event> = ({ resources }) => {
   console.log('Event Resources', resources);
   return (
     <div className="px-4 pt-8 pb-5">
-      <div className="max-w-section mx-auto flex flex-col items-start gap-4">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={true}>
           Meeting Resources
         </TitleTheme>
@@ -253,7 +255,7 @@ const EventResources: React.FC<Event> = ({ resources }) => {
 const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
   return (
     <div className="px-4 pt-8 pb-12 lg:pb-20">
-      <div className="max-w-section mx-auto flex flex-col items-start gap-4">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={true}>
           Related Events
         </TitleTheme>

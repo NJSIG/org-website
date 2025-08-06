@@ -10,15 +10,22 @@ export type EventsCalendarData = {
     isToday: boolean;
     events: Event['eventType'][];
   }[];
+  allowFiltering?: boolean;
 };
 
 export type HeaderCellProps = {
-  label: string;
+  label: { short: string; long: string };
 };
 
 export type DateCellProps = {
+  srLabel: string;
   label: string;
   isToday: boolean;
   isInMonth: boolean;
   events: Event['eventType'][];
+};
+
+export type EventCalendarContextType = {
+  filters: Event['eventType'][] | null;
+  setFilters: (filters: Event['eventType'] | null) => void;
 };

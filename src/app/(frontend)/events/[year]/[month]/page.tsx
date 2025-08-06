@@ -68,7 +68,7 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
   const nextMonth = currMonth.add({ months: 1 });
   const prevMonth = currMonth.subtract({ months: 1 });
   const currMonthStart = currMonth.with({ day: 1 });
-  const currMonthStartDow = currMonthStart.dayOfWeek - 1;
+  const currMonthStartDow = currMonthStart.dayOfWeek;
   const currMonthLength = currMonth.daysInMonth;
 
   // Calculate overall length of the calendar grid

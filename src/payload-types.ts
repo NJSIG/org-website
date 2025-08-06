@@ -473,6 +473,10 @@ export interface Contact {
    * The full name of the contact person.
    */
   name: string;
+  /**
+   * The contact person's job title. If not provided, the contact type will be used.
+   */
+  title?: string | null;
   email: string;
   phone: string;
   extension?: string | null;
@@ -1449,6 +1453,7 @@ export interface ContactsSelect<T extends boolean = true> {
   portrait?: T;
   type?: T;
   name?: T;
+  title?: T;
   email?: T;
   phone?: T;
   extension?: T;

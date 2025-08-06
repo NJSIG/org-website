@@ -160,6 +160,10 @@
     'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
 
+  /** Text Sizes **/
+  --text-2xs: 0.625rem; /* 10px */
+  --text-2xs--line-height: 0.75rem; /* 12px */
+
   /** TailwindCSS Customizations **/
   --breakpoint-3xl: 120rem;
 
@@ -574,6 +578,21 @@
   --event-tile-bespoke-light: var(--color-azure-700);
   --event-tile-bespoke-foreground: var(--color-foreground-inverted);
   --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
+
+  --event-theme-trustee-background: var(--color-njsig-background);
+  --event-theme-trustee-foreground: var(--color-foreground);
+  --event-theme-trustee-accent: var(--color-njsig-primary);
+  --event-theme-trustee-accent-foreground: var(--color-foreground-inverted);
+
+  --event-theme-subfund-background: var(--color-ericsouth-background);
+  --event-theme-subfund-foreground: var(--color-foreground);
+  --event-theme-subfund-accent: var(--color-ericsouth-shade);
+  --event-theme-subfund-accent-foreground: var(--color-foreground-inverted);
+
+  --event-theme-important-background: var(--color-njeif-background);
+  --event-theme-important-foreground: var(--color-foreground);
+  --event-theme-important-accent: var(--color-njeif-shade);
+  --event-theme-important-accent-foreground: var(--color-foreground-inverted);
 
   --bento-icon-stroke: var(--color-njsig-primary);
 
