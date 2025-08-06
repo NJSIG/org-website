@@ -64,7 +64,7 @@ const queryEvents = async (
       startTime: true,
       eventType: true,
       title: true,
-      category: true,
+      categories: true,
     },
     sort: 'startDate',
   });
