@@ -10,7 +10,7 @@ export const populateFileTypeHook: CollectionBeforeChangeHook = ({ data, operati
 
       return {
         ...data,
-        fileType: fileType,
+        fileType,
       };
     }
   }
