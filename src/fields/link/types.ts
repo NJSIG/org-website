@@ -145,6 +145,7 @@ export type LinkType = <T extends LinkAppearances[] | false | undefined = undefi
   destinations?: LinkDestinations[];
   disableNewTab?: boolean;
   disableLabel?: boolean;
+  required?: boolean;
   overrides?: Partial<GroupField>;
 }) => Field;
 

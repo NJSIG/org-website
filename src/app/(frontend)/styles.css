@@ -2,39 +2,20 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
-:root {
-  --foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
-  --muted: oklch(0.9385 0.002 252.95); /* Battleship Gray 200 */
-  --muted-foreground: oklch(0.3476 0.006 252.85); /* Battleship Gray 950 */
-  --border: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
-  --ring: oklch(0.8157 0.005 252.85); /* Battleship Gray 400 */
+/*
+ * Override prefers-color-scheme
+ *
+ * If a parent is dark, then all children are dark
+ *
+ * If a child needs to be light, it can use the `light` class to
+ * override the `dark` class from the parent.
+ */
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --input: oklch(0.922 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/*
+ * Core theme definitions
+ */
 
 @theme {
   /** NJSIG Color Palettes **/
@@ -75,6 +56,21 @@
   --color-battleship-gray-950: oklch(0.3476 0.006 252.85);
 
   /** Sub-fund Color Palettes **/
+  --color-glacial-50: oklch(0.9694 0.0115 264.51);
+  --color-glacial-100: oklch(0.9296 0.0263 264.44);
+  --color-glacial-200: oklch(0.8766 0.048 263.13);
+  --color-glacial-300: oklch(0.7971 0.0786 260.52);
+  --color-glacial-400: oklch(0.6943 0.1216 261.66);
+  --color-glacial-500: oklch(0.6271 0.1496 265.84);
+  --color-glacial-600: oklch(0.5261 0.1857 267.42);
+  --color-glacial-700: oklch(0.4728 0.1861 268.85);
+  --color-glacial-800: oklch(0.415 0.1545 270.79);
+  --color-glacial-900: oklch(0.3709 0.1174 271.49);
+  --color-glacial-950: oklch(0.2814 0.0736 273.31);
+
+  /** Bondi Blue has been deprecated in favor of Glacial.
+    * It will be removed in the future.
+    */
   --color-bondi-blue-50: oklch(0.9799 0.012 215.36);
   --color-bondi-blue-100: oklch(0.9431 0.028 215.36);
   --color-bondi-blue-200: oklch(0.8888 0.048 215.36);
@@ -164,6 +160,10 @@
     'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
 
+  /** Text Sizes **/
+  --text-2xs: 0.625rem; /* 10px */
+  --text-2xs--line-height: 0.75rem; /* 12px */
+
   /** TailwindCSS Customizations **/
   --breakpoint-3xl: 120rem;
 
@@ -175,6 +175,10 @@
   --container-section-content: 31.25rem;
   --container-section-wide-content: 37.5rem;
 }
+
+/*
+ * Theme tokens
+ */
 
 @theme inline {
   /** NJSIG Color Tokens **/
@@ -199,11 +203,11 @@
   --color-njsig-neutral-midtone: var(--color-battleship-gray-400);
   --color-njsig-neutral-shade: var(--color-battleship-gray-800);
 
-  --color-bacceic-primary: var(--color-bondi-blue-400);
-  --color-bacceic-background: var(--color-bondi-blue-50);
-  --color-bacceic-tint: var(--color-bondi-blue-300);
-  --color-bacceic-midtone: var(--color-bondi-blue-400);
-  --color-bacceic-shade: var(--color-bondi-blue-700);
+  --color-bacceic-primary: var(--color-glacial-500);
+  --color-bacceic-background: var(--color-glacial-50);
+  --color-bacceic-tint: var(--color-glacial-300);
+  --color-bacceic-midtone: var(--color-glacial-500);
+  --color-bacceic-shade: var(--color-glacial-700);
 
   --color-caip-primary: var(--color-sea-green-400);
   --color-caip-background: var(--color-sea-green-50);
@@ -281,59 +285,94 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /** Animations **/
-  --animate-micro-wiggle: wiggle 0.2s ease-in-out;
+  /**
+   * Micro Animations
+   *
+   * Basic micro animations for simple icons.
+   * Some additional utilities exist for more complex animations
+   * on multi-part svg icons.
+   *
+   * Some variables are set up here to make the animation consistent
+   */
+  --micro-animation-time: 0.2s;
+  --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  --animate-micro-wiggle: wiggle var(--micro-animation-time) var(--ease-out-back);
 
   @keyframes wiggle {
     0%,
     100% {
       rotate: 0deg;
     }
-
     25% {
       rotate: 5deg;
     }
-
     75% {
       rotate: -3deg;
     }
   }
 
-  --animate-micro-up-right: up-right 0.2s ease-in-out;
+  --animate-micro-up-right: micro-up-right var(--micro-animation-time);
 
-  @keyframes up-right {
+  @keyframes micro-up-right {
     0%,
     100% {
       translate: 0 0;
+      animation-timing-function: ease-out;
     }
 
     25% {
-      translate: 1px -1px;
-    }
-
-    75% {
-      translate: -0.5px 0.5px;
+      translate: 1.5px -1.5px;
+      animation-timing-function: var(--ease-out-back);
     }
   }
 
-  --animate-micro-shake: shake 0.2s ease-in-out;
+  --animate-micro-bounce: micro-bounce var(--micro-animation-time);
 
-  @keyframes shake {
+  @keyframes micro-bounce {
     0%,
     100% {
       translate: 0 0;
+      animation-timing-function: ease-out;
     }
 
     25% {
-      translate: 1px 0px;
-    }
-
-    75% {
-      translate: -0.5px 0px;
+      translate: 0 -3px;
+      animation-timing-function: var(--ease-out-back);
     }
   }
 
-  /** Animation to works as an extension to the `tw-animate-css` plugin
+  --animate-micro-bounce-right: micro-bounce-right var(--micro-animation-time);
+
+  @keyframes micro-bounce-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  --animate-micro-bounce-left: micro-bounce-left var(--micro-animation-time);
+
+  @keyframes micro-bounce-left {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: -3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /** Animate to works as an extension to the `tw-animate-css` plugin
    * This extension solves the issue of delayed animations no playing properly
    * see the utility overrides below for more information.
    */
@@ -366,42 +405,6 @@
 }
 
 /*
- * Override prefers-color-scheme
- *
- * If a parent is dark, then all children are dark
- *
- * If a child needs to be light, it can use the `light` class to
- * override the `dark` class from the parent.
- */
-@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
-
-/*
- * Base Styles
- *
- * These are the base styles for the application.
- */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/*
- * There is an issue with Prettier and @utility
- * when creating functional utilities where spaces
- * are added before `*` characters in the definition.
- * https://github.com/tailwindlabs/prettier-plugin-tailwindcss/issues/345
- *
- * Use the ignore comment to prevent this.
- *
- * NOTE: TailwindCSS has been written to work with this Prettier formatting issue.
- */
-
-/*
  * Background Gradients
  *
  * These are used to create a gradient background.
@@ -425,7 +428,6 @@
  * Usage: text-mix-tint-azure-500/10
  * Will result in 10% white tint on azure-500
  */
-
 @utility text-mix-tint-* {
   color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
@@ -459,12 +461,13 @@
 }
 
 /**
- * Zoom
- *
- * These are used to create a zoom effect on elements.
- * Usage: zm-150 will result in 150% zoom
- * Usage: zm-normal will reset the zoom to normal
- */
+  * Zoom
+  *
+  * These are used to create a zoom effect on elements.
+  * Usage: zm-150 will result in 150% zoom
+  * Usage: zm-normal will reset the zoom to normal
+  */
+
 @utility zm-* {
   zoom: --value('normal', 'reset');
   zoom: calc(--value(integer) * 1%);
@@ -472,6 +475,25 @@
 
 @utility clip-path-polygon-* {
   clip-path: polygon(--value([*]));
+}
+
+/** Complex Animation Helpers
+ *
+ * These utilities are used for complex icon animations
+ * that require targeting specific parts of an SVG with
+ * one or more animation properties.
+ */
+@utility animate-icon-download {
+  & > polyline,
+  & > line {
+    animation: var(--animate-micro-bounce);
+  }
+}
+
+@utility animate-icon-external-link {
+  & > path:nth-child(-n + 2) {
+    animation: var(--animate-micro-up-right);
+  }
 }
 
 /**
@@ -537,4 +559,86 @@
   --animate-from-translate-y: calc(--value(ratio) * 100%);
   --animate-from-translate-y: --value(--translate-*, [percentage], [length]);
   --animate-to-translate-y: 0;
+}
+
+/*
+ * Root Variables
+ */
+
+:root {
+  --foreground: var(--color-battleship-gray-950);
+  --muted: var(--color-battleship-gray-200);
+  --muted-foreground: var(--color-battleship-gray-950);
+  --border: var(--color-battleship-gray-400);
+  --ring: var(--color-battleship-gray-400);
+
+  --event-tile: var(--color-njsig-neutral-tint);
+  --event-tile-foreground: var(--color-foreground);
+  --event-tile-bespoke-dark: var(--color-azure-900);
+  --event-tile-bespoke-light: var(--color-azure-700);
+  --event-tile-bespoke-foreground: var(--color-foreground-inverted);
+  --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
+
+  --event-theme-trustee-background: var(--color-njsig-background);
+  --event-theme-trustee-foreground: var(--color-foreground);
+  --event-theme-trustee-accent: var(--color-njsig-primary);
+  --event-theme-trustee-accent-foreground: var(--color-foreground-inverted);
+
+  --event-theme-subfund-background: var(--color-ericsouth-background);
+  --event-theme-subfund-foreground: var(--color-foreground);
+  --event-theme-subfund-accent: var(--color-ericsouth-shade);
+  --event-theme-subfund-accent-foreground: var(--color-foreground-inverted);
+
+  --event-theme-important-background: var(--color-njeif-background);
+  --event-theme-important-foreground: var(--color-foreground);
+  --event-theme-important-accent: var(--color-njeif-shade);
+  --event-theme-important-accent-foreground: var(--color-foreground-inverted);
+
+  --bento-icon-stroke: var(--color-njsig-primary);
+
+  --resource-theme: var(--color-njsig-primary);
+
+  --subfund-contact-ring: var(--color-njsig-neutral-shade);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --input: oklch(0.922 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/*
+ * Base Styles
+ *
+ * These are the base styles for the application.
+ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -2,7 +2,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 import { CollectionAfterDeleteHook } from 'payload';
 import type { Page } from '../../../payload-types';
 
-export const revalidateDeleteHook: CollectionAfterDeleteHook<Page> = ({
+export const revalidatePageDeleteHook: CollectionAfterDeleteHook<Page> = ({
   doc,
   req: { context },
 }) => {

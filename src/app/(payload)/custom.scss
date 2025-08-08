@@ -39,4 +39,20 @@
       font-weight: bold;
     }
   }
+
+  &__map-container {
+    border-radius: 3px;
+    overflow: hidden;
+
+    &__placeholder {
+      align-items: center;
+      background: var(--theme-elevation-50);
+      display: flex;
+      justify-content: center;
+
+      > svg {
+        stroke: var(--theme-elevation-400);
+      }
+    }
+  }
 }

@@ -130,6 +130,7 @@ export const linkField: LinkType = ({
   destinations,
   disableNewTab = false,
   disableLabel = false,
+  required = true,
   overrides = {},
 } = {}) => {
   let linkDestinationOptionsToUse = [
@@ -159,7 +160,10 @@ export const linkField: LinkType = ({
             label: 'Link Type',
             type: 'radio',
             options: [...linkDestinationOptionsToUse],
-            defaultValue: 'reference',
+            defaultValue:
+              linkDestinationOptionsToUse.length === 1
+                ? linkDestinationOptionsToUse[0].value
+                : 'reference',
             admin: {
               layout: 'horizontal',
               width: '50%',
@@ -200,7 +204,7 @@ export const linkField: LinkType = ({
             label: 'Document to Link To',
             type: 'relationship',
             relationTo: ['pages'], // Add other collections here
-            required: true,
+            required,
             admin: {
               style: {
                 flexGrow: 1,
@@ -212,7 +216,7 @@ export const linkField: LinkType = ({
             name: 'url',
             label: 'Custom URL',
             type: 'text',
-            required: true,
+            required,
             admin: {
               style: {
                 flexGrow: 1,
@@ -223,7 +227,7 @@ export const linkField: LinkType = ({
           {
             name: 'label',
             type: 'text',
-            required: true,
+            required,
             admin: {
               style: {
                 flexGrow: 1,

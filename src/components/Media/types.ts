@@ -19,6 +19,7 @@ export interface MediaProps {
   priority?: boolean | null;
   size?: string;
   fill?: boolean;
+  placeholder?: 'empty' | 'blur' | null;
 
   // Payload Media
   resource?: MediaType | string | number | null;

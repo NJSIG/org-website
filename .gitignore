@@ -43,3 +43,5 @@ next-env.d.ts
 # local media uploads
 /public/media/*
 /public/hero-images/*
+/public/contacts/*
+/public/documents/*

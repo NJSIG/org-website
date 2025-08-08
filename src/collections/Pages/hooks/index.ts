@@ -1,4 +1,4 @@
-import { revalidateDeleteHook } from './revalidateDeleteHook';
+import { revalidatePageDeleteHook } from './revalidatePageDeleteHook';
 import { revalidatePageHook } from './revalidatePageHook';
 
-export { revalidateDeleteHook, revalidatePageHook };
+export { revalidatePageDeleteHook, revalidatePageHook };

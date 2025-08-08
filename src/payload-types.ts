@@ -75,30 +75,49 @@ export interface Config {
     cmsButton: CMSButtonBlock;
     optimizedImage: OptimizedImageBlock;
     emphasizedList: EmphasizedListBlock;
+    eventTiles: EventTilesBlock;
   };
   collections: {
     pages: Page;
     media: Media;
+    documents: Document;
+    events: Event;
+    'event-categories': EventCategory;
+    locations: Location;
+    contacts: Contact;
+    'contact-portraits': ContactPortrait;
     users: User;
     redirects: Redirect;
-    'payload-folders': FolderInterface;
     'payload-jobs': PayloadJob;
+    'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    media: {
+      relatedEvents: 'events';
+    };
+    documents: {
+      relatedEvents: 'events';
+    };
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'pages' | 'media';
+      documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'documents' | 'contact-portraits';
     };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
+    locations: LocationsSelect<false> | LocationsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
+    'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
-    'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
+    'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -201,6 +220,10 @@ export interface HeroSpinnerBlock {
  */
 export interface Media {
   id: string;
+  /**
+   * If left blank the title will be generated from the file name.
+   */
+  title?: string | null;
   alt: string;
   /**
    * Captions may or may not be displayed depending on where an image is used.
@@ -224,6 +247,11 @@ export interface Media {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -313,6 +341,211 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  /**
+   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
+   */
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  startDate: string;
+  endDate?: string | null;
+  registrationTime?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  /**
+   * Select all the categories that apply to this event.
+   */
+  categories: (string | EventCategory)[];
+  /**
+   * The contact person for the event.
+   */
+  contact?: (string | null) | Contact;
+  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
+  virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
+  /**
+   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
+   */
+  virtualLink?: string | null;
+  virtualPasscode?: string | null;
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  resources?:
+    | {
+        resource: {
+          type: 'document' | 'audioVideo' | 'link';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this event as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: string;
+  /**
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
+   */
+  portrait?: (string | null) | ContactPortrait;
+  /**
+   * The user type helps differentiate between NJSIG staff and external brokers.
+   */
+  type: 'njsig' | 'broker';
+  /**
+   * The full name of the contact person.
+   */
+  name: string;
+  /**
+   * The contact person's job title. If not provided, the contact type will be used.
+   */
+  title?: string | null;
+  email: string;
+  phone: string;
+  extension?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits".
+ */
+export interface ContactPortrait {
+  id: string;
+  /**
+   * The name of the person in the portrait photo.
+   */
+  name: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    sm?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    md?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    lg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xl?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-folders".
  */
 export interface FolderInterface {
@@ -333,10 +566,19 @@ export interface FolderInterface {
           relationTo?: 'media';
           value: string | Media;
         }
+      | {
+          relationTo?: 'documents';
+          value: string | Document;
+        }
+      | {
+          relationTo?: 'contact-portraits';
+          value: string | ContactPortrait;
+        }
     )[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -378,9 +620,9 @@ export interface Page {
     image?: (string | null) | Media;
     description?: string | null;
   };
-  publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -416,6 +658,7 @@ export interface SectionBlock {
     | CMSButtonBlock
     | OptimizedImageBlock
     | EmphasizedListBlock
+    | EventTilesBlock
   )[];
   id?: string | null;
   blockName?: string | null;
@@ -546,6 +789,10 @@ export interface OptimizedImageBlock {
    * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
    */
   priority?: boolean | null;
+  /**
+   * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
+   */
+  placeholder?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'optimizedImage';
@@ -572,10 +819,149 @@ export interface EmphasizedListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventTilesBlock".
+ */
+export interface EventTilesBlock {
+  /**
+   * Set the number of tiles to display, including the "View All" tile
+   */
+  tiles: number;
+  /**
+   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   */
+  categoryFilters?: (string | EventCategory)[] | null;
+  /**
+   * Toggle to show or hide the "View All" tile at the end of the list.
+   */
+  showViewAll?: boolean | null;
+  /**
+   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   */
+  enableSubscribe?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventTiles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: string;
+  /**
+   * If left blank the title will be generated from the file name.
+   */
+  title?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  publishedAt?: string | null;
+  fileType?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations".
+ */
+export interface Location {
+  id: string;
+  /**
+   * The name of the location.
+   */
+  name: string;
+  streetAddress: string;
+  /**
+   * Optional second line for street address.
+   */
+  streetAddress2?: string | null;
+  city: string;
+  state:
+    | 'AL'
+    | 'AK'
+    | 'AZ'
+    | 'AR'
+    | 'CA'
+    | 'CO'
+    | 'CT'
+    | 'DE'
+    | 'FL'
+    | 'GA'
+    | 'HI'
+    | 'ID'
+    | 'IL'
+    | 'IN'
+    | 'IA'
+    | 'KS'
+    | 'KY'
+    | 'LA'
+    | 'ME'
+    | 'MD'
+    | 'MA'
+    | 'MI'
+    | 'MN'
+    | 'MS'
+    | 'MO'
+    | 'MT'
+    | 'NE'
+    | 'NV'
+    | 'NH'
+    | 'NJ'
+    | 'NM'
+    | 'NY'
+    | 'NC'
+    | 'ND'
+    | 'OH'
+    | 'OK'
+    | 'OR'
+    | 'PA'
+    | 'RI'
+    | 'SC'
+    | 'SD'
+    | 'TN'
+    | 'TX'
+    | 'UT'
+    | 'VT'
+    | 'VA'
+    | 'WA'
+    | 'WV'
+    | 'WI'
+    | 'WY';
+  zipCode: string;
+  phone?: string | null;
+  website?: {
+    type?: 'custom' | null;
+    newTab?: boolean | null;
+    allowReferrer?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: string | Page;
+    } | null;
+    url?: string | null;
+    label?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: string;
+  role: 'admin' | 'editor' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -723,6 +1109,30 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'documents';
+        value: string | Document;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'event-categories';
+        value: string | EventCategory;
+      } | null)
+    | ({
+        relationTo: 'locations';
+        value: string | Location;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: string | Contact;
+      } | null)
+    | ({
+        relationTo: 'contact-portraits';
+        value: string | ContactPortrait;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null)
@@ -731,12 +1141,12 @@ export interface PayloadLockedDocument {
         value: string | Redirect;
       } | null)
     | ({
-        relationTo: 'payload-folders';
-        value: string | FolderInterface;
-      } | null)
-    | ({
         relationTo: 'payload-jobs';
         value: string | PayloadJob;
+      } | null)
+    | ({
+        relationTo: 'payload-folders';
+        value: string | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -801,9 +1211,9 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  publishedAt?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -814,9 +1224,11 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  title?: T;
   alt?: T;
   caption?: T;
   blurData?: T;
+  relatedEvents?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -926,9 +1338,198 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  relatedEvents?: T;
+  publishedAt?: T;
+  fileType?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  eventType?: T;
+  title?: T;
+  description?: T;
+  startDate?: T;
+  endDate?: T;
+  registrationTime?: T;
+  startTime?: T;
+  endTime?: T;
+  categories?: T;
+  contact?: T;
+  attendanceOptions?: T;
+  virtualProvider?: T;
+  virtualLink?: T;
+  virtualPasscode?: T;
+  location?: T;
+  resources?:
+    | T
+    | {
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        id?: T;
+      };
+  important?: T;
+  slug?: T;
+  slugLock?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories_select".
+ */
+export interface EventCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations_select".
+ */
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  streetAddress?: T;
+  streetAddress2?: T;
+  city?: T;
+  state?: T;
+  zipCode?: T;
+  phone?: T;
+  website?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        allowReferrer?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  portrait?: T;
+  type?: T;
+  name?: T;
+  title?: T;
+  email?: T;
+  phone?: T;
+  extension?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits_select".
+ */
+export interface ContactPortraitsSelect<T extends boolean = true> {
+  name?: T;
+  blurData?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        sm?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        md?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        lg?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xl?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -964,17 +1565,6 @@ export interface RedirectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-folders_select".
- */
-export interface PayloadFoldersSelect<T extends boolean = true> {
-  name?: T;
-  folder?: T;
-  documentsAndFolders?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs_select".
  */
 export interface PayloadJobsSelect<T extends boolean = true> {
@@ -1001,6 +1591,18 @@ export interface PayloadJobsSelect<T extends boolean = true> {
   queue?: T;
   waitUntil?: T;
   processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders_select".
+ */
+export interface PayloadFoldersSelect<T extends boolean = true> {
+  name?: T;
+  folder?: T;
+  documentsAndFolders?: T;
+  folderType?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1352,10 +1954,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'pages';
-      value: string | Page;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'events';
+          value: string | Event;
+        } | null);
     global?: string | null;
     user?: (string | null) | User;
   };

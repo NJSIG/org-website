@@ -1,25 +1,47 @@
 // storage-adapter-import-placeholder
+import { HeroSpinner, HiddenTitle, Section } from '@/blocks';
+import { CMSButton } from '@/blocks/CMSButton/config';
+import { EmphasizedList } from '@/blocks/EmphasizedList/config';
+import { OptimizedImage } from '@/blocks/OptimizedImage/config';
+import { Events } from '@/collections/Events';
+import { Media } from '@/collections/Media';
+import { Pages } from '@/collections/Pages';
+import { Users } from '@/collections/Users';
+import { Footer } from '@/globals/Footer/config';
+import { Header } from '@/globals/Header/config';
+import { plugins } from '@/plugins';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
-import { HeroSpinner, HiddenTitle, Section } from './blocks';
-import { CMSButton } from './blocks/CMSButton/config';
-import { EmphasizedList } from './blocks/EmphasizedList/config';
-import { OptimizedImage } from './blocks/OptimizedImage/config';
-import { Media } from './collections/Media';
-import { Pages } from './collections/Pages';
-import { Users } from './collections/Users';
-import { Footer } from './globals/Footer/config';
-import { Header } from './globals/Header/config';
-import { plugins } from './plugins';
+import { EventTiles } from './blocks/EventTiles/config';
+import { ContactPortraits } from './collections/ContactPortraits';
+import { Contacts } from './collections/Contacts';
+import { Documents } from './collections/Documents';
+import { EventCategories } from './collections/EventCategories';
+import { Locations } from './collections/Locations';
+import { defaultLexical } from './fields/defaultLexical';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Define the collections to be used in the Payload CMS configuration
+const collections = [
+  Pages,
+  Media,
+  Documents,
+  Events,
+  EventCategories,
+  Locations,
+  Contacts,
+  ContactPortraits,
+  Users,
+];
+
+// Define the blocks to be used in the Payload CMS configuration
+// We define all our blocks here so they can be used by reference
 const blocks = [
   HeroSpinner,
   HiddenTitle,
@@ -30,6 +52,7 @@ const blocks = [
   CMSButton,
   OptimizedImage,
   EmphasizedList,
+  EventTiles,
 ];
 
 export default buildConfig({
@@ -61,10 +84,10 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Media, Users],
+  collections,
   globals: [Header, Footer],
   blocks,
-  editor: lexicalEditor(),
+  editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
