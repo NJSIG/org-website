@@ -39,7 +39,7 @@
     "lucide-react": "^0.507.0",
     "lucide-static": "^0.507.0",
     "minimatch": "^10.0.3",
-    "next": "15.2.3",
+    "next": "15.4.4",
     "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.5",
     "payload": "latest",
