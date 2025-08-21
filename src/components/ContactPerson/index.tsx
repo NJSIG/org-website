@@ -56,6 +56,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           width={size === 'sm' ? 40 : 56}
           height={size === 'sm' ? 40 : 56}
           priority={priority}
+          quality={90}
           decoding="async"
           src={(portrait as ContactPortrait).url!}
           className={portraitVariants({ size, type })}
@@ -67,6 +68,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           height={size === 'sm' ? 40 : 56}
           priority={priority}
           decoding="async"
+          quality={90}
           src={`/assets/placeholder/contact-${size}.webp`}
           className={portraitVariants({ size, type })}
           unoptimized

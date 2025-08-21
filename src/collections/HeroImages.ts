@@ -1,13 +1,8 @@
 import { anyone, editor } from '@/access';
 import { computeBlurDataHook, populateTitleFromFileHook, snakeCaseUploadsHook } from '@/hooks';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical';
 import path from 'path';
-import type { CollectionConfig, ImageUploadFormatOptions } from 'payload';
+import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { fileURLToPath } from 'url';
 
 const filename = fileURLToPath(import.meta.url);
@@ -20,23 +15,17 @@ const webp: ImageUploadFormatOptions = {
   },
 };
 
-const png: ImageUploadFormatOptions = {
-  format: 'png',
-};
-
-export const Media: CollectionConfig = {
-  slug: 'media',
+export const HeroImages: CollectionConfig = {
+  slug: 'hero-images',
   access: {
     create: editor,
     delete: editor,
     read: anyone,
     update: editor,
   },
-  folders: true,
   fields: [
     {
       name: 'title',
-      label: 'Title',
       type: 'text',
       admin: {
         description: 'If left blank the title will be generated from the file name.',
@@ -53,18 +42,6 @@ export const Media: CollectionConfig = {
       },
     },
     {
-      name: 'caption',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];
-        },
-      }),
-      admin: {
-        description: 'Captions may or may not be displayed depending on where an image is used.',
-      },
-    },
-    {
       name: 'blurData',
       label: 'Blur Data',
       type: 'text',
@@ -73,25 +50,14 @@ export const Media: CollectionConfig = {
         description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
-    {
-      name: 'relatedEvents',
-      type: 'join',
-      collection: 'events',
-      on: 'resources.resource.audioVideo',
-      admin: {
-        condition: (_, siblingData) =>
-          siblingData?.mimeType?.includes('audio') || siblingData?.mimeType?.includes('video'),
-      },
-    },
   ],
   admin: {
-    defaultColumns: ['filename', 'title', 'alt', 'folder'],
+    defaultColumns: ['filename', 'title', 'alt'],
   },
   upload: {
-    // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
+    // Uploads to the public/hero directory in Next.js making files publicly accessible even outside of Payload
+    staticDir: path.resolve(dirname, '../../public/hero'),
     adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*', 'video/*', 'audio/*'],
     focalPoint: true,
     formatOptions: {
       ...webp,
@@ -114,12 +80,54 @@ export const Media: CollectionConfig = {
         generateImageName: imageNameGenerators.bySize,
       },
       {
-        name: 'og',
-        width: 1200,
-        height: 630,
-        crop: 'center',
-        formatOptions: png,
+        name: 'optimized',
+        formatOptions: webp,
         generateImageName: imageNameGenerators.bySize,
+      },
+      {
+        name: 'xs',
+        width: 640,
+        height: 360,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 75,
+          },
+        },
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'sm',
+        width: 960,
+        height: 540,
+        formatOptions: {
+          ...webp,
+          options: {
+            quality: 80,
+          },
+        },
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'md',
+        width: 1280,
+        height: 720,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'lg',
+        width: 1920,
+        height: 1080,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
+      },
+      {
+        name: 'xl',
+        width: 2400,
+        height: 1350,
+        formatOptions: webp,
+        generateImageName: imageNameGenerators.byWidth,
       },
     ],
   },

@@ -79,6 +79,7 @@ export interface Config {
   };
   collections: {
     pages: Page;
+    'hero-images': HeroImage;
     media: Media;
     documents: Document;
     events: Event;
@@ -107,6 +108,7 @@ export interface Config {
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
+    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
@@ -177,7 +179,7 @@ export interface HeroSpinnerBlock {
   slideTimeout: number;
   slides?:
     | {
-        backgroundImage: string | Media;
+        backgroundImage: string | HeroImage;
         /**
          * Themes are displayed as a smaller title above the headline.
          */
@@ -216,43 +218,22 @@ export interface HeroSpinnerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "hero-images".
  */
-export interface Media {
+export interface HeroImage {
   id: string;
   /**
    * If left blank the title will be generated from the file name.
    */
   title?: string | null;
-  alt: string;
   /**
-   * Captions may or may not be displayed depending on where an image is used.
+   * Alt text is important for accessibility and SEO. Describe the image as specifically and briefly as possible.
    */
-  caption?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  alt: string;
   /**
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -274,14 +255,6 @@ export interface Media {
       filename?: string | null;
     };
     optimized?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    square?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -329,258 +302,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    og?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: string;
-  /**
-   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
-   */
-  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  /**
-   * Formatting options are limited to maintain consistency across the site.
-   */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  startDate: string;
-  endDate?: string | null;
-  registrationTime?: string | null;
-  startTime: string;
-  endTime?: string | null;
-  /**
-   * Select all the categories that apply to this event.
-   */
-  categories: (string | EventCategory)[];
-  /**
-   * The contact person for the event.
-   */
-  contact?: (string | null) | Contact;
-  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
-  virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
-  /**
-   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
-   */
-  virtualLink?: string | null;
-  virtualPasscode?: string | null;
-  /**
-   * If no location is selected it will be displayed as "TBA" on the event page.
-   */
-  location?: (string | null) | Location;
-  resources?:
-    | {
-        resource: {
-          type: 'document' | 'audioVideo' | 'link';
-          /**
-           * The resource icon should be as closely related to the resource as possible.
-           */
-          icon?: string | null;
-          /**
-           * Select or upload a document.
-           */
-          document?: (string | null) | Document;
-          /**
-           * Select or upload a video or audio clip.
-           */
-          audioVideo?: (string | null) | Media;
-          /**
-           * Provide a URL to an external resource or a reference to a CMS item.
-           */
-          link?: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            allowReferrer?: boolean | null;
-            reference?: {
-              relationTo: 'pages';
-              value: string | Page;
-            } | null;
-            url?: string | null;
-            label?: string | null;
-          };
-        };
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Mark this event as important to emphasize its significance.
-   */
-  important?: boolean | null;
-  /**
-   * Event slugs are not unique, as even URLs include the event date.
-   */
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories".
- */
-export interface EventCategory {
-  id: string;
-  name: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contacts".
- */
-export interface Contact {
-  id: string;
-  /**
-   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
-   */
-  portrait?: (string | null) | ContactPortrait;
-  /**
-   * The user type helps differentiate between NJSIG staff and external brokers.
-   */
-  type: 'njsig' | 'broker';
-  /**
-   * The full name of the contact person.
-   */
-  name: string;
-  /**
-   * The contact person's job title. If not provided, the contact type will be used.
-   */
-  title?: string | null;
-  email: string;
-  phone: string;
-  extension?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-portraits".
- */
-export interface ContactPortrait {
-  id: string;
-  /**
-   * The name of the person in the portrait photo.
-   */
-  name: string;
-  /**
-   * Used for image placeholders. Automatically generated from the image.
-   */
-  blurData?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    sm?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    md?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    lg?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    xl?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-folders".
- */
-export interface FolderInterface {
-  id: string;
-  name: string;
-  folder?: (string | null) | FolderInterface;
-  documentsAndFolders?: {
-    docs?: (
-      | {
-          relationTo?: 'payload-folders';
-          value: string | FolderInterface;
-        }
-      | {
-          relationTo?: 'pages';
-          value: string | Page;
-        }
-      | {
-          relationTo?: 'media';
-          value: string | Media;
-        }
-      | {
-          relationTo?: 'documents';
-          value: string | Document;
-        }
-      | {
-          relationTo?: 'contact-portraits';
-          value: string | ContactPortrait;
-        }
-    )[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -799,48 +521,284 @@ export interface OptimizedImageBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EmphasizedListBlock".
+ * via the `definition` "media".
  */
-export interface EmphasizedListBlock {
+export interface Media {
+  id: string;
   /**
-   * Select the color of the triangular bullets
+   * If left blank the title will be generated from the file name.
    */
-  bullColor?: ('primary' | 'accent') | null;
-  listItems?:
-    | {
-        title: string;
-        content: string;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'emphasizedList';
+  title?: string | null;
+  /**
+   * Alt text is important for accessibility and SEO. Describe the image as specifically and briefly as possible.
+   */
+  alt: string;
+  /**
+   * Captions may or may not be displayed depending on where an image is used.
+   */
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    og?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventTilesBlock".
+ * via the `definition` "events".
  */
-export interface EventTilesBlock {
+export interface Event {
+  id: string;
   /**
-   * Set the number of tiles to display, including the "View All" tile
+   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
    */
-  tiles: number;
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
   /**
-   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
-  categoryFilters?: (string | EventCategory)[] | null;
+  title: string;
   /**
-   * Toggle to show or hide the "View All" tile at the end of the list.
+   * Formatting options are limited to maintain consistency across the site.
    */
-  showViewAll?: boolean | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  startDate: string;
+  endDate?: string | null;
+  registrationTime?: string | null;
+  startTime: string;
+  endTime?: string | null;
   /**
-   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   * Select all the categories that apply to this event.
    */
-  enableSubscribe?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'eventTiles';
+  categories: (string | EventCategory)[];
+  /**
+   * The contact person for the event.
+   */
+  contact?: (string | null) | Contact;
+  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
+  virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
+  /**
+   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
+   */
+  virtualLink?: string | null;
+  virtualPasscode?: string | null;
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  resources?:
+    | {
+        resource: {
+          type: 'document' | 'audioVideo' | 'link';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this event as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: string;
+  /**
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
+   */
+  portrait?: (string | null) | ContactPortrait;
+  /**
+   * The user type helps differentiate between NJSIG staff and external brokers.
+   */
+  type: 'njsig' | 'broker';
+  /**
+   * The full name of the contact person.
+   */
+  name: string;
+  /**
+   * The contact person's job title. If not provided, the contact type will be used.
+   */
+  title?: string | null;
+  email: string;
+  phone: string;
+  extension?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-portraits".
+ */
+export interface ContactPortrait {
+  id: string;
+  /**
+   * The name of the person in the portrait photo.
+   */
+  name: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: string;
+  name: string;
+  folder?: (string | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: string | FolderInterface;
+        }
+      | {
+          relationTo?: 'pages';
+          value: string | Page;
+        }
+      | {
+          relationTo?: 'media';
+          value: string | Media;
+        }
+      | {
+          relationTo?: 'documents';
+          value: string | Document;
+        }
+      | {
+          relationTo?: 'contact-portraits';
+          value: string | ContactPortrait;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -954,6 +912,51 @@ export interface Location {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmphasizedListBlock".
+ */
+export interface EmphasizedListBlock {
+  /**
+   * Select the color of the triangular bullets
+   */
+  bullColor?: ('primary' | 'accent') | null;
+  listItems?:
+    | {
+        title: string;
+        content: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emphasizedList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventTilesBlock".
+ */
+export interface EventTilesBlock {
+  /**
+   * Set the number of tiles to display, including the "View All" tile
+   */
+  tiles: number;
+  /**
+   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   */
+  categoryFilters?: (string | EventCategory)[] | null;
+  /**
+   * Toggle to show or hide the "View All" tile at the end of the list.
+   */
+  showViewAll?: boolean | null;
+  /**
+   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   */
+  enableSubscribe?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventTiles';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1105,6 +1108,10 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
+        relationTo: 'hero-images';
+        value: string | HeroImage;
+      } | null)
+    | ({
         relationTo: 'media';
         value: string | Media;
       } | null)
@@ -1221,15 +1228,12 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "hero-images_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface HeroImagesSelect<T extends boolean = true> {
   title?: T;
   alt?: T;
-  caption?: T;
   blurData?: T;
-  relatedEvents?: T;
-  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1255,16 +1259,6 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         optimized?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        square?:
           | T
           | {
               url?: T;
@@ -1315,6 +1309,43 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         xl?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  alt?: T;
+  caption?: T;
+  blurData?: T;
+  relatedEvents?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
           | T
           | {
               url?: T;
@@ -1479,50 +1510,6 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-  sizes?:
-    | T
-    | {
-        sm?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        md?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        lg?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        xl?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

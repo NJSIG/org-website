@@ -5,9 +5,10 @@ import { useScreenSize } from '@/components/hooks/useScreenSize';
 import TitleTheme from '@/components/TitleTheme';
 import { cssVariables } from '@/css-variables';
 import { LinkAppearanceHelper } from '@/fields/link/types';
-import { HeroSpinnerBlock as HeroSpinnerBlockProps, Media } from '@/payload-types';
+import { HeroImage, HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-types';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
+import localImageLoader from '@/utilities/localImageLoader';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -84,12 +85,13 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
         >
           <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-full">
             <Image
-              src={(slide.backgroundImage as Media)?.url || ''}
-              alt={(slide.backgroundImage as Media)?.alt || ''}
+              loader={localImageLoader}
+              src={(slide.backgroundImage as HeroImage)?.url || ''}
+              alt={(slide.backgroundImage as HeroImage)?.alt || ''}
               fill
               priority={index === 0}
               placeholder="blur"
-              blurDataURL={blurDataToBlurDataURL((slide.backgroundImage as Media).blurData)}
+              blurDataURL={blurDataToBlurDataURL((slide.backgroundImage as HeroImage).blurData)}
               className="object-cover object-bottom-right @5xl:object-[center_right] @5xl:@max-9xl:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
             />
           </div>
