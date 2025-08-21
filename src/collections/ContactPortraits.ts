@@ -1,6 +1,5 @@
 import { anyone, editor } from '@/access';
 import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
-import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import path from 'path';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { fileURLToPath } from 'url';
@@ -61,41 +60,6 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
         lossless: true,
       },
     },
-    imageSizes: [
-      {
-        name: 'sm',
-        width: 48,
-        height: 48,
-        formatOptions: {
-          ...webp,
-          options: {
-            quality: 80,
-          },
-        },
-        generateImageName: imageNameGenerators.bySize,
-      },
-      {
-        name: 'md',
-        width: 56,
-        height: 56,
-        formatOptions: webp,
-        generateImageName: imageNameGenerators.bySize,
-      },
-      {
-        name: 'lg',
-        width: 64,
-        height: 64,
-        formatOptions: webp,
-        generateImageName: imageNameGenerators.bySize,
-      },
-      {
-        name: 'xl',
-        width: 128,
-        height: 128,
-        formatOptions: webp,
-        generateImageName: imageNameGenerators.bySize,
-      },
-    ],
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
