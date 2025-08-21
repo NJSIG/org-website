@@ -4,12 +4,15 @@ import { ImageLoader } from 'next/image';
 
 const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   const isLocal = !src.startsWith('http');
-  const query = new URLSearchParams();
+
+  // Parse the src to extract existing query parameters (like cache tags)
+  const [baseSrc, existingQuery] = src.split('?');
+  const query = new URLSearchParams(existingQuery || '');
 
   const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-  const fullSrc = `${baseUrl}${src}`;
+  const fullSrc = `${baseUrl}${baseSrc}`;
 
   if (width) {
     query.set('width', width.toString());
@@ -27,7 +30,7 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
     return `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
   }
 
-  return `${imageOptimizationApi}/image/${src}?${query.toString()}`;
+  return `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
 };
 
 export default coolifyImageLoader;
