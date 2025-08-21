@@ -13,15 +13,15 @@ export const getMediaUrl = (url: string | null | undefined, cacheTag?: string | 
 
   // Check if the URL is an API call
   if (url.startsWith('/api/')) {
-    return cacheTag ? `${url}?${cacheTag}` : url;
+    return cacheTag ? `${url}?c=${cacheTag}` : url;
   }
 
   // Check if the URL already has http protocol
   if (url.startsWith('http://') || url.startsWith('https://')) {
-    return cacheTag ? `${url}?${cacheTag}` : url;
+    return cacheTag ? `${url}?c=${cacheTag}` : url;
   }
 
   // Or prepend the client-side URL
   const baseUrl = getClientSideUrl();
-  return cacheTag ? `${baseUrl}${url}?${cacheTag}` : `${baseUrl}${url}`;
+  return cacheTag ? `${baseUrl}${url}?c=${cacheTag}` : `${baseUrl}${url}`;
 };
