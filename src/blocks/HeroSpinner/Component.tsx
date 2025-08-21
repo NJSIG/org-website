@@ -8,7 +8,7 @@ import { LinkAppearanceHelper } from '@/fields/link/types';
 import { HeroImage, HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-types';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
-import localImageLoader from '@/utilities/localImageLoader';
+import heroImageLoader from '@/utilities/heroImageLoader';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -85,10 +85,11 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
         >
           <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-full">
             <Image
-              loader={localImageLoader}
+              loader={heroImageLoader}
               src={(slide.backgroundImage as HeroImage)?.url || ''}
               alt={(slide.backgroundImage as HeroImage)?.alt || ''}
               fill
+              sizes="100vw"
               priority={index === 0}
               placeholder="blur"
               blurDataURL={blurDataToBlurDataURL((slide.backgroundImage as HeroImage).blurData)}
