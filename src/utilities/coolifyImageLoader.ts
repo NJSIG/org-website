@@ -23,7 +23,7 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   }
 
   if (isLocal && process.env.NODE_ENV === 'development') {
-    return src;
+    return `${src}?${query.toString()}`;
   }
 
   if (isLocal) {
