@@ -83,7 +83,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
             hidden: index !== selectedSlide,
           })}
         >
-          <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-full">
+          <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-screen max-w-[100%]">
             <Image
               loader={heroImageLoader}
               src={(slide.backgroundImage as HeroImage)?.url || ''}
