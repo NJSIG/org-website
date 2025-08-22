@@ -58,7 +58,11 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           priority={priority}
           quality={90}
           decoding="async"
-          src={(portrait as ContactPortrait).url!}
+          src={
+            (portrait as ContactPortrait).url
+              ? (portrait as ContactPortrait).url
+              : `/assets/placeholder/contact-${size}.webp`
+          }
           className={portraitVariants({ size, type })}
         />
       ) : (
