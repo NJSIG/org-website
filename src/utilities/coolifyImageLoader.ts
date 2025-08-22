@@ -10,6 +10,9 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   const query = new URLSearchParams(existingQuery || '');
 
   const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
+  if (!imageOptimizationApi) {
+    throw new Error('Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.');
+  }
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const fullSrc = `${baseUrl}${baseSrc}`;
