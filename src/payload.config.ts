@@ -21,6 +21,7 @@ import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
 import { EventCategories } from './collections/EventCategories';
+import { HeroImages } from './collections/HeroImages';
 import { Locations } from './collections/Locations';
 import { defaultLexical } from './fields/defaultLexical';
 
@@ -30,6 +31,7 @@ const dirname = path.dirname(filename);
 // Define the collections to be used in the Payload CMS configuration
 const collections = [
   Pages,
+  HeroImages,
   Media,
   Documents,
   Events,

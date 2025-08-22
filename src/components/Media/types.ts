@@ -20,6 +20,7 @@ export interface MediaProps {
   size?: string;
   fill?: boolean;
   placeholder?: 'empty' | 'blur' | null;
+  quality?: number;
 
   // Payload Media
   resource?: MediaType | string | number | null;

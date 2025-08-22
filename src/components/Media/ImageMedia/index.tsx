@@ -28,6 +28,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     loading: loadingFromProps,
     height: heightFromProps,
     width: widthFromProps,
+    quality = 100,
   } = props;
 
   let width: number | undefined;
@@ -72,7 +73,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         height={!fill ? height : undefined}
         width={!fill ? width : undefined}
         loading={loading}
-        quality={100}
+        quality={quality}
         placeholder={placeholder === 'blur' ? 'blur' : 'empty'}
         blurDataURL={blurDataToBlurDataURL((resource as Media)?.blurData) || defaultPlaceholder}
       />

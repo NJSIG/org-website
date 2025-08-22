@@ -37,11 +37,6 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
 
   const { portrait, type, name, title } = contact;
 
-  const src =
-    size === 'sm'
-      ? (portrait as ContactPortrait)?.sizes?.sm?.url || '/assets/placeholder/contact-sm.webp'
-      : (portrait as ContactPortrait)?.sizes?.md?.url || '/assets/placeholder/contact-md.webp';
-
   return (
     <div
       className={cn(
@@ -56,10 +51,14 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           width={size === 'sm' ? 40 : 56}
           height={size === 'sm' ? 40 : 56}
           priority={priority}
+          quality={90}
           decoding="async"
-          src={src}
+          src={
+            (portrait as ContactPortrait).url
+              ? (portrait as ContactPortrait).url!
+              : `/assets/placeholder/contact-${size}.webp`
+          }
           className={portraitVariants({ size, type })}
-          unoptimized
         />
       ) : (
         <Image
@@ -68,6 +67,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           height={size === 'sm' ? 40 : 56}
           priority={priority}
           decoding="async"
+          quality={90}
           src={`/assets/placeholder/contact-${size}.webp`}
           className={portraitVariants({ size, type })}
           unoptimized
