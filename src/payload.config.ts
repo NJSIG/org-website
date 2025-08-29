@@ -31,10 +31,10 @@ const dirname = path.dirname(filename);
 // Define the collections to be used in the Payload CMS configuration
 const collections = [
   Pages,
-  HeroImages,
-  Media,
-  Documents,
   Events,
+  Documents,
+  Media,
+  HeroImages,
   EventCategories,
   Locations,
   Contacts,
