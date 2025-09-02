@@ -79,6 +79,7 @@ export interface Config {
   };
   collections: {
     pages: Page;
+    subfunds: Subfund;
     events: Event;
     documents: Document;
     media: Media;
@@ -108,6 +109,7 @@ export interface Config {
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
+    subfunds: SubfundsSelect<false> | SubfundsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -327,11 +329,7 @@ export interface Page {
     /**
      * Select the template for this page. The template value will determine which blocks are available.
      */
-    template: 'default' | 'home' | 'subfund';
-    /**
-     * Select the theme for this page. The theme value will determine the styling of the blocks.
-     */
-    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
+    template: 'default' | 'home';
     blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
   };
   meta?: {
@@ -960,6 +958,98 @@ export interface EventTilesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subfunds".
+ */
+export interface Subfund {
+  id: string;
+  /**
+   * The theme applies a color scheme to all themeable elements on the page.
+   */
+  theme: 'bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif';
+  /**
+   * The full name of the sub-fund, used for SEO.
+   */
+  name: string;
+  /**
+   * The short name of the sub-fund, used for routing, display, and the admin UI.
+   */
+  shortName: string;
+  content: {
+    /**
+     * A summary of the sub-fund, used for SEO and display. The summary should include the full name, counties, year founded, and administrator.
+     */
+    summary: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    administrators: (string | Contact)[];
+    reps: (string | Contact)[];
+    /**
+     * Select event categories to filter events related to this sub-fund. If no categories are selected, all events will be shown.
+     */
+    eventFilters: (string | EventCategory)[];
+    resources?:
+      | {
+          resource: {
+            type: 'document' | 'audioVideo' | 'link';
+            /**
+             * The resource icon should be as closely related to the resource as possible.
+             */
+            icon?: string | null;
+            /**
+             * Select or upload a document.
+             */
+            document?: (string | null) | Document;
+            /**
+             * Select or upload a video or audio clip.
+             */
+            audioVideo?: (string | null) | Media;
+            /**
+             * Provide a URL to an external resource or a reference to a CMS item.
+             */
+            link?: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              allowReferrer?: boolean | null;
+              reference?: {
+                relationTo: 'pages';
+                value: string | Page;
+              } | null;
+              url?: string | null;
+              label?: string | null;
+            };
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1108,6 +1198,10 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
+        relationTo: 'subfunds';
+        value: string | Subfund;
+      } | null)
+    | ({
         relationTo: 'events';
         value: string | Event;
       } | null)
@@ -1208,7 +1302,6 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         allowedBlocks?: T;
         template?: T;
-        subfundTheme?: T;
         blocks?: T | {};
       };
   meta?:
@@ -1222,6 +1315,58 @@ export interface PagesSelect<T extends boolean = true> {
   slugLock?: T;
   publishedAt?: T;
   folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subfunds_select".
+ */
+export interface SubfundsSelect<T extends boolean = true> {
+  theme?: T;
+  name?: T;
+  shortName?: T;
+  content?:
+    | T
+    | {
+        summary?: T;
+        administrators?: T;
+        reps?: T;
+        eventFilters?: T;
+        resources?:
+          | T
+          | {
+              resource?:
+                | T
+                | {
+                    type?: T;
+                    icon?: T;
+                    document?: T;
+                    audioVideo?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          allowReferrer?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                  };
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1945,6 +2090,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'pages';
           value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'subfunds';
+          value: string | Subfund;
         } | null)
       | ({
           relationTo: 'events';

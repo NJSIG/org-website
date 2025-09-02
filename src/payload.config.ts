@@ -23,6 +23,7 @@ import { Documents } from './collections/Documents';
 import { EventCategories } from './collections/EventCategories';
 import { HeroImages } from './collections/HeroImages';
 import { Locations } from './collections/Locations';
+import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/defaultLexical';
 
 const filename = fileURLToPath(import.meta.url);
@@ -31,6 +32,7 @@ const dirname = path.dirname(filename);
 // Define the collections to be used in the Payload CMS configuration
 const collections = [
   Pages,
+  Subfunds,
   Events,
   Documents,
   Media,
