@@ -90,7 +90,6 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'phone',
                     type: 'text',
-                    required: true,
                     admin: {
                       placeholder: '% 20',
                     },

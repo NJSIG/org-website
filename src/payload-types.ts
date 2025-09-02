@@ -728,7 +728,7 @@ export interface Contact {
    */
   title?: string | null;
   email: string;
-  phone: string;
+  phone?: string | null;
   extension?: string | null;
   updatedAt: string;
   createdAt: string;
