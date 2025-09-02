@@ -13,18 +13,8 @@ export type BlockStub = {
   [k: string]: unknown;
 };
 
-export type Templates = 'default' | 'home' | 'subfund';
+export type Templates = 'default' | 'home';
 export type TemplateOptions = Record<Templates, Options>;
-
-export type SubfundTheme =
-  | 'bacceic'
-  | 'caip'
-  | 'ericnorth'
-  | 'ericsouth'
-  | 'ericwest'
-  | 'mocssif'
-  | 'njeif';
-export type SubfundThemeOptions = Record<SubfundTheme, Options>;
 
 type Blocks = HeroSpinnerBlock | HiddenTitleBlock | SectionBlock;
 export type BlockSlugs = Blocks['blockType'];
