@@ -598,6 +598,10 @@
 
   --resource-theme: var(--color-njsig-primary);
 
+  --subfund-background: var(--color-njsig-neutral-background);
+  --subfund-capsule-bg: var(--color-battleship-gray-100);
+  --subfund-foreground: var(--color-njsig-neutral-shade);
+  --subfund-accent: var(--color-njsig-neutral-midtone);
   --subfund-contact-ring: var(--color-njsig-neutral-shade);
 
   --card: oklch(1 0 0);
@@ -640,5 +644,13 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  .subfund-theme-bacceic {
+    --subfund-background: var(--color-bacceic-background);
+    --subfund-capsule-bg: var(--color-glacial-100);
+    --subfund-foreground: var(--color-bacceic-shade);
+    --subfund-accent: var(--color-bacceic-midtone);
+    --subfund-contact-ring: var(--color-bacceic-primary);
   }
 }
