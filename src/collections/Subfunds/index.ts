@@ -166,7 +166,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
         },
       ],
     },
-    ...slugField(),
+    ...slugField('shortName'),
   ],
   hooks: {
     afterChange: [revalidateSubfundHook],
