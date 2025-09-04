@@ -1,6 +1,6 @@
 import { editor, editorOrPublished } from '@/access';
 import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
-import { dynamicBlocksField } from '@/fields/dynamicBlocks';
+import { dynamicBlocksField, templateOptions } from '@/fields/dynamicBlocks';
 import { slugField } from '@/fields/slug';
 import { populatePublishedAtHook } from '@/hooks';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -48,6 +48,9 @@ export const Pages: CollectionConfig<'pages'> = {
         {
           name: 'meta',
           label: 'SEO',
+          admin: {
+            condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -80,6 +83,24 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'template',
+      type: 'text',
+      virtual: true,
+      admin: {
+        hidden: true,
+      },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            const template =
+              templateOptions[data?.layout?.template as keyof typeof templateOptions];
+
+            return template?.label || null;
+          },
+        ],
+      },
+    },
   ],
   hooks: {
     beforeChange: [populatePublishedAtHook],
@@ -96,8 +117,9 @@ export const Pages: CollectionConfig<'pages'> = {
     maxPerDoc: 50,
   },
   folders: true,
+  trash: true,
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'template', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({

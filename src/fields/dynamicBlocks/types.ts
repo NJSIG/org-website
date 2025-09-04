@@ -13,7 +13,7 @@ export type BlockStub = {
   [k: string]: unknown;
 };
 
-export type Templates = 'default' | 'home';
+export type Templates = 'default' | 'home' | 'navOnly';
 export type TemplateOptions = Record<Templates, Options>;
 
 type Blocks = HeroSpinnerBlock | HiddenTitleBlock | SectionBlock;

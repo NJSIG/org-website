@@ -329,8 +329,8 @@ export interface Page {
     /**
      * Select the template for this page. The template value will determine which blocks are available.
      */
-    template: 'default' | 'home';
-    blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
+    template: 'default' | 'home' | 'navOnly';
+    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -343,9 +343,11 @@ export interface Page {
   slug?: string | null;
   slugLock?: boolean | null;
   publishedAt?: string | null;
+  template?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
 }
 /**
@@ -1314,9 +1316,11 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   publishedAt?: T;
+  template?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   _status?: T;
 }
 /**

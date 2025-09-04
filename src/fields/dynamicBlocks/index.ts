@@ -16,6 +16,7 @@ type DynamicBlocksStub = {
 export const templateOptions: TemplateOptions = {
   default: { label: 'Default', value: 'default' },
   home: { label: 'Home', value: 'home' },
+  navOnly: { label: 'Navigation Only', value: 'navOnly' },
 };
 
 const allBlocks: BlockSlugs[] = ['heroSpinner', 'hiddenTitle', 'section'];
@@ -23,6 +24,7 @@ const allBlocks: BlockSlugs[] = ['heroSpinner', 'hiddenTitle', 'section'];
 const defaultBlockSlugs: AllowedBlocks = {
   default: ['hiddenTitle', 'section'],
   home: ['heroSpinner', 'hiddenTitle', 'section'],
+  navOnly: [],
 };
 
 export const dynamicBlocksField: DynamicBlocksType = ({
@@ -76,6 +78,7 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     type: 'blocks',
     required: true,
     admin: {
+      condition: (_, siblingData) => siblingData.template !== 'navOnly',
       components: {
         Field: {
           path: '@/fields/dynamicBlocks/DynamicBlocksComponent#DynamicBlocksComponent',
