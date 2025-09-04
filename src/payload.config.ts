@@ -87,6 +87,9 @@ export default buildConfig({
         },
       ],
     },
+    timezones: {
+      defaultTimezone: 'America/New_York',
+    },
   },
   collections,
   globals: [Header, Footer],
