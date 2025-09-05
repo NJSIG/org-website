@@ -573,6 +573,8 @@
   --border: var(--color-battleship-gray-400);
   --ring: var(--color-battleship-gray-400);
 
+  --title-theme-accent: var(--color-njsig-accent-midtone);
+
   --event-tile: var(--color-njsig-neutral-tint);
   --event-tile-foreground: var(--color-foreground);
   --event-tile-bespoke-dark: var(--color-azure-900);
@@ -653,5 +655,6 @@
     --subfund-foreground: var(--color-bacceic-shade);
     --subfund-accent: var(--color-bacceic-midtone);
     --subfund-contact-ring: var(--color-bacceic-primary);
+    --title-theme-accent: var(--color-bacceic-midtone);
   }
 }
