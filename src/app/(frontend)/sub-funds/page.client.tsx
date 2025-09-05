@@ -4,7 +4,6 @@ import { PageTitle } from '@/components/PageTitle';
 import { SubfundCapsule } from '@/components/SubfundCapsule';
 import { Subfund } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
-import { useSubfundTheme } from '@/providers/SubfundTheme';
 import { useEffect } from 'react';
 
 type SubfundsPageClientProps = {
@@ -13,12 +12,10 @@ type SubfundsPageClientProps = {
 
 const SubfundsPageClient: React.FC<SubfundsPageClientProps> = ({ subfunds }) => {
   const { setHeaderTheme } = useHeaderTheme();
-  const { setSubfundTheme } = useSubfundTheme();
 
   useEffect(() => {
     setHeaderTheme('dark');
-    setSubfundTheme(null);
-  }, [setHeaderTheme, setSubfundTheme]);
+  }, [setHeaderTheme]);
 
   return (
     <>

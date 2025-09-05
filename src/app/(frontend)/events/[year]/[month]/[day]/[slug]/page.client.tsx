@@ -17,7 +17,6 @@ import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
-import { useSubfundTheme } from '@/providers/SubfundTheme';
 import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
@@ -29,12 +28,10 @@ type EventPageClientProps = {
 
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
-  const { setSubfundTheme } = useSubfundTheme();
 
   useEffect(() => {
     setHeaderTheme('dark'); // Set header theme for event pages
-    setSubfundTheme(null); // Set subfund theme for event pages
-  }, [setHeaderTheme, setSubfundTheme]);
+  }, [setHeaderTheme]);
 
   return (
     <>

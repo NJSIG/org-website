@@ -7,7 +7,6 @@ import { EventCalendarProvider, useEventCalendar } from '@/components/EventsCale
 import { EventsCalendarData } from '@/components/EventsCalendar/types';
 import { PageTitle } from '@/components/PageTitle';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
-import { useSubfundTheme } from '@/providers/SubfundTheme';
 import { useEffect, useState } from 'react';
 
 type EventsPageClientProps = {
@@ -17,12 +16,10 @@ type EventsPageClientProps = {
 
 const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, events }) => {
   const { setHeaderTheme } = useHeaderTheme();
-  const { setSubfundTheme } = useSubfundTheme();
 
   useEffect(() => {
     setHeaderTheme('dark'); // Set header theme for event pages
-    setSubfundTheme(null); // Set subfund theme for event pages
-  }, [setHeaderTheme, setSubfundTheme]);
+  }, [setHeaderTheme]);
 
   return (
     <EventCalendarProvider>
