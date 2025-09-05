@@ -1,6 +1,7 @@
 import { Subfund } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ContactPerson } from '../ContactPerson';
 import RichText from '../RichText';
@@ -15,7 +16,7 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
       href={`/sub-funds/${subfund.slug}`}
       className={cn(
         `subfund-theme-${subfund.shortName.toLowerCase()}`,
-        'flex flex-col gap-4 p-6 rounded-3xl bg-[var(--subfund-capsule-bg)] group/capsule w-full max-w-section',
+        'flex flex-col gap-4 p-6 rounded-3xl bg-[var(--subfund-capsule-bg)] group/capsule w-full max-w-section hover:bg-mix-shade-[var(--subfund-capsule-bg)]/2 transition-colors relative',
       )}
     >
       <div className="flex items-center justify-between w-full pb-2 border-b-[6px] border-[var(--subfund-accent)]">
@@ -36,7 +37,7 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
                 return null;
               }
 
-              return <ContactPerson key={admin.id} contact={admin} />;
+              return <ContactPerson key={admin.id} contact={admin} size="sm" />;
             })}
           </div>
         )}
@@ -47,11 +48,19 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
                 return null;
               }
 
-              return <ContactPerson key={rep.id} contact={rep} />;
+              return <ContactPerson key={rep.id} contact={rep} size="sm" />;
             })}
           </div>
         )}
       </div>
+      <Image
+        className="hidden md:block absolute right-16 top-8"
+        src={`/assets/sub-funds/${subfund.slug}-map.svg`}
+        alt={`${subfund.shortName} Map`}
+        height={249}
+        width={166}
+        unoptimized
+      />
     </Link>
   );
 };
