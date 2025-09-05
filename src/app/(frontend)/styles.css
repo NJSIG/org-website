@@ -641,5 +641,8 @@
     --subfund-accent: var(--color-bacceic-midtone);
     --subfund-contact-ring: var(--color-bacceic-primary);
     --title-theme-accent: var(--color-bacceic-midtone);
+    --event-tile-bespoke-dark: var(--color-glacial-900);
+    --event-tile-bespoke-light: var(--color-glacial-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
   }
 }
