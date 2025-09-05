@@ -14,7 +14,7 @@ type ContactPersonProps = {
 const portraitVariants = cva(['rounded-full'], {
   variants: {
     size: {
-      sm: 'border',
+      sm: 'border-2',
       md: 'border-2',
     },
     type: {
@@ -73,7 +73,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           unoptimized
         />
       )}
-      <div className={cn('flex flex-col', { 'gap-1': size === 'sm', 'gap-2': size === 'md' })}>
+      <div className={cn('flex flex-col', { 'gap-0': size === 'sm', 'gap-1': size === 'md' })}>
         <span className={cn('font-bold', { 'text-sm': size === 'sm', 'text-base': size === 'md' })}>
           {name}
         </span>
