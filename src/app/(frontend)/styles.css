@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
+@config "../../../tailwind.config.js";
 
 /*
  * Override prefers-color-scheme
