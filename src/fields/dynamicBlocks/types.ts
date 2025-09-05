@@ -39,6 +39,5 @@ export type DynamicBlocksType = (options?: {
   allowedBlocks?: AllowedBlocks;
   overrides?: {
     templateField?: Partial<SelectField>;
-    subfundThemeField?: Partial<SelectField>;
   };
 }) => Field[];
