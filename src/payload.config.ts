@@ -101,9 +101,9 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
-    connectOptions: {
-      dbName: 'payload',
-    },
+    // connectOptions: {
+    //   dbName: 'payload',
+    // },
   }),
   email: nodemailerAdapter({
     defaultFromAddress: 'noreply@njsig.org',
