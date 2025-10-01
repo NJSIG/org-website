@@ -61,6 +61,7 @@ export const Documents: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'folder'],
+    group: 'Media',
   },
   upload: {
     // Uploads to the public/documents directory in Next.js making files publicly accessible even outside of Payload

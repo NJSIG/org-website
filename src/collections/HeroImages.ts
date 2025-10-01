@@ -53,6 +53,7 @@ export const HeroImages: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt'],
+    group: 'Media',
   },
   upload: {
     // Uploads to the public/hero directory in Next.js making files publicly accessible even outside of Payload

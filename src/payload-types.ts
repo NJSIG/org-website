@@ -81,14 +81,14 @@ export interface Config {
     pages: Page;
     subfunds: Subfund;
     events: Event;
-    documents: Document;
-    media: Media;
-    'hero-images': HeroImage;
-    'event-categories': EventCategory;
     locations: Location;
     contacts: Contact;
+    media: Media;
+    documents: Document;
+    'hero-images': HeroImage;
     'contact-portraits': ContactPortrait;
     users: User;
+    'event-categories': EventCategory;
     redirects: Redirect;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
@@ -97,28 +97,28 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    documents: {
-      relatedEvents: 'events';
-    };
     media: {
       relatedEvents: 'events';
     };
+    documents: {
+      relatedEvents: 'events';
+    };
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'pages' | 'documents' | 'media' | 'contact-portraits';
+      documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'documents' | 'contact-portraits';
     };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     subfunds: SubfundsSelect<false> | SubfundsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    documents: DocumentsSelect<false> | DocumentsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
-    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
     'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -423,7 +423,7 @@ export interface SectionContentBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -540,7 +540,7 @@ export interface Media {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -612,7 +612,7 @@ export interface Event {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -781,12 +781,12 @@ export interface FolderInterface {
           value: string | Page;
         }
       | {
-          relationTo?: 'documents';
-          value: string | Document;
-        }
-      | {
           relationTo?: 'media';
           value: string | Media;
+        }
+      | {
+          relationTo?: 'documents';
+          value: string | Document;
         }
       | {
           relationTo?: 'contact-portraits';
@@ -796,7 +796,7 @@ export interface FolderInterface {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  folderType?: ('pages' | 'documents' | 'media' | 'contact-portraits')[] | null;
+  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -984,7 +984,7 @@ export interface Subfund {
       root: {
         type: string;
         children: {
-          type: string;
+          type: any;
           version: number;
           [k: string]: unknown;
         }[];
@@ -1208,22 +1208,6 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
-        relationTo: 'documents';
-        value: string | Document;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'hero-images';
-        value: string | HeroImage;
-      } | null)
-    | ({
-        relationTo: 'event-categories';
-        value: string | EventCategory;
-      } | null)
-    | ({
         relationTo: 'locations';
         value: string | Location;
       } | null)
@@ -1232,12 +1216,28 @@ export interface PayloadLockedDocument {
         value: string | Contact;
       } | null)
     | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: string | Document;
+      } | null)
+    | ({
+        relationTo: 'hero-images';
+        value: string | HeroImage;
+      } | null)
+    | ({
         relationTo: 'contact-portraits';
         value: string | ContactPortrait;
       } | null)
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'event-categories';
+        value: string | EventCategory;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1428,25 +1428,43 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents_select".
+ * via the `definition` "locations_select".
  */
-export interface DocumentsSelect<T extends boolean = true> {
-  title?: T;
-  relatedEvents?: T;
-  publishedAt?: T;
-  fileType?: T;
-  folder?: T;
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  streetAddress?: T;
+  streetAddress2?: T;
+  city?: T;
+  state?: T;
+  zipCode?: T;
+  phone?: T;
+  website?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        allowReferrer?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  portrait?: T;
+  type?: T;
+  name?: T;
+  title?: T;
+  email?: T;
+  phone?: T;
+  extension?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1494,6 +1512,28 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  relatedEvents?: T;
+  publishedAt?: T;
+  fileType?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1591,57 +1631,6 @@ export interface HeroImagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories_select".
- */
-export interface EventCategoriesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  slugLock?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations_select".
- */
-export interface LocationsSelect<T extends boolean = true> {
-  name?: T;
-  streetAddress?: T;
-  streetAddress2?: T;
-  city?: T;
-  state?: T;
-  zipCode?: T;
-  phone?: T;
-  website?:
-    | T
-    | {
-        type?: T;
-        newTab?: T;
-        allowReferrer?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contacts_select".
- */
-export interface ContactsSelect<T extends boolean = true> {
-  portrait?: T;
-  type?: T;
-  name?: T;
-  title?: T;
-  email?: T;
-  phone?: T;
-  extension?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-portraits_select".
  */
 export interface ContactPortraitsSelect<T extends boolean = true> {
@@ -1682,6 +1671,17 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories_select".
+ */
+export interface EventCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

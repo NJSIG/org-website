@@ -39,6 +39,9 @@ export const plugins: Plugin[] = [
       hooks: {
         afterChange: [revalidateRedirectsHook],
       },
+      admin: {
+        group: 'Administration',
+      },
     },
   }),
   seoPlugin({

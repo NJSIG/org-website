@@ -86,6 +86,7 @@ export const Media: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt', 'folder'],
+    group: 'Media',
   },
   upload: {
     // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload

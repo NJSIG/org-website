@@ -45,6 +45,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   admin: {
     defaultColumns: ['filename', 'name', 'folder'],
     useAsTitle: 'name',
+    group: 'Media',
   },
   upload: {
     // Uploads to the public/contacts directory in Next.js making files
