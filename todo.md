@@ -46,3 +46,5 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Add a generate title hook for the documents collection
 - [x] Add a documents section to events, documents may be relationships to the documents collection, media collection, or an external link
 - [x] Update slug creation to account for `-` characters
+- [x] Migrate to new native dynamic blocks functionality
+- [x] Add tips UI field for showing help inline in the admin panel

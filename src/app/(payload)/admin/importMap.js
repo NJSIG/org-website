@@ -1,4 +1,4 @@
-import { DynamicBlocksComponent as DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c } from '@/fields/dynamicBlocks/DynamicBlocksComponent'
+import { TipComponent as TipComponent_ed951cda59362e013cdc79b468aaa07d } from '@/fields/uiTip/TipComponent'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -34,7 +34,7 @@ import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/He
 import { default as default_7b0da33588c22cbe7e3dd7054120c9e3 } from '@/blocks/EmphasizedList/ItemLabel'
 
 export const importMap = {
-  "@/fields/dynamicBlocks/DynamicBlocksComponent#DynamicBlocksComponent": DynamicBlocksComponent_5a3a202f13d35c129b3ab1ba7e7b912c,
+  "@/fields/uiTip/TipComponent#TipComponent": TipComponent_ed951cda59362e013cdc79b468aaa07d,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,

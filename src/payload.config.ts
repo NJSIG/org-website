@@ -49,6 +49,8 @@ const collections = [
 
 // Define the blocks to be used in the Payload CMS configuration
 // We define all our blocks here so they can be used by reference
+// Defining blocks multiple time can bloat the config and information sent to the client
+// see https://payloadcms.com/docs/fields/blocks#block-references
 const blocks = [
   HeroSpinner,
   HiddenTitle,
