@@ -6,6 +6,7 @@ import {
   AudioLinesIcon,
   DownloadIcon,
   ExternalLinkIcon,
+  FilePenIcon,
   FileTextIcon,
   Link2Icon,
   LinkIcon,
@@ -74,6 +75,8 @@ const ResourceIcon: React.FC<{ icon: ResourceItemProps['item']['resource']['icon
   switch (icon) {
     case 'file-text':
       return <FileTextIcon size={24} className={iconClass} />;
+    case 'file-pen':
+      return <FilePenIcon size={24} className={iconClass} />;
     case 'presentation':
       return <PresentationIcon size={24} className={iconClass} />;
     case 'video':
