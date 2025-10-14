@@ -69,13 +69,33 @@ export const dynamicBlocksField: DynamicBlocksType = ({
 
       return [];
     },
+    hooks: {
+      beforeChange: [
+        ({ data, siblingData: _siblingData }) => {
+          const siblingData = _siblingData as { template?: Templates } | undefined;
+
+          if (siblingData?.template === 'navOnly') {
+            return null;
+          }
+
+          return data;
+        },
+      ],
+    },
   };
 
-  return [
-    uiTipField([
-      'The Navigation Only template can be used to create page stubs to add pre-defined routes to areas of the site that only accept page relationships.',
-    ]),
-    templateFieldWithOverrides,
-    blocksField,
-  ];
+  // Tip Field
+  const tipField = uiTipField(
+    [
+      'The Navigation Only template should be used when you need to create a stub page that represents a pre-defined route like "events" or "sub-funds".',
+      'It is important that the slug matches the pre-defined route exactly to ensure proper navigation and content rendering.',
+    ],
+    {
+      admin: {
+        condition: (_, siblingData) => siblingData.template === 'navOnly',
+      },
+    },
+  );
+
+  return [templateFieldWithOverrides, blocksField, tipField];
 };

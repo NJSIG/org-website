@@ -1,8 +1,8 @@
-import { UIField } from 'payload';
+import { deepMerge, UIField } from 'payload';
 
-export type UITipFieldType = (tips: string[]) => UIField;
+export type UITipFieldType = (tips: string[], overrides?: Partial<UIField>) => UIField;
 
-export const uiTipField: UITipFieldType = (tips) => {
+export const uiTipField: UITipFieldType = (tips, overrides = {}) => {
   const fieldResult: UIField = {
     type: 'ui',
     name: 'tip',
@@ -16,5 +16,5 @@ export const uiTipField: UITipFieldType = (tips) => {
     },
   };
 
-  return fieldResult;
+  return deepMerge(fieldResult, overrides);
 };
