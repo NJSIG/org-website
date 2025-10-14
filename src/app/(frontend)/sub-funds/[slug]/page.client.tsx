@@ -66,7 +66,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcoming
             className="hidden md:block absolute right-0 -top-4"
             src={`/assets/sub-funds/${subfund.slug}-map.svg`}
             alt={`${subfund.shortName} Map`}
-            height={300}
+            height={298.5}
             width={200}
             unoptimized
           />
