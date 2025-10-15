@@ -68,7 +68,7 @@ const EventTileHeader: React.FC<EventHeaderProps> = ({ heading, className }) => 
 
   return (
     <div className={cn('flex items-center justify-between w-full', className)}>
-      <span className="text-xl font-bold uppercase">{title}</span>
+      <h4 className="text-xl font-bold uppercase">{title}</h4>
       <ArrowUpRightIcon
         className={cn('group-hover/event-tile:motion-safe:animate-micro-up-right', {
           'stroke-[var(--event-tile-bespoke-accent)]': event === 'all',
