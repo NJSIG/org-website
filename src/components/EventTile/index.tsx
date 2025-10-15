@@ -17,9 +17,9 @@ import {
 
 const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => {
   const tileClasses = cn(
-    'group/event-tile rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] hover:bg-mix-shade-[var(--event-tile)]/2 min-h-52 min-w-52 transition-colors relative',
+    'group/event-tile rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] min-h-52 min-w-52 transition-colors relative',
     {
-      'cursor-pointer': event !== undefined,
+      'cursor-pointer hover:bg-mix-shade-[var(--event-tile)]/2': event !== undefined,
       'relative bg-transparent hover:bg-mix-shade-[var(--event-tile-bespoke-light)]/2 before:absolute before:-z-[1] before:top-0 before:left-0 before:w-full before:h-full before:rounded-3xl before:bg-linear-to-tr before:from-[var(--event-tile-bespoke-dark)] before:from-30% before:to-[var(--event-tile-bespoke-light)] text-[var(--event-tile-bespoke-foreground)]':
         event === 'all',
     },
