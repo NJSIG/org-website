@@ -101,7 +101,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcoming
             <EventTile
               event="all"
               className={cn({
-                'lg:col-span-4': upcomingEvents.length > 1,
+                'lg:col-span-4': upcomingEvents.length > 1 || upcomingEvents.length === 0,
                 'lg:col-span-6': upcomingEvents.length === 1,
               })}
             >
