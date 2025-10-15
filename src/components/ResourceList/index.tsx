@@ -57,6 +57,9 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false }) => 
         target={target}
         rel={rel}
         referrerPolicy={referrerPolicy}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
         className={cn('group/resource-item flex items-center p-4 gap-4 transition-colors', {
           'rounded-3xl bg-njsig-neutral-tint hover:bg-mix-shade-njsig-neutral-tint/2': !nested,
           'rounded-lg bg-njsig-neutral-background hover:bg-mix-shade-njsig-neutral-background/2':
