@@ -8,6 +8,8 @@ import {
   EventTileNoEvents,
 } from '@/components/EventTile';
 import { EventTileData } from '@/components/EventTile/types';
+import MeetingMaterialsList from '@/components/MeetingMaterialsList';
+import { MeetingMaterialsData } from '@/components/MeetingMaterialsList/types';
 import ResourceList from '@/components/ResourceList';
 import RichText from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
@@ -20,9 +22,14 @@ import { useEffect } from 'react';
 type SubfundPageClientProps = {
   subfund: Subfund;
   upcomingEvents: EventTileData[];
+  pastMeetings: MeetingMaterialsData[];
 };
 
-const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcomingEvents }) => {
+const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
+  subfund,
+  upcomingEvents,
+  pastMeetings,
+}) => {
   const { setHeaderTheme } = useHeaderTheme();
 
   useEffect(() => {
@@ -63,12 +70,13 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcoming
             )}
           </div>
           <Image
-            className="hidden md:block absolute right-0 -top-4"
+            className="hidden md:block absolute right-0 -top-4 w-[200px] h-auto"
             src={`/assets/sub-funds/${subfund.slug}-map.svg`}
             alt={`${subfund.shortName} Map`}
-            height={298.5}
-            width={200}
+            width={0}
+            height={0}
             unoptimized
+            priority
           />
         </div>
       </section>
@@ -112,7 +120,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcoming
         </div>
       </section>
       {/* Sub-fund Resources */}
-      <section className="px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 xl:pt-16 xl:pb-20 flex items-center justify-center">
+      <section className="px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 xl:pt-10 xl:pb-20 flex items-center justify-center">
         <div className="w-full max-w-section flex flex-col gap-8">
           <TitleTheme size="responsive" animated={true} className="mr-auto">
             Sub-fund Resources
@@ -120,6 +128,17 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({ subfund, upcoming
           <ResourceList resources={subfund.content.resources} />
         </div>
       </section>
+      {/* Sub-fund Meetings */}
+      {pastMeetings.length > 0 && (
+        <section className="px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 xl:pt-10 xl:pb-20 flex items-center justify-center">
+          <div className="w-full max-w-section flex flex-col gap-8">
+            <TitleTheme size="responsive" animated={true} className="mr-auto">
+              Sub-fund Meeting Materials
+            </TitleTheme>
+            <MeetingMaterialsList meetings={pastMeetings} />
+          </div>
+        </section>
+      )}
     </div>
   );
 };

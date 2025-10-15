@@ -1,5 +1,6 @@
 import { EventTileData } from '@/components/EventTile/types';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
+import { MeetingMaterialsData } from '@/components/MeetingMaterialsList/types';
 import { Event, EventCategory } from '@/payload-types';
 import { generateSubfundMetaGraph } from '@/utilities/generateSubfundMetaGraph';
 import configPromise from '@payload-config';
@@ -89,6 +90,68 @@ const queryEventsByCategory = cache(
   },
 );
 
+const queryPastMeetingsByCategory = cache(
+  async ({ categories }: { categories: Event['categories'] }): Promise<MeetingMaterialsData[]> => {
+    if (!categories || !Array.isArray(categories) || categories.length === 0) {
+      return [];
+    }
+
+    const { isEnabled: draft } = await draftMode();
+    const payload = await getPayload({ config: configPromise });
+
+    const today = new Date().toISOString();
+    const categoryFilter: Where = {
+      or: categories
+        .filter((category): category is EventCategory =>
+          Boolean(category && typeof category === 'object' && 'id' in category),
+        )
+        .map((category) => ({ categories: { equals: category.id } })),
+    };
+
+    const where: Where = {
+      and: [
+        {
+          startDate: {
+            less_than: today,
+          },
+        },
+        {
+          eventType: {
+            equals: 'subfundMeeting',
+          },
+        },
+        {
+          _status: {
+            equals: 'published',
+          },
+        },
+        categoryFilter,
+      ],
+    };
+
+    const result = await payload.find({
+      collection: 'events',
+      draft,
+      limit: 3,
+      pagination: false,
+      where,
+      depth: 1,
+      select: {
+        id: true,
+        slug: true,
+        startDate: true,
+        eventType: true,
+        title: true,
+        categories: true,
+        resources: true,
+      },
+      sort: 'startDate',
+    });
+
+    return result.docs || [];
+  },
+);
+
 /**
  * This function generates metadata for the event page based on its slug.
  */
@@ -118,9 +181,17 @@ export default async function SubfundPage({ params: paramsPromise }: Args) {
     categories: subfund.content.eventFilters,
   });
 
+  const pastMeetings = await queryPastMeetingsByCategory({
+    categories: subfund.content.pastMeetingsFilters,
+  });
+
   return (
     <>
-      <SubfundPageClient subfund={subfund} upcomingEvents={upcomingEvents} />
+      <SubfundPageClient
+        subfund={subfund}
+        upcomingEvents={upcomingEvents}
+        pastMeetings={pastMeetings}
+      />
       {draft && <LivePreviewListener />}
     </>
   );
