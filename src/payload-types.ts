@@ -992,6 +992,10 @@ export interface Subfund {
      * Select event categories to filter events related to this sub-fund. If no categories are selected, all events will be shown.
      */
     eventFilters: (string | EventCategory)[];
+    /**
+     * Select event categories to filter past meetings related to this sub-fund. If no categories are selected, the past meetings section will be hidden.
+     */
+    pastMeetingsFilters: (string | EventCategory)[];
     resources?:
       | {
           resource: {
@@ -1328,6 +1332,7 @@ export interface SubfundsSelect<T extends boolean = true> {
         administrators?: T;
         reps?: T;
         eventFilters?: T;
+        pastMeetingsFilters?: T;
         resources?:
           | T
           | {
