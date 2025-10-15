@@ -2,15 +2,15 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import React, { useEffect, useState } from 'react';
 
+import { Button } from '@/components/Button';
+import { Logo } from '@/components/Logo';
+import { LinkAppearanceHelper } from '@/fields/link/types';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/Accordion';
-import { Button } from '@/components/Button';
-import { Logo } from '@/components/Logo';
-import { LinkAppearanceHelper } from '@/fields/link/types';
+} from '@/globals/Header/components/accordion';
 import type { Header } from '@/payload-types';
 import { buttonVariants } from '@/primitives/ui/button-prime';
 import { Theme } from '@/providers/Theme/types';

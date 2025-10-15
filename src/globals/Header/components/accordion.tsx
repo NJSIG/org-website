@@ -8,7 +8,7 @@ import { IconNames } from '@/fields/lucideIconPicker/types';
 import { buttonVariants } from '@/primitives/ui/button-prime';
 import { cn } from '@/utilities/cn';
 import { cva, VariantProps } from 'class-variance-authority';
-import DynamicIcon from '../DynamicIcon';
+import DynamicIcon from '../../../components/DynamicIcon';
 
 function Accordion({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
