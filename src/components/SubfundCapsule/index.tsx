@@ -54,11 +54,11 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
         )}
       </div>
       <Image
-        className="hidden md:block absolute right-16 top-8"
+        className="hidden md:block absolute right-16 top-8 w-40 h-auto"
         src={`/assets/sub-funds/${subfund.slug}-map.svg`}
         alt={`${subfund.shortName} Map`}
-        height={249}
-        width={166}
+        height={0}
+        width={0}
         unoptimized
       />
     </Link>
