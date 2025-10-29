@@ -17,6 +17,8 @@ function requireEnv(key: string): string {
 }
 
 const requiredS3Vars = {
+  S3_ENDPOINT: requireEnv('S3_ENDPOINT'),
+  S3_REGION: requireEnv('S3_REGION'),
   S3_BUCKET: requireEnv('S3_BUCKET'),
   S3_ACCESS_KEY_ID: requireEnv('S3_ACCESS_KEY_ID'),
   S3_SECRET_ACCESS_KEY: requireEnv('S3_SECRET_ACCESS_KEY'),
@@ -44,6 +46,9 @@ export const plugins: Plugin[] = [
     },
     bucket: requiredS3Vars.S3_BUCKET,
     config: {
+      endpoint: requiredS3Vars.S3_ENDPOINT,
+      region: requiredS3Vars.S3_REGION,
+      forcePathStyle: true,
       credentials: {
         accessKeyId: requiredS3Vars.S3_ACCESS_KEY_ID,
         secretAccessKey: requiredS3Vars.S3_SECRET_ACCESS_KEY,
