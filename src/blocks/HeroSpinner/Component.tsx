@@ -84,7 +84,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
             hidden: index !== selectedSlide,
           })}
         >
-          <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-screen max-w-[100%]">
+          <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-screen max-w-full">
             <Image
               loader={heroImageLoader}
               src={getMediaUrl(
@@ -108,7 +108,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
               },
             )}
           >
-            <div className="w-full rounded-3xl backdrop-blur-2xl bg-njsig-neutral-background/40 flex flex-col p-4 gap-1 motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6 @5xl:max-w-[500px] @7xl:max-w-[600px]">
+            <div className="w-full rounded-3xl backdrop-blur-2xl bg-njsig-neutral-background/40 flex flex-col p-4 gap-1 motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6 @5xl:max-w-section-content @7xl:max-w-section-wide-content">
               <TitleTheme className="mr-auto">{slide.theme}</TitleTheme>
               <h2 className="text-2xl @5xl:text-6xl @7xl:text-7xl font-bold @5xl:font-extrabold text-azure-950">
                 {slide.headline}
