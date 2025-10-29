@@ -64,8 +64,7 @@ export const Documents: CollectionConfig = {
     group: 'Media',
   },
   upload: {
-    // Uploads to the public/documents directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/documents'),
+    pasteURL: false,
     mimeTypes: supportedMimeTypes,
   },
   hooks: {

@@ -56,8 +56,7 @@ export const HeroImages: CollectionConfig = {
     group: 'Media',
   },
   upload: {
-    // Uploads to the public/hero directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/hero'),
+    pasteURL: false,
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     formatOptions: {

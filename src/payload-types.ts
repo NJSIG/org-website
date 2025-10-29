@@ -236,6 +236,7 @@ export interface HeroImage {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -551,6 +552,7 @@ export interface Media {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -740,6 +742,7 @@ export interface ContactPortrait {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -808,6 +811,7 @@ export interface Document {
   };
   publishedAt?: string | null;
   fileType?: string | null;
+  prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -1471,6 +1475,7 @@ export interface MediaSelect<T extends boolean = true> {
   caption?: T;
   blurData?: T;
   relatedEvents?: T;
+  prefix?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1517,6 +1522,7 @@ export interface DocumentsSelect<T extends boolean = true> {
   relatedEvents?: T;
   publishedAt?: T;
   fileType?: T;
+  prefix?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1538,6 +1544,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
   title?: T;
   alt?: T;
   blurData?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1631,6 +1638,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
 export interface ContactPortraitsSelect<T extends boolean = true> {
   name?: T;
   blurData?: T;
+  prefix?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;

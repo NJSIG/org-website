@@ -48,9 +48,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
     group: 'Media',
   },
   upload: {
-    // Uploads to the public/contacts directory in Next.js making files
-    // publicly accessible outside of Payload.
-    staticDir: path.resolve(dirname, '../../public/contacts'),
+    pasteURL: false,
     adminThumbnail: 'original',
     mimeTypes: ['image/*'],
     focalPoint: true,

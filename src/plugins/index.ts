@@ -39,10 +39,18 @@ const generateURL: GenerateURL<Page> = ({ doc }) => {
 export const plugins: Plugin[] = [
   s3Storage({
     collections: {
-      'contact-portraits': true,
-      documents: true,
-      'hero-images': true,
-      media: true,
+      'contact-portraits': {
+        prefix: 'portraits',
+      },
+      documents: {
+        prefix: 'documents',
+      },
+      'hero-images': {
+        prefix: 'hero',
+      },
+      media: {
+        prefix: 'media',
+      },
     },
     bucket: requiredS3Vars.S3_BUCKET,
     config: {
