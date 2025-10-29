@@ -16,16 +16,14 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
       href={`/sub-funds/${subfund.slug}`}
       className={cn(
         `subfund-theme-${subfund.shortName.toLowerCase()}`,
-        'flex flex-col gap-4 p-6 rounded-3xl bg-[var(--subfund-capsule-bg)] group/capsule w-full max-w-section hover:bg-mix-shade-[var(--subfund-capsule-bg)]/2 transition-colors relative',
+        'flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative',
       )}
     >
-      <div className="flex items-center justify-between w-full pb-2 border-b-[6px] border-[var(--subfund-accent)]">
-        <h3 className="text-5xl font-extrabold text-[var(--subfund-foreground)]">
-          {subfund.shortName}
-        </h3>
+      <div className="flex items-center justify-between w-full pb-2 border-b-[6px] border-(--subfund-accent)">
+        <h3 className="text-5xl font-extrabold text-(--subfund-foreground)">{subfund.shortName}</h3>
         <ArrowUpRightIcon
           size="40"
-          className="group-hover/capsule:motion-safe:animate-micro-up-right stroke-[var(--subfund-foreground)]"
+          className="group-hover/capsule:motion-safe:animate-micro-up-right stroke-(--subfund-foreground)"
         />
       </div>
       <RichText data={subfund.content.summary} className="prose-base mx-0 max-w-section-content" />
