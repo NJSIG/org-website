@@ -2,7 +2,7 @@ import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { ChevronDownIcon, SearchIcon } from 'lucide-react';
 import * as React from 'react';
 
-import { buttonVariants } from '@/primitives/ui/button-prime';
+import { buttonVariants } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
 import { cva } from 'class-variance-authority';
 

@@ -2,7 +2,7 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import React, { useEffect, useState } from 'react';
 
-import { Button } from '@/components/Button';
+import { ButtonLink } from '@/components/ButtonLink';
 import { Logo } from '@/components/Logo';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import {
@@ -12,7 +12,7 @@ import {
   AccordionTrigger,
 } from '@/globals/Header/components/accordion';
 import type { Header } from '@/payload-types';
-import { buttonVariants } from '@/primitives/ui/button-prime';
+import { buttonVariants } from '@/primitives/ui/button';
 import { Theme } from '@/providers/Theme/types';
 import { cn } from '@/utilities/cn';
 import { PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-react';
@@ -132,7 +132,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                               </div>
                               {group.callout.calloutLink && (
                                 <NavigationMenuLink asChild>
-                                  <Button
+                                  <ButtonLink
                                     link={{
                                       ...group.callout.calloutLink,
                                       ...calloutLinkAppearance,
@@ -189,7 +189,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             ctaButtons.map(
               (ctaButton) =>
                 ctaButton.link && (
-                  <Button link={{ ...ctaButton.link, ...ctaButtonAppearance }} key={ctaButton.id} />
+                  <ButtonLink
+                    link={{ ...ctaButton.link, ...ctaButtonAppearance }}
+                    key={ctaButton.id}
+                  />
                 ),
             )}
         </div>
@@ -229,7 +232,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                                 <h2 className="text-base font-semibold">{group.callout.title}</h2>
                                 <p className="text-sm">{group.callout.text}</p>
                                 {group.callout.calloutLink && (
-                                  <Button
+                                  <ButtonLink
                                     link={{
                                       ...group.callout.calloutLink,
                                       ...calloutLinkAppearance,
@@ -285,7 +288,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     {ctaButtons.map(
                       (ctaButton) =>
                         ctaButton.link && (
-                          <Button
+                          <ButtonLink
                             link={{ ...ctaButton.link, ...ctaButtonAppearance }}
                             key={ctaButton.id}
                           />

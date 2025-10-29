@@ -13,7 +13,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
 - [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
 - [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block
-- [ ] Rework button into CMSButton or similar and ButtonPrime into a real Button Primitive
 - [ ] Add remaining sub-fund theme styles
 
 ### Post MVP Features
@@ -50,3 +49,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Update slug creation to account for `-` characters
 - [x] Migrate to new native dynamic blocks functionality
 - [x] Add tips UI field for showing help inline in the admin panel
+- [x] Rework button into CMSButton or similar and ButtonPrime into a real Button Primitive

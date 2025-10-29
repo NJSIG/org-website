@@ -76,13 +76,7 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
           {contact && typeof contact === 'object' && (
             <ContactPerson contact={contact} priority={true} size="sm" />
           )}
-          {/*
-            TODO: Implement add to calendar functionality
-            This button should open a modal or redirect to a calendar integration.
-            <ButtonPrime variant="icon" style="flat" color="accent" size="medium" className="ml-auto">
-              <CalendarPlusIcon size={24} />
-            </ButtonPrime>
-          */}
+          {/* TODO: Implement add to calendar functionality */}
         </div>
       </div>
     </div>

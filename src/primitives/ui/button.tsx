@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '@/utilities/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0  focus-visible:ring-4 cursor-pointer outline-offset-4',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0  focus-visible:ring-4 outline-offset-4',
   {
     variants: {
       variant: {
@@ -27,6 +27,14 @@ const buttonVariants = cva(
         small: 'text-sm h-7 px-3 py-1 [&_svg]:size-4 [&_svg]:stroke-1',
         medium: 'text-base h-10 px-4 py-2 [&_svg]:size-6',
         large: 'text-lg h-12 px-6 py-3 [&_svg]:size-6',
+      },
+      animation: {
+        none: '',
+        wiggle: 'hover:motion-safe:[&_svg]:animate-micro-wiggle',
+        upRight: 'hover:motion-safe:[&_svg]:animate-micro-up-right',
+        bounce: 'hover:motion-safe:[&_svg]:animate-micro-bounce',
+        bounceRight: 'hover:motion-safe:[&_svg]:animate-micro-bounce-right',
+        bounceLeft: 'hover:motion-safe:[&_svg]:animate-micro-bounce-left',
       },
     },
     compoundVariants: [
@@ -113,13 +121,13 @@ const buttonVariants = cva(
       {
         variant: 'icon',
         size: 'medium',
-        class: 'h-10 w-10 p-0',
+        class: 'size-10 p-0',
       },
       // [Icon] Small
       {
         variant: 'icon',
         size: 'small',
-        class: 'h-7 w-7 p-0',
+        class: 'size-7 p-0',
       },
     ],
     defaultVariants: {
@@ -127,16 +135,18 @@ const buttonVariants = cva(
       style: 'flat',
       color: 'primary',
       size: 'medium',
+      animation: 'none',
     },
   },
 );
 
-function ButtonPrime({
+function Button({
   className,
   variant,
   style,
   color,
   size,
+  animation,
   asChild = false,
   ...props
 }: React.ComponentProps<'button'> &
@@ -148,10 +158,10 @@ function ButtonPrime({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, style, color, size }), className)}
+      className={cn(buttonVariants({ variant, style, color, size, animation }), className)}
       {...props}
     />
   );
 }
 
-export { ButtonPrime, buttonVariants };
+export { Button, buttonVariants };

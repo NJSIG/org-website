@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button';
+import { ButtonLink } from '@/components/ButtonLink';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import { CMSButtonBlock as CMSButtonBlockProps } from '@/payload-types';
 
@@ -13,7 +13,7 @@ const cmsButtonAppearance: LinkAppearanceHelper<'button'> = {
 
 export const CMSButtonBlock: React.FC<CMSButtonBlockProps> = ({ cmsButtonLink }) => {
   return (
-    <Button
+    <ButtonLink
       link={{
         ...cmsButtonLink,
         ...cmsButtonAppearance,

@@ -1,11 +1,10 @@
 'use client';
 
-import { buttonVariants } from '@/primitives/ui/button-prime';
+import { buttonVariants } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { buttonMicroInteractionVariants } from '../Button';
 import { useEventCalendar } from './provider';
 import { DateCellProps, EventsCalendarData, HeaderCellProps } from './types';
 
@@ -40,10 +39,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           <Link
             href={prevMonthURL}
             aria-label="Previous Month"
-            className={cn(
-              navButtonVariant,
-              buttonMicroInteractionVariants({ animation: 'bounceLeft' }),
-            )}
+            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceLeft' }))}
           >
             <ChevronLeftIcon size={24} />
           </Link>
@@ -51,10 +47,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           <Link
             href={nextMonthURL}
             aria-label="Next Month"
-            className={cn(
-              navButtonVariant,
-              buttonMicroInteractionVariants({ animation: 'bounceRight' }),
-            )}
+            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceRight' }))}
           >
             <ChevronRightIcon size={24} />
           </Link>

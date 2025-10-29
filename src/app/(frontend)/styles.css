@@ -634,6 +634,11 @@
     @apply bg-background text-foreground;
   }
 
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   .subfund-theme-bacceic {
     --subfund-background: var(--color-bacceic-background);
     --subfund-capsule-bg: var(--color-glacial-100);

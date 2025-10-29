@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/Button';
+import { ButtonLink } from '@/components/ButtonLink';
 import { useScreenSize } from '@/components/hooks/useScreenSize';
 import TitleTheme from '@/components/TitleTheme';
 import { cssVariables } from '@/css-variables';
@@ -116,7 +116,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
             </div>
             <div className="w-full motion-safe:opacity-0 group-data-[state=active]:motion-safe:animate-to group-data-[state=active]:fade-in delay-200 duration-600 fill-mode-forwards group-data-[state=active]:lg:motion-safe:slide-in-from-bottom-6 lg:delay-300 lg:duration-500">
               {slide.heroLink && (
-                <Button
+                <ButtonLink
                   link={{
                     ...slide.heroLink,
                     ...ctaButtonAppearance,
