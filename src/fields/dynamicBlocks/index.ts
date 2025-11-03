@@ -71,14 +71,14 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     },
     hooks: {
       beforeChange: [
-        ({ data, siblingData: _siblingData }) => {
+        ({ value, siblingData: _siblingData }) => {
           const siblingData = _siblingData as { template?: Templates } | undefined;
 
           if (siblingData?.template === 'navOnly') {
-            return null;
+            return [];
           }
 
-          return data;
+          return value;
         },
       ],
     },
@@ -97,5 +97,5 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     },
   );
 
-  return [templateFieldWithOverrides, blocksField, tipField];
+  return [templateFieldWithOverrides, tipField, blocksField];
 };
