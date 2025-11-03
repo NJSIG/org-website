@@ -1,4 +1,5 @@
 import { cn } from '@/utilities/cn';
+import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import Image from 'next/image';
 
 interface Props {
@@ -59,6 +60,7 @@ export const Logo = (props: Props) => {
       src={`/assets/logo/${props.style}-${theme}.svg`}
       className={cn(props.className)}
       unoptimized
+      loader={coolifyImageLoader}
     />
   );
 };
