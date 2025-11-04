@@ -10,6 +10,8 @@ export const Contacts: CollectionConfig<'contacts'> = {
     read: editorOrPublished,
     update: editor,
   },
+  trash: true,
+  folders: true,
   admin: {
     defaultColumns: ['portrait', 'type', 'name', 'title'],
     useAsTitle: 'name',

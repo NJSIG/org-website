@@ -23,6 +23,7 @@ export const Documents: CollectionConfig = {
     update: editor,
   },
   folders: true,
+  trash: true,
   fields: [
     {
       name: 'title',

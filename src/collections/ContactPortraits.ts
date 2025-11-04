@@ -17,6 +17,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
     read: anyone,
     update: editor,
   },
+  trash: true,
   fields: [
     {
       name: 'name',

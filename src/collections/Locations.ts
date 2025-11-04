@@ -12,6 +12,8 @@ export const Locations: CollectionConfig<'locations'> = {
     read: editorOrPublished,
     update: editor,
   },
+  folders: true,
+  trash: true,
   admin: {
     defaultColumns: ['name', 'streetAddress', 'city', 'state'],
     useAsTitle: 'name',

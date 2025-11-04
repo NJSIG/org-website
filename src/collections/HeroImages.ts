@@ -51,17 +51,11 @@ export const HeroImages: CollectionConfig = {
     defaultColumns: ['filename', 'title', 'alt'],
     group: 'Media',
   },
+  trash: true,
   upload: {
     pasteURL: false,
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    formatOptions: {
-      ...webp,
-      options: {
-        quality: 100,
-        lossless: true,
-      },
-    },
     imageSizes: [
       {
         name: 'thumbnail',

@@ -105,7 +105,14 @@ export interface Config {
       relatedEvents: 'events';
     };
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'documents' | 'contact-portraits';
+      documentsAndFolders:
+        | 'payload-folders'
+        | 'pages'
+        | 'locations'
+        | 'contacts'
+        | 'media'
+        | 'documents'
+        | 'contact-portraits';
     };
   };
   collectionsSelect: {
@@ -241,6 +248,7 @@ export interface HeroImage {
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -558,6 +566,7 @@ export interface Media {
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -727,8 +736,10 @@ export interface Contact {
   email: string;
   phone?: string | null;
   extension?: string | null;
+  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -748,6 +759,7 @@ export interface ContactPortrait {
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -777,6 +789,14 @@ export interface FolderInterface {
           value: string | Page;
         }
       | {
+          relationTo?: 'locations';
+          value: string | Location;
+        }
+      | {
+          relationTo?: 'contacts';
+          value: string | Contact;
+        }
+      | {
           relationTo?: 'media';
           value: string | Media;
         }
@@ -792,40 +812,9 @@ export interface FolderInterface {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
+  folderType?: ('pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits')[] | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents".
- */
-export interface Document {
-  id: string;
-  /**
-   * If left blank the title will be generated from the file name.
-   */
-  title?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  publishedAt?: string | null;
-  fileType?: string | null;
-  prefix?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -907,8 +896,42 @@ export interface Location {
     url?: string | null;
     label?: string | null;
   };
+  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: string;
+  /**
+   * If left blank the title will be generated from the file name.
+   */
+  title?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  publishedAt?: string | null;
+  fileType?: string | null;
+  prefix?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1470,8 +1493,10 @@ export interface LocationsSelect<T extends boolean = true> {
         url?: T;
         label?: T;
       };
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1485,8 +1510,10 @@ export interface ContactsSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   extension?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1502,6 +1529,7 @@ export interface MediaSelect<T extends boolean = true> {
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -1549,6 +1577,7 @@ export interface DocumentsSelect<T extends boolean = true> {
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -1570,6 +1599,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -1665,6 +1695,7 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;

@@ -28,6 +28,7 @@ export const Media: CollectionConfig = {
     update: editor,
   },
   folders: true,
+  trash: true,
   fields: [
     {
       name: 'title',
