@@ -1,12 +1,7 @@
 import { anyone, editor } from '@/access';
 import { computeBlurDataHook, populateTitleFromFileHook, snakeCaseUploadsHook } from '@/hooks';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
-import path from 'path';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',

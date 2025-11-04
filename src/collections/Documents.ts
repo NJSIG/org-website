@@ -2,12 +2,7 @@ import { anyone, editor } from '@/access';
 import { populatePublishedAtHook, snakeCaseUploadsHook } from '@/hooks';
 import { populateFileTypeHook } from '@/hooks/populateFileTypeHook';
 import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
-import path from 'path';
 import { CollectionConfig } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const supportedMimeTypes = [
   'application/pdf', // .pdf

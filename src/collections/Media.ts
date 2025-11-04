@@ -6,12 +6,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
-import path from 'path';
 import type { CollectionConfig, ImageUploadFormatOptions } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
