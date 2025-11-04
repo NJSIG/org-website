@@ -35,6 +35,7 @@ export const HeroImages: CollectionConfig = {
       name: 'alt',
       label: 'Alt Text',
       type: 'text',
+      localized: true,
       required: true,
       admin: {
         description:

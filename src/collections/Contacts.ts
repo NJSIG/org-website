@@ -72,6 +72,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
             {
               name: 'title',
               type: 'text',
+              localized: true,
               admin: {
                 description:
                   "The contact person's job title. If not provided, the contact type will be used.",

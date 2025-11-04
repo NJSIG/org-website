@@ -13,6 +13,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'navGroups',
       type: 'array',
+      localized: true,
       maxRows: 6,
       fields: [
         {
@@ -39,6 +40,7 @@ export const Footer: GlobalConfig = {
       appearances: false,
       overrides: {
         name: 'policyLinks',
+        localized: true,
         admin: {
           description: 'Add links to privacy policy, terms of use, etc.',
         },

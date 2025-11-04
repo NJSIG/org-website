@@ -18,6 +18,7 @@ const defaultBlockFilters: BlockFilters = {
 
 export const dynamicBlocksField: DynamicBlocksType = ({
   blockFilters: blockFiltersFromProps,
+  localized = false,
   overrides = {},
 } = {}) => {
   const blockFilters = { ...defaultBlockFilters };
@@ -55,6 +56,7 @@ export const dynamicBlocksField: DynamicBlocksType = ({
     label: 'Layout Blocks',
     type: 'blocks',
     required: true,
+    localized,
     admin: {
       condition: (_, siblingData) => siblingData.template !== 'navOnly',
     },

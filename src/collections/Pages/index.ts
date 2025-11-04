@@ -33,6 +33,7 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
       },
@@ -43,7 +44,7 @@ export const Pages: CollectionConfig<'pages'> = {
         {
           name: 'layout',
           label: 'CONTENT',
-          fields: [...dynamicBlocksField()],
+          fields: [...dynamicBlocksField({ localized: true })],
         },
         {
           name: 'meta',

@@ -16,6 +16,7 @@ export type BlockFilters = {
 
 export type DynamicBlocksType = (options?: {
   blockFilters?: BlockFilters;
+  localized?: boolean;
   overrides?: {
     templateField?: Partial<SelectField>;
   };

@@ -101,6 +101,15 @@ export default buildConfig({
   blocks,
   editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
+  localization: {
+    locales: [
+      {
+        label: 'English',
+        code: 'en',
+      },
+    ],
+    defaultLocale: 'en',
+  },
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

@@ -21,6 +21,7 @@ export const Locations: CollectionConfig<'locations'> = {
       type: 'text',
       name: 'name',
       required: true,
+      localized: true,
       admin: {
         description: 'The name of the location.',
       },

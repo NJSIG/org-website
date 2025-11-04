@@ -47,6 +47,7 @@ export const Media: CollectionConfig = {
       label: 'Alt Text',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         description:
           'Alt text is important for accessibility and SEO. Describe the image as specifically and briefly as possible.',
@@ -55,6 +56,7 @@ export const Media: CollectionConfig = {
     {
       name: 'caption',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];

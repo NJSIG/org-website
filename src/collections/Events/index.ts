@@ -56,6 +56,7 @@ export const Events: CollectionConfig<'events'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
       },
@@ -63,6 +64,7 @@ export const Events: CollectionConfig<'events'> = {
     {
       name: 'description',
       type: 'richText',
+      localized: true,
       admin: {
         description: 'Formatting options are limited to maintain consistency across the site.',
       },

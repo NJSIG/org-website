@@ -83,6 +83,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               name: 'summary',
               label: 'Sub-fund Summary',
               type: 'richText',
+              localized: true,
               required: true,
               admin: {
                 description:
