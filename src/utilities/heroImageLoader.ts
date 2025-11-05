@@ -1,25 +1,38 @@
 import { ImageLoader } from 'next/image';
 
 const heroImageLoader: ImageLoader = ({ src, width }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const isLocal = !src.startsWith('http');
 
   // Parse the src to extract existing query parameters (like cache tags)
   const [baseSrc, existingQuery] = src.split('?');
   const query = new URLSearchParams(existingQuery || '');
 
-  if (src.startsWith('/api')) {
-    const extension = baseSrc.split('.').pop() || 'webp';
-    const baseSrcWithoutExtension = baseSrc.replace(`.${extension}`, '');
+  const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
 
-    // Map requested width to available sizes
-    const availableSizes = [640, 960, 1280, 1920, 2400];
-    const closestSize =
-      availableSizes.find((size) => size >= width) || availableSizes[availableSizes.length - 1];
-
-    return `${baseSrcWithoutExtension}-${closestSize}.${extension}?${query.toString()}`;
+  if (!imageOptimizationApi && process.env.NODE_ENV !== 'development') {
+    throw new Error(
+      'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
+    );
   }
 
-  return `${baseUrl}${baseSrc}?${query.toString()}`;
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const cleanSrc = baseSrc.replace(`.${baseSrc.split('.').pop() || 'webp'}`, '');
+
+  // Map requested width to available sizes
+  const sizes = [640, 960, 1280, 1920, 2400];
+  const nearestSize = sizes.find((size) => size >= width) || sizes[sizes.length - 1];
+
+  const fullSrc = `${cleanSrc}-${nearestSize}.webp`;
+
+  if (isLocal && process.env.NODE_ENV === 'development') {
+    return `${baseSrc}?${query.toString()}`;
+  }
+
+  if (isLocal) {
+    return `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+  }
+
+  return `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
 };
 
 export default heroImageLoader;

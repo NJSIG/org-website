@@ -1285,14 +1285,6 @@ export interface PayloadLockedDocument {
         value: string | Redirect;
       } | null)
     | ({
-        relationTo: 'payload-kv';
-        value: string | PayloadKv;
-      } | null)
-    | ({
-        relationTo: 'payload-jobs';
-        value: string | PayloadJob;
-      } | null)
-    | ({
         relationTo: 'payload-folders';
         value: string | FolderInterface;
       } | null);

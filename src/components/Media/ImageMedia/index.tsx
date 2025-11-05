@@ -4,6 +4,7 @@ import { cssVariables } from '@/css-variables';
 import { Media } from '@/payload-types';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
+import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { getMediaUrl } from '@/utilities/getMediaUrl';
 import Image, { StaticImageData } from 'next/image';
 import { MediaProps } from '../types';
@@ -76,6 +77,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         quality={quality}
         placeholder={placeholder === 'blur' ? 'blur' : 'empty'}
         blurDataURL={blurDataToBlurDataURL((resource as Media)?.blurData) || defaultPlaceholder}
+        loader={coolifyImageLoader}
       />
     </picture>
   );
