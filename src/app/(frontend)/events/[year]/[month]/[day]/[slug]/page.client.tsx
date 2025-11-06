@@ -40,7 +40,7 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
       {event.resources && Array.isArray(event.resources) && event.resources.length > 0 && (
         <EventResources {...event} />
       )}
-      <EventRelated events={related} />
+      <EventRelated animateSectionTitle={!event.description && !event.resources} events={related} />
     </>
   );
 };
@@ -135,7 +135,7 @@ const EventDetails: React.FC<Event> = ({
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={false}>
           Event Details
         </TitleTheme>
         {description && <RichText data={description} className="mx-0" />}
@@ -229,12 +229,12 @@ const EventDetails: React.FC<Event> = ({
   );
 };
 
-const EventResources: React.FC<Event> = ({ resources }) => {
+const EventResources: React.FC<Event> = ({ description, resources }) => {
   console.log('Event Resources', resources);
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
         <ResourceList resources={resources} />
@@ -243,11 +243,14 @@ const EventResources: React.FC<Event> = ({ resources }) => {
   );
 };
 
-const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
+const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileData[] }> = ({
+  animateSectionTitle,
+  events,
+}) => {
   return (
     <div className="px-4 pt-8 pb-12 lg:pb-20">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
