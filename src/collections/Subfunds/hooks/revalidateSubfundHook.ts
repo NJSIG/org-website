@@ -18,7 +18,7 @@ export const revalidateSubfundHook: CollectionAfterChangeHook<Subfund> = ({
     }
   }
 
-  // If the page was perviously published, we need to revalidate the old path
+  // If the page was previously published, we need to revalidate the old path
   if (previousDoc?._status === 'published' && doc._status !== 'published') {
     const oldPath = `/subfunds/${previousDoc.slug}`;
 
