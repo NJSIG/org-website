@@ -1,5 +1,6 @@
 import { Subfund } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -58,6 +59,7 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
         height={0}
         width={0}
         unoptimized
+        loader={coolifyImageLoader}
       />
     </Link>
   );

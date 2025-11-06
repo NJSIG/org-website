@@ -16,6 +16,7 @@ import TitleTheme from '@/components/TitleTheme';
 import { Subfund } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { cn } from '@/utilities/cn';
+import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import Image from 'next/image';
 import { useEffect } from 'react';
 
@@ -39,9 +40,9 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
   return (
     <div className={cn(`subfund-theme-${subfund.shortName.toLocaleLowerCase()}`)}>
       {/* Sub-fund Header */}
-      <section className="px-6 py-10 flex items-center justify-center bg-[var(--subfund-background)]">
+      <section className="px-6 py-10 flex items-center justify-center bg-(--subfund-background)">
         <div className="w-full max-w-section flex flex-col gap-4 relative">
-          <h2 className="pb-1 text-5xl font-extrabold text-[var(--subfund-foreground)] border-b-[10px] border-[var(--subfund-accent)]">
+          <h2 className="pb-1 text-5xl font-extrabold text-(--subfund-foreground) border-b-10 border-(--subfund-accent)">
             {subfund.shortName}
           </h2>
           <RichText data={subfund.content.summary} className="mx-0 max-w-section-content" />
@@ -77,6 +78,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
             height={0}
             unoptimized
             priority
+            loader={coolifyImageLoader}
           />
         </div>
       </section>
