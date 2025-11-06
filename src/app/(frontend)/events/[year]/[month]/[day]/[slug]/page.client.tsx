@@ -273,7 +273,7 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
           <EventTile
             event="all"
             className={cn({
-              'lg:col-span-4': events.length > 1,
+              'lg:col-span-4': events.length > 1 || events.length === 0,
               'lg:col-span-6': events.length === 1,
             })}
           >
