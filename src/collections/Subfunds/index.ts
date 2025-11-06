@@ -171,7 +171,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
             PreviewField({
               // If the `generateUrl` function is configured
               hasGenerateFn: true,
-              // Fields paths to mach the target field for data
+              // Fields paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
