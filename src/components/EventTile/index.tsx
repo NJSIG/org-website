@@ -17,10 +17,10 @@ import {
 
 const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => {
   const tileClasses = cn(
-    'group/event-tile rounded-3xl bg-[var(--event-tile)] text-[var(--event-tile-foreground)] min-h-52 min-w-52 transition-colors relative',
+    'group/event-tile rounded-3xl bg-(--event-tile) text-(--event-tile-foreground) min-h-52 min-w-52 transition-colors relative',
     {
-      'cursor-pointer hover:bg-mix-shade-[var(--event-tile)]/2': event !== undefined,
-      'relative bg-transparent hover:bg-mix-shade-[var(--event-tile-bespoke-light)]/2 before:absolute before:-z-[1] before:top-0 before:left-0 before:w-full before:h-full before:rounded-3xl before:bg-linear-to-tr before:from-[var(--event-tile-bespoke-dark)] before:from-30% before:to-[var(--event-tile-bespoke-light)] text-[var(--event-tile-bespoke-foreground)]':
+      'cursor-pointer hover:bg-mix-shade-(--event-tile)/2': event !== undefined,
+      'relative bg-transparent hover:bg-mix-shade-(--event-tile-bespoke-light)/2 before:absolute before:-z-1 before:top-0 before:left-0 before:w-full before:h-full before:rounded-3xl before:bg-linear-to-tr before:from-(--event-tile-bespoke-dark) before:from-30% before:to-(--event-tile-bespoke-light) text-(--event-tile-bespoke-foreground)':
         event === 'all',
     },
     className,
@@ -71,7 +71,7 @@ const EventTileHeader: React.FC<EventHeaderProps> = ({ heading, className }) => 
       <h4 className="text-xl font-bold uppercase">{title}</h4>
       <ArrowUpRightIcon
         className={cn('group-hover/event-tile:motion-safe:animate-micro-up-right', {
-          'stroke-[var(--event-tile-bespoke-accent)]': event === 'all',
+          'stroke-(--event-tile-bespoke-accent)': event === 'all',
         })}
       />
     </div>
@@ -125,7 +125,11 @@ const EventTileNoEvents: React.FC<NoEventsProps> = ({
   );
 };
 
-const EventTileSubscribe: React.FC<SubscribeProps> = ({ className }) => {
+const EventTileSubscribe: React.FC<SubscribeProps> = (
+  {
+    /* className */
+  },
+) => {
   // TODO: Implement Subscribe Form
   return null;
 };

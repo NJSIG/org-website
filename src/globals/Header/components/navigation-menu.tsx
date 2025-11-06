@@ -147,7 +147,7 @@ function NavigationMenuViewport({
           // Motion Styles
           'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:duration-100 data-[state=closed]:duration-200',
           // Design Styles
-          'light origin-top-center bg-azure-100 text-foreground relative h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-3xl shadow-md md:w-[var(--radix-navigation-menu-viewport-width)] p-4 mt-4',
+          'light origin-top-center bg-azure-100 text-foreground relative h-(--radix-navigation-menu-viewport-height) w-full overflow-hidden rounded-3xl shadow-md md:w-(--radix-navigation-menu-viewport-width) p-4 mt-4',
           className,
         )}
         {...props}
@@ -181,7 +181,7 @@ function NavigationMenuIndicator({
     <NavigationMenuPrimitive.Indicator
       data-slot="navigation-menu-indicator"
       className={cn(
-        'data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden',
+        'data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-1 flex h-1.5 items-end justify-center overflow-hidden',
         className,
       )}
       {...props}

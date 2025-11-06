@@ -77,7 +77,7 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false }) => 
 const ResourceIcon: React.FC<{ icon: ResourceItemProps['item']['resource']['icon'] }> = ({
   icon,
 }) => {
-  const iconClass = 'stroke-[var(--resource-theme)] shrink-0';
+  const iconClass = 'stroke-(--resource-theme) shrink-0';
 
   switch (icon) {
     case 'file-text':
@@ -151,7 +151,7 @@ const ResourceAction: React.FC<{ resource: ResourceItemProps['item']['resource']
   resource,
 }) => {
   const { type, link } = resource;
-  const iconClass = 'stroke-[var(--resource-theme)] shrink-0';
+  const iconClass = 'stroke-(--resource-theme) shrink-0';
 
   switch (type) {
     case 'document':

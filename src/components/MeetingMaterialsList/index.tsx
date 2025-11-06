@@ -62,7 +62,7 @@ const MeetingHeader: React.FC<{ meeting: MeetingMaterialsData }> = ({ meeting })
         {isTruncated && <TooltipContent>{meeting.title}</TooltipContent>}
       </Tooltip>
       <div className="flex items-center gap-4">
-        <small className="text-sm font-medium text-[var(--subfund-foreground)]">
+        <small className="text-sm font-medium text-(--subfund-foreground)">
           {resourceCountLabel}
         </small>
       </div>
