@@ -15,7 +15,6 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
     );
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const cleanSrc = baseSrc.replace(`.${baseSrc.split('.').pop() || 'webp'}`, '');
 
   // Map requested width to available sizes
