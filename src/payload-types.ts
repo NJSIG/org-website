@@ -79,16 +79,18 @@ export interface Config {
   };
   collections: {
     pages: Page;
-    'hero-images': HeroImage;
-    media: Media;
-    documents: Document;
+    subfunds: Subfund;
     events: Event;
-    'event-categories': EventCategory;
     locations: Location;
     contacts: Contact;
+    media: Media;
+    documents: Document;
+    'hero-images': HeroImage;
     'contact-portraits': ContactPortrait;
     users: User;
+    'event-categories': EventCategory;
     redirects: Redirect;
+    'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -103,21 +105,30 @@ export interface Config {
       relatedEvents: 'events';
     };
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'pages' | 'media' | 'documents' | 'contact-portraits';
+      documentsAndFolders:
+        | 'payload-folders'
+        | 'pages'
+        | 'locations'
+        | 'contacts'
+        | 'media'
+        | 'documents'
+        | 'contact-portraits';
     };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
-    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    subfunds: SubfundsSelect<false> | SubfundsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
     'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -135,7 +146,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
   };
-  locale: null;
+  locale: 'en';
   user: User & {
     collection: 'users';
   };
@@ -234,8 +245,10 @@ export interface HeroImage {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -315,24 +328,11 @@ export interface Page {
    */
   title: string;
   layout: {
-    allowedBlocks?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
     /**
      * Select the template for this page. The template value will determine which blocks are available.
      */
-    template: 'default' | 'home' | 'subfund';
-    /**
-     * Select the theme for this page. The theme value will determine the styling of the blocks.
-     */
-    subfundTheme?: ('bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif') | null;
-    blocks: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[];
+    template: 'default' | 'home' | 'navOnly';
+    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -345,9 +345,11 @@ export interface Page {
   slug?: string | null;
   slugLock?: boolean | null;
   publishedAt?: string | null;
+  template?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
 }
 /**
@@ -423,7 +425,7 @@ export interface SectionContentBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -540,7 +542,7 @@ export interface Media {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -560,9 +562,11 @@ export interface Media {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -612,7 +616,7 @@ export interface Event {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -730,10 +734,12 @@ export interface Contact {
    */
   title?: string | null;
   email: string;
-  phone: string;
+  phone?: string | null;
   extension?: string | null;
+  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -749,9 +755,11 @@ export interface ContactPortrait {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -781,6 +789,14 @@ export interface FolderInterface {
           value: string | Page;
         }
       | {
+          relationTo?: 'locations';
+          value: string | Location;
+        }
+      | {
+          relationTo?: 'contacts';
+          value: string | Contact;
+        }
+      | {
           relationTo?: 'media';
           value: string | Media;
         }
@@ -796,39 +812,9 @@ export interface FolderInterface {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  folderType?: ('pages' | 'media' | 'documents' | 'contact-portraits')[] | null;
+  folderType?: ('pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits')[] | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents".
- */
-export interface Document {
-  id: string;
-  /**
-   * If left blank the title will be generated from the file name.
-   */
-  title?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  publishedAt?: string | null;
-  fileType?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -910,8 +896,42 @@ export interface Location {
     url?: string | null;
     label?: string | null;
   };
+  folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: string;
+  /**
+   * If left blank the title will be generated from the file name.
+   */
+  title?: string | null;
+  relatedEvents?: {
+    docs?: (string | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  publishedAt?: string | null;
+  fileType?: string | null;
+  prefix?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -960,6 +980,102 @@ export interface EventTilesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subfunds".
+ */
+export interface Subfund {
+  id: string;
+  /**
+   * The theme applies a color scheme to all themeable elements on the page.
+   */
+  theme: 'bacceic' | 'caip' | 'ericnorth' | 'ericsouth' | 'ericwest' | 'mocssif' | 'njeif';
+  /**
+   * The full name of the sub-fund, used for SEO.
+   */
+  name: string;
+  /**
+   * The short name of the sub-fund, used for routing, display, and the admin UI.
+   */
+  shortName: string;
+  content: {
+    /**
+     * A summary of the sub-fund, used for SEO and display. The summary should include the full name, counties, year founded, and administrator.
+     */
+    summary: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    administrators: (string | Contact)[];
+    reps: (string | Contact)[];
+    /**
+     * Select event categories to filter events related to this sub-fund. If no categories are selected, all events will be shown.
+     */
+    eventFilters: (string | EventCategory)[];
+    /**
+     * Select event categories to filter past meetings related to this sub-fund. If no categories are selected, the past meetings section will be hidden.
+     */
+    pastMeetingsFilters: (string | EventCategory)[];
+    resources?:
+      | {
+          resource: {
+            type: 'document' | 'audioVideo' | 'link';
+            /**
+             * The resource icon should be as closely related to the resource as possible.
+             */
+            icon?: string | null;
+            /**
+             * Select or upload a document.
+             */
+            document?: (string | null) | Document;
+            /**
+             * Select or upload a video or audio clip.
+             */
+            audioVideo?: (string | null) | Media;
+            /**
+             * Provide a URL to an external resource or a reference to a CMS item.
+             */
+            link?: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              allowReferrer?: boolean | null;
+              reference?: {
+                relationTo: 'pages';
+                value: string | Page;
+              } | null;
+              url?: string | null;
+              label?: string | null;
+            };
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1003,6 +1119,23 @@ export interface Redirect {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: string;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1108,24 +1241,12 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
-        relationTo: 'hero-images';
-        value: string | HeroImage;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'documents';
-        value: string | Document;
+        relationTo: 'subfunds';
+        value: string | Subfund;
       } | null)
     | ({
         relationTo: 'events';
         value: string | Event;
-      } | null)
-    | ({
-        relationTo: 'event-categories';
-        value: string | EventCategory;
       } | null)
     | ({
         relationTo: 'locations';
@@ -1136,6 +1257,18 @@ export interface PayloadLockedDocument {
         value: string | Contact;
       } | null)
     | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: string | Document;
+      } | null)
+    | ({
+        relationTo: 'hero-images';
+        value: string | HeroImage;
+      } | null)
+    | ({
         relationTo: 'contact-portraits';
         value: string | ContactPortrait;
       } | null)
@@ -1144,12 +1277,12 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'redirects';
-        value: string | Redirect;
+        relationTo: 'event-categories';
+        value: string | EventCategory;
       } | null)
     | ({
-        relationTo: 'payload-jobs';
-        value: string | PayloadJob;
+        relationTo: 'redirects';
+        value: string | Redirect;
       } | null)
     | ({
         relationTo: 'payload-folders';
@@ -1206,9 +1339,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        allowedBlocks?: T;
         template?: T;
-        subfundTheme?: T;
         blocks?: T | {};
       };
   meta?:
@@ -1221,10 +1352,233 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   publishedAt?: T;
+  template?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subfunds_select".
+ */
+export interface SubfundsSelect<T extends boolean = true> {
+  theme?: T;
+  name?: T;
+  shortName?: T;
+  content?:
+    | T
+    | {
+        summary?: T;
+        administrators?: T;
+        reps?: T;
+        eventFilters?: T;
+        pastMeetingsFilters?: T;
+        resources?:
+          | T
+          | {
+              resource?:
+                | T
+                | {
+                    type?: T;
+                    icon?: T;
+                    document?: T;
+                    audioVideo?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          allowReferrer?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                  };
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  eventType?: T;
+  title?: T;
+  description?: T;
+  startDate?: T;
+  endDate?: T;
+  registrationTime?: T;
+  startTime?: T;
+  endTime?: T;
+  categories?: T;
+  contact?: T;
+  attendanceOptions?: T;
+  virtualProvider?: T;
+  virtualLink?: T;
+  virtualPasscode?: T;
+  location?: T;
+  resources?:
+    | T
+    | {
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        id?: T;
+      };
+  important?: T;
+  slug?: T;
+  slugLock?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations_select".
+ */
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  streetAddress?: T;
+  streetAddress2?: T;
+  city?: T;
+  state?: T;
+  zipCode?: T;
+  phone?: T;
+  website?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        allowReferrer?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  portrait?: T;
+  type?: T;
+  name?: T;
+  title?: T;
+  email?: T;
+  phone?: T;
+  extension?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  alt?: T;
+  caption?: T;
+  blurData?: T;
+  relatedEvents?: T;
+  prefix?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  relatedEvents?: T;
+  publishedAt?: T;
+  fileType?: T;
+  prefix?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1234,8 +1588,10 @@ export interface HeroImagesSelect<T extends boolean = true> {
   title?: T;
   alt?: T;
   blurData?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -1322,185 +1678,16 @@ export interface HeroImagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  title?: T;
-  alt?: T;
-  caption?: T;
-  blurData?: T;
-  relatedEvents?: T;
-  folder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        og?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents_select".
- */
-export interface DocumentsSelect<T extends boolean = true> {
-  title?: T;
-  relatedEvents?: T;
-  publishedAt?: T;
-  fileType?: T;
-  folder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events_select".
- */
-export interface EventsSelect<T extends boolean = true> {
-  eventType?: T;
-  title?: T;
-  description?: T;
-  startDate?: T;
-  endDate?: T;
-  registrationTime?: T;
-  startTime?: T;
-  endTime?: T;
-  categories?: T;
-  contact?: T;
-  attendanceOptions?: T;
-  virtualProvider?: T;
-  virtualLink?: T;
-  virtualPasscode?: T;
-  location?: T;
-  resources?:
-    | T
-    | {
-        resource?:
-          | T
-          | {
-              type?: T;
-              icon?: T;
-              document?: T;
-              audioVideo?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    allowReferrer?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                  };
-            };
-        id?: T;
-      };
-  important?: T;
-  slug?: T;
-  slugLock?: T;
-  publishedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories_select".
- */
-export interface EventCategoriesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  slugLock?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations_select".
- */
-export interface LocationsSelect<T extends boolean = true> {
-  name?: T;
-  streetAddress?: T;
-  streetAddress2?: T;
-  city?: T;
-  state?: T;
-  zipCode?: T;
-  phone?: T;
-  website?:
-    | T
-    | {
-        type?: T;
-        newTab?: T;
-        allowReferrer?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contacts_select".
- */
-export interface ContactsSelect<T extends boolean = true> {
-  portrait?: T;
-  type?: T;
-  name?: T;
-  title?: T;
-  email?: T;
-  phone?: T;
-  extension?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-portraits_select".
  */
 export interface ContactPortraitsSelect<T extends boolean = true> {
   name?: T;
   blurData?: T;
+  prefix?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -1536,6 +1723,17 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories_select".
+ */
+export interface EventCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1549,6 +1747,14 @@ export interface RedirectsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1945,6 +2151,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'pages';
           value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'subfunds';
+          value: string | Subfund;
         } | null)
       | ({
           relationTo: 'events';

@@ -2,12 +2,7 @@ import { anyone, editor } from '@/access';
 import { populatePublishedAtHook, snakeCaseUploadsHook } from '@/hooks';
 import { populateFileTypeHook } from '@/hooks/populateFileTypeHook';
 import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
-import path from 'path';
 import { CollectionConfig } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const supportedMimeTypes = [
   'application/pdf', // .pdf
@@ -28,6 +23,7 @@ export const Documents: CollectionConfig = {
     update: editor,
   },
   folders: true,
+  trash: true,
   fields: [
     {
       name: 'title',
@@ -61,10 +57,10 @@ export const Documents: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'folder'],
+    group: 'Media',
   },
   upload: {
-    // Uploads to the public/documents directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/documents'),
+    pasteURL: false,
     mimeTypes: supportedMimeTypes,
   },
   hooks: {

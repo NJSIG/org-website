@@ -13,6 +13,7 @@ export const resourceTypeOptions: ResourceTypeOptions = {
 
 const resourceTypeIcons: IconNames[] = [
   'file-text',
+  'file-pen',
   'presentation',
   'video',
   'audio-lines',

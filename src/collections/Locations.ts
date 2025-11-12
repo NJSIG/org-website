@@ -12,6 +12,8 @@ export const Locations: CollectionConfig<'locations'> = {
     read: editorOrPublished,
     update: editor,
   },
+  folders: true,
+  trash: true,
   admin: {
     defaultColumns: ['name', 'streetAddress', 'city', 'state'],
     useAsTitle: 'name',
@@ -21,6 +23,7 @@ export const Locations: CollectionConfig<'locations'> = {
       type: 'text',
       name: 'name',
       required: true,
+      localized: true,
       admin: {
         description: 'The name of the location.',
       },

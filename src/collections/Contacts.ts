@@ -10,6 +10,8 @@ export const Contacts: CollectionConfig<'contacts'> = {
     read: editorOrPublished,
     update: editor,
   },
+  trash: true,
+  folders: true,
   admin: {
     defaultColumns: ['portrait', 'type', 'name', 'title'],
     useAsTitle: 'name',
@@ -72,6 +74,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
             {
               name: 'title',
               type: 'text',
+              localized: true,
               admin: {
                 description:
                   "The contact person's job title. If not provided, the contact type will be used.",
@@ -90,7 +93,6 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'phone',
                     type: 'text',
-                    required: true,
                     admin: {
                       placeholder: '% 20',
                     },

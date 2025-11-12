@@ -68,21 +68,6 @@
   --color-glacial-900: oklch(0.3709 0.1174 271.49);
   --color-glacial-950: oklch(0.2814 0.0736 273.31);
 
-  /** Bondi Blue has been deprecated in favor of Glacial.
-    * It will be removed in the future.
-    */
-  --color-bondi-blue-50: oklch(0.9799 0.012 215.36);
-  --color-bondi-blue-100: oklch(0.9431 0.028 215.36);
-  --color-bondi-blue-200: oklch(0.8888 0.048 215.36);
-  --color-bondi-blue-300: oklch(0.8122 0.078 215.36);
-  --color-bondi-blue-400: oklch(0.7143 0.1 215.36);
-  --color-bondi-blue-500: oklch(0.5938 0.093 215.36);
-  --color-bondi-blue-600: oklch(0.5413 0.085 215.36);
-  --color-bondi-blue-700: oklch(0.472 0.069 215.36);
-  --color-bondi-blue-800: oklch(0.418 0.055 215.36);
-  --color-bondi-blue-900: oklch(0.3752 0.045 215.36);
-  --color-bondi-blue-950: oklch(0.2825 0.039 215.36);
-
   --color-sea-green-50: oklch(0.9737 0.012 155.69);
   --color-sea-green-100: oklch(0.9363 0.034 155.69);
   --color-sea-green-200: oklch(0.8762 0.062 155.69);
@@ -561,6 +546,41 @@
   --animate-to-translate-y: 0;
 }
 
+/** Custom Tailwind Typography Colors **/
+@utility prose-battleship {
+  --tw-prose-body:
+    var(--color-battleship-gray-950), --tw-prose-headings: var(--color-battleship-gray-950),
+    --tw-prose-lead: var(--color-battleship-gray-700), --tw-prose-links: var(--color-blue-700),
+    --tw-prose-bold: var(--color-battleship-gray-950),
+    --tw-prose-counters: var(--color-battleship-gray-600),
+    --tw-prose-bullets: var(--color-battleship-gray-400),
+    --tw-prose-hr: var(--color-battleship-gray-300),
+    --tw-prose-quotes: var(--color-battleship-gray-950),
+    --tw-prose-quote-borders: var(--color-battleship-gray-300),
+    --tw-prose-captions: var(--color-battleship-gray-700),
+    --tw-prose-code: var(--color-battleship-gray-950),
+    --tw-prose-pre-code: var(--color-battleship-gray-100),
+    --tw-prose-pre-bg: var(--color-battleship-gray-950),
+    --tw-prose-th-borders: var(--color-battleship-gray-300),
+    --tw-prose-td-borders: var(--color-battleship-gray-200),
+    --tw-prose-invert-body: var(--color-battleship-gray-50),
+    --tw-prose-invert-headings: var(--color-battleship-gray-50),
+    --tw-prose-invert-lead: var(--color-battleship-gray-300),
+    --tw-prose-invert-links: var(--color-blue-700),
+    --tw-prose-invert-bold: var(--color-battleship-gray-50),
+    --tw-prose-invert-counters: var(--color-battleship-gray-400),
+    --tw-prose-invert-bullets: var(--color-battleship-gray-600),
+    --tw-prose-invert-hr: var(--color-battleship-gray-700),
+    --tw-prose-invert-quotes: var(--color-battleship-gray-100),
+    --tw-prose-invert-quote-borders: var(--color-battleship-gray-700),
+    --tw-prose-invert-captions: var(--color-battleship-gray-400),
+    --tw-prose-invert-code: var(--color-battleship-gray-50),
+    --tw-prose-invert-pre-code: var(--color-battleship-gray-300),
+    --tw-prose-invert-pre-bg: rgb(0 0 0 / 50%),
+    --tw-prose-invert-th-borders: var(--color-battleship-gray-600),
+    --tw-prose-invert-td-borders: var(--color-battleship-gray-700);
+}
+
 /*
  * Root Variables
  */
@@ -571,6 +591,8 @@
   --muted-foreground: var(--color-battleship-gray-950);
   --border: var(--color-battleship-gray-400);
   --ring: var(--color-battleship-gray-400);
+
+  --title-theme-accent: var(--color-njsig-accent-midtone);
 
   --event-tile: var(--color-njsig-neutral-tint);
   --event-tile-foreground: var(--color-foreground);
@@ -598,6 +620,10 @@
 
   --resource-theme: var(--color-njsig-primary);
 
+  --subfund-background: var(--color-njsig-neutral-background);
+  --subfund-capsule-bg: var(--color-battleship-gray-100);
+  --subfund-foreground: var(--color-njsig-neutral-shade);
+  --subfund-accent: var(--color-njsig-neutral-midtone);
   --subfund-contact-ring: var(--color-njsig-neutral-shade);
 
   --card: oklch(1 0 0);
@@ -640,5 +666,23 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  .subfund-theme-bacceic {
+    --subfund-background: var(--color-bacceic-background);
+    --subfund-capsule-bg: var(--color-glacial-100);
+    --subfund-foreground: var(--color-bacceic-shade);
+    --subfund-accent: var(--color-bacceic-midtone);
+    --subfund-contact-ring: var(--color-bacceic-primary);
+    --title-theme-accent: var(--color-bacceic-midtone);
+    --event-tile-bespoke-dark: var(--color-glacial-900);
+    --event-tile-bespoke-light: var(--color-glacial-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-bacceic-midtone);
   }
 }

@@ -54,7 +54,7 @@ export default function RichText(props: RichTextProps) {
         'payload-richtext',
         {
           container: enableGutter,
-          'prose prose-lg dark:prose-invert mx-auto': enableProse,
+          'prose prose-battleship prose-lg dark:prose-invert mx-auto': enableProse,
         },
         className,
       )}

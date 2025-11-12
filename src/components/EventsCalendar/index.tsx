@@ -1,11 +1,10 @@
 'use client';
 
-import { buttonVariants } from '@/primitives/ui/button-prime';
+import { buttonVariants } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { buttonMicroInteractionVariants } from '../Button';
 import { useEventCalendar } from './provider';
 import { DateCellProps, EventsCalendarData, HeaderCellProps } from './types';
 
@@ -40,10 +39,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           <Link
             href={prevMonthURL}
             aria-label="Previous Month"
-            className={cn(
-              navButtonVariant,
-              buttonMicroInteractionVariants({ animation: 'bounceLeft' }),
-            )}
+            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceLeft' }))}
           >
             <ChevronLeftIcon size={24} />
           </Link>
@@ -51,10 +47,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           <Link
             href={nextMonthURL}
             aria-label="Next Month"
-            className={cn(
-              navButtonVariant,
-              buttonMicroInteractionVariants({ animation: 'bounceRight' }),
-            )}
+            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceRight' }))}
           >
             <ChevronRightIcon size={24} />
           </Link>
@@ -126,15 +119,15 @@ const DateCell: React.FC<DateCellProps> = ({ srLabel, label, isToday, isInMonth,
         {events.map((event) => (
           <span
             key={event}
-            className={cn('rounded-full size-1.5 border-1', {
-              'border-[var(--event-theme-trustee-accent)]': event === 'trusteeMeeting',
-              'bg-[var(--event-theme-trustee-accent)]':
+            className={cn('rounded-full size-1.5 border', {
+              'border-(--event-theme-trustee-accent)': event === 'trusteeMeeting',
+              'bg-(--event-theme-trustee-accent)':
                 event === 'trusteeMeeting' && filters?.includes('trusteeMeeting'),
-              'border-[var(--event-theme-subfund-accent)]': event === 'subfundMeeting',
-              'bg-[var(--event-theme-subfund-accent)]':
+              'border-(--event-theme-subfund-accent)': event === 'subfundMeeting',
+              'bg-(--event-theme-subfund-accent)':
                 event === 'subfundMeeting' && filters?.includes('subfundMeeting'),
-              'border-[var(--event-theme-important-accent)]': event === 'importantDate',
-              'bg-[var(--event-theme-important-accent)]':
+              'border-(--event-theme-important-accent)': event === 'importantDate',
+              'bg-(--event-theme-important-accent)':
                 event === 'importantDate' && filters?.includes('importantDate'),
             })}
           ></span>
@@ -156,7 +149,7 @@ const CalendarFilters: React.FC = () => {
       <h4 className="text-xl font-medium">Event Filters</h4>
       <label className={buttonClasses}>
         <input
-          className="appearance-none size-2 rounded-full border-1 border-[var(--event-theme-trustee-accent)] checked:bg-[var(--event-theme-trustee-accent)]"
+          className="appearance-none size-2 rounded-full border border-(--event-theme-trustee-accent) checked:bg-(--event-theme-trustee-accent)"
           aria-label={
             filters?.includes('trusteeMeeting')
               ? 'Hide Board of Trustees Meetings'
@@ -171,7 +164,7 @@ const CalendarFilters: React.FC = () => {
       </label>
       <label className={cn(buttonClasses)}>
         <input
-          className="appearance-none size-2 rounded-full border-1 border-[var(--event-theme-subfund-accent)] checked:bg-[var(--event-theme-subfund-accent)]"
+          className="appearance-none size-2 rounded-full border border-(--event-theme-subfund-accent) checked:bg-(--event-theme-subfund-accent)"
           aria-label={
             filters?.includes('subfundMeeting')
               ? 'Hide Sub-fund Meetings'
@@ -186,7 +179,7 @@ const CalendarFilters: React.FC = () => {
       </label>
       <label className={cn(buttonClasses)}>
         <input
-          className="appearance-none size-2 rounded-full border-1 border-[var(--event-theme-important-accent)] checked:bg-[var(--event-theme-important-accent)]"
+          className="appearance-none size-2 rounded-full border border-(--event-theme-important-accent) checked:bg-(--event-theme-important-accent)"
           aria-label={
             filters?.includes('importantDate') ? 'Hide Important Dates' : 'Show Important Dates'
           }

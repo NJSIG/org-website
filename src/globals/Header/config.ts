@@ -20,6 +20,7 @@ export const Header: GlobalConfig = {
         plural: 'Navigation Groups',
       },
       type: 'array',
+      localized: true,
       fields: [
         {
           name: 'label',
@@ -225,6 +226,7 @@ export const Header: GlobalConfig = {
       disableNewTab: true,
       overrides: {
         name: 'ctaButtons',
+        localized: true,
         label: 'Call to Action Buttons',
         labels: {
           singular: 'Call to Action Button',

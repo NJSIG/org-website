@@ -1,4 +1,5 @@
 import { Event } from '@/payload-types';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
 import { cn } from '@/utilities/cn';
 import { convertBytesToHumanReadable } from '@/utilities/convertBytesToHumanReadable';
 import {
@@ -6,6 +7,7 @@ import {
   AudioLinesIcon,
   DownloadIcon,
   ExternalLinkIcon,
+  FilePenIcon,
   FileTextIcon,
   Link2Icon,
   LinkIcon,
@@ -15,6 +17,8 @@ import {
   VideoIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { useIsTruncated } from '../hooks/useIsTruncated';
 
 type ResourceItemProps = {
   item: NonNullable<Event['resources']>[number];
@@ -53,9 +57,13 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false }) => 
         target={target}
         rel={rel}
         referrerPolicy={referrerPolicy}
-        className={cn('group/resource-item flex items-center p-4 gap-4', {
-          'rounded-3xl bg-njsig-neutral-tint': !nested,
-          'rounded-lg bg-njsig-neutral-background': nested,
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className={cn('group/resource-item flex items-center p-4 gap-4 transition-colors', {
+          'rounded-3xl bg-njsig-neutral-tint hover:bg-mix-shade-njsig-neutral-tint/2': !nested,
+          'rounded-lg bg-njsig-neutral-background hover:bg-mix-shade-njsig-neutral-background/2':
+            nested,
         })}
       >
         <ResourceIcon icon={item.resource.icon} />
@@ -69,11 +77,13 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false }) => 
 const ResourceIcon: React.FC<{ icon: ResourceItemProps['item']['resource']['icon'] }> = ({
   icon,
 }) => {
-  const iconClass = 'stroke-[var(--resource-theme)]';
+  const iconClass = 'stroke-(--resource-theme) shrink-0';
 
   switch (icon) {
     case 'file-text':
       return <FileTextIcon size={24} className={iconClass} />;
+    case 'file-pen':
+      return <FilePenIcon size={24} className={iconClass} />;
     case 'presentation':
       return <PresentationIcon size={24} className={iconClass} />;
     case 'video':
@@ -97,6 +107,9 @@ const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'
   let resourceName = 'Unknown Resource';
   let resourceMeta = null;
 
+  const docTitleRef = useRef(null);
+  const { isTruncated } = useIsTruncated({ elementRef: docTitleRef });
+
   switch (type) {
     case 'document':
       if (document && typeof document === 'object') {
@@ -118,9 +131,17 @@ const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'
 
   return (
     <div className="grow overflow-hidden flex flex-col">
-      <p className="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">
-        {resourceName}
-      </p>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <p
+            className="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis"
+            ref={docTitleRef}
+          >
+            {resourceName}
+          </p>
+        </TooltipTrigger>
+        {isTruncated && <TooltipContent>{resourceName}</TooltipContent>}
+      </Tooltip>
       {resourceMeta && <small className="text-sm text-foreground-muted">{resourceMeta}</small>}
     </div>
   );
@@ -130,7 +151,7 @@ const ResourceAction: React.FC<{ resource: ResourceItemProps['item']['resource']
   resource,
 }) => {
   const { type, link } = resource;
-  const iconClass = 'stroke-[var(--resource-theme)]';
+  const iconClass = 'stroke-(--resource-theme) shrink-0';
 
   switch (type) {
     case 'document':

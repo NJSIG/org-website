@@ -23,6 +23,7 @@ import { Documents } from './collections/Documents';
 import { EventCategories } from './collections/EventCategories';
 import { HeroImages } from './collections/HeroImages';
 import { Locations } from './collections/Locations';
+import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/defaultLexical';
 
 const filename = fileURLToPath(import.meta.url);
@@ -30,20 +31,26 @@ const dirname = path.dirname(filename);
 
 // Define the collections to be used in the Payload CMS configuration
 const collections = [
+  // Collections Group
   Pages,
-  HeroImages,
-  Media,
-  Documents,
+  Subfunds,
   Events,
-  EventCategories,
   Locations,
   Contacts,
+  // Media Group
+  Media,
+  Documents,
+  HeroImages,
   ContactPortraits,
+  // Administration Group
   Users,
+  EventCategories,
 ];
 
 // Define the blocks to be used in the Payload CMS configuration
 // We define all our blocks here so they can be used by reference
+// Defining blocks multiple time can bloat the config and information sent to the client
+// see https://payloadcms.com/docs/fields/blocks#block-references
 const blocks = [
   HeroSpinner,
   HiddenTitle,
@@ -85,17 +92,32 @@ export default buildConfig({
         },
       ],
     },
+    timezones: {
+      defaultTimezone: 'America/New_York',
+    },
   },
   collections,
   globals: [Header, Footer],
   blocks,
   editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
+  localization: {
+    locales: [
+      {
+        label: 'English',
+        code: 'en',
+      },
+    ],
+    defaultLocale: 'en',
+  },
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      dbName: 'payload',
+    },
   }),
   email: nodemailerAdapter({
     defaultFromAddress: 'noreply@njsig.org',

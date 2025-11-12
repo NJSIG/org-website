@@ -1,12 +1,7 @@
 import { anyone, editor } from '@/access';
 import { computeBlurDataHook, populateTitleFromFileHook, snakeCaseUploadsHook } from '@/hooks';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
-import path from 'path';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
@@ -35,6 +30,7 @@ export const HeroImages: CollectionConfig = {
       name: 'alt',
       label: 'Alt Text',
       type: 'text',
+      localized: true,
       required: true,
       admin: {
         description:
@@ -53,19 +49,13 @@ export const HeroImages: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt'],
+    group: 'Media',
   },
+  trash: true,
   upload: {
-    // Uploads to the public/hero directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/hero'),
+    pasteURL: false,
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    formatOptions: {
-      ...webp,
-      options: {
-        quality: 100,
-        lossless: true,
-      },
-    },
     imageSizes: [
       {
         name: 'thumbnail',

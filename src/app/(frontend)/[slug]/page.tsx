@@ -1,7 +1,6 @@
 import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { PayloadRedirects } from '@/components/PayloadRedirects';
-import { cn } from '@/utilities/cn';
 import { generateMetaGraph } from '@/utilities/generateMetaGraph';
 import configPromise from '@payload-config';
 import { Metadata } from 'next';
@@ -98,13 +97,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const {
-    layout: { template, subfundTheme, blocks },
+    layout: { template, blocks },
   } = page;
 
   return (
-    <article
-      className={cn({ [`subfund-theme-${subfundTheme}`]: template === 'subfund' && subfundTheme })}
-    >
+    <article>
       <PageClient template={template} />
 
       {draft && <LivePreviewListener />}

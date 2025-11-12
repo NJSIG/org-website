@@ -25,7 +25,7 @@ Bento.Item = function Item({ icon, label, className, children }: BentoItemProps)
   return (
     <div className={cn('rounded-3xl bg-njsig-neutral-tint p-4', className)}>
       <div className="flex items-center gap-2 mb-1">
-        <DynamicIcon name={icon} size={24} className="stroke-[var(--bento-icon-stroke)]" />
+        <DynamicIcon name={icon} size={24} className="stroke-(--bento-icon-stroke)" />
         <span className="text-base font-bold">{label}</span>
       </div>
       {children}

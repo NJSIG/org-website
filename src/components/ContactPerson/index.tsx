@@ -1,5 +1,6 @@
 import { Contact, ContactPortrait } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 
@@ -14,12 +15,12 @@ type ContactPersonProps = {
 const portraitVariants = cva(['rounded-full'], {
   variants: {
     size: {
-      sm: 'border',
+      sm: 'border-2',
       md: 'border-2',
     },
     type: {
       njsig: 'border-njsig-primary',
-      broker: 'border-[var(--subfund-contact-ring)]',
+      broker: 'border-(--subfund-contact-ring)',
     },
   },
 });
@@ -59,6 +60,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
               : `/assets/placeholder/contact-${size}.webp`
           }
           className={portraitVariants({ size, type })}
+          loader={coolifyImageLoader}
         />
       ) : (
         <Image
@@ -71,9 +73,10 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           src={`/assets/placeholder/contact-${size}.webp`}
           className={portraitVariants({ size, type })}
           unoptimized
+          loader={coolifyImageLoader}
         />
       )}
-      <div className={cn('flex flex-col', { 'gap-1': size === 'sm', 'gap-2': size === 'md' })}>
+      <div className={cn('flex flex-col', { 'gap-0': size === 'sm', 'gap-1': size === 'md' })}>
         <span className={cn('font-bold', { 'text-sm': size === 'sm', 'text-base': size === 'md' })}>
           {name}
         </span>

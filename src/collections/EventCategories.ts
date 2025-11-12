@@ -32,5 +32,6 @@ export const EventCategories: CollectionConfig<'event-categories'> = {
   admin: {
     defaultColumns: ['name', 'slug'],
     useAsTitle: 'name',
+    group: 'Administration',
   },
 };

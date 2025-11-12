@@ -28,7 +28,7 @@ const textVariants = cva('font-bold text-foreground dark:text-foreground-inverte
   },
 });
 
-const underlineVariants = cva('bg-njsig-accent-midtone', {
+const underlineVariants = cva('bg-(--title-theme-accent)', {
   variants: {
     size: {
       small: 'h-1',

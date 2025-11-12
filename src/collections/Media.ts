@@ -6,12 +6,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
-import path from 'path';
 import type { CollectionConfig, ImageUploadFormatOptions } from 'payload';
-import { fileURLToPath } from 'url';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
@@ -33,6 +28,7 @@ export const Media: CollectionConfig = {
     update: editor,
   },
   folders: true,
+  trash: true,
   fields: [
     {
       name: 'title',
@@ -47,6 +43,7 @@ export const Media: CollectionConfig = {
       label: 'Alt Text',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         description:
           'Alt text is important for accessibility and SEO. Describe the image as specifically and briefly as possible.',
@@ -55,6 +52,7 @@ export const Media: CollectionConfig = {
     {
       name: 'caption',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];
@@ -86,10 +84,10 @@ export const Media: CollectionConfig = {
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt', 'folder'],
+    group: 'Media',
   },
   upload: {
-    // Uploads to the public/media directory in Next.js making files publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
+    pasteURL: false,
     adminThumbnail: 'thumbnail',
     mimeTypes: ['image/*', 'video/*', 'audio/*'],
     focalPoint: true,

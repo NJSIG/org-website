@@ -16,11 +16,11 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
   return (
     <article
       className={cn('rounded-3xl group/event-card', {
-        'bg-[var(--event-theme-trustee-background)] text-[var(--event-theme-trustee-foreground)]':
+        'bg-(--event-theme-trustee-background) text-(--event-theme-trustee-foreground)':
           eventType === 'trusteeMeeting',
-        'bg-[var(--event-theme-subfund-background)] text-[var(--event-theme-subfund-foreground)]':
+        'bg-(--event-theme-subfund-background) text-(--event-theme-subfund-foreground)':
           eventType === 'subfundMeeting',
-        'bg-[var(--event-theme-important-background)] text-[var(--event-theme-important-foreground)]':
+        'bg-(--event-theme-important-background) text-(--event-theme-important-foreground)':
           eventType === 'importantDate',
       })}
     >
@@ -57,9 +57,9 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
             className={cn(
               'opacity-0 group-hover/event-card:opacity-100 group-hover/event-card:animate-micro-up-right',
               {
-                'stroke-[var(--event-theme-trustee-accent)]': eventType === 'trusteeMeeting',
-                'stroke-[var(--event-theme-subfund-accent)]': eventType === 'subfundMeeting',
-                'stroke-[var(--event-theme-important-accent)]': eventType === 'importantDate',
+                'stroke-(--event-theme-trustee-accent)': eventType === 'trusteeMeeting',
+                'stroke-(--event-theme-subfund-accent)': eventType === 'subfundMeeting',
+                'stroke-(--event-theme-important-accent)': eventType === 'importantDate',
               },
             )}
           />
@@ -86,11 +86,11 @@ const EventDateLabel: React.FC<{ eventType: Event['eventType']; startDate: strin
     <div
       aria-label={`Event on ${formattedAriaLabel}`}
       className={cn('w-24 rounded-3xl flex flex-col items-center justify-center shrink-0', {
-        'bg-[var(--event-theme-trustee-accent)] text-[var(--event-theme-trustee-accent-foreground)]':
+        'bg-(--event-theme-trustee-accent) text-(--event-theme-trustee-accent-foreground)':
           eventType === 'trusteeMeeting',
-        'bg-[var(--event-theme-subfund-accent)] text-[var(--event-theme-subfund-accent-foreground)]':
+        'bg-(--event-theme-subfund-accent) text-(--event-theme-subfund-accent-foreground)':
           eventType === 'subfundMeeting',
-        'bg-[var(--event-theme-important-accent)] text-[var(--event-theme-important-accent-foreground)]':
+        'bg-(--event-theme-important-accent) text-(--event-theme-important-accent-foreground)':
           eventType === 'importantDate',
       })}
     >
@@ -119,9 +119,9 @@ const EventTypeLabel: React.FC<{ eventType: string }> = ({ eventType }) => {
     <div className="flex items-center gap-1">
       <span
         className={cn('size-1.5 rounded-full', {
-          'bg-[var(--event-theme-trustee-accent)]': eventType === 'trusteeMeeting',
-          'bg-[var(--event-theme-subfund-accent)]': eventType === 'subfundMeeting',
-          'bg-[var(--event-theme-important-accent)]': eventType === 'importantDate',
+          'bg-(--event-theme-trustee-accent)': eventType === 'trusteeMeeting',
+          'bg-(--event-theme-subfund-accent)': eventType === 'subfundMeeting',
+          'bg-(--event-theme-important-accent)': eventType === 'importantDate',
         })}
       ></span>
       <span className="text-2xs">{eventTypeLabel}</span>

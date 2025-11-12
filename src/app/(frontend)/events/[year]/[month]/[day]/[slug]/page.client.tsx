@@ -17,7 +17,6 @@ import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
-import { useSubfundTheme } from '@/providers/SubfundTheme';
 import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
@@ -29,12 +28,10 @@ type EventPageClientProps = {
 
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
-  const { setSubfundTheme } = useSubfundTheme();
 
   useEffect(() => {
     setHeaderTheme('dark'); // Set header theme for event pages
-    setSubfundTheme(null); // Set subfund theme for event pages
-  }, [setHeaderTheme, setSubfundTheme]);
+  }, [setHeaderTheme]);
 
   return (
     <>
@@ -43,7 +40,7 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
       {event.resources && Array.isArray(event.resources) && event.resources.length > 0 && (
         <EventResources {...event} />
       )}
-      <EventRelated events={related} />
+      <EventRelated animateSectionTitle={!event.description && !event.resources} events={related} />
     </>
   );
 };
@@ -79,13 +76,7 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
           {contact && typeof contact === 'object' && (
             <ContactPerson contact={contact} priority={true} size="sm" />
           )}
-          {/*
-            TODO: Implement add to calendar functionality
-            This button should open a modal or redirect to a calendar integration.
-            <ButtonPrime variant="icon" style="flat" color="accent" size="medium" className="ml-auto">
-              <CalendarPlusIcon size={24} />
-            </ButtonPrime>
-          */}
+          {/* TODO: Implement add to calendar functionality */}
         </div>
       </div>
     </div>
@@ -144,7 +135,7 @@ const EventDetails: React.FC<Event> = ({
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={false}>
           Event Details
         </TitleTheme>
         {description && <RichText data={description} className="mx-0" />}
@@ -238,12 +229,12 @@ const EventDetails: React.FC<Event> = ({
   );
 };
 
-const EventResources: React.FC<Event> = ({ resources }) => {
+const EventResources: React.FC<Event> = ({ description, resources }) => {
   console.log('Event Resources', resources);
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
         <ResourceList resources={resources} />
@@ -252,11 +243,14 @@ const EventResources: React.FC<Event> = ({ resources }) => {
   );
 };
 
-const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
+const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileData[] }> = ({
+  animateSectionTitle,
+  events,
+}) => {
   return (
     <div className="px-4 pt-8 pb-12 lg:pb-20">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
@@ -282,7 +276,7 @@ const EventRelated: React.FC<{ events: EventTileData[] }> = ({ events }) => {
           <EventTile
             event="all"
             className={cn({
-              'lg:col-span-4': events.length > 1,
+              'lg:col-span-4': events.length > 1 || events.length === 0,
               'lg:col-span-6': events.length === 1,
             })}
           >
