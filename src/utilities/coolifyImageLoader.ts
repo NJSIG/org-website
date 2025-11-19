@@ -3,7 +3,26 @@
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
 
+// Cache for loader results to reduce recalculations
+const loaderCache = new Map<string, string>();
+const CACHE_SIZE_LIMIT = process.env.IMAGE_LOADER_CACHE_SIZE
+  ? parseInt(process.env.IMAGE_LOADER_CACHE_SIZE)
+  : 50; // Limit cache to 50 entries
+
 const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
+  const cacheKey = `${src}-${width || 'auto'}-${quality || 'auto'}`;
+
+  // Return cached result if available (this moves it to end for LRU)
+  if (loaderCache.has(cacheKey)) {
+    const cachedResult = loaderCache.get(cacheKey)!;
+
+    // Re-insert to move to end (LRU behavior)
+    loaderCache.delete(cacheKey);
+    loaderCache.set(cacheKey, cachedResult);
+
+    return cachedResult;
+  }
+
   const isLocal = !src.startsWith('http');
 
   // Parse the src to extract existing query parameters (like cache tags)
@@ -23,9 +42,6 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
       'Check',
       process.env.NODE_ENV === 'production' && !imageOptimizationApi,
     );
-    // throw new Error(
-    //   'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
-    // );
   }
 
   const baseUrl = getClientSideUrl();
@@ -39,15 +55,29 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
     query.set('quality', quality.toString());
   }
 
+  let result: string;
+
   if (isLocal && process.env.NODE_ENV === 'development') {
-    return `${baseSrc}?${query.toString()}`;
+    result = `${baseSrc}?${query.toString()}`;
+  } else if (isLocal) {
+    result = `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+  } else {
+    result = `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
   }
 
-  if (isLocal) {
-    return `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+  // Cache the result with LRU eviction
+  if (loaderCache.size >= CACHE_SIZE_LIMIT) {
+    // Remove oldest entry (first key in Map)
+    const firstKey = loaderCache.keys().next().value;
+
+    if (firstKey) {
+      loaderCache.delete(firstKey);
+    }
   }
 
-  return `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
+  loaderCache.set(cacheKey, result);
+
+  return result;
 };
 
 export default coolifyImageLoader;
