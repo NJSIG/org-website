@@ -1,6 +1,7 @@
 'use client';
 
 import { ImageLoader } from 'next/image';
+import { getClientSideUrl } from './getClientSideUrl';
 
 const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   const isLocal = !src.startsWith('http');
@@ -17,7 +18,7 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
     );
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const baseUrl = getClientSideUrl();
   const fullSrc = `${baseUrl}${baseSrc}`;
 
   if (width) {
