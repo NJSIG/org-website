@@ -13,9 +13,19 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
 
   if (process.env.NODE_ENV === 'production' && !imageOptimizationApi) {
-    throw new Error(
+    console.warn(
+      'WARNING IN coolifyImageLoader:',
       'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
+      'Environment:',
+      process.env.NODE_ENV,
+      'Image Optimization API:',
+      imageOptimizationApi,
+      'Check',
+      process.env.NODE_ENV === 'production' && !imageOptimizationApi,
     );
+    // throw new Error(
+    //   'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
+    // );
   }
 
   const baseUrl = getClientSideUrl();
