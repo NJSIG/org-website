@@ -4,7 +4,7 @@ import { useScreenSize } from '@/components/hooks/useScreenSize';
 import { cssVariables } from '@/css-variables';
 import { HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import HeroSlide from './components/Slide';
 
 const { breakpoints } = cssVariables;
@@ -12,14 +12,7 @@ const { breakpoints } = cssVariables;
 export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout, slides }) => {
   const [selectedSlide, setSelectedSlide] = useState<number>(0);
   const { screenSize, initializeScreenSize } = useScreenSize();
-
-  // Memoized slide change handler
-  const handleSlideChange = useCallback((index: number) => {
-    setSelectedSlide(index);
-  }, []);
-
-  // Memoized slides data to prevent recalculation
-  const slidesData = useMemo(() => slides || [], [slides]);
+  const slidesData = slides || [];
 
   useEffect(() => {
     initializeScreenSize();
@@ -71,7 +64,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
                 'hover:bg-njsig-accent-shade/35': index !== selectedSlide,
               },
             )}
-            onClick={() => handleSlideChange(index)}
+            onClick={() => setSelectedSlide(index)}
           />
         ))}
       </div>

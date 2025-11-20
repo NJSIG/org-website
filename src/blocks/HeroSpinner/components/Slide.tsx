@@ -31,7 +31,7 @@ const HeroSlide = memo<{
       alt: (slide.backgroundImage as HeroImage)?.alt || '',
       blurData: blurDataToBlurDataURL((slide.backgroundImage as HeroImage).blurData),
     }),
-    [slide.backgroundImage],
+    [slide],
   );
 
   return (
