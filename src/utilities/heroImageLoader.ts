@@ -2,6 +2,7 @@
 
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
+import { getImageOptimizationApi } from './getImageOptimzationApi';
 
 // Cache for loader results to reduce recalculations
 const loaderCache = new Map<string, string>();
@@ -29,7 +30,7 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
   const [baseSrc, existingQuery] = src.split('?');
   const query = new URLSearchParams(existingQuery || '');
 
-  const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
+  const imageOptimizationApi = getImageOptimizationApi();
 
   // Debug logging to help identify the issue
   if (process.env.NODE_ENV === 'production') {
