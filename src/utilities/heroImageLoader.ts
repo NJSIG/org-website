@@ -1,5 +1,6 @@
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
+import { getImageOptimizationApi } from './getImageOptimizationApi';
 
 // Cache for loader results to reduce recalculations
 const loaderCache = new Map<string, string>();
@@ -27,7 +28,7 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
   const [baseSrc, existingQuery] = src.split('?');
   const query = new URLSearchParams(existingQuery || '');
 
-  const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
+  const imageOptimizationApi = getImageOptimizationApi();
 
   // Debug logging to help identify the issue
   if (process.env.NODE_ENV === 'production') {
@@ -36,7 +37,6 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
       imageOptimizationApi: imageOptimizationApi || 'UNDEFINED',
       hasValue: !!imageOptimizationApi,
       allNextPublicVars: Object.keys(process.env).filter((key) => key.startsWith('NEXT_PUBLIC_')),
-      allVars: Object.keys(process.env),
     });
   }
 
