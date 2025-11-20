@@ -1,5 +1,3 @@
-'use client';
-
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
 
