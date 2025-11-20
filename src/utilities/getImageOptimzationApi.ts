@@ -9,6 +9,8 @@ export const getImageOptimizationApi = () => {
 
   const url = getServerSideUrl();
 
+  console.log('Server Side URL', url, url.includes('preview'));
+
   if (url.includes('preview')) {
     return 'https://i.prem.njsig.org';
   }
