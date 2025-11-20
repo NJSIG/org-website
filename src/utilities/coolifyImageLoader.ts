@@ -13,16 +13,6 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
 
   const imageOptimizationApi = getImageOptimizationApi();
 
-  // Debug logging to help identify the issue
-  if (process.env.NODE_ENV === 'production') {
-    console.log('coolifyImageLoader debug:', {
-      nodeEnv: process.env.NODE_ENV,
-      imageOptimizationApi: imageOptimizationApi || 'UNDEFINED',
-      hasValue: !!imageOptimizationApi,
-      allNextPublicVars: Object.keys(process.env).filter((key) => key.startsWith('NEXT_PUBLIC_')),
-    });
-  }
-
   const baseUrl = getClientSideUrl();
   const fullSrc = `${baseUrl}${baseSrc}`;
 

@@ -13,15 +13,6 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
 
   const imageOptimizationApi = getImageOptimizationApi();
 
-  // Debug logging to help identify the issue
-  if (process.env.NODE_ENV === 'production') {
-    console.log('heroImageLoader debug:', {
-      nodeEnv: process.env.NODE_ENV,
-      imageOptimizationApi: imageOptimizationApi || 'UNDEFINED',
-      hasValue: !!imageOptimizationApi,
-    });
-  }
-
   const baseUrl = getClientSideUrl();
   const cleanSrc = baseSrc.replace(`.${baseSrc.split('.').pop() || 'webp'}`, '');
 
