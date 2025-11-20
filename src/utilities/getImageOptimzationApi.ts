@@ -1,4 +1,4 @@
-import { getServerSideUrl } from './getServerSideUrl';
+import { getClientSideUrl } from './getClientSideUrl';
 
 export const getImageOptimizationApi = () => {
   const apiUrl = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
@@ -7,9 +7,9 @@ export const getImageOptimizationApi = () => {
     return apiUrl;
   }
 
-  const url = getServerSideUrl();
+  const url = getClientSideUrl();
 
-  console.log('Server Side URL', url, url.includes('preview'));
+  console.log('Client Side URL', url, url.includes('preview'));
 
   if (url.includes('preview')) {
     return 'https://i.prem.njsig.org';
