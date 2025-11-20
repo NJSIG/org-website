@@ -29,18 +29,14 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
 
   const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
 
-  // Only log warning once to reduce console spam
-  if (process.env.NODE_ENV === 'production' && !imageOptimizationApi) {
-    console.warn(
-      'WARNING IN heroImageLoader:',
-      'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
-      'Environment:',
-      process.env.NODE_ENV,
-      'Image Optimization API:',
-      imageOptimizationApi,
-      'Check',
-      process.env.NODE_ENV === 'production' && !imageOptimizationApi,
-    );
+  // Debug logging to help identify the issue
+  if (process.env.NODE_ENV === 'production') {
+    console.log('heroImageLoader debug:', {
+      nodeEnv: process.env.NODE_ENV,
+      imageOptimizationApi: imageOptimizationApi || 'UNDEFINED',
+      hasValue: !!imageOptimizationApi,
+      allNextPublicVars: Object.keys(process.env).filter((key) => key.startsWith('NEXT_PUBLIC_')),
+    });
   }
 
   const baseUrl = getClientSideUrl();
