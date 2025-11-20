@@ -1,5 +1,8 @@
+'use client';
+
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
+import { getImageOptimizationApi } from './getImageOptimizationApi';
 
 const heroImageLoader: ImageLoader = ({ src, width }) => {
   const isLocal = !src.startsWith('http');
@@ -8,23 +11,7 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
   const [baseSrc, existingQuery] = src.split('?');
   const query = new URLSearchParams(existingQuery || '');
 
-  const imageOptimizationApi = process.env.NEXT_PUBLIC_IMAGE_OPTIMIZATION_API;
-
-  if (process.env.NODE_ENV === 'production' && !imageOptimizationApi) {
-    console.warn(
-      'WARNING IN heroImageLoader:',
-      'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
-      'Environment:',
-      process.env.NODE_ENV,
-      'Image Optimization API:',
-      imageOptimizationApi,
-      'Check',
-      process.env.NODE_ENV === 'production' && !imageOptimizationApi,
-    );
-    // throw new Error(
-    //   'Environment variable NEXT_PUBLIC_IMAGE_OPTIMIZATION_API is not defined. Please set it in your environment.',
-    // );
-  }
+  const imageOptimizationApi = getImageOptimizationApi();
 
   const baseUrl = getClientSideUrl();
   const cleanSrc = baseSrc.replace(`.${baseSrc.split('.').pop() || 'webp'}`, '');
@@ -35,15 +22,17 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
 
   const fullSrc = `${baseUrl}${cleanSrc}-${nearestSize}.webp`;
 
+  let result: string;
+
   if (isLocal && process.env.NODE_ENV === 'development') {
-    return `${baseSrc}?${query.toString()}`;
+    result = `${baseSrc}?${query.toString()}`;
+  } else if (isLocal) {
+    result = `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+  } else {
+    result = `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
   }
 
-  if (isLocal) {
-    return `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
-  }
-
-  return `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
+  return result;
 };
 
 export default heroImageLoader;
