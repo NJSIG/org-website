@@ -2,28 +2,9 @@
 
 import { ImageLoader } from 'next/image';
 import { getClientSideUrl } from './getClientSideUrl';
-import { getImageOptimizationApi } from './getImageOptimzationApi';
-
-// Cache for loader results to reduce recalculations
-const loaderCache = new Map<string, string>();
-const CACHE_SIZE_LIMIT = process.env.IMAGE_LOADER_CACHE_SIZE
-  ? parseInt(process.env.IMAGE_LOADER_CACHE_SIZE)
-  : 50; // Limit cache to 50 entries
+import { getImageOptimizationApi } from './getImageOptimizationApi';
 
 const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
-  const cacheKey = `${src}-${width || 'auto'}-${quality || 'auto'}`;
-
-  // Return cached result if available (this moves it to end for LRU)
-  if (loaderCache.has(cacheKey)) {
-    const cachedResult = loaderCache.get(cacheKey)!;
-
-    // Re-insert to move to end (LRU behavior)
-    loaderCache.delete(cacheKey);
-    loaderCache.set(cacheKey, cachedResult);
-
-    return cachedResult;
-  }
-
   const isLocal = !src.startsWith('http');
 
   // Parse the src to extract existing query parameters (like cache tags)
@@ -62,18 +43,6 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   } else {
     result = `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
   }
-
-  // Cache the result with LRU eviction
-  if (loaderCache.size >= CACHE_SIZE_LIMIT) {
-    // Remove oldest entry (first key in Map)
-    const firstKey = loaderCache.keys().next().value;
-
-    if (firstKey) {
-      loaderCache.delete(firstKey);
-    }
-  }
-
-  loaderCache.set(cacheKey, result);
 
   return result;
 };
