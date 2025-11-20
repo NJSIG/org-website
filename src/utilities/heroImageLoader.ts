@@ -36,6 +36,7 @@ const heroImageLoader: ImageLoader = ({ src, width }) => {
       imageOptimizationApi: imageOptimizationApi || 'UNDEFINED',
       hasValue: !!imageOptimizationApi,
       allNextPublicVars: Object.keys(process.env).filter((key) => key.startsWith('NEXT_PUBLIC_')),
+      allVars: Object.keys(process.env),
     });
   }
 
