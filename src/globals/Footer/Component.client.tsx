@@ -1,5 +1,3 @@
-'use client';
-
 import { Hyperlink } from '@/components/Hyperlink';
 import { Logo } from '@/components/Logo';
 import type { Footer } from '@/payload-types';
