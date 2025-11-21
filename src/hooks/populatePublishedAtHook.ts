@@ -1,13 +1,33 @@
 import { CollectionBeforeChangeHook } from 'payload';
 
-export const populatePublishedAtHook: CollectionBeforeChangeHook = ({ data, operation, req }) => {
-  if (operation === 'create' || operation === 'update') {
-    if (req.data && !req.data.publishedAt) {
-      const now = new Date();
+export const populatePublishedAtHook: CollectionBeforeChangeHook = ({
+  data,
+  operation,
+  originalDoc,
+}) => {
+  const now = new Date();
 
+  if (operation === 'create' && data._status === 'published') {
+    return {
+      ...data,
+      publishedAt: now,
+    };
+  }
+
+  if (operation === 'update') {
+    // Set publishedAt when transitioning to published status
+    if (data._status === 'published' && originalDoc._status !== 'published') {
       return {
         ...data,
         publishedAt: now,
+      };
+    }
+
+    // Set to null when becoming unpublished
+    if (data._status !== 'published') {
+      return {
+        ...data,
+        publishedAt: null,
       };
     }
   }

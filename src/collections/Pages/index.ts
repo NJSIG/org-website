@@ -82,6 +82,7 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'date',
       admin: {
         position: 'sidebar',
+        readOnly: true,
       },
     },
     {

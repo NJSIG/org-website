@@ -44,6 +44,7 @@ export const Documents: CollectionConfig = {
       type: 'date',
       admin: {
         position: 'sidebar',
+        readOnly: true,
       },
     },
     {
