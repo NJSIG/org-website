@@ -72,7 +72,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
           </div>
           <Image
             className="hidden md:block absolute right-0 -top-4 w-52 h-auto"
-            src={`/assets/sub-funds/${subfund.slug}-map.svg`}
+            src={`/assets/sub-funds/${subfund.theme}-map.svg`}
             alt={`${subfund.shortName} Map`}
             width={0}
             height={0}
