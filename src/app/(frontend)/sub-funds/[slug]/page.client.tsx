@@ -38,7 +38,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
   }, [setHeaderTheme]);
 
   return (
-    <div className={cn(`subfund-theme-${subfund.shortName.toLocaleLowerCase()}`)}>
+    <div className={cn(`subfund-theme-${subfund.theme}`)}>
       {/* Sub-fund Header */}
       <section className="px-6 py-10 flex items-center justify-center bg-(--subfund-background)">
         <div className="w-full max-w-section flex flex-col gap-4 relative">
@@ -72,7 +72,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
           </div>
           <Image
             className="hidden md:block absolute right-0 -top-4 w-52 h-auto"
-            src={`/assets/sub-funds/${subfund.slug}-map.svg`}
+            src={`/assets/sub-funds/${subfund.theme}-map.svg`}
             alt={`${subfund.shortName} Map`}
             width={0}
             height={0}

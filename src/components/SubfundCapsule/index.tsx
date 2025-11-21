@@ -16,8 +16,8 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
     <Link
       href={`/sub-funds/${subfund.slug}`}
       className={cn(
-        `subfund-theme-${subfund.shortName.toLowerCase()}`,
-        'flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative',
+        `subfund-theme-${subfund.theme}`,
+        'flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative min-h-72',
       )}
     >
       <div className="flex items-center justify-between w-full pb-2 border-b-[6px] border-(--subfund-accent)">
@@ -54,7 +54,7 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
       </div>
       <Image
         className="hidden md:block absolute right-16 top-8 w-40 h-auto"
-        src={`/assets/sub-funds/${subfund.slug}-map.svg`}
+        src={`/assets/sub-funds/${subfund.theme}-map.svg`}
         alt={`${subfund.shortName} Map`}
         height={0}
         width={0}
