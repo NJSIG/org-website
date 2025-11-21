@@ -289,6 +289,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'date',
       admin: {
         position: 'sidebar',
+        readOnly: true,
       },
     },
   ],
