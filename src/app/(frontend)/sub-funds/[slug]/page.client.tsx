@@ -37,8 +37,11 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
     setHeaderTheme('light');
   }, [setHeaderTheme]);
 
+  // We're converting to lowercase and removing spaces to match the standard we're using in the CSS.
+  const subfundThemeClass = subfund.shortName.toLocaleLowerCase().replace(' ', '');
+
   return (
-    <div className={cn(`subfund-theme-${subfund.shortName.toLocaleLowerCase()}`)}>
+    <div className={cn(`subfund-theme-${subfundThemeClass}`)}>
       {/* Sub-fund Header */}
       <section className="px-6 py-10 flex items-center justify-center bg-(--subfund-background)">
         <div className="w-full max-w-section flex flex-col gap-4 relative">
