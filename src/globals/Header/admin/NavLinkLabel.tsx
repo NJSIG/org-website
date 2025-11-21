@@ -13,7 +13,7 @@ type NavLinkItem = {
 const NavLinkLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<NavLinkItem>();
 
-  const label = data?.link.linkTitle
+  const label = data?.link?.linkTitle
     ? `${data.link.linkTitle}`
     : `Link ${rowNumber ? rowNumber + 1 : ''}`;
 
