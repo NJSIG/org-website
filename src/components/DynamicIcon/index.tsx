@@ -49,6 +49,7 @@ const DynamicIcon = memo(({ name, size, ...rest }: DynamicIconProps) => {
           'size-4': size === 16,
           'size-6': size === 24,
           'size-10': size === 40,
+          'size-6': !size,
         },
       )}
     >
