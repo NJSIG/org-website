@@ -15,14 +15,14 @@ type ReactComponent = React.FC<{ className?: string; size?: IconSize }>;
 // Initialize dynamic components
 const iconComponents = {} as Record<IconNames, ReactComponent>;
 
-// Load Lucide Icons with a loading skeleton to avoid jarring pop-in
+// Load Lucide Icons
 for (const name of Object.keys(dynamicIconImports) as LucideIconNames[]) {
   iconComponents[name] = dynamic(dynamicIconImports[name], {
     ssr: false,
   }) as ReactComponent;
 }
 
-// Load Custom Icons with a loading skeleton to avoid jarring pop-in
+// Load Custom Icons
 for (const name of Object.keys(customIconImports) as CustomIconNames[]) {
   iconComponents[name] = dynamic(customIconImports[name], {
     ssr: false,
