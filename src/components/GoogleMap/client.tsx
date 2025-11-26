@@ -45,70 +45,73 @@ export const GoogleMapClient = (props: MapClientProps) => {
     placeholderClassName,
   } = props;
 
+  console.log('API Key', apiKey);
+
   const [mounted, setMounted] = useState(false);
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;
-  const query = Object.entries(location)
-    // Filter out empty values
-    .filter(([, value]) => Boolean(value))
-    // Merge streetAddress and streetAddress2 if both are present
-    .reduce((acc, [key, value]) => {
-      if (key === 'streetAddress' || key === 'streetAddress2') {
-        if (value) {
-          acc.push(encodeURIComponent(value as string));
-        }
-      } else if (key !== 'streetAddress2') {
-        acc.push(encodeURIComponent(value as string));
-      }
-      return acc;
-    }, [] as string[])
-    .join(',');
-  const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
+  if (mounted) {
+    const query = Object.entries(location)
+      // Filter out empty values
+      .filter(([, value]) => Boolean(value))
+      // Merge streetAddress and streetAddress2 if both are present
+      .reduce((acc, [key, value]) => {
+        if (key === 'streetAddress' || key === 'streetAddress2') {
+          if (value) {
+            acc.push(encodeURIComponent(value as string));
+          }
+        } else if (key !== 'streetAddress2') {
+          acc.push(encodeURIComponent(value as string));
+        }
+        return acc;
+      }, [] as string[])
+      .join(',');
+    const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
+
     return (
       <div
-        className={cn(
-          { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
-          placeholderClassName,
-        )}
-        style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
+        className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
+        style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
       >
-        <MapPinXIcon size={48} />
+        {apiKey !== '' && location !== null && query !== '' ? (
+          <iframe
+            width={width || '100%'}
+            height={height}
+            frameBorder="0"
+            style={{ border: 0 }}
+            referrerPolicy="no-referrer-when-downgrade"
+            src={src}
+            allowFullScreen
+          ></iframe>
+        ) : (
+          <div
+            className={cn(
+              { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
+              placeholderClassName,
+            )}
+            style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
+          >
+            <MapPinXIcon size={48} />
+          </div>
+        )}
       </div>
     );
   }
 
   return (
     <div
-      className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
-      style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
-    >
-      {apiKey !== '' && location !== null && query !== '' ? (
-        <iframe
-          width={width || '100%'}
-          height={height}
-          frameBorder="0"
-          style={{ border: 0 }}
-          referrerPolicy="no-referrer-when-downgrade"
-          src={src}
-          allowFullScreen
-        ></iframe>
-      ) : (
-        <div
-          className={cn(
-            { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
-            placeholderClassName,
-          )}
-          style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
-        >
-          <MapPinXIcon size={48} />
-        </div>
+      className={cn(
+        { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
+        placeholderClassName,
       )}
+      style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
+    >
+      <MapPinXIcon size={48} />
     </div>
   );
 };
