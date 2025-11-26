@@ -14,10 +14,11 @@ The Google Maps component doesn't receive the API key in production (Coolify wit
 
 ### 2. **Client-Side process.env Access** ✅ FIXED
 
-- **Problem**: Attempted to access `process.env` in client component, which doesn't exist in browser
-- **Error**: `Uncaught ReferenceError: process is not defined`
-- **Solution**: API key is now passed from server component to client component as a prop
-- **Result**: API key properly available in client without runtime errors
+- **Problem**: The GoogleMap component was imported into a client component, making it a client component too
+- **Error**: `Uncaught ReferenceError: process is not defined` and React hydration error #418
+- **Root Cause**: When a server component is imported into a client component (page.client.tsx), it becomes client-side code
+- **Solution**: GoogleMap wrapper is now **explicitly** a server component that always reads env var and passes to client
+- **Result**: Clean API - use `<GoogleMap />` anywhere without passing apiKey prop, works in admin panel and pages
 
 ### 3. **Environment Variable Timing** ✅ VERIFIED
 
@@ -129,17 +130,23 @@ const nextConfig = {
 
 ## Code Changes Made
 
-1. **`src/components/GoogleMap/index.tsx`**
-   - Removed console.warn
-   - Simplified server component
+1. **`src/components/GoogleMap/index.tsx`** (Server Component)
+   - **Key insight**: This wrapper component remains a server component
+   - Reads `NEXT_PUBLIC_MAPS_API_KEY` from environment on the server
+   - Passes API key to GoogleMapClient (the actual client component)
+   - Clean API: No need to pass apiKey prop when using `<GoogleMap />`
 
-2. **`src/components/GoogleMap/client.tsx`**
-   - Removed `useState` and `useEffect` for mounted check
-   - Removed console.log of API key
-   - Simplified rendering logic to prevent hydration mismatches
-   - Added fallback env variable access pattern
+2. **`src/components/GoogleMap/client.tsx`** (Client Component)
+   - Marked with `'use client'` directive
+   - Receives API key as prop from server wrapper
+   - Handles all client-side rendering logic
 
-3. **`nixpacks.toml`** (recommended update - see below)
+3. **Usage** (Both client and server components)
+   - Simply import and use: `<GoogleMap location={loc} />`
+   - No apiKey prop needed - handled automatically by server wrapper
+   - Works in admin panel, pages, anywhere in the app
+
+4. **`nixpacks.toml`**
    - Added build-time verification
 
 ## Next Steps
