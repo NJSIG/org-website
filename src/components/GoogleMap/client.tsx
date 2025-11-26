@@ -34,7 +34,7 @@ const defaultLocation: LocationAddress = {
 
 export const GoogleMapClient = (props: MapClientProps) => {
   const {
-    apiKey: apiKeyFromProps,
+    apiKey,
     mode = 'place',
     location = defaultLocation,
     height: heightFromProps = 400,
@@ -43,9 +43,6 @@ export const GoogleMapClient = (props: MapClientProps) => {
     containerClassName,
     placeholderClassName,
   } = props;
-
-  // Fallback to direct env variable access if apiKey is not provided
-  const apiKey = apiKeyFromProps || (typeof window !== 'undefined' ? '' : process.env.NEXT_PUBLIC_MAPS_API_KEY || '');
   
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;

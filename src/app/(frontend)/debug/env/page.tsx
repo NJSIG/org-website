@@ -56,20 +56,12 @@ export default async function DebugEnvPage() {
           </div>
 
           <div className="bg-blue-50 border border-blue-200 rounded p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">🔍 Client-Side Check</h3>
-            <p className="text-sm text-blue-800 mb-2">
-              Open the browser console to see the client-side verification.
+            <h3 className="font-semibold text-blue-900 mb-2">🔍 Important Note</h3>
+            <p className="text-sm text-blue-800">
+              In production builds, Next.js inlines NEXT_PUBLIC_* environment variables at build
+              time. The variables are not accessible via process.env in the browser - they are
+              replaced with their actual values during the build process.
             </p>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  console.log('=== CLIENT-SIDE ENV CHECK ===');
-                  console.log('NEXT_PUBLIC_MAPS_API_KEY available:', !!process.env.NEXT_PUBLIC_MAPS_API_KEY);
-                  console.log('Key prefix:', process.env.NEXT_PUBLIC_MAPS_API_KEY?.substring(0, 10) + '...' || 'NOT SET');
-                  console.log('All NEXT_PUBLIC_ vars:', Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_')));
-                `,
-              }}
-            />
           </div>
 
           <div className="mt-6">

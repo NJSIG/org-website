@@ -12,10 +12,18 @@ The Google Maps component doesn't receive the API key in production (Coolify wit
 - **Solution**: Removed `useState` and `useEffect` for mounted check
 - **Result**: Consistent SSR/CSR rendering
 
-### 2. **Environment Variable Timing**
+### 2. **Client-Side process.env Access** ✅ FIXED
 
-- **Problem**: `NEXT_PUBLIC_*` variables must be available at build time
-- **Current Status**: Needs verification in Coolify
+- **Problem**: Attempted to access `process.env` in client component, which doesn't exist in browser
+- **Error**: `Uncaught ReferenceError: process is not defined`
+- **Solution**: API key is now passed from server component to client component as a prop
+- **Result**: API key properly available in client without runtime errors
+
+### 3. **Environment Variable Timing** ✅ VERIFIED
+
+- **Requirement**: `NEXT_PUBLIC_*` variables must be available at build time
+- **Status**: Verified working - build logs show API key is set
+- **Note**: Next.js inlines these values during build, they're not accessible via `process.env` in the browser
 
 ## Verification Steps for Coolify
 

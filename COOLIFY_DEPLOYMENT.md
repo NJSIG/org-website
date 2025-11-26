@@ -5,14 +5,14 @@
 ### ✅ Code Changes Made
 
 1. **GoogleMap Server Component** (`src/components/GoogleMap/index.tsx`)
-   - Removed `console.warn` that could cause SSR issues
-   - Simplified API key handling
+   - Server component reads `NEXT_PUBLIC_MAPS_API_KEY` from environment
+   - Passes API key as prop to client component
 
 2. **GoogleMap Client Component** (`src/components/GoogleMap/client.tsx`)
    - ❌ **REMOVED** `useState` and `useEffect` for mounted check (caused hydration mismatch)
-   - ❌ **REMOVED** `console.log` of API key
+   - ❌ **REMOVED** client-side `process.env` fallback (doesn't exist in browser in production)
    - ✅ **FIXED** Consistent SSR/CSR rendering
-   - ✅ **ADDED** Direct environment variable fallback
+   - ✅ **FIXED** API key properly passed from server component as prop
 
 3. **Event Page Client** (`page.client.tsx`)
    - Removed debug `console.log` statement
@@ -163,10 +163,11 @@ docker exec -it <container-id> printenv | grep NEXT_PUBLIC_MAPS_API_KEY
 ### Key Fixes
 
 1. ❌ Removed hydration-causing `mounted` state
-2. ✅ Ensured consistent SSR/CSR rendering
+2. ✅ Ensured consistent SSR/CSR rendering  
 3. ✅ Added build-time verification
 4. ✅ Removed console statements that could cause issues
 5. ✅ Added diagnostic tools
+6. 🔑 **CRITICAL**: Removed client-side `process.env` access (doesn't exist in production browser)
 
 ---
 
