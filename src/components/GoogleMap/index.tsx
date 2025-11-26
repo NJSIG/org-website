@@ -42,7 +42,7 @@ export const GoogleMap = (props: MapProps) => {
     placeholderClassName,
   } = props;
 
-  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY || '';
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;
   const query = Object.entries(location)
@@ -62,12 +62,14 @@ export const GoogleMap = (props: MapProps) => {
     .join(',');
   const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
 
+  console.log('Maps Src', src);
+
   return (
     <div
       className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
       style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
     >
-      {apiKey !== '' && location !== null && query !== '' ? (
+      {apiKey && apiKey !== '' && location !== null && query !== '' ? (
         <iframe
           width={width || '100%'}
           height={height}
