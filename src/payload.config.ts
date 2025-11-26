@@ -95,6 +95,9 @@ export default buildConfig({
     timezones: {
       defaultTimezone: 'America/New_York',
     },
+    components: {
+      providers: ['@/providers/MapApiProvider#MapApiProvider'],
+    },
   },
   collections,
   globals: [Header, Footer],
