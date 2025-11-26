@@ -1,5 +1,9 @@
 [phases.build]
-cmds = ["next build --experimental-build-mode compile"]
+cmds = [
+  "echo '=== Build Environment Check ==='",
+  "echo \"NEXT_PUBLIC_MAPS_API_KEY: ${NEXT_PUBLIC_MAPS_API_KEY:+SET}${NEXT_PUBLIC_MAPS_API_KEY:-NOT_SET}\"",
+  "next build --experimental-build-mode compile"
+]
 
 [start]
 cmds = "next build --experimental-build-mode generate && next start"

@@ -230,7 +230,6 @@ const EventDetails: React.FC<Event> = ({
 };
 
 const EventResources: React.FC<Event> = ({ description, resources }) => {
-  console.log('Event Resources', resources);
   return (
     <div className="px-4 pt-8 pb-5">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">

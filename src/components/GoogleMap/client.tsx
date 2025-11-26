@@ -2,7 +2,6 @@
 
 import { cn } from '@/utilities/cn';
 import { MapPinXIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 type LocationAddress = {
   name?: unknown;
@@ -35,7 +34,7 @@ const defaultLocation: LocationAddress = {
 
 export const GoogleMapClient = (props: MapClientProps) => {
   const {
-    apiKey,
+    apiKey: apiKeyFromProps,
     mode = 'place',
     location = defaultLocation,
     height: heightFromProps = 400,
@@ -45,73 +44,57 @@ export const GoogleMapClient = (props: MapClientProps) => {
     placeholderClassName,
   } = props;
 
-  console.log('API Key', apiKey);
-
-  const [mounted, setMounted] = useState(false);
+  // Fallback to direct env variable access if apiKey is not provided
+  const apiKey = apiKeyFromProps || (typeof window !== 'undefined' ? '' : process.env.NEXT_PUBLIC_MAPS_API_KEY || '');
+  
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (mounted) {
-    const query = Object.entries(location)
-      // Filter out empty values
-      .filter(([, value]) => Boolean(value))
-      // Merge streetAddress and streetAddress2 if both are present
-      .reduce((acc, [key, value]) => {
-        if (key === 'streetAddress' || key === 'streetAddress2') {
-          if (value) {
-            acc.push(encodeURIComponent(value as string));
-          }
-        } else if (key !== 'streetAddress2') {
+  const query = Object.entries(location)
+    // Filter out empty values
+    .filter(([, value]) => Boolean(value))
+    // Merge streetAddress and streetAddress2 if both are present
+    .reduce((acc, [key, value]) => {
+      if (key === 'streetAddress' || key === 'streetAddress2') {
+        if (value) {
           acc.push(encodeURIComponent(value as string));
         }
-        return acc;
-      }, [] as string[])
-      .join(',');
-    const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
-
-    return (
-      <div
-        className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
-        style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
-      >
-        {apiKey !== '' && location !== null && query !== '' ? (
-          <iframe
-            width={width || '100%'}
-            height={height}
-            frameBorder="0"
-            style={{ border: 0 }}
-            referrerPolicy="no-referrer-when-downgrade"
-            src={src}
-            allowFullScreen
-          ></iframe>
-        ) : (
-          <div
-            className={cn(
-              { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
-              placeholderClassName,
-            )}
-            style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
-          >
-            <MapPinXIcon size={48} />
-          </div>
-        )}
-      </div>
-    );
-  }
+      } else if (key !== 'streetAddress2') {
+        acc.push(encodeURIComponent(value as string));
+      }
+      return acc;
+    }, [] as string[])
+    .join(',');
+  
+  const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
+  const hasValidData = apiKey !== '' && location !== null && query !== '';
 
   return (
     <div
-      className={cn(
-        { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
-        placeholderClassName,
-      )}
-      style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
+      className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
+      style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
     >
-      <MapPinXIcon size={48} />
+      {hasValidData ? (
+        <iframe
+          width={width || '100%'}
+          height={height}
+          frameBorder="0"
+          style={{ border: 0 }}
+          referrerPolicy="no-referrer-when-downgrade"
+          src={src}
+          allowFullScreen
+        ></iframe>
+      ) : (
+        <div
+          className={cn(
+            { 'njsig__map-container njsig__map-container__placeholder': admin, '': !admin },
+            placeholderClassName,
+          )}
+          style={{ height: `${height}px`, width: width ? `${width}px` : '100%' }}
+        >
+          <MapPinXIcon size={48} />
+        </div>
+      )}
     </div>
   );
 };
