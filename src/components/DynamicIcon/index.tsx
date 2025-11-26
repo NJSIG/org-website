@@ -1,6 +1,7 @@
 'use client';
 
 import { customIconImports, IconSize } from '@/icons';
+import { cn } from '@/utilities/cn';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
@@ -35,14 +36,26 @@ type DynamicIconProps = {
   size?: IconSize;
 };
 
-const DynamicIcon = memo(({ name, ...props }: DynamicIconProps) => {
-  if (!name || !(name in iconComponents)) {
-    return null;
-  }
+const DynamicIcon = memo(({ name, size, ...rest }: DynamicIconProps) => {
+  if (!name || !(name in iconComponents)) return null;
 
   const Icon = iconComponents[name as IconNames];
 
-  return <Icon {...props} />;
+  return (
+    <span
+      className={cn(
+        'inline-block empty:rounded-sm empty:bg-njsig-neutral-primary/8 empty:animate-pulse',
+        {
+          'size-4': size === 16,
+          'size-6': size === 24,
+          'size-10': size === 40,
+          'size-6': !size,
+        },
+      )}
+    >
+      <Icon size={size} {...rest} />
+    </span>
+  );
 });
 
 DynamicIcon.displayName = 'DynamicIcon';
