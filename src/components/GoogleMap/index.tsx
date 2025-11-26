@@ -1,14 +1,17 @@
 import { GoogleMapClient, type MapClientProps } from './client';
 
-export type MapProps = Omit<MapClientProps, 'apiKey'>;
+export type MapProps = Omit<MapClientProps, 'apiKey'> & { apiKey?: string };
 
 /**
- * Server Component wrapper for GoogleMap.
- * Reads the API key from environment variables and passes it to the client component.
- * This ensures the API key is always available without needing to pass it as a prop.
+ * GoogleMap Component
+ * 
+ * Uses the Maps API key from MapApiKeyProvider context (set in root layout).
+ * Can be used anywhere in the app (client or server components, admin panel, etc.)
+ * without needing to pass the API key as a prop.
+ * 
+ * The API key can optionally be overridden by passing it as a prop.
  */
-export function GoogleMap(props: MapProps) {
-  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY || '';
+export const GoogleMap = GoogleMapClient;
 
-  return <GoogleMapClient {...props} apiKey={apiKey} />;
-}
+// Re-export for convenience
+export { GoogleMapClient };

@@ -14,11 +14,11 @@ The Google Maps component doesn't receive the API key in production (Coolify wit
 
 ### 2. **Client-Side process.env Access** ✅ FIXED
 
-- **Problem**: The GoogleMap component was imported into a client component, making it a client component too
+- **Problem**: GoogleMap was imported into client components, making it client-side code
 - **Error**: `Uncaught ReferenceError: process is not defined` and React hydration error #418
-- **Root Cause**: When a server component is imported into a client component (page.client.tsx), it becomes client-side code
-- **Solution**: GoogleMap wrapper is now **explicitly** a server component that always reads env var and passes to client
-- **Result**: Clean API - use `<GoogleMap />` anywhere without passing apiKey prop, works in admin panel and pages
+- **Root Cause**: Server components imported into client components become client-side code
+- **Solution**: React Context Provider pattern - API key set globally in root layout, consumed via context
+- **Result**: Use `<GoogleMap />` anywhere (client/server components, admin panel) without passing props
 
 ### 3. **Environment Variable Timing** ✅ VERIFIED
 
@@ -130,23 +130,31 @@ const nextConfig = {
 
 ## Code Changes Made
 
-1. **`src/components/GoogleMap/index.tsx`** (Server Component)
-   - **Key insight**: This wrapper component remains a server component
-   - Reads `NEXT_PUBLIC_MAPS_API_KEY` from environment on the server
-   - Passes API key to GoogleMapClient (the actual client component)
-   - Clean API: No need to pass apiKey prop when using `<GoogleMap />`
+1. **`src/components/GoogleMap/MapApiKeyProvider.tsx`** (New Context Provider)
+   - Client component that provides API key via React Context
+   - Wraps the app in root layout
+   - Allows any descendant component to access the API key
 
-2. **`src/components/GoogleMap/client.tsx`** (Client Component)
-   - Marked with `'use client'` directive
-   - Receives API key as prop from server wrapper
-   - Handles all client-side rendering logic
+2. **`src/app/(frontend)/layout.tsx`** (Root Layout - Server Component)
+   - Reads `NEXT_PUBLIC_MAPS_API_KEY` from environment
+   - Wraps app with `<MapApiKeyProvider apiKey={mapsApiKey}>`
+   - API key is read once on the server, then distributed via context
 
-3. **Usage** (Both client and server components)
-   - Simply import and use: `<GoogleMap location={loc} />`
-   - No apiKey prop needed - handled automatically by server wrapper
-   - Works in admin panel, pages, anywhere in the app
+3. **`src/components/GoogleMap/client.tsx`** (Client Component)
+   - Uses `useMapApiKey()` hook to get API key from context
+   - Falls back to `apiKey` prop if provided (allows overrides)
+   - Can be imported and used in any client component
 
-4. **`nixpacks.toml`**
+4. **`src/components/GoogleMap/index.tsx`** (Re-export)
+   - Simply re-exports the client component
+   - No server/client wrapper complexity
+
+5. **Usage Anywhere**
+   - Import: `import { GoogleMap } from '@/components/GoogleMap';`
+   - Use: `<GoogleMap location={location} height={200} />`
+   - Works in client components, server components, admin panel, everywhere
+
+6. **`nixpacks.toml`**
    - Added build-time verification
 
 ## Next Steps

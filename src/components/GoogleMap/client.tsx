@@ -2,6 +2,7 @@
 
 import { cn } from '@/utilities/cn';
 import { MapPinXIcon } from 'lucide-react';
+import { useMapApiKey } from './MapApiKeyProvider';
 
 type LocationAddress = {
   name?: unknown;
@@ -13,7 +14,7 @@ type LocationAddress = {
 };
 
 export type MapClientProps = {
-  apiKey: string;
+  apiKey?: string; // Optional - falls back to context
   location: LocationAddress;
   mode?: 'place' | 'view' | 'directions' | 'streetView' | 'search';
   height?: number;
@@ -34,7 +35,7 @@ const defaultLocation: LocationAddress = {
 
 export const GoogleMapClient = (props: MapClientProps) => {
   const {
-    apiKey,
+    apiKey: apiKeyFromProps,
     mode = 'place',
     location = defaultLocation,
     height: heightFromProps = 400,
@@ -43,6 +44,10 @@ export const GoogleMapClient = (props: MapClientProps) => {
     containerClassName,
     placeholderClassName,
   } = props;
+
+  // Use prop if provided, otherwise use context
+  const apiKeyFromContext = useMapApiKey();
+  const apiKey = apiKeyFromProps || apiKeyFromContext;
   
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;
