@@ -4,7 +4,7 @@ import React, { createContext, useContext } from 'react';
 
 const MapApiKeyContext = createContext<string>('');
 
-export function MapApiKeyProvider({
+export function MapApiProvider({
   apiKey,
   children,
 }: {

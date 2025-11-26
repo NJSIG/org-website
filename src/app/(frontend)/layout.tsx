@@ -1,6 +1,5 @@
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
-import { MapApiKeyProvider } from '@/components/GoogleMap/MapApiKeyProvider';
 import { Providers } from '@/providers';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
@@ -14,7 +13,6 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode();
-  const mapsApiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY || '';
 
   // TODO: Does the html element need "suppressHydrationWarning"?
   return (
@@ -24,11 +22,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className="flex flex-col min-h-screen bg-background text-foreground">
         <Providers>
-          <MapApiKeyProvider apiKey={mapsApiKey}>
-            <Header />
-            <main className="flex flex-col grow">{children}</main>
-            <Footer />
-          </MapApiKeyProvider>
+          <Header />
+          <main className="flex flex-col grow">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
