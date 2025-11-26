@@ -69,7 +69,7 @@ export const GoogleMap = (props: MapProps) => {
       className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
       style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
     >
-      {apiKey && apiKey !== '' && location !== null && query !== '' ? (
+      {apiKey !== '' && location !== null && query !== '' ? (
         <iframe
           width={width || '100%'}
           height={height}
