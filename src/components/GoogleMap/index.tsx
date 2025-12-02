@@ -2,7 +2,7 @@
 
 import { cn } from '@/utilities/cn';
 import { MapPinXIcon } from 'lucide-react';
-import { useMapApiKey } from '../../providers/MapApiProvider';
+import { useMapApiKey } from '@/providers/MapApiProvider';
 
 type LocationAddress = {
   name?: unknown;
