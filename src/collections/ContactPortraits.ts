@@ -45,6 +45,9 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   upload: {
     pasteURL: false,
+    skipSafeFetch: process.env.SAFE_FETCH_ALLOWLIST
+      ? JSON.parse(process.env.SAFE_FETCH_ALLOWLIST)
+      : false,
     adminThumbnail: 'original',
     mimeTypes: ['image/*'],
     focalPoint: true,

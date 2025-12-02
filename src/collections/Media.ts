@@ -88,6 +88,9 @@ export const Media: CollectionConfig = {
   },
   upload: {
     pasteURL: false,
+    skipSafeFetch: process.env.SAFE_FETCH_ALLOWLIST
+      ? JSON.parse(process.env.SAFE_FETCH_ALLOWLIST)
+      : false,
     adminThumbnail: 'thumbnail',
     mimeTypes: ['image/*', 'video/*', 'audio/*'],
     focalPoint: true,
