@@ -96,7 +96,7 @@ export default buildConfig({
       defaultTimezone: 'America/New_York',
     },
     components: {
-      providers: ['@/providers/MapApiProvider#MapApiProvider'],
+      providers: ['@/providers/admin#AdminProviders'],
     },
   },
   collections,
