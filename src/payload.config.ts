@@ -95,6 +95,9 @@ export default buildConfig({
     timezones: {
       defaultTimezone: 'America/New_York',
     },
+    components: {
+      providers: ['@/providers/admin#AdminProviders'],
+    },
   },
   collections,
   globals: [Header, Footer],

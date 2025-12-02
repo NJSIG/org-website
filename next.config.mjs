@@ -1,5 +1,6 @@
 import { withPayload } from '@payloadcms/next/withPayload';
 
+// Next.js configuration
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {

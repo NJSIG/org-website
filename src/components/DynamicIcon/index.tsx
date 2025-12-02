@@ -44,12 +44,11 @@ const DynamicIcon = memo(({ name, size, ...rest }: DynamicIconProps) => {
   return (
     <span
       className={cn(
-        'inline-block empty:rounded-sm empty:bg-njsig-neutral-primary/8 empty:animate-pulse',
+        'inline-block empty:rounded-sm empty:bg-njsig-neutral-primary/8 empty:animate-pulse size-6',
         {
           'size-4': size === 16,
-          'size-6': size === 24,
+          // size-6 is the default
           'size-10': size === 40,
-          'size-6': !size,
         },
       )}
     >

@@ -1,5 +1,7 @@
 [phases.build]
-cmds = ["next build --experimental-build-mode compile"]
+cmds = [
+  "next build --experimental-build-mode compile"
+]
 
 [start]
 cmds = "next build --experimental-build-mode generate && next start"

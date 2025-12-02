@@ -2,6 +2,7 @@
 
 import { cn } from '@/utilities/cn';
 import { MapPinXIcon } from 'lucide-react';
+import { useMapApiKey } from '@/providers/MapApiProvider';
 
 type LocationAddress = {
   name?: unknown;
@@ -42,9 +43,10 @@ export const GoogleMap = (props: MapProps) => {
     placeholderClassName,
   } = props;
 
-  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
+  const apiKey = useMapApiKey();
   const height = heightFromProps && heightFromProps >= 200 ? heightFromProps : 200;
   const width = widthFromProps && widthFromProps >= 200 ? widthFromProps : undefined;
+
   const query = Object.entries(location)
     // Filter out empty values
     .filter(([, value]) => Boolean(value))
@@ -60,14 +62,16 @@ export const GoogleMap = (props: MapProps) => {
       return acc;
     }, [] as string[])
     .join(',');
+
   const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
+  const hasValidData = apiKey !== '' && query !== '';
 
   return (
     <div
       className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
       style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
     >
-      {apiKey !== '' && location !== null && query !== '' ? (
+      {hasValidData ? (
         <iframe
           width={width || '100%'}
           height={height}
