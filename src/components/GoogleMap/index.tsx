@@ -64,7 +64,7 @@ export const GoogleMap = (props: MapProps) => {
     .join(',');
 
   const src = `https://www.google.com/maps/embed/v1/${mode}?key=${apiKey}&q=${query}`;
-  const hasValidData = apiKey !== '' && location !== null && query !== '';
+  const hasValidData = apiKey !== '' && query !== '';
 
   return (
     <div
