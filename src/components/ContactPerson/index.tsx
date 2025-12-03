@@ -15,8 +15,8 @@ type ContactPersonProps = {
 const portraitVariants = cva(['rounded-full'], {
   variants: {
     size: {
-      sm: 'border-2',
-      md: 'border-2',
+      sm: 'border-2 size-10',
+      md: 'border-2 size-14',
     },
     type: {
       njsig: 'border-njsig-primary',
