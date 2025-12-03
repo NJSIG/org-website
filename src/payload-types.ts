@@ -718,7 +718,7 @@ export interface EventCategory {
 export interface Contact {
   id: string;
   /**
-   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if not image is assigned to this contact.
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if no image is assigned to this contact.
    */
   portrait?: (string | null) | ContactPortrait;
   /**
