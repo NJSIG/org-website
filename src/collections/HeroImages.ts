@@ -57,7 +57,7 @@ export const HeroImages: CollectionConfig = {
     skipSafeFetch: (() => {
       if (process.env.SAFE_FETCH_ALLOWLIST) {
         try {
-          JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
+          return JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
         } catch {
           return false;
         }
