@@ -1,5 +1,6 @@
 import { Minimatch } from 'minimatch';
 import { APIError, CollectionBeforeChangeHook } from 'payload';
+import sharp from 'sharp';
 
 export const checkSquareHook: CollectionBeforeChangeHook = async ({ data, req }) => {
   const mimeTypeMatcher = new Minimatch('image/*');
@@ -30,7 +31,6 @@ export const checkSquareHook: CollectionBeforeChangeHook = async ({ data, req })
 };
 
 async function getImageDimensions(fileData: Buffer): Promise<{ width: number; height: number }> {
-  const { default: sharp } = await import('sharp');
   const metadata = await sharp(fileData).metadata();
 
   if (!metadata.width || !metadata.height) {

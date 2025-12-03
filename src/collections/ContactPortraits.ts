@@ -50,7 +50,9 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
     skipSafeFetch: (() => {
       if (process.env.SAFE_FETCH_ALLOWLIST) {
         try {
-          return JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
+          const allowList = JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
+          console.log('SAFE_FETCH_ALLOWLIST:', allowList);
+          return allowList;
         } catch {
           return false;
         }
