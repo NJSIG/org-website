@@ -47,19 +47,14 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   upload: {
     pasteURL: false,
-    skipSafeFetch: (() => {
-      if (process.env.SAFE_FETCH_ALLOWLIST) {
-        try {
-          const allowList = JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
-          console.log('SAFE_FETCH_ALLOWLIST:', allowList);
-          return allowList;
-        } catch {
-          return false;
-        }
-      }
-
-      return false;
-    })(),
+    skipSafeFetch: [
+      {
+        hostname: 'localhost',
+      },
+      {
+        hostname: process.env.SAFE_FETCH_ALLOW!,
+      },
+    ],
     adminThumbnail: 'original',
     mimeTypes: ['image/*'],
     focalPoint: true,
