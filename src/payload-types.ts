@@ -604,7 +604,7 @@ export interface Event {
   /**
    * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
    */
-  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
+  eventType: 'subfundMeeting' | 'trusteeMeeting' | 'njsigEvent' | 'importantDate' | 'otherEvent';
   /**
    * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */

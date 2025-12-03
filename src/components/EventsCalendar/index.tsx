@@ -1,12 +1,13 @@
 'use client';
 
 import { buttonVariants } from '@/primitives/ui/button';
+import { Popover, PopoverTrigger } from '@/primitives/ui/popover';
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, FilterIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEventCalendar } from './provider';
-import { DateCellProps, EventsCalendarData, HeaderCellProps } from './types';
+import { DateCellProps, EventsCalendarData, EventsCalendarHeader, HeaderCellProps } from './types';
 
 const dayLabels = [
   { short: 'Su', long: 'Sunday' },
@@ -26,52 +27,36 @@ const navButtonVariant = buttonVariants({
 });
 
 const EventsCalendar: React.FC<EventsCalendarData> = ({
-  header,
+  currentMonth,
+  currentYear,
+  yearRange,
   nextMonthURL,
   prevMonthURL,
   days,
   allowFiltering = true,
 }) => {
   return (
-    <div className="flex flex-col gap-6 max-w-[360px] mx-auto">
+    <div className="flex flex-col gap-6 max-w-[480px] mx-auto">
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <Link
-            href={prevMonthURL}
-            aria-label="Previous Month"
-            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceLeft' }))}
-          >
-            <ChevronLeftIcon size={24} />
-          </Link>
-          <h3 className="text-xl font-medium text-foreground">{header}</h3>
-          <Link
-            href={nextMonthURL}
-            aria-label="Next Month"
-            className={cn(navButtonVariant, buttonVariants({ animation: 'bounceRight' }))}
-          >
-            <ChevronRightIcon size={24} />
-          </Link>
-        </div>
+        <CalendarHeader
+          currentMonth={currentMonth}
+          currentYear={currentYear}
+          yearRange={yearRange}
+          nextMonthURL={nextMonthURL}
+          prevMonthURL={prevMonthURL}
+          allowFiltering={allowFiltering}
+        />
         <div
-          className={cn('grid grid-cols-7 w-full gap-1', {
-            'grid-rows-6 h-[308px]': days.length <= 35,
-            'grid-rows-7 h-[360px]': days.length > 35,
+          className={cn('grid grid-cols-7 w-md gap-1', {
+            'grid-rows-6 h-[464px]': days.length <= 35,
+            'grid-rows-7 h-[544px]': days.length > 35,
           })}
         >
           {dayLabels.map((label) => (
             <HeaderCell key={label.short} label={label} />
           ))}
           {days.map((day) => (
-            <DateCell
-              key={day.date}
-              srLabel={Temporal.PlainDate.from(day.date).toLocaleString('en-US', {
-                month: 'long',
-                day: '2-digit',
-                weekday: 'long',
-              })}
-              label={Temporal.PlainDate.from(day.date).toLocaleString('en-US', { day: '2-digit' })}
-              {...day}
-            />
+            <DateCell key={day.date} {...day} />
           ))}
         </div>
       </div>
@@ -80,16 +65,67 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
   );
 };
 
+const CalendarHeader: React.FC<EventsCalendarHeader> = ({
+  currentMonth,
+  currentYear,
+  yearRange,
+  nextMonthURL,
+  prevMonthURL,
+  allowFiltering,
+}) => {
+  const { filters } = useEventCalendar();
+
+  return (
+    <div className="flex gap-2 items-center">
+      <Link
+        href={prevMonthURL}
+        aria-label="Previous Month"
+        className={cn(buttonVariants({ animation: 'bounceLeft' }), navButtonVariant)}
+      >
+        <ChevronLeftIcon size={24} />
+      </Link>
+      <h3 className="text-xl font-medium text-foreground grow">
+        {currentMonth.long} {currentYear}
+      </h3>
+      {allowFiltering && (
+        <Popover>
+          <PopoverTrigger
+            className={cn(buttonVariants({ animation: 'bounceDown' }), navButtonVariant)}
+          >
+            <FilterIcon
+              size={24}
+              className={cn({ 'fill-foreground': filters && filters?.length > 0 })}
+            />
+          </PopoverTrigger>
+        </Popover>
+      )}
+      <Link
+        href={nextMonthURL}
+        aria-label="Next Month"
+        className={cn(buttonVariants({ animation: 'bounceRight' }), navButtonVariant)}
+      >
+        <ChevronRightIcon size={24} />
+      </Link>
+    </div>
+  );
+};
+
 const HeaderCell: React.FC<HeaderCellProps> = ({ label }) => {
   return (
-    <div className="h-12 max-w-12 flex items-center justify-center p-2" aria-label={label.long}>
+    <div className="h-16 max-w-16 flex items-center justify-center p-2" aria-label={label.long}>
       <span className="text-lg font-bold text-foreground">{label.short}</span>
     </div>
   );
 };
 
-const DateCell: React.FC<DateCellProps> = ({ srLabel, label, isToday, isInMonth, events }) => {
+const DateCell: React.FC<DateCellProps> = ({ date, isToday, isInMonth, events }) => {
   const { filters } = useEventCalendar();
+  const label = Temporal.PlainDate.from(date).toLocaleString('en-US', { day: '2-digit' });
+  const srLabel = Temporal.PlainDate.from(date).toLocaleString('en-US', {
+    month: 'long',
+    day: '2-digit',
+    weekday: 'long',
+  });
 
   const ariaLabel =
     events.length > 0
@@ -100,7 +136,7 @@ const DateCell: React.FC<DateCellProps> = ({ srLabel, label, isToday, isInMonth,
     <div
       aria-label={ariaLabel}
       aria-hidden={!isInMonth || !events.length}
-      className={cn('h-12 max-w-12 flex flex-col items-center justify-center rounded-lg p-2', {
+      className={cn('h-20 max-w-16 flex flex-col items-center justify-center rounded-lg p-2', {
         'opacity-80': !isInMonth,
         'bg-njsig-tint': isToday,
       })}
@@ -113,7 +149,7 @@ const DateCell: React.FC<DateCellProps> = ({ srLabel, label, isToday, isInMonth,
           'text-njsig-shade': isToday,
         })}
       >
-        {label}
+        <time dateTime={date}>{label}</time>
       </span>
       <div className="flex gap-1 px-0.5 items-center mx-auto">
         {events.map((event) => (

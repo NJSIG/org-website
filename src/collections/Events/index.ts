@@ -11,6 +11,8 @@ enum EventType {
   TrusteeMeeting = 'trusteeMeeting',
   SubfundMeeting = 'subfundMeeting',
   ImportantDate = 'importantDate',
+  NjsigEvent = 'njsigEvent',
+  OtherEvent = 'otherEvent',
 }
 
 enum AttendanceOptions {
@@ -42,9 +44,11 @@ export const Events: CollectionConfig<'events'> = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Trustee Meeting', value: EventType.TrusteeMeeting },
         { label: 'Sub-fund Meeting', value: EventType.SubfundMeeting },
+        { label: 'Trustee Meeting', value: EventType.TrusteeMeeting },
+        { label: 'NJSIG Event', value: EventType.NjsigEvent },
         { label: 'Important Date', value: EventType.ImportantDate },
+        { label: 'Other Event', value: EventType.OtherEvent },
       ],
       admin: {
         isClearable: false,

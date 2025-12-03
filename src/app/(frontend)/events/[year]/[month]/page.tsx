@@ -60,6 +60,7 @@ const queryEventsByYearAndMonth = cache(
 );
 
 const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCardData[]) => {
+  const currentYear = Temporal.Now.plainDateISO().year;
   const currMonth = Temporal.PlainDate.from({
     year: Number(reqYear),
     month: Number(reqMonth),
@@ -94,7 +95,12 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
   });
 
   return {
-    header: `${currMonth.toLocaleString('en-US', { month: 'long' })} ${currMonth.year}`,
+    currentMonth: {
+      numeric: currMonth.month,
+      long: currMonth.toLocaleString('en-US', { month: 'long' }),
+    },
+    currentYear: currMonth.year,
+    yearRange: Array.from({ length: 5 }, (_, i) => currentYear - 3 + i),
     nextMonthURL: `/events/${nextMonth.year}/${nextMonth.toLocaleString('en-US', { month: '2-digit' })}`,
     prevMonthURL: `/events/${prevMonth.year}/${prevMonth.toLocaleString('en-US', { month: '2-digit' })}`,
     days,

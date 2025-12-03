@@ -1,7 +1,12 @@
 import { Event } from '@/payload-types';
 
 export type EventsCalendarData = {
-  header: string;
+  currentMonth: {
+    numeric: number;
+    long: string;
+  };
+  currentYear: number;
+  yearRange: number[];
   nextMonthURL: string;
   prevMonthURL: string;
   days: {
@@ -13,13 +18,17 @@ export type EventsCalendarData = {
   allowFiltering?: boolean;
 };
 
+export type EventsCalendarHeader = Pick<
+  EventsCalendarData,
+  'currentMonth' | 'currentYear' | 'yearRange' | 'nextMonthURL' | 'prevMonthURL' | 'allowFiltering'
+>;
+
 export type HeaderCellProps = {
   label: { short: string; long: string };
 };
 
 export type DateCellProps = {
-  srLabel: string;
-  label: string;
+  date: string;
   isToday: boolean;
   isInMonth: boolean;
   events: Event['eventType'][];
