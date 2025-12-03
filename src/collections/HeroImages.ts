@@ -54,9 +54,17 @@ export const HeroImages: CollectionConfig = {
   trash: true,
   upload: {
     pasteURL: false,
-    skipSafeFetch: process.env.SAFE_FETCH_ALLOWLIST
-      ? JSON.parse(process.env.SAFE_FETCH_ALLOWLIST)
-      : false,
+    skipSafeFetch: (() => {
+      if (process.env.SAFE_FETCH_ALLOWLIST) {
+        try {
+          JSON.parse(process.env.SAFE_FETCH_ALLOWLIST);
+        } catch {
+          return false;
+        }
+      }
+
+      return false;
+    })(),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     imageSizes: [
