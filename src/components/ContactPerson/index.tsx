@@ -55,7 +55,11 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           priority={priority}
           quality={90}
           decoding="async"
-          src={(portrait as ContactPortrait).url!}
+          src={
+            (portrait as ContactPortrait).url
+              ? (portrait as ContactPortrait).url!
+              : `/assets/placeholders/contact-${size}.webp`
+          }
           placeholder="blur"
           blurDataURL={blurDataToBlurDataURL((portrait as ContactPortrait)?.blurData)}
           className={portraitVariants({ size, type })}
