@@ -4,7 +4,7 @@ import { APIError, CollectionBeforeChangeHook } from 'payload';
 export const checkSquareHook: CollectionBeforeChangeHook = async ({ data, req }) => {
   const mimeTypeMatcher = new Minimatch('image/*');
 
-  if (!mimeTypeMatcher.match(data.mimeType)) {
+  if (data.mimeType === null || !mimeTypeMatcher.match(data.mimeType)) {
     return data;
   }
 
