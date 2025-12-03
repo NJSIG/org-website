@@ -1,4 +1,5 @@
 import { anyone, editor } from '@/access';
+import { uiTipField } from '@/fields/uiTip';
 import { checkSquareHook, computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 
@@ -19,6 +20,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   trash: true,
   fields: [
+    uiTipField(['Portrait photos should be square and at least 250x250 pixels for best results.']),
     {
       name: 'name',
       type: 'text',
