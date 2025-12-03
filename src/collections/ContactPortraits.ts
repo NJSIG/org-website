@@ -1,5 +1,5 @@
 import { anyone, editor } from '@/access';
-import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { checkSquareHook, computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 
 const webp: ImageUploadFormatOptions = {
@@ -61,6 +61,6 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [computeBlurDataHook],
+    beforeChange: [checkSquareHook, computeBlurDataHook],
   },
 };
