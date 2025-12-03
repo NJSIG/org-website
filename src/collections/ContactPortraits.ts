@@ -1,5 +1,6 @@
 import { anyone, editor } from '@/access';
-import { computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { uiTipField } from '@/fields/uiTip';
+import { checkSquareHook, computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 
 const webp: ImageUploadFormatOptions = {
@@ -19,6 +20,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   trash: true,
   fields: [
+    uiTipField(['Portrait photos should be square and at least 250x250 pixels for best results.']),
     {
       name: 'name',
       type: 'text',
@@ -45,6 +47,14 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   upload: {
     pasteURL: false,
+    skipSafeFetch: [
+      {
+        hostname: 'localhost',
+      },
+      {
+        hostname: process.env.SAFE_FETCH_ALLOW!,
+      },
+    ],
     adminThumbnail: 'original',
     mimeTypes: ['image/*'],
     focalPoint: true,
@@ -58,6 +68,6 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   hooks: {
     beforeOperation: [snakeCaseUploadsHook],
-    beforeChange: [computeBlurDataHook],
+    beforeChange: [checkSquareHook, computeBlurDataHook],
   },
 };

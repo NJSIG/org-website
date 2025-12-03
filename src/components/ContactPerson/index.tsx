@@ -1,4 +1,5 @@
 import { Contact, ContactPortrait } from '@/payload-types';
+import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
 import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { cva } from 'class-variance-authority';
@@ -15,8 +16,8 @@ type ContactPersonProps = {
 const portraitVariants = cva(['rounded-full'], {
   variants: {
     size: {
-      sm: 'border-2',
-      md: 'border-2',
+      sm: 'border-2 size-10',
+      md: 'border-2 size-14',
     },
     type: {
       njsig: 'border-njsig-primary',
@@ -57,8 +58,10 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           src={
             (portrait as ContactPortrait).url
               ? (portrait as ContactPortrait).url!
-              : `/assets/placeholder/contact-${size}.webp`
+              : `/assets/placeholders/contact-${size}.webp`
           }
+          placeholder="blur"
+          blurDataURL={blurDataToBlurDataURL((portrait as ContactPortrait)?.blurData)}
           className={portraitVariants({ size, type })}
           loader={coolifyImageLoader}
         />
@@ -70,7 +73,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           priority={priority}
           decoding="async"
           quality={90}
-          src={`/assets/placeholder/contact-${size}.webp`}
+          src={`/assets/placeholders/contact-${size}.webp`}
           className={portraitVariants({ size, type })}
           unoptimized
           loader={coolifyImageLoader}
