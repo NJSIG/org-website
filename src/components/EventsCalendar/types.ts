@@ -30,7 +30,7 @@ export type EventsCalendarPicker = Pick<
 
 export type EventsCalendarPickerMode = 'month' | 'year';
 
-export type HeaderCellProps = {
+export type EventsCalendarHeaderCellProps = {
   label: { short: string; long: string };
 };
 

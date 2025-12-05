@@ -1,11 +1,11 @@
 'use client';
 
-import { buttonVariants } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
 import { CalendarHeader } from './components/CalendarHeader';
+import { CalendarHeaderCell } from './components/CalendarHeaderCell';
 import { useEventCalendar } from './provider';
-import { DateCellProps, EventsCalendarData, HeaderCellProps } from './types';
+import { DateCellProps, EventsCalendarData } from './types';
 
 const dayLabels = [
   { short: 'Su', long: 'Sunday' },
@@ -39,27 +39,18 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
         />
         <div
           className={cn('grid grid-cols-7 gap-1', {
-            // w-md on larger screens
             'grid-rows-6 h-[464px]': days.length <= 35,
             'grid-rows-7 h-[544px]': days.length > 35,
           })}
         >
           {dayLabels.map((label) => (
-            <HeaderCell key={label.short} label={label} />
+            <CalendarHeaderCell key={label.short} label={label} />
           ))}
           {days.map((day) => (
             <DateCell key={day.date} {...day} />
           ))}
         </div>
       </div>
-    </div>
-  );
-};
-
-const HeaderCell: React.FC<HeaderCellProps> = ({ label }) => {
-  return (
-    <div className="h-16 max-w-16 flex items-center justify-center p-2" aria-label={label.long}>
-      <span className="text-lg font-bold text-foreground">{label.short}</span>
     </div>
   );
 };
@@ -115,63 +106,6 @@ const DateCell: React.FC<DateCellProps> = ({ date, isToday, isInMonth, events })
           ></span>
         ))}
       </div>
-    </div>
-  );
-};
-
-const CalendarFilters: React.FC = () => {
-  const { filters, setFilters } = useEventCalendar();
-  const buttonClasses = cn(
-    buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
-    'flex gap-4 justify-start',
-  );
-
-  return (
-    <div className="flex flex-col gap-4 px-1 items-start">
-      <h4 className="text-xl font-medium">Event Filters</h4>
-      <label className={buttonClasses}>
-        <input
-          className="appearance-none size-2 rounded-full border border-(--event-theme-trustee-accent) checked:bg-(--event-theme-trustee-accent)"
-          aria-label={
-            filters?.includes('trusteeMeeting')
-              ? 'Hide Board of Trustees Meetings'
-              : 'Show Board of Trustees Meetings'
-          }
-          type="checkbox"
-          name="trusteeMeeting"
-          checked={filters?.includes('trusteeMeeting')}
-          onChange={() => setFilters('trusteeMeeting')}
-        />
-        <span>Board of Trustees Meetings</span>
-      </label>
-      <label className={cn(buttonClasses)}>
-        <input
-          className="appearance-none size-2 rounded-full border border-(--event-theme-subfund-accent) checked:bg-(--event-theme-subfund-accent)"
-          aria-label={
-            filters?.includes('subfundMeeting')
-              ? 'Hide Sub-fund Meetings'
-              : 'Show Sub-fund Meetings'
-          }
-          type="checkbox"
-          name="subfundMeeting"
-          checked={filters?.includes('subfundMeeting')}
-          onChange={() => setFilters('subfundMeeting')}
-        />
-        <span>Sub-fund Meetings</span>
-      </label>
-      <label className={cn(buttonClasses)}>
-        <input
-          className="appearance-none size-2 rounded-full border border-(--event-theme-important-accent) checked:bg-(--event-theme-important-accent)"
-          aria-label={
-            filters?.includes('importantDate') ? 'Hide Important Dates' : 'Show Important Dates'
-          }
-          type="checkbox"
-          name="importantDate"
-          checked={filters?.includes('importantDate')}
-          onChange={() => setFilters('importantDate')}
-        />
-        <span>Important Dates</span>
-      </label>
     </div>
   );
 };
