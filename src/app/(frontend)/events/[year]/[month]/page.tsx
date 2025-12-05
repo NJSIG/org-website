@@ -93,8 +93,11 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
               }
 
               if (event.endDate && event.endDate !== null) {
-                const eventStart = Temporal.PlainDate.from(event.startDate);
-                const eventEnd = Temporal.PlainDate.from(event.endDate);
+                // We're slicing the dates here to only include the YYYY-MM-DD
+                // this will be a problem if we ever move to displaying events
+                // in local time for the user.
+                const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
+                const eventEnd = Temporal.PlainDate.from(event.endDate.slice(0, 10));
 
                 return (
                   Temporal.PlainDate.compare(date, eventStart) >= 0 &&
