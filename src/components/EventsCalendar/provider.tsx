@@ -3,7 +3,8 @@ import { createContext, use, useCallback, useState } from 'react';
 import { EventCalendarContextType } from './types';
 
 const initialContext: EventCalendarContextType = {
-  filters: ['trusteeMeeting', 'subfundMeeting', 'importantDate'],
+  totalFilters: 5,
+  filters: ['trusteeMeeting', 'subfundMeeting', 'importantDate', 'njsigEvent', 'otherEvent'],
   setFilters: () => null,
 };
 
@@ -38,7 +39,13 @@ export const EventCalendarProvider = ({ children }: { children: React.ReactNode 
     [filters],
   );
 
-  return <EventCalendarContext value={{ filters, setFilters }}>{children}</EventCalendarContext>;
+  return (
+    <EventCalendarContext
+      value={{ totalFilters: initialContext.totalFilters, filters, setFilters }}
+    >
+      {children}
+    </EventCalendarContext>
+  );
 };
 
 export const useEventCalendar = (): EventCalendarContextType => use(EventCalendarContext);

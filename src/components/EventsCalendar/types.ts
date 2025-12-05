@@ -23,6 +23,13 @@ export type EventsCalendarHeader = Pick<
   'currentMonth' | 'currentYear' | 'yearRange' | 'nextMonthURL' | 'prevMonthURL' | 'allowFiltering'
 >;
 
+export type EventsCalendarPicker = Pick<
+  EventsCalendarHeader,
+  'currentMonth' | 'currentYear' | 'yearRange'
+>;
+
+export type EventsCalendarPickerMode = 'month' | 'year';
+
 export type HeaderCellProps = {
   label: { short: string; long: string };
 };
@@ -35,6 +42,7 @@ export type DateCellProps = {
 };
 
 export type EventCalendarContextType = {
+  totalFilters: number;
   filters: Event['eventType'][] | null;
   setFilters: (filters: Event['eventType'] | null) => void;
 };

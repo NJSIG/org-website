@@ -1,13 +1,11 @@
 'use client';
 
 import { buttonVariants } from '@/primitives/ui/button';
-import { Popover, PopoverTrigger } from '@/primitives/ui/popover';
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon } from 'lucide-react';
-import Link from 'next/link';
+import { CalendarHeader } from './components/CalendarHeader';
 import { useEventCalendar } from './provider';
-import { DateCellProps, EventsCalendarData, EventsCalendarHeader, HeaderCellProps } from './types';
+import { DateCellProps, EventsCalendarData, HeaderCellProps } from './types';
 
 const dayLabels = [
   { short: 'Su', long: 'Sunday' },
@@ -19,13 +17,6 @@ const dayLabels = [
   { short: 'Sa', long: 'Saturday' },
 ];
 
-const navButtonVariant = buttonVariants({
-  variant: 'icon',
-  style: 'ghost',
-  color: 'primary',
-  size: 'medium',
-});
-
 const EventsCalendar: React.FC<EventsCalendarData> = ({
   currentMonth,
   currentYear,
@@ -36,7 +27,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
   allowFiltering = true,
 }) => {
   return (
-    <div className="flex flex-col gap-6 max-w-[480px] mx-auto">
+    <div className="flex flex-col gap-6 w-full max-w-[480px] mx-auto">
       <div className="flex flex-col gap-4">
         <CalendarHeader
           currentMonth={currentMonth}
@@ -47,7 +38,8 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           allowFiltering={allowFiltering}
         />
         <div
-          className={cn('grid grid-cols-7 w-md gap-1', {
+          className={cn('grid grid-cols-7 gap-1', {
+            // w-md on larger screens
             'grid-rows-6 h-[464px]': days.length <= 35,
             'grid-rows-7 h-[544px]': days.length > 35,
           })}
@@ -60,52 +52,6 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
           ))}
         </div>
       </div>
-      {allowFiltering && <CalendarFilters />}
-    </div>
-  );
-};
-
-const CalendarHeader: React.FC<EventsCalendarHeader> = ({
-  currentMonth,
-  currentYear,
-  yearRange,
-  nextMonthURL,
-  prevMonthURL,
-  allowFiltering,
-}) => {
-  const { filters } = useEventCalendar();
-
-  return (
-    <div className="flex gap-2 items-center">
-      <Link
-        href={prevMonthURL}
-        aria-label="Previous Month"
-        className={cn(buttonVariants({ animation: 'bounceLeft' }), navButtonVariant)}
-      >
-        <ChevronLeftIcon size={24} />
-      </Link>
-      <h3 className="text-xl font-medium text-foreground grow">
-        {currentMonth.long} {currentYear}
-      </h3>
-      {allowFiltering && (
-        <Popover>
-          <PopoverTrigger
-            className={cn(buttonVariants({ animation: 'bounceDown' }), navButtonVariant)}
-          >
-            <FilterIcon
-              size={24}
-              className={cn({ 'fill-foreground': filters && filters?.length > 0 })}
-            />
-          </PopoverTrigger>
-        </Popover>
-      )}
-      <Link
-        href={nextMonthURL}
-        aria-label="Next Month"
-        className={cn(buttonVariants({ animation: 'bounceRight' }), navButtonVariant)}
-      >
-        <ChevronRightIcon size={24} />
-      </Link>
     </div>
   );
 };
