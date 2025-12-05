@@ -48,6 +48,7 @@ const queryEventsByYearAndMonth = cache(
         slug: true,
         startDate: true,
         startTime: true,
+        endDate: true,
         eventType: true,
         title: true,
         categories: true,
@@ -86,7 +87,23 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
       events: [
         ...new Set(
           events
-            .filter((event) => event.startDate.includes(date.toString()))
+            .filter((event) => {
+              if (event.startDate.includes(date.toString())) {
+                return true;
+              }
+
+              if (event.endDate && event.endDate !== null) {
+                const eventStart = Temporal.PlainDate.from(event.startDate);
+                const eventEnd = Temporal.PlainDate.from(event.endDate);
+
+                return (
+                  Temporal.PlainDate.compare(date, eventStart) >= 0 &&
+                  Temporal.PlainDate.compare(date, eventEnd) <= 0
+                );
+              }
+
+              return false;
+            })
             .map((event) => event.eventType),
         ),
       ],
