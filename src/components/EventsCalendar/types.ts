@@ -34,7 +34,7 @@ export type EventsCalendarHeaderCellProps = {
   label: { short: string; long: string };
 };
 
-export type DateCellProps = {
+export type EventsCalendarDayCellProps = {
   date: string;
   isToday: boolean;
   isInMonth: boolean;
