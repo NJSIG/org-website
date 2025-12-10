@@ -1,5 +1,6 @@
 import { EventCardData } from '@/components/EventCard/types';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
+import { Event } from '@/payload-types';
 import { Temporal } from '@js-temporal/polyfill';
 import configPromise from '@payload-config';
 import { draftMode } from 'next/headers';
@@ -76,7 +77,7 @@ const queryEventsByYearAndMonth = cache(
   },
 );
 
-const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCardData[]) => {
+const generateCalendarData = (reqYear: string, reqMonth: string, events: Event[]) => {
   const currMonth = Temporal.PlainDate.from({
     year: Number(reqYear),
     month: Number(reqMonth),
@@ -104,24 +105,18 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
         ...new Set(
           events
             .filter((event) => {
-              if (event.startDate.includes(date.toString())) {
-                return true;
-              }
+              // We're slicing the dates here to only include the YYYY-MM-DD
+              // this will be a problem if we ever move to displaying events
+              // in local time for the user.
+              const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
+              const eventEnd = event.endDate
+                ? Temporal.PlainDate.from(event.endDate.slice(0, 10))
+                : eventStart;
 
-              if (event.endDate && event.endDate !== null) {
-                // We're slicing the dates here to only include the YYYY-MM-DD
-                // this will be a problem if we ever move to displaying events
-                // in local time for the user.
-                const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
-                const eventEnd = Temporal.PlainDate.from(event.endDate.slice(0, 10));
-
-                return (
-                  Temporal.PlainDate.compare(date, eventStart) >= 0 &&
-                  Temporal.PlainDate.compare(date, eventEnd) <= 0
-                );
-              }
-
-              return false;
+              return (
+                Temporal.PlainDate.compare(date, eventStart) >= 0 &&
+                Temporal.PlainDate.compare(date, eventEnd) <= 0
+              );
             })
             .map((event) => event.eventType),
         ),
@@ -137,7 +132,7 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
       long: currMonth.toLocaleString('en-US', { month: 'long' }),
     },
     currentYear: currMonth.year,
-    yearRange: Array.from({ length: 2099 - 1983 }, (_, i) => 1983 + i),
+    yearRange: Array.from({ length: 2100 - 1983 }, (_, i) => 1983 + i),
     nextMonthURL: `/events/${nextMonth.year}/${nextMonth.toLocaleString('en-US', { month: '2-digit' })}`,
     prevMonthURL: `/events/${prevMonth.year}/${prevMonth.toLocaleString('en-US', { month: '2-digit' })}`,
     days,
@@ -147,13 +142,34 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: EventCa
 export default async function EventsPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
   const { year, month } = await paramsPromise;
-  const events = await queryEventsByYearAndMonth({ year, month });
+  const eventsInCalendarSquare = await queryEventsByYearAndMonth({ year, month });
+  const calendarData = generateCalendarData(year, month, eventsInCalendarSquare || []);
 
-  const calendarData = generateCalendarData(year, month, events || []);
+  const monthStartDate = Temporal.PlainDate.from({
+    year: Number(year),
+    month: Number(month),
+    day: 1,
+  });
+
+  const monthEndDate = monthStartDate.add({ days: monthStartDate.daysInMonth - 1 });
+
+  const eventsInMonth = eventsInCalendarSquare
+    ? eventsInCalendarSquare.filter((event) => {
+        // We're slicing the dates here to only include the YYYY-MM-DD
+        // this will be a problem if we ever move to displaying events
+        // in local time for the user.
+        const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
+
+        return (
+          Temporal.PlainDate.compare(eventStart, monthStartDate) >= 0 &&
+          Temporal.PlainDate.compare(eventStart, monthEndDate) <= 0
+        );
+      })
+    : [];
 
   return (
     <section>
-      <EventsPageClient calendarData={calendarData} events={events} />
+      <EventsPageClient calendarData={calendarData} events={eventsInMonth as EventCardData[]} />
       {draft && <LivePreviewListener />}
     </section>
   );
