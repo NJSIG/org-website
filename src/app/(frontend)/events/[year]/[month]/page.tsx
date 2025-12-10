@@ -45,13 +45,21 @@ const queryEventsByYearAndMonth = cache(
       draft,
       pagination: false,
       where: {
-        and: [
+        or: [
           {
             startDate: {
               greater_than_equal: queryStartDate.toString(),
               less_than_equal: queryEndDate.toString(),
             },
           },
+          {
+            endDate: {
+              greater_than_equal: queryStartDate.toString(),
+              less_than_equal: queryEndDate.toString(),
+            },
+          },
+        ],
+        and: [
           {
             _status: {
               equals: 'published',
@@ -101,26 +109,22 @@ const generateCalendarData = (reqYear: string, reqMonth: string, events: Event[]
       date: date.toString(),
       isInMonth: !(i < currMonthStartDow || i - currMonthStartDow >= currMonthLength),
       isToday: Temporal.Now.plainDateISO().equals(date),
-      events: [
-        ...new Set(
-          events
-            .filter((event) => {
-              // We're slicing the dates here to only include the YYYY-MM-DD
-              // this will be a problem if we ever move to displaying events
-              // in local time for the user.
-              const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
-              const eventEnd = event.endDate
-                ? Temporal.PlainDate.from(event.endDate.slice(0, 10))
-                : eventStart;
+      events: events
+        .filter((event) => {
+          // We're slicing the dates here to only include the YYYY-MM-DD
+          // this will be a problem if we ever move to displaying events
+          // in local time for the user.
+          const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
+          const eventEnd = event.endDate
+            ? Temporal.PlainDate.from(event.endDate.slice(0, 10))
+            : eventStart;
 
-              return (
-                Temporal.PlainDate.compare(date, eventStart) >= 0 &&
-                Temporal.PlainDate.compare(date, eventEnd) <= 0
-              );
-            })
-            .map((event) => event.eventType),
-        ),
-      ],
+          return (
+            Temporal.PlainDate.compare(date, eventStart) >= 0 &&
+            Temporal.PlainDate.compare(date, eventEnd) <= 0
+          );
+        })
+        .map((event) => ({ id: event.id, eventType: event.eventType })),
     };
   });
 
@@ -159,10 +163,15 @@ export default async function EventsPage({ params: paramsPromise }: Args) {
         // this will be a problem if we ever move to displaying events
         // in local time for the user.
         const eventStart = Temporal.PlainDate.from(event.startDate.slice(0, 10));
+        const eventEnd = event.endDate
+          ? Temporal.PlainDate.from(event.endDate.slice(0, 10))
+          : eventStart;
 
         return (
-          Temporal.PlainDate.compare(eventStart, monthStartDate) >= 0 &&
-          Temporal.PlainDate.compare(eventStart, monthEndDate) <= 0
+          (Temporal.PlainDate.compare(eventStart, monthStartDate) >= 0 &&
+            Temporal.PlainDate.compare(eventStart, monthEndDate) <= 0) ||
+          (Temporal.PlainDate.compare(eventEnd, monthStartDate) >= 0 &&
+            Temporal.PlainDate.compare(eventEnd, monthEndDate) <= 0)
         );
       })
     : [];
