@@ -11,6 +11,10 @@ type Args = {
   params: Promise<{ year: string; month: string }>;
 };
 
+/**
+ * Query events by year and month from Payload CMS. The result includes
+ * events for the surrounding days to fill out the calendar grid.
+ */
 const queryEventsByYearAndMonth = cache(
   async ({ year, month }: { year: string; month: string }) => {
     if (!year || !month) {
@@ -20,8 +24,20 @@ const queryEventsByYearAndMonth = cache(
     const { isEnabled: draft } = await draftMode();
     const payload = await getPayload({ config: configPromise });
 
-    const startDate = Temporal.PlainDate.from({ year: Number(year), month: Number(month), day: 1 });
-    const endDate = startDate.add({ days: startDate.daysInMonth - 1 });
+    const monthStartDate = Temporal.PlainDate.from({
+      year: Number(year),
+      month: Number(month),
+      day: 1,
+    });
+
+    // We start 6 days before the beginning of the month to ensure we capture
+    // all events that may appear in the first week of the calendar grid.
+    const queryStartDate = monthStartDate.add({ days: -6 });
+
+    // We end 6 days after the end of the month to ensure we capture
+    // all events that may appear in the last week of the calendar grid.
+    // Note: daysInMonth gives us the length of the month so we only need to add 5 here.
+    const queryEndDate = monthStartDate.add({ days: monthStartDate.daysInMonth + 5 });
 
     const result = await payload.find({
       collection: 'events',
@@ -31,8 +47,8 @@ const queryEventsByYearAndMonth = cache(
         and: [
           {
             startDate: {
-              greater_than_equal: startDate.toString(),
-              less_than_equal: endDate.toString(),
+              greater_than_equal: queryStartDate.toString(),
+              less_than_equal: queryEndDate.toString(),
             },
           },
           {
