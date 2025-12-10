@@ -41,7 +41,7 @@ export type EventsCalendarDayCellProps = {
   events: Event['eventType'][];
 };
 
-export type EventCalendarContextType = {
+export type EventsCalendarContextType = {
   totalFilters: number;
   filters: Event['eventType'][] | null;
   setFilters: (filters: Event['eventType'] | null) => void;

@@ -6,8 +6,8 @@ import { CalendarFold, ChevronLeftIcon, ChevronRightIcon, FilterIcon } from 'luc
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { useEventCalendar } from '../../provider';
-import { EventsCalendarHeader, EventsCalendarPicker } from '../../types';
+import { useEventsCalendar } from '../../provider';
+import { EventsCalendarContextType, EventsCalendarHeader, EventsCalendarPicker } from '../../types';
 
 const navButtonVariant = buttonVariants({
   variant: 'icon',
@@ -152,7 +152,7 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
 };
 
 const CalendarFilters: React.FC = () => {
-  const { totalFilters, filters, setFilters } = useEventCalendar();
+  const { totalFilters, filters, setFilters } = useEventsCalendar();
   const filterButtonVariant = cn(
     buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
     'flex gap-4 justify-start',
@@ -173,105 +173,90 @@ const CalendarFilters: React.FC = () => {
             <p className="text-muted-foreground text-sm">Show and hide events by type.</p>
           </div>
           <div className="grid gap-2">
-            {/* Trustee Meetings */}
-            <label
-              className={cn(filterButtonVariant, 'event-theme-trustee cursor-pointer', {
-                'bg-(--event-theme-background)': filters?.includes('trusteeMeeting'),
-              })}
-            >
-              <input
-                className="appearance-none size-3 rounded-sm border-2 border-(--event-theme-accent) checked:bg-(--event-theme-accent)"
-                aria-label={
-                  filters?.includes('trusteeMeeting')
-                    ? 'Hide Board of Trustees Meetings'
-                    : 'Show Board of Trustees Meetings'
-                }
-                type="checkbox"
-                name="trusteeMeeting"
-                checked={filters?.includes('trusteeMeeting')}
-                onChange={() => setFilters('trusteeMeeting')}
-              />
-              <span>Board of Trustees Meetings</span>
-            </label>
-            {/* Sub-fund Meetings */}
-            <label
-              className={cn(filterButtonVariant, 'event-theme-subfund cursor-pointer', {
-                'bg-(--event-theme-background)': filters?.includes('subfundMeeting'),
-              })}
-            >
-              <input
-                className="appearance-none size-3 rounded-sm border-2 border-(--event-theme-accent) checked:bg-(--event-theme-accent)"
-                aria-label={
-                  filters?.includes('subfundMeeting')
-                    ? 'Hide Sub-fund Meetings'
-                    : 'Show Sub-fund Meetings'
-                }
-                type="checkbox"
-                name="subfundMeeting"
-                checked={filters?.includes('subfundMeeting')}
-                onChange={() => setFilters('subfundMeeting')}
-              />
-              <span>Sub-fund Meetings</span>
-            </label>
-            {/* NJSIG Events */}
-            <label
-              className={cn(filterButtonVariant, 'event-theme-njsig cursor-pointer', {
-                'bg-(--event-theme-background)': filters?.includes('njsigEvent'),
-              })}
-            >
-              <input
-                className="appearance-none size-3 rounded-sm border-2 border-(--event-theme-accent) checked:bg-(--event-theme-accent)"
-                aria-label={
-                  filters?.includes('njsigEvent') ? 'Hide NJSIG Events' : 'Show NJSIG Events'
-                }
-                type="checkbox"
-                name="njsigEvent"
-                checked={filters?.includes('njsigEvent')}
-                onChange={() => setFilters('njsigEvent')}
-              />
-              <span>NJSIG Events</span>
-            </label>
-            {/* Other Events */}
-            <label
-              className={cn(filterButtonVariant, 'event-theme-other cursor-pointer', {
-                'bg-(--event-theme-background)': filters?.includes('otherEvent'),
-              })}
-            >
-              <input
-                className="appearance-none size-3 rounded-sm border-2 border-(--event-theme-accent) checked:bg-(--event-theme-accent)"
-                aria-label={
-                  filters?.includes('otherEvent') ? 'Hide Other Events' : 'Show Other Events'
-                }
-                type="checkbox"
-                name="otherEvent"
-                checked={filters?.includes('otherEvent')}
-                onChange={() => setFilters('otherEvent')}
-              />
-              <span>Other Events</span>
-            </label>
-            {/* Important Dates */}
-            <label
-              className={cn(filterButtonVariant, 'event-theme-important cursor-pointer', {
-                'bg-(--event-theme-background)': filters?.includes('importantDate'),
-              })}
-            >
-              <input
-                className="appearance-none size-3 rounded-sm border-2 border-(--event-theme-accent) checked:bg-(--event-theme-accent)"
-                aria-label={
-                  filters?.includes('importantDate')
-                    ? 'Hide Important Dates'
-                    : 'Show Important Dates'
-                }
-                type="checkbox"
-                name="importantDate"
-                checked={filters?.includes('importantDate')}
-                onChange={() => setFilters('importantDate')}
-              />
-              <span>Important Dates</span>
-            </label>
+            <CalendarFilterButton
+              filter="trusteeMeeting"
+              eventClass="event-theme-trustee"
+              label={{
+                singular: 'Board of Trustees Meeting',
+                plural: 'Board of Trustees Meetings',
+              }}
+              isActive={filters?.includes('trusteeMeeting') || false}
+              toggleFilter={setFilters}
+            />
+            <CalendarFilterButton
+              filter="subfundMeeting"
+              eventClass="event-theme-subfund"
+              label={{
+                singular: 'Sub-fund Meeting',
+                plural: 'Sub-fund Meetings',
+              }}
+              isActive={filters?.includes('subfundMeeting') || false}
+              toggleFilter={setFilters}
+            />
+            <CalendarFilterButton
+              filter="njsigEvent"
+              eventClass="event-theme-njsig"
+              label={{
+                singular: 'NJSIG Event',
+                plural: 'NJSIG Events',
+              }}
+              isActive={filters?.includes('njsigEvent') || false}
+              toggleFilter={setFilters}
+            />
+            <CalendarFilterButton
+              filter="otherEvent"
+              eventClass="event-theme-other"
+              label={{
+                singular: 'Other Event',
+                plural: 'Other Events',
+              }}
+              isActive={filters?.includes('otherEvent') || false}
+              toggleFilter={setFilters}
+            />
+            <CalendarFilterButton
+              filter="importantDate"
+              eventClass="event-theme-important"
+              label={{
+                singular: 'Important Date',
+                plural: 'Important Dates',
+              }}
+              isActive={filters?.includes('importantDate') || false}
+              toggleFilter={setFilters}
+            />
           </div>
         </div>
       </PopoverContent>
     </Popover>
+  );
+};
+
+const CalendarFilterButton: React.FC<{
+  filter: NonNullable<EventsCalendarContextType['filters']>[number];
+  label: { singular: string; plural: string };
+  eventClass: string;
+  isActive: boolean;
+  toggleFilter: (filter: NonNullable<EventsCalendarContextType['filters']>[number]) => void;
+}> = ({ filter, label, eventClass, isActive, toggleFilter }) => {
+  const filterButtonVariant = cn(
+    buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
+    'flex gap-4 justify-start',
+  );
+
+  return (
+    <label
+      className={cn(eventClass, filterButtonVariant, 'cursor-pointer', {
+        'bg-(--event-theme-background)': isActive,
+      })}
+    >
+      <input
+        className="appearance-none size-3 rounded-sm bg-(--event-theme-accent)/40 checked:bg-(--event-theme-accent)"
+        aria-label={`${isActive ? 'Hide' : 'Show'} ${label.plural}`}
+        type="checkbox"
+        name={filter}
+        checked={isActive}
+        onChange={() => toggleFilter(filter)}
+      />
+      <span>{label.singular}</span>
+    </label>
   );
 };

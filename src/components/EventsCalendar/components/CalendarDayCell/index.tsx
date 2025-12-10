@@ -1,7 +1,7 @@
 import { cn } from '@/utilities/cn';
 import { Temporal } from '@js-temporal/polyfill';
-import { useEventCalendar } from '../../provider';
-import { EventsCalendarDayCellProps } from '../../types';
+import { useEventsCalendar } from '../../provider';
+import { EventsCalendarContextType, EventsCalendarDayCellProps } from '../../types';
 
 export const CalendarDayCell: React.FC<EventsCalendarDayCellProps> = ({
   date,
@@ -9,7 +9,7 @@ export const CalendarDayCell: React.FC<EventsCalendarDayCellProps> = ({
   isInMonth,
   events,
 }) => {
-  const { filters } = useEventCalendar();
+  const { filters } = useEventsCalendar();
   const label = Temporal.PlainDate.from(date).toLocaleString('en-US', { day: '2-digit' });
   const srLabel = Temporal.PlainDate.from(date).toLocaleString('en-US', {
     month: 'long',
@@ -26,42 +26,52 @@ export const CalendarDayCell: React.FC<EventsCalendarDayCellProps> = ({
     <div
       aria-label={ariaLabel}
       aria-hidden={!isInMonth || !events.length}
-      className={cn(
-        'h-20 max-w-16 flex flex-col items-center justify-start rounded-lg px-2 py-4 border-2 border-transparent',
-        {
-          'border-njsig-primary bg-njsig-background': isToday,
-          'bg-njsig-neutral-tint': !isInMonth,
-        },
-      )}
+      className={cn('h-20 max-w-16 flex flex-col items-center justify-start rounded-lg px-2 py-4', {
+        'bg-njsig-neutral-tint': !isInMonth,
+      })}
     >
       <span
-        className={cn('text-lg', {
-          'text-foreground font-medium': isInMonth,
-          'text-foreground-muted': !isInMonth,
-          'font-semibold': events.length > 0,
-          'font-extrabold': isToday,
+        className={cn('text-lg font-medium rounded-lg size-8 flex items-center justify-center', {
+          'text-foreground': isInMonth,
+          'text-foreground-muted font-light': !isInMonth,
+          'bg-njsig-shade text-foreground-inverted font-semibold': isToday,
         })}
       >
         <time dateTime={date}>{label}</time>
       </span>
-      <div className="flex gap-1 px-0.5 items-center mx-auto">
-        {events.map((event) => (
-          <span
-            key={event}
-            className={cn('rounded-full size-1.5 border', {
-              'border-(--event-theme-trustee-accent)': event === 'trusteeMeeting',
-              'bg-(--event-theme-trustee-accent)':
-                event === 'trusteeMeeting' && filters?.includes('trusteeMeeting'),
-              'border-(--event-theme-subfund-accent)': event === 'subfundMeeting',
-              'bg-(--event-theme-subfund-accent)':
-                event === 'subfundMeeting' && filters?.includes('subfundMeeting'),
-              'border-(--event-theme-important-accent)': event === 'importantDate',
-              'bg-(--event-theme-important-accent)':
-                event === 'importantDate' && filters?.includes('importantDate'),
-            })}
-          ></span>
-        ))}
-      </div>
+      <CalendarEventMarkers events={events} isInMonth={isInMonth} filters={filters} />
+    </div>
+  );
+};
+
+const CalendarEventMarkers: React.FC<
+  Pick<EventsCalendarDayCellProps, 'events' | 'isInMonth'> &
+    Pick<EventsCalendarContextType, 'filters'>
+> = ({ events, isInMonth, filters }) => {
+  if (events.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center justify-center px-0.5 w-full h-full">
+      {events.map((event) => (
+        <span
+          key={event}
+          className={cn(
+            {
+              'event-theme-trustee': event === 'trusteeMeeting',
+              'event-theme-subfund': event === 'subfundMeeting',
+              'event-theme-njsig': event === 'njsigEvent',
+              'event-theme-other': event === 'otherEvent',
+              'event-theme-important': event === 'importantDate',
+            },
+            'grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/40',
+            {
+              'bg-(--event-theme-accent)': filters?.includes(event) && isInMonth,
+            },
+          )}
+        ></span>
+      ))}
     </div>
   );
 };

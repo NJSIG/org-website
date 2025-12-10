@@ -1,17 +1,17 @@
 import { Event } from '@/payload-types';
 import { createContext, use, useCallback, useState } from 'react';
-import { EventCalendarContextType } from './types';
+import { EventsCalendarContextType } from './types';
 
-const initialContext: EventCalendarContextType = {
+const initialContext: EventsCalendarContextType = {
   totalFilters: 5,
   filters: ['trusteeMeeting', 'subfundMeeting', 'importantDate', 'njsigEvent', 'otherEvent'],
   setFilters: () => null,
 };
 
-const EventCalendarContext = createContext<EventCalendarContextType>(initialContext);
+const EventsCalendarContext = createContext<EventsCalendarContextType>(initialContext);
 
-export const EventCalendarProvider = ({ children }: { children: React.ReactNode }) => {
-  const [filters, setFilterState] = useState<EventCalendarContextType['filters']>(
+export const EventsCalendarProvider = ({ children }: { children: React.ReactNode }) => {
+  const [filters, setFilterState] = useState<EventsCalendarContextType['filters']>(
     initialContext.filters,
   );
 
@@ -40,12 +40,12 @@ export const EventCalendarProvider = ({ children }: { children: React.ReactNode 
   );
 
   return (
-    <EventCalendarContext
+    <EventsCalendarContext
       value={{ totalFilters: initialContext.totalFilters, filters, setFilters }}
     >
       {children}
-    </EventCalendarContext>
+    </EventsCalendarContext>
   );
 };
 
-export const useEventCalendar = (): EventCalendarContextType => use(EventCalendarContext);
+export const useEventsCalendar = (): EventsCalendarContextType => use(EventsCalendarContext);
