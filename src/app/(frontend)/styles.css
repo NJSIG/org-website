@@ -621,8 +621,9 @@
   /* Event Page */
   --event-theme-background: var(--color-njsig-neutral-background);
   --event-theme-foreground: var(--color-foreground);
-  --event-theme-accent: var(--color-njsig-neutral-shade);
-  --event-theme-accent-foreground: var(--color-foreground-inverted);
+  --event-theme-accent: var(--color-njsig-neutral-midtone);
+  --event-theme-shade: var(--color-njsig-neutral-shade);
+  --event-theme-shade-foreground: var(--color-foreground-inverted);
 
   /* Bento */
   --bento-icon-stroke: var(--color-njsig-primary);
@@ -779,34 +780,39 @@
     --event-theme-background: var(--color-bacceic-background);
     --event-theme-foreground: var(--color-foreground);
     --event-theme-accent: var(--color-bacceic-midtone);
-    --event-theme-accent-foreground: var(--color-foreground-inverted);
+    --event-theme-shade: var(--color-bacceic-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 
   .event-theme-trustee {
     --event-theme-background: var(--color-caip-background);
     --event-theme-foreground: var(--color-foreground);
     --event-theme-accent: var(--color-caip-midtone);
-    --event-theme-accent-foreground: var(--color-foreground-inverted);
+    --event-theme-shade: var(--color-caip-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 
   .event-theme-subfund {
     --event-theme-background: var(--color-ericwest-background);
     --event-theme-foreground: var(--color-foreground);
     --event-theme-accent: var(--color-ericwest-midtone);
-    --event-theme-accent-foreground: var(--color-foreground-inverted);
+    --event-theme-shade: var(--color-ericwest-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 
   .event-theme-other {
     --event-theme-background: var(--color-ericsouth-background);
     --event-theme-foreground: var(--color-foreground);
     --event-theme-accent: var(--color-ericsouth-midtone);
-    --event-theme-accent-foreground: var(--color-foreground-inverted);
+    --event-theme-shade: var(--color-ericsouth-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 
   .event-theme-important {
     --event-theme-background: var(--color-mocssif-background);
     --event-theme-foreground: var(--color-foreground);
     --event-theme-accent: var(--color-mocssif-midtone);
-    --event-theme-accent-foreground: var(--color-foreground-inverted);
+    --event-theme-shade: var(--color-mocssif-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 }

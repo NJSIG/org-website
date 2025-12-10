@@ -3,37 +3,43 @@
 import { Event } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { generateEventLink } from '@/utilities/generateEventLink';
-import { ArrowUpRightIcon } from 'lucide-react';
+import {
+  ArrowUpRightIcon,
+  BoxesIcon,
+  CalendarX2Icon,
+  CircleAlertIcon,
+  ShapesIcon,
+  TriangleIcon,
+  UsersIcon,
+} from 'lucide-react';
 import Link from 'next/link';
-import RichText from '../RichText';
 import { SubfundPill } from '../SubfundPill';
 import { EventCardData } from './types';
 
 const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
-  const { eventType, startDate, title, description, categories } = event;
+  const { eventType, startDate, endDate, title, categories } = event;
   const href = generateEventLink(event);
 
   return (
     <article
-      className={cn('rounded-3xl group/event-card', {
-        'bg-(--event-theme-trustee-background) text-(--event-theme-trustee-foreground)':
-          eventType === 'trusteeMeeting',
-        'bg-(--event-theme-subfund-background) text-(--event-theme-subfund-foreground)':
-          eventType === 'subfundMeeting',
-        'bg-(--event-theme-important-background) text-(--event-theme-important-foreground)':
-          eventType === 'importantDate',
-      })}
+      className={cn(
+        {
+          'event-theme-trustee': eventType === 'trusteeMeeting',
+          'event-theme-subfund': eventType === 'subfundMeeting',
+          'event-theme-njsig': eventType === 'njsigEvent',
+          'event-theme-other': eventType === 'otherEvent',
+          'event-theme-important': eventType === 'importantDate',
+        },
+        'rounded-3xl group/event-card relative overflow-hidden bg-njsig-neutral-tint p-4 hover:bg-(--event-theme-accent)/15 transition-colors cursor-pointer',
+      )}
     >
-      <Link href={href} className="flex">
-        <EventDateLabel eventType={eventType} startDate={startDate} />
-        <div className="flex flex-col gap-4 grow pl-4 py-3.5">
-          <div className="flex flex-col gap-2">
-            <EventTypeLabel eventType={eventType} />
-            <h3 className="font-bold">{title}</h3>
-            {description && <RichText className="text-xs" enableProse={false} data={description} />}
-          </div>
+      <Link href={href}>
+        <EventLabel startDate={startDate} endDate={endDate} />
+        <h3 className="font-light tracking-wide text-2xl mb-4">{title}</h3>
+        <div className="flex items-center justify-between">
+          <EventType eventType={eventType} />
           {categories && categories.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-auto">
+            <div className="flex items-center gap-1">
               {event.categories.map((category) => {
                 if (
                   typeof category !== 'object' ||
@@ -46,87 +52,109 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
                 }
 
                 return (
-                  <SubfundPill key={category.id} theme={category.slug} label={category.name} />
+                  <SubfundPill
+                    key={category.id}
+                    theme={category.slug}
+                    label={category.name.toUpperCase()}
+                  />
                 );
               })}
             </div>
           )}
-        </div>
-        <div className="py-3.5 pr-5 hidden lg:block">
-          <ArrowUpRightIcon
-            className={cn(
-              'opacity-0 group-hover/event-card:opacity-100 group-hover/event-card:animate-micro-up-right',
-              {
-                'stroke-(--event-theme-trustee-accent)': eventType === 'trusteeMeeting',
-                'stroke-(--event-theme-subfund-accent)': eventType === 'subfundMeeting',
-                'stroke-(--event-theme-important-accent)': eventType === 'importantDate',
-              },
-            )}
-          />
         </div>
       </Link>
     </article>
   );
 };
 
-const EventDateLabel: React.FC<{ eventType: Event['eventType']; startDate: string }> = ({
-  eventType,
-  startDate: startDateFromProps,
-}) => {
+const EventLabel: React.FC<{
+  startDate: string;
+  endDate?: string | null;
+}> = ({ startDate: startDateFromProps, endDate: endDateFromProps }) => {
   const startDate = new Date(startDateFromProps);
-  const formattedMonth = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(startDate);
-  const formattedDay = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate);
-  const formattedAriaLabel = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(startDate);
+  const endDate = endDateFromProps ? new Date(endDateFromProps) : undefined;
 
+  const formattedStartMonth = new Intl.DateTimeFormat('en-US', { month: 'short' })
+    .format(startDate)
+    .toUpperCase();
+
+  const formattedStartDay = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate);
+
+  const formattedEndMonth = endDate
+    ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(endDate).toUpperCase()
+    : undefined;
+
+  const formattedEndDay = endDate
+    ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(endDate)
+    : undefined;
   return (
-    <div
-      aria-label={`Event on ${formattedAriaLabel}`}
-      className={cn('w-24 rounded-3xl flex flex-col items-center justify-center shrink-0', {
-        'bg-(--event-theme-trustee-accent) text-(--event-theme-trustee-accent-foreground)':
-          eventType === 'trusteeMeeting',
-        'bg-(--event-theme-subfund-accent) text-(--event-theme-subfund-accent-foreground)':
-          eventType === 'subfundMeeting',
-        'bg-(--event-theme-important-accent) text-(--event-theme-important-accent-foreground)':
-          eventType === 'importantDate',
-      })}
-    >
-      <span className="text-xl font-bold uppercase">{formattedMonth}</span>
-      <span className="text-5xl font-light">{formattedDay}</span>
-    </div>
+    <small className="flex items-center justify-between text-(--event-theme-shade)">
+      <span className="text-sm font-semibold">
+        <time dateTime={startDate.toString()}>
+          {formattedStartMonth} {formattedStartDay}
+        </time>
+        {endDate && (
+          <>
+            {' - '}
+            <time dateTime={endDate.toString()}>
+              {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''} {formattedEndDay}
+            </time>
+          </>
+        )}
+      </span>
+      <ArrowUpRightIcon size={24} className="group-hover/event-card:animate-micro-up-right" />
+    </small>
   );
 };
 
-const EventTypeLabel: React.FC<{ eventType: string }> = ({ eventType }) => {
-  let eventTypeLabel = 'Unknown Event Type';
+const EventType: React.FC<Pick<Event, 'eventType'>> = ({ eventType }) => {
+  const iconSize = 14;
+  const spanClassName = 'inline-flex items-center gap-1 text-sm text-(--event-theme-shade)';
 
   switch (eventType) {
     case 'trusteeMeeting':
-      eventTypeLabel = 'Board of Trustees Meeting';
-      break;
+      return (
+        <span className={spanClassName}>
+          <UsersIcon size={iconSize} />
+          <span>Board of Trustees Meeting</span>
+        </span>
+      );
     case 'subfundMeeting':
-      eventTypeLabel = 'Sub-fund Meeting';
-      break;
+      return (
+        <span className={spanClassName}>
+          <BoxesIcon size={iconSize} />
+          <span>Sub-fund Meeting</span>
+        </span>
+      );
+    case 'njsigEvent':
+      return (
+        <span className={spanClassName}>
+          <TriangleIcon size={iconSize} />
+          <span>NJSIG Event</span>
+        </span>
+      );
+    case 'otherEvent':
+      return (
+        <span className={spanClassName}>
+          <ShapesIcon size={iconSize} />
+          <span>Other Event</span>
+        </span>
+      );
     case 'importantDate':
-      eventTypeLabel = 'Important Date';
-      break;
+      return (
+        <span className={spanClassName}>
+          <CircleAlertIcon size={iconSize} />
+          <span>Important Date</span>
+        </span>
+      );
+    default:
+      return (
+        <span className={spanClassName}>
+          <CalendarX2Icon size={iconSize} />
+          <span>Unknown Event Type</span>
+        </span>
+      );
   }
-
-  return (
-    <div className="flex items-center gap-1">
-      <span
-        className={cn('size-1.5 rounded-full', {
-          'bg-(--event-theme-trustee-accent)': eventType === 'trusteeMeeting',
-          'bg-(--event-theme-subfund-accent)': eventType === 'subfundMeeting',
-          'bg-(--event-theme-important-accent)': eventType === 'importantDate',
-        })}
-      ></span>
-      <span className="text-2xs">{eventTypeLabel}</span>
-    </div>
-  );
 };
 
 export default EventCard;

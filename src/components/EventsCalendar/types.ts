@@ -13,7 +13,7 @@ export type EventsCalendarData = {
     date: string;
     isInMonth: boolean;
     isToday: boolean;
-    events: Event['eventType'][];
+    events: Pick<Event, 'id' | 'eventType'>[];
   }[];
   allowFiltering?: boolean;
 };
@@ -38,7 +38,7 @@ export type EventsCalendarDayCellProps = {
   date: string;
   isToday: boolean;
   isInMonth: boolean;
-  events: Event['eventType'][];
+  events: EventsCalendarData['days'][number]['events'];
 };
 
 export type EventsCalendarContextType = {

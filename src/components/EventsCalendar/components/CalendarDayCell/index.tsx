@@ -56,18 +56,18 @@ const CalendarEventMarkers: React.FC<
     <div className="flex items-center justify-center px-0.5 w-full h-full">
       {events.map((event) => (
         <span
-          key={event}
+          key={event.id}
           className={cn(
             {
-              'event-theme-trustee': event === 'trusteeMeeting',
-              'event-theme-subfund': event === 'subfundMeeting',
-              'event-theme-njsig': event === 'njsigEvent',
-              'event-theme-other': event === 'otherEvent',
-              'event-theme-important': event === 'importantDate',
+              'event-theme-trustee': event.eventType === 'trusteeMeeting',
+              'event-theme-subfund': event.eventType === 'subfundMeeting',
+              'event-theme-njsig': event.eventType === 'njsigEvent',
+              'event-theme-other': event.eventType === 'otherEvent',
+              'event-theme-important': event.eventType === 'importantDate',
             },
             'grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/30',
             {
-              'bg-(--event-theme-accent)': filters?.includes(event) && isInMonth,
+              'bg-(--event-theme-accent)': filters?.includes(event.eventType) && isInMonth,
             },
           )}
         ></span>
