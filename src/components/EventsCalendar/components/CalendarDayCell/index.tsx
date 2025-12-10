@@ -65,7 +65,7 @@ const CalendarEventMarkers: React.FC<
               'event-theme-other': event === 'otherEvent',
               'event-theme-important': event === 'importantDate',
             },
-            'grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/40',
+            'grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/30',
             {
               'bg-(--event-theme-accent)': filters?.includes(event) && isInMonth,
             },
