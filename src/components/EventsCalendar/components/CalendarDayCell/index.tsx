@@ -57,6 +57,7 @@ const CalendarEventMarkers: React.FC<
       {events.map((event) => (
         <span
           key={event.id}
+          aria-label={getAriaLabelForEventType(event.eventType)}
           className={cn(
             {
               'event-theme-trustee': event.eventType === 'trusteeMeeting',
@@ -74,4 +75,23 @@ const CalendarEventMarkers: React.FC<
       ))}
     </div>
   );
+};
+
+const getAriaLabelForEventType = (
+  eventType: EventsCalendarDayCellProps['events'][number]['eventType'],
+) => {
+  switch (eventType) {
+    case 'trusteeMeeting':
+      return 'Trustee Meeting';
+    case 'subfundMeeting':
+      return 'Sub-fund Meeting';
+    case 'njsigEvent':
+      return 'NJSIG Event';
+    case 'otherEvent':
+      return 'Other Event';
+    case 'importantDate':
+      return 'Important Date';
+    default:
+      return 'Unknown Event';
+  }
 };
