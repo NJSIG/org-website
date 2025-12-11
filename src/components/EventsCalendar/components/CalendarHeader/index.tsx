@@ -16,6 +16,21 @@ const navButtonVariant = buttonVariants({
   size: 'medium',
 });
 
+const MONTHS: { long: string; short: string; numeric: string }[] = [
+  { long: 'January', short: 'JAN', numeric: '01' },
+  { long: 'February', short: 'FEB', numeric: '02' },
+  { long: 'March', short: 'MAR', numeric: '03' },
+  { long: 'April', short: 'APR', numeric: '04' },
+  { long: 'May', short: 'MAY', numeric: '05' },
+  { long: 'June', short: 'JUN', numeric: '06' },
+  { long: 'July', short: 'JUL', numeric: '07' },
+  { long: 'August', short: 'AUG', numeric: '08' },
+  { long: 'September', short: 'SEP', numeric: '09' },
+  { long: 'October', short: 'OCT', numeric: '10' },
+  { long: 'November', short: 'NOV', numeric: '11' },
+  { long: 'December', short: 'DEC', numeric: '12' },
+];
+
 export const CalendarHeader: React.FC<EventsCalendarHeader> = ({
   currentMonth,
   currentYear,
@@ -52,21 +67,6 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
   yearRange,
 }) => {
   const router = useRouter();
-  const MONTHS: { long: string; short: string; numeric: string }[] = [
-    { long: 'January', short: 'JAN', numeric: '01' },
-    { long: 'February', short: 'FEB', numeric: '02' },
-    { long: 'March', short: 'MAR', numeric: '03' },
-    { long: 'April', short: 'APR', numeric: '04' },
-    { long: 'May', short: 'MAY', numeric: '05' },
-    { long: 'June', short: 'JUN', numeric: '06' },
-    { long: 'July', short: 'JUL', numeric: '07' },
-    { long: 'August', short: 'AUG', numeric: '08' },
-    { long: 'September', short: 'SEP', numeric: '09' },
-    { long: 'October', short: 'OCT', numeric: '10' },
-    { long: 'November', short: 'NOV', numeric: '11' },
-    { long: 'December', short: 'DEC', numeric: '12' },
-  ];
-
   const [showYearPicker, setShowYearPicker] = useState(false);
   const selectedMonthRef = useRef<string>(currentMonth.numeric.toString().padStart(2, '0'));
   const selectedYearRef = useRef<HTMLButtonElement>(null);
