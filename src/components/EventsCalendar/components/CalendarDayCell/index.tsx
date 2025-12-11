@@ -25,7 +25,7 @@ export const CalendarDayCell: React.FC<EventsCalendarDayCellProps> = ({
   return (
     <div
       aria-label={ariaLabel}
-      aria-hidden={!isInMonth || !events.length}
+      aria-hidden={!isInMonth}
       className={cn('h-20 max-w-16 flex flex-col items-center justify-start rounded-lg px-2 py-4', {
         'bg-njsig-neutral-tint': !isInMonth,
       })}
