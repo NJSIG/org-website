@@ -1,5 +1,6 @@
 import { Page } from '@/payload-types';
 import { Fragment } from 'react';
+import { BannerTitleBlock } from './BannerTitle/Component';
 import { HeroSpinnerBlock } from './HeroSpinner/Component';
 import { HiddenTitleBlock } from './HiddenTitle/Component';
 import { SectionBlock } from './Section/Component';
@@ -11,6 +12,7 @@ type RenderBlocksProps = {
 const blockComponents = {
   heroSpinner: HeroSpinnerBlock,
   hiddenTitle: HiddenTitleBlock,
+  bannerTitle: BannerTitleBlock,
   section: SectionBlock,
 };
 

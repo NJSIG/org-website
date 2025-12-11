@@ -1,5 +1,5 @@
 // storage-adapter-import-placeholder
-import { HeroSpinner, HiddenTitle, Section } from '@/blocks';
+import { BannerTitle, HeroSpinner, HiddenTitle, Section } from '@/blocks';
 import { CMSButton } from '@/blocks/CMSButton/config';
 import { EmphasizedList } from '@/blocks/EmphasizedList/config';
 import { OptimizedImage } from '@/blocks/OptimizedImage/config';
@@ -54,6 +54,7 @@ const collections = [
 const blocks = [
   HeroSpinner,
   HiddenTitle,
+  BannerTitle,
   Section.Root,
   Section.Title,
   Section.Columns,
