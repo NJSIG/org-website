@@ -33,12 +33,12 @@ const queryEventsByYearAndMonth = cache(
 
     // We start 6 days before the beginning of the month to ensure we capture
     // all events that may appear in the first week of the calendar grid.
-    const queryStartDate = monthStartDate.add({ days: -6 });
+    const queryStartDate = monthStartDate.add({ days: -6 }).toString();
 
     // We end 6 days after the end of the month to ensure we capture
     // all events that may appear in the last week of the calendar grid.
     // Note: daysInMonth gives us the length of the month so we only need to add 5 here.
-    const queryEndDate = monthStartDate.add({ days: monthStartDate.daysInMonth + 5 });
+    const queryEndDate = monthStartDate.add({ days: monthStartDate.daysInMonth + 5 }).toString();
 
     const result = await payload.find({
       collection: 'events',
@@ -48,15 +48,29 @@ const queryEventsByYearAndMonth = cache(
         or: [
           {
             startDate: {
-              greater_than_equal: queryStartDate.toString(),
-              less_than_equal: queryEndDate.toString(),
+              greater_than_equal: queryStartDate,
+              less_than_equal: queryEndDate,
             },
           },
           {
             endDate: {
-              greater_than_equal: queryStartDate.toString(),
-              less_than_equal: queryEndDate.toString(),
+              greater_than_equal: queryStartDate,
+              less_than_equal: queryEndDate,
             },
+          },
+          {
+            and: [
+              {
+                startDate: {
+                  less_than_equal: queryStartDate,
+                },
+              },
+              {
+                endDate: {
+                  greater_than_equal: queryEndDate,
+                },
+              },
+            ],
           },
         ],
         and: [
