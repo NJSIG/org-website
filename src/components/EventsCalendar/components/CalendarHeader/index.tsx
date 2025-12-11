@@ -153,10 +153,6 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
 
 const CalendarFilters: React.FC = () => {
   const { totalFilters, filters, setFilters } = useEventsCalendar();
-  const filterButtonVariant = cn(
-    buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
-    'flex gap-4 justify-start',
-  );
 
   return (
     <Popover>
