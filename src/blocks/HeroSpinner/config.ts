@@ -1,4 +1,5 @@
 import { linkField } from '@/fields/link';
+import { uiTipField } from '@/fields/uiTip';
 import { Block } from 'payload';
 
 export const HeroSpinner: Block = {
@@ -7,6 +8,9 @@ export const HeroSpinner: Block = {
   imageURL: '/blocks/hero-spinner.png',
   imageAltText: 'Hero Spinner Block',
   fields: [
+    uiTipField([
+      'Hero Spinner is a special display heading. A Hidden Title should be used for accessability.',
+    ]),
     {
       name: 'slideTimeout',
       label: 'Slide Timeout (seconds)',
