@@ -90,13 +90,13 @@ const EventLabel: React.FC<{
   return (
     <small className="flex items-center justify-between text-(--event-theme-shade)">
       <span className="text-sm font-semibold">
-        <time dateTime={startDate.toString()}>
+        <time dateTime={startDateFromProps}>
           {formattedStartMonth} {formattedStartDay}
         </time>
-        {endDate && (
+        {endDateFromProps && (
           <>
             {' - '}
-            <time dateTime={endDate.toString()}>
+            <time dateTime={endDateFromProps}>
               {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''} {formattedEndDay}
             </time>
           </>
