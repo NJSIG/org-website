@@ -172,7 +172,9 @@ export default async function EventsPage({ params: paramsPromise }: Args) {
           (Temporal.PlainDate.compare(eventStart, monthStartDate) >= 0 &&
             Temporal.PlainDate.compare(eventStart, monthEndDate) <= 0) ||
           (Temporal.PlainDate.compare(eventEnd, monthStartDate) >= 0 &&
-            Temporal.PlainDate.compare(eventEnd, monthEndDate) <= 0)
+            Temporal.PlainDate.compare(eventEnd, monthEndDate) <= 0) ||
+          (Temporal.PlainDate.compare(eventStart, monthStartDate) <= 0 &&
+            Temporal.PlainDate.compare(eventEnd, monthEndDate) >= 0)
         );
       })
     : [];
