@@ -52,6 +52,7 @@ export const HeroImages: CollectionConfig = {
     group: 'Media',
   },
   trash: true,
+  disableDuplicate: true,
   upload: {
     pasteURL: false,
     skipSafeFetch: [

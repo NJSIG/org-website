@@ -19,6 +19,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
     update: editor,
   },
   trash: true,
+  disableDuplicate: true,
   fields: [
     uiTipField(['Portrait photos should be square and at least 250x250 pixels for best results.']),
     {

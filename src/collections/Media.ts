@@ -29,6 +29,7 @@ export const Media: CollectionConfig = {
   },
   folders: true,
   trash: true,
+  disableDuplicate: true,
   fields: [
     {
       name: 'title',

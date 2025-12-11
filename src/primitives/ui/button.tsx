@@ -33,8 +33,9 @@ const buttonVariants = cva(
         wiggle: 'hover:motion-safe:[&_svg]:animate-micro-wiggle',
         upRight: 'hover:motion-safe:[&_svg]:animate-micro-up-right',
         bounce: 'hover:motion-safe:[&_svg]:animate-micro-bounce',
-        bounceRight: 'hover:motion-safe:[&_svg]:animate-micro-bounce-right',
+        bounceDown: 'hover:motion-safe:[&_svg]:animate-micro-bounce-down',
         bounceLeft: 'hover:motion-safe:[&_svg]:animate-micro-bounce-left',
+        bounceRight: 'hover:motion-safe:[&_svg]:animate-micro-bounce-right',
       },
     },
     compoundVariants: [

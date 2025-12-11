@@ -62,20 +62,23 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   );
 
   useEffect(() => {
-    if (checkboxValue) {
+    // Only update slug if checkbox is locked
+    if (!checkboxValue) return;
+
+    const debounce = setTimeout(() => {
       if (targetFieldValue) {
         const formattedSlug = formatSlug(targetFieldValue);
-
         if (value !== formattedSlug) {
           setValue(formattedSlug);
         }
-      } else {
-        if (value !== '') {
-          setValue('');
-        }
+      } else if (value !== '') {
+        setValue('');
       }
-    }
-  }, [targetFieldValue, checkboxValue, setValue, value]);
+    }, 600);
+
+    return () => clearTimeout(debounce);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetFieldValue, checkboxValue]);
 
   return (
     <div className="field-type slug-field-component">

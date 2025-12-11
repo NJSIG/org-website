@@ -24,6 +24,7 @@ export const Documents: CollectionConfig = {
   },
   folders: true,
   trash: true,
+  disableDuplicate: true,
   fields: [
     {
       name: 'title',

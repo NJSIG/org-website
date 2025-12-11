@@ -3,7 +3,7 @@
 import EventCard from '@/components/EventCard';
 import { EventCardData } from '@/components/EventCard/types';
 import EventsCalendar from '@/components/EventsCalendar';
-import { EventCalendarProvider, useEventCalendar } from '@/components/EventsCalendar/provider';
+import { EventsCalendarProvider, useEventsCalendar } from '@/components/EventsCalendar/provider';
 import { EventsCalendarData } from '@/components/EventsCalendar/types';
 import { PageTitle } from '@/components/PageTitle';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
@@ -22,7 +22,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, event
   }, [setHeaderTheme]);
 
   return (
-    <EventCalendarProvider>
+    <EventsCalendarProvider>
       <PageTitle title="Events Calendar" />
       <div className="px-4 pt-8 pb-12 flex flex-col gap-8 lg:flex-row lg:gap-16 max-w-7xl mx-auto">
         <EventsCalendar {...calendarData} />
@@ -32,7 +32,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, event
           {/* TODO: Event Subscribe Card */}
         </div>
       </div>
-    </EventCalendarProvider>
+    </EventsCalendarProvider>
   );
 };
 
@@ -41,7 +41,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, event
  * event calendar context for filtering.
  */
 const EventCards: React.FC<{ events: EventCardData[] | null }> = ({ events }) => {
-  const { filters } = useEventCalendar();
+  const { filters } = useEventsCalendar();
   const [filteredEvents, setFilteredEvents] = useState<EventCardData[] | null>(events);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const EventCards: React.FC<{ events: EventCardData[] | null }> = ({ events }) =>
       {filteredEvents && filteredEvents.length > 0 ? (
         filteredEvents.map((event) => <EventCard key={event.id} event={event} />)
       ) : (
-        <div className="flex items-center justify-center rounded-3xl bg-njsig-neutral-tint p-6">
+        <div className="rounded-3xl text-center bg-njsig-neutral-tint p-6">
           <p className="text-xl text-njsig-neutral-foreground">No events to display.</p>
           {events && events.length > 0 && (
             <p className="text-foreground-muted">

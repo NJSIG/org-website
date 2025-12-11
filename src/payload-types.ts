@@ -138,6 +138,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | 'en' | 'en'[];
   globals: {
     header: Header;
     footer: Footer;
@@ -604,7 +605,7 @@ export interface Event {
   /**
    * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
    */
-  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate';
+  eventType: 'subfundMeeting' | 'trusteeMeeting' | 'njsigEvent' | 'importantDate' | 'otherEvent';
   /**
    * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
