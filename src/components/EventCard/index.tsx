@@ -35,10 +35,10 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
       )}
     >
       <Link href={href}>
-        <EventLabel startDate={startDate} endDate={endDate} />
+        <EventCardLabel startDate={startDate} endDate={endDate} />
         <h3 className="font-light tracking-wide text-2xl mb-4">{title}</h3>
         <div className="flex items-start justify-between gap-2">
-          <EventType eventType={eventType} />
+          <EventCardType eventType={eventType} />
           {categories && categories.length > 0 && (
             <div className="flex items-center gap-1 flex-wrap justify-end">
               {event.categories.map((category) => {
@@ -68,7 +68,7 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
   );
 };
 
-const EventLabel: React.FC<{
+const EventCardLabel: React.FC<{
   startDate: string;
   endDate?: string | null;
 }> = ({ startDate: startDateFromProps, endDate: endDateFromProps }) => {
@@ -88,6 +88,7 @@ const EventLabel: React.FC<{
   const formattedEndDay = endDate
     ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(endDate)
     : undefined;
+
   return (
     <small className="flex items-center justify-between text-(--event-theme-shade)">
       <span className="text-sm font-semibold">
@@ -108,9 +109,13 @@ const EventLabel: React.FC<{
   );
 };
 
-const EventType: React.FC<Pick<Event, 'eventType'>> = ({ eventType }) => {
-  const iconSize = 14;
-  const className = 'inline-flex items-center gap-1 text-sm text-(--event-theme-shade) shrink-0';
+export const EventCardType: React.FC<
+  Pick<Event, 'eventType'> & { iconSize?: number; className?: string }
+> = ({ eventType, iconSize = 14, className: classNameFromProps }) => {
+  const className = cn(
+    'inline-flex items-center gap-1 text-sm text-(--event-theme-shade) shrink-0',
+    classNameFromProps,
+  );
 
   switch (eventType) {
     case 'trusteeMeeting':
