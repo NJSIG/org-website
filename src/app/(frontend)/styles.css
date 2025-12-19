@@ -638,6 +638,12 @@
   --subfund-accent: var(--color-njsig-neutral-midtone);
   --subfund-contact-ring: var(--color-njsig-neutral-shade);
 
+  /* Callout Shadows */
+  --callout-shadow-sm-l: -8px 8px 0 0 var(--color-njsig-accent-midtone);
+  --callout-shadow-sm-r: 8px 8px 0 0 var(--color-njsig-accent-midtone);
+  --callout-shadow-md-l: -10px 10px 0 0 var(--color-njsig-accent-midtone);
+  --callout-shadow-md-r: 10px 10px 0 0 var(--color-njsig-accent-midtone);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
