@@ -5,7 +5,7 @@ import { EventCardData } from '@/components/EventCard/types';
 import EventsCalendar from '@/components/EventsCalendar';
 import { EventsCalendarProvider, useEventsCalendar } from '@/components/EventsCalendar/provider';
 import { EventsCalendarData } from '@/components/EventsCalendar/types';
-import { PageTitle } from '@/components/PageTitle';
+import { PageHeader, PageTitle } from '@/components/PageHeader';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { useEffect, useState } from 'react';
 
@@ -23,7 +23,9 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, event
 
   return (
     <EventsCalendarProvider>
-      <PageTitle title="Events Calendar" />
+      <PageHeader>
+        <PageTitle>Events Calendar</PageTitle>
+      </PageHeader>
       <div className="px-4 pt-8 pb-12 flex flex-col gap-8 lg:flex-row lg:gap-16 max-w-7xl mx-auto">
         <EventsCalendar {...calendarData} />
         <div className="flex flex-col gap-4 grow">

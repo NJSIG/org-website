@@ -1,6 +1,6 @@
 'use client';
 
-import { PageTitle } from '@/components/PageTitle';
+import { PageHeader, PageSubtitle, PageTitle } from '@/components/PageHeader';
 import { SubfundCapsule } from '@/components/SubfundCapsule';
 import { Subfund } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
@@ -19,10 +19,13 @@ const SubfundsPageClient: React.FC<SubfundsPageClientProps> = ({ subfunds }) => 
 
   return (
     <>
-      <PageTitle
-        title="Subfunds"
-        subtitle="NJSIG consists of seven regional sub-funds that provide risk management education, which can substantially reduce statewide workers' compensation costs. "
-      />
+      <PageHeader>
+        <PageTitle>Sub-funds</PageTitle>
+        <PageSubtitle>
+          NJSIG consists of seven regional sub-funds that provide risk management education, which
+          can substantially reduce statewide workers&apos; compensation costs.
+        </PageSubtitle>
+      </PageHeader>
       <div className="px-4 pt-8 pb-12 flex flex-col items-center gap-8 max-w-7xl mx-auto">
         {subfunds.map((subfund) => (
           <SubfundCapsule subfund={subfund} key={subfund.shortName} />
