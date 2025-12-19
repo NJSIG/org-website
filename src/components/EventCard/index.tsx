@@ -36,10 +36,10 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
       <Link href={href}>
         <EventLabel startDate={startDate} endDate={endDate} />
         <h3 className="font-light tracking-wide text-2xl mb-4">{title}</h3>
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between gap-2">
           <EventType eventType={eventType} />
           {categories && categories.length > 0 && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-wrap justify-end">
               {event.categories.map((category) => {
                 if (
                   typeof category !== 'object' ||
@@ -109,47 +109,47 @@ const EventLabel: React.FC<{
 
 const EventType: React.FC<Pick<Event, 'eventType'>> = ({ eventType }) => {
   const iconSize = 14;
-  const spanClassName = 'inline-flex items-center gap-1 text-sm text-(--event-theme-shade)';
+  const className = 'inline-flex items-center gap-1 text-sm text-(--event-theme-shade) shrink-0';
 
   switch (eventType) {
     case 'trusteeMeeting':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <UsersIcon size={iconSize} />
           <span>Board of Trustees Meeting</span>
         </span>
       );
     case 'subfundMeeting':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <BoxesIcon size={iconSize} />
           <span>Sub-fund Meeting</span>
         </span>
       );
     case 'njsigEvent':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <TriangleIcon size={iconSize} />
           <span>NJSIG Event</span>
         </span>
       );
     case 'otherEvent':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <ShapesIcon size={iconSize} />
           <span>Other Event</span>
         </span>
       );
     case 'importantDate':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <CircleAlertIcon size={iconSize} />
           <span>Important Date</span>
         </span>
       );
     default:
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <CalendarX2Icon size={iconSize} />
           <span>Unknown Event Type</span>
         </span>
