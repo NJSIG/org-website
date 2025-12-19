@@ -9,7 +9,7 @@ export const HeroSpinner: Block = {
   imageAltText: 'Hero Spinner Block',
   fields: [
     uiTipField([
-      'Hero Spinner is a special display heading. A Hidden Title should be used for accessability.',
+      'Hero Spinner is a special display heading. A Hidden Title should be used for accessibility.',
     ]),
     {
       name: 'slideTimeout',
