@@ -33,9 +33,11 @@ export const BannerTitleBlock: React.FC<BannerTitleBlockProps> = ({ image, theme
       </div>
       <div className="px-4 w-full max-w-section lg:px-0">
         <CalloutCard shadow="right" className="max-w-96">
-          <TitleTheme size="responsive" animated={false} className="mr-auto">
-            {theme}
-          </TitleTheme>
+          {theme && (
+            <TitleTheme size="responsive" animated={false} className="mr-auto">
+              {theme}
+            </TitleTheme>
+          )}
           <h2 className="text-xl xl:text-3xl font-extrabold">{title}</h2>
         </CalloutCard>
       </div>
