@@ -17,7 +17,7 @@ import { SubfundPill } from '../SubfundPill';
 import { EventCardData } from './types';
 
 const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
-  const { eventType, startDate, endDate, title, categories } = event;
+  const { eventType, startDate, endDate, title, categories, important } = event;
   const href = generateEventLink(event);
 
   return (
@@ -29,6 +29,7 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
           'event-theme-njsig': eventType === 'njsigEvent',
           'event-theme-other': eventType === 'otherEvent',
           'event-theme-important': eventType === 'importantDate',
+          'border-2 border-(--event-theme-accent)': important || eventType === 'importantDate',
         },
         'rounded-3xl group/event-card relative overflow-hidden bg-njsig-neutral-tint p-4 hover:bg-(--event-theme-accent)/15 transition-colors cursor-pointer',
       )}

@@ -91,6 +91,7 @@ const queryEventsByYearAndMonth = cache(
         eventType: true,
         title: true,
         categories: true,
+        important: true,
       },
       sort: 'startDate',
     });
