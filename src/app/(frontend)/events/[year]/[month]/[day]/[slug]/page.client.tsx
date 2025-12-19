@@ -2,6 +2,7 @@
 
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
+import { EventCardType } from '@/components/EventCard';
 import {
   EventTile,
   EventTileDetail,
@@ -11,6 +12,7 @@ import {
 import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
+import { PageHeader, PageTitle } from '@/components/PageHeader';
 import ResourceList from '@/components/ResourceList';
 import RichText from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
@@ -50,10 +52,51 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
  * It displays the event category, title, and contact person.
  * It also includes a button to add the event to the calendar.
  */
-const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
+const EventHeader: React.FC<Event> = ({
+  eventType,
+  categories,
+  title,
+  startDate: startDateFromProps,
+  endDate: endDateFromProps,
+}) => {
+  const startDate = new Date(startDateFromProps);
+  const endDate = endDateFromProps ? new Date(endDateFromProps) : undefined;
+
+  const formattedStartMonth = new Intl.DateTimeFormat('en-US', { month: 'short' })
+    .format(startDate)
+    .toUpperCase();
+
+  const formattedStartDay = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate);
+
+  const formattedEndMonth = endDate
+    ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(endDate).toUpperCase()
+    : undefined;
+
+  const formattedEndDay = endDate
+    ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(endDate)
+    : undefined;
+
   return (
-    <div className="bg-azure-to-r px-6 py-10">
-      <div className="max-w-7xl mx-auto flex flex-col gap-4 text-foreground-inverted">
+    <PageHeader innerClassName="gap-1">
+      <small className="text-(--event-theme-shade) text-sm font-semibold">
+        <time dateTime={startDateFromProps}>
+          {formattedStartMonth} {formattedStartDay}
+        </time>
+        {endDateFromProps && (
+          <>
+            {' - '}
+            <time dateTime={endDateFromProps}>
+              {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''} {formattedEndDay}
+            </time>
+          </>
+        )}
+      </small>
+      <div className="flex items-center justify-between mb-2">
+        <PageTitle>{title}</PageTitle>
+        {/* TODO: Implement add to calendar function */}
+      </div>
+      <div className="flex items-center justify-between gap-4">
+        <EventCardType eventType={eventType} iconSize={16} className="text-base" />
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
@@ -71,15 +114,18 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
             })}
           </div>
         )}
+      </div>
+      {/* <div className="max-w-7xl mx-auto flex flex-col gap-4 text-foreground-inverted">
+
         <h2 className="text-3xl font-medium">{title}</h2>
         <div className="flex items-center w-full mt-2">
           {contact && typeof contact === 'object' && (
             <ContactPerson contact={contact} priority={true} size="sm" />
           )}
-          {/* TODO: Implement add to calendar functionality */}
+          {/* TODO: Implement add to calendar functionality *}
         </div>
-      </div>
-    </div>
+      </div> */}
+    </PageHeader>
   );
 };
 
@@ -102,6 +148,7 @@ const EventDetails: React.FC<Event> = ({
   virtualLink,
   virtualPasscode,
   location: locationFromProps,
+  contact,
 }) => {
   const formattedStartDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -146,13 +193,13 @@ const EventDetails: React.FC<Event> = ({
               "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
                 eventType === 'importantDate',
               // In-Person events show the date, time, and map
-              "[grid-template-areas:'date'_'time'_'map'_'map'_'map'] lg:[grid-template-areas:'date_map_map'_'time_map_map']":
+              "[grid-template-areas:'date'_'time'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_map_map'_'time_map_map'_'contact_map_map']":
                 eventType !== 'importantDate' && attendanceOptions === 'inPerson',
               // Virtual events show the date, time, and link
-              "[grid-template-areas:'date'_'time'_'link'] lg:[grid-template-areas:'date_time'_'link_link'":
+              "[grid-template-areas:'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'date_time'_'link_link'_'contact_contact'":
                 eventType !== 'importantDate' && attendanceOptions === 'virtual',
               // Hybrid events show the date, time, link, and map
-              "[grid-template-areas:'date'_'time'_'link'_'map'_'map'_'map'] lg:[grid-template-areas:'date_time_map_map'_'link_link_map_map'":
+              "[grid-template-areas:'date'_'time'_'link'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_time_map_map'_'link_link_map_map'_'contact_map_map'":
                 eventType !== 'importantDate' && attendanceOptions === 'hybrid',
             })}
           >
@@ -202,6 +249,13 @@ const EventDetails: React.FC<Event> = ({
                     Virtual Attendance Details Unavailable
                   </span>
                 )}
+              </Bento.Item>
+            )}
+
+            {/* Contact */}
+            {eventType !== 'importantDate' && contact && typeof contact === 'object' && (
+              <Bento.Item icon="contact" label="Organizer" className="[grid-area:contact]">
+                <ContactPerson contact={contact} size="md" />
               </Bento.Item>
             )}
 
