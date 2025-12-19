@@ -8,7 +8,7 @@ export const BannerTitle: Block = {
   imageAltText: 'Banner Title Block',
   fields: [
     uiTipField([
-      'Banner Title is a special display heading. A Hidden Title should be used for accessability.',
+      'Banner Title is a special display heading. A Hidden Title should be used for accessibility.',
     ]),
     {
       name: 'theme',
