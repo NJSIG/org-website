@@ -140,9 +140,24 @@ const EventDetails: React.FC<Event> = ({
         </TitleTheme>
         {description && <RichText data={description} className="mx-0" />}
         <div className="w-full mt-4">
-          <Bento>
+          <Bento
+            className={cn({
+              // Important Dates show the date and time
+              "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
+                eventType === 'importantDate',
+              // In-Person events show the date, time, and map
+              "[grid-template-areas:'date'_'time'_'map'_'map'_'map'] lg:[grid-template-areas:'date_map_map'_'time_map_map']":
+                eventType !== 'importantDate' && attendanceOptions === 'inPerson',
+              // Virtual events show the date, time, and link
+              "[grid-template-areas:'date'_'time'_'link'] lg:[grid-template-areas:'date_time'_'link_link'":
+                eventType !== 'importantDate' && attendanceOptions === 'virtual',
+              // Hybrid events show the date, time, link, and map
+              "[grid-template-areas:'date'_'time'_'link'_'map'_'map'_'map'] lg:[grid-template-areas:'date_time_map_map'_'link_link_map_map'":
+                eventType !== 'importantDate' && attendanceOptions === 'hybrid',
+            })}
+          >
             {/* Date */}
-            <Bento.Item icon="calendar" label="Date" className="lg:col-start-1">
+            <Bento.Item icon="calendar" label="Date" className="[grid-area:date]">
               <span className="text-lg font-medium">{`${formattedStartDate}${formattedEndDate ? ` \u2014 ${formattedEndDate}` : ''}`}</span>
             </Bento.Item>
 
@@ -150,7 +165,7 @@ const EventDetails: React.FC<Event> = ({
             <Bento.Item
               icon="clock"
               label="Time"
-              className={cn({ 'lg:col-start-1': eventType !== 'importantDate' })}
+              className={cn({ '[grid-area:time]': eventType !== 'importantDate' })}
             >
               <div className="flex flex-col gap-1 text-lg font-medium">
                 <span>
@@ -165,11 +180,9 @@ const EventDetails: React.FC<Event> = ({
             </Bento.Item>
 
             {/* Virtual */}
-            {eventType !== 'importantDate' && (
-              <Bento.Item icon="webcam" label="Virtual Attendance" className="lg:col-start-1">
-                {attendanceOptions === 'inPerson' ? (
-                  <span className="text-lg font-medium">In-Person Only</span>
-                ) : virtualLink ? (
+            {eventType !== 'importantDate' && attendanceOptions !== 'inPerson' && (
+              <Bento.Item icon="webcam" label="Virtual Attendance" className="[grid-area:link]">
+                {virtualLink ? (
                   <div className="flex flex-col gap-1">
                     <Hyperlink
                       link={{ url: virtualLink, newTab: true, allowReferrer: false }}
@@ -194,11 +207,7 @@ const EventDetails: React.FC<Event> = ({
 
             {/* Location */}
             {eventType !== 'importantDate' && (
-              <Bento.Item
-                icon="map-pin"
-                label="Location"
-                className="lg:col-start-2 lg:row-start-1 lg:row-span-3"
-              >
+              <Bento.Item icon="map-pin" label="Location" className="[grid-area:map]">
                 {location ? (
                   <div className="flex flex-col gap-1">
                     {location.website ? (
