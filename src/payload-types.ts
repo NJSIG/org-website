@@ -68,6 +68,7 @@ export interface Config {
   blocks: {
     heroSpinner: HeroSpinnerBlock;
     hiddenTitle: HiddenTitleBlock;
+    bannerTitle: BannerTitleBlock;
     section: SectionBlock;
     sectionTitle: SectionTitleBlock;
     sectionCols: SectionColumnsBlock;
@@ -333,7 +334,7 @@ export interface Page {
      * Select the template for this page. The template value will determine which blocks are available.
      */
     template: 'default' | 'home' | 'navOnly';
-    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | SectionBlock)[] | null;
+    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | BannerTitleBlock | SectionBlock)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -365,6 +366,27 @@ export interface HiddenTitleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hiddenTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BannerTitleBlock".
+ */
+export interface BannerTitleBlock {
+  /**
+   * The theme is displayed as a pre-title above the main title.
+   */
+  theme?: string | null;
+  /**
+   * The title to display.
+   */
+  title: string;
+  /**
+   * Banner Title uses Hero Images for greater control over the final result across screen sizes.
+   */
+  image: string | HeroImage;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bannerTitle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
