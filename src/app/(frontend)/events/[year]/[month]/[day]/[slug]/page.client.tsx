@@ -211,11 +211,7 @@ const EventDetails: React.FC<Event> = ({
             </Bento.Item>
 
             {/* Time */}
-            <Bento.Item
-              icon="clock"
-              label="Time"
-              className={cn({ '[grid-area:time] flex flex-col': eventType !== 'importantDate' })}
-            >
+            <Bento.Item icon="clock" label="Time" className="[grid-area:time] flex flex-col">
               <div className="flex flex-col gap-1 font-medium grow justify-center">
                 <span className="text-[clamp(18px,6vw,24px)]">
                   {`${formattedStartTime}${formattedEndTime ? ` \u2014 ${formattedEndTime}` : ''}`}
@@ -261,8 +257,9 @@ const EventDetails: React.FC<Event> = ({
                 label="Organizer"
                 className="[grid-area:contact] flex flex-col"
               >
-                <div className="flex grow items-center"></div>
-                <ContactPerson contact={contact} size="md" />
+                <div className="flex grow items-center">
+                  <ContactPerson contact={contact} size="md" />
+                </div>
               </Bento.Item>
             )}
 
