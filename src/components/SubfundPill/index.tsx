@@ -9,7 +9,7 @@ export const SubfundPill: React.FC<SubfundPillProps> = ({ theme = 'other', label
   return (
     <span
       className={cn(
-        'px-2 py-0.5 rounded-lg text-xs font-medium bg-njsig-neutral-midtone text-foreground',
+        'px-2 py-0.5 rounded-lg text-xs font-medium bg-njsig-neutral-midtone text-foreground text-nowrap',
         {
           'bg-bacceic-tint': theme === 'bacceic',
           'bg-caip-tint': theme === 'caip',

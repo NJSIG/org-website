@@ -17,7 +17,7 @@ import { SubfundPill } from '../SubfundPill';
 import { EventCardData } from './types';
 
 const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
-  const { eventType, startDate, endDate, title, categories } = event;
+  const { eventType, startDate, endDate, title, categories, important } = event;
   const href = generateEventLink(event);
 
   return (
@@ -29,17 +29,18 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
           'event-theme-njsig': eventType === 'njsigEvent',
           'event-theme-other': eventType === 'otherEvent',
           'event-theme-important': eventType === 'importantDate',
+          'border-2 border-(--event-theme-accent)': important || eventType === 'importantDate',
         },
         'rounded-3xl group/event-card relative overflow-hidden bg-njsig-neutral-tint p-4 hover:bg-(--event-theme-accent)/15 transition-colors cursor-pointer',
       )}
     >
       <Link href={href}>
-        <EventLabel startDate={startDate} endDate={endDate} />
+        <EventCardLabel startDate={startDate} endDate={endDate} />
         <h3 className="font-light tracking-wide text-2xl mb-4">{title}</h3>
-        <div className="flex items-center justify-between">
-          <EventType eventType={eventType} />
+        <div className="flex items-start justify-between gap-2">
+          <EventCardType eventType={eventType} important={important} />
           {categories && categories.length > 0 && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-wrap justify-end">
               {event.categories.map((category) => {
                 if (
                   typeof category !== 'object' ||
@@ -67,7 +68,7 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
   );
 };
 
-const EventLabel: React.FC<{
+const EventCardLabel: React.FC<{
   startDate: string;
   endDate?: string | null;
 }> = ({ startDate: startDateFromProps, endDate: endDateFromProps }) => {
@@ -87,6 +88,7 @@ const EventLabel: React.FC<{
   const formattedEndDay = endDate
     ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(endDate)
     : undefined;
+
   return (
     <small className="flex items-center justify-between text-(--event-theme-shade)">
       <span className="text-sm font-semibold">
@@ -107,50 +109,59 @@ const EventLabel: React.FC<{
   );
 };
 
-const EventType: React.FC<Pick<Event, 'eventType'>> = ({ eventType }) => {
-  const iconSize = 14;
-  const spanClassName = 'inline-flex items-center gap-1 text-sm text-(--event-theme-shade)';
+export const EventCardType: React.FC<
+  Pick<Event, 'eventType' | 'important'> & { iconSize?: number; className?: string }
+> = ({ eventType, important, iconSize = 14, className: classNameFromProps }) => {
+  const className = cn(
+    'inline-flex items-center gap-1 text-sm text-(--event-theme-shade) shrink-0',
+    classNameFromProps,
+  );
 
   switch (eventType) {
     case 'trusteeMeeting':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <UsersIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Board of Trustees Meeting</span>
         </span>
       );
     case 'subfundMeeting':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <BoxesIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Sub-fund Meeting</span>
         </span>
       );
     case 'njsigEvent':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <TriangleIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>NJSIG Event</span>
         </span>
       );
     case 'otherEvent':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <ShapesIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Other Event</span>
         </span>
       );
     case 'importantDate':
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <CircleAlertIcon size={iconSize} />
           <span>Important Date</span>
         </span>
       );
     default:
       return (
-        <span className={spanClassName}>
+        <span className={className}>
           <CalendarX2Icon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Unknown Event Type</span>
         </span>
       );

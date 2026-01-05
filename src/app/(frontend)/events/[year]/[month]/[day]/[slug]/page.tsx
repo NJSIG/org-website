@@ -1,6 +1,7 @@
 import { EventTileData } from '@/components/EventTile/types';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { Event, EventCategory } from '@/payload-types';
+import { cn } from '@/utilities/cn';
 import { generateEventMetaGraph } from '@/utilities/generateEventMetaGraph';
 import configPromise from '@payload-config';
 import { Metadata } from 'next';
@@ -153,7 +154,15 @@ export default async function EventPage({ params: paramsPromise }: Args) {
   });
 
   return (
-    <article>
+    <article
+      className={cn({
+        'event-theme-trustee': event.eventType === 'trusteeMeeting',
+        'event-theme-subfund': event.eventType === 'subfundMeeting',
+        'event-theme-njsig': event.eventType === 'njsigEvent',
+        'event-theme-other': event.eventType === 'otherEvent',
+        'event-theme-important': event.eventType === 'importantDate',
+      })}
+    >
       <EventPageClient event={event} related={relatedEvents} />
       {draft && <LivePreviewListener />}
     </article>

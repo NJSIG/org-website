@@ -2,6 +2,7 @@
 
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
+import { EventCardType } from '@/components/EventCard';
 import {
   EventTile,
   EventTileDetail,
@@ -11,6 +12,7 @@ import {
 import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
+import { PageHeader, PageTitle } from '@/components/PageHeader';
 import ResourceList from '@/components/ResourceList';
 import RichText from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
@@ -18,7 +20,7 @@ import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { cn } from '@/utilities/cn';
-import { ArrowUpRightIcon } from 'lucide-react';
+import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
 type EventPageClientProps = {
@@ -47,13 +49,63 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
 
 /**
  * This component renders the header for the event page.
- * It displays the event category, title, and contact person.
- * It also includes a button to add the event to the calendar.
+ * It displays the event dates, title, event type, and associated categories.
+ * A placeholder is included for potential "add to calendar" functionality.
  */
-const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
+const EventHeader: React.FC<Event> = ({
+  eventType,
+  important,
+  categories,
+  title,
+  startDate: startDateFromProps,
+  endDate: endDateFromProps,
+}) => {
+  const startDate = new Date(startDateFromProps);
+  const endDate = endDateFromProps ? new Date(endDateFromProps) : undefined;
+
+  const formattedStartMonth = new Intl.DateTimeFormat('en-US', { month: 'short' })
+    .format(startDate)
+    .toUpperCase();
+
+  const formattedStartDay = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate);
+
+  const formattedEndMonth = endDate
+    ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(endDate).toUpperCase()
+    : undefined;
+
+  const formattedEndDay = endDate
+    ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(endDate)
+    : undefined;
+
   return (
-    <div className="bg-azure-to-r px-6 py-10">
-      <div className="max-w-7xl mx-auto flex flex-col gap-4 text-foreground-inverted">
+    <PageHeader
+      inner={{ className: 'gap-1' }}
+      className="text-foreground bg-(--event-theme-background)"
+    >
+      <small className="text-(--event-theme-shade) text-sm font-semibold">
+        <time dateTime={startDateFromProps}>
+          {formattedStartMonth} {formattedStartDay}
+        </time>
+        {endDateFromProps && (
+          <>
+            {' - '}
+            <time dateTime={endDateFromProps}>
+              {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''} {formattedEndDay}
+            </time>
+          </>
+        )}
+      </small>
+      <div className="flex items-center justify-between mb-2">
+        <PageTitle>{title}</PageTitle>
+        {/* TODO: Implement add to calendar function */}
+      </div>
+      <div className="flex items-center justify-between gap-4">
+        <EventCardType
+          eventType={eventType}
+          important={important}
+          iconSize={16}
+          className="text-base"
+        />
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
@@ -71,15 +123,8 @@ const EventHeader: React.FC<Event> = ({ categories, title, contact }) => {
             })}
           </div>
         )}
-        <h2 className="text-3xl font-medium">{title}</h2>
-        <div className="flex items-center w-full mt-2">
-          {contact && typeof contact === 'object' && (
-            <ContactPerson contact={contact} priority={true} size="sm" />
-          )}
-          {/* TODO: Implement add to calendar functionality */}
-        </div>
       </div>
-    </div>
+    </PageHeader>
   );
 };
 
@@ -102,6 +147,7 @@ const EventDetails: React.FC<Event> = ({
   virtualLink,
   virtualPasscode,
   location: locationFromProps,
+  contact,
 }) => {
   const formattedStartDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -140,24 +186,38 @@ const EventDetails: React.FC<Event> = ({
         </TitleTheme>
         {description && <RichText data={description} className="mx-0" />}
         <div className="w-full mt-4">
-          <Bento>
+          <Bento
+            className={cn({
+              // Important Dates show the date and time
+              "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
+                eventType === 'importantDate',
+              // In-Person events show the date, time, and map
+              "[grid-template-areas:'date'_'time'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_map_map'_'time_map_map'_'contact_map_map']":
+                eventType !== 'importantDate' && attendanceOptions === 'inPerson',
+              // Virtual events show the date, time, and link
+              "[grid-template-areas:'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'date_time'_'link_contact']":
+                eventType !== 'importantDate' && attendanceOptions === 'virtual',
+              // Hybrid events show the date, time, link, and map
+              "[grid-template-areas:'date'_'time'_'link'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_time_map_map'_'link_link_map_map'_'contact_contact_map_map']":
+                eventType !== 'importantDate' && attendanceOptions === 'hybrid',
+            })}
+          >
             {/* Date */}
-            <Bento.Item icon="calendar" label="Date" className="lg:col-start-1">
-              <span className="text-lg font-medium">{`${formattedStartDate}${formattedEndDate ? ` \u2014 ${formattedEndDate}` : ''}`}</span>
+            <Bento.Item icon="calendar" label="Date" className="[grid-area:date] flex flex-col">
+              <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
+                <span>{`${formattedStartDate}${formattedEndDate ? ` \u2014` : ''}`}</span>
+                {formattedEndDate && <span>{formattedEndDate}</span>}
+              </div>
             </Bento.Item>
 
             {/* Time */}
-            <Bento.Item
-              icon="clock"
-              label="Time"
-              className={cn({ 'lg:col-start-1': eventType !== 'importantDate' })}
-            >
-              <div className="flex flex-col gap-1 text-lg font-medium">
-                <span>
+            <Bento.Item icon="clock" label="Time" className="[grid-area:time] flex flex-col">
+              <div className="flex flex-col gap-1 font-medium grow justify-center">
+                <span className="text-[clamp(18px,6vw,24px)]">
                   {`${formattedStartTime}${formattedEndTime ? ` \u2014 ${formattedEndTime}` : ''}`}
                 </span>
                 {formattedRegistrationTime && (
-                  <span className="italic text-foreground-muted">
+                  <span className="italic text-foreground-muted text-[clamp(16px,4vw,20px)]">
                     ({formattedRegistrationTime} Registration)
                   </span>
                 )}
@@ -165,11 +225,9 @@ const EventDetails: React.FC<Event> = ({
             </Bento.Item>
 
             {/* Virtual */}
-            {eventType !== 'importantDate' && (
-              <Bento.Item icon="webcam" label="Virtual Attendance" className="lg:col-start-1">
-                {attendanceOptions === 'inPerson' ? (
-                  <span className="text-lg font-medium">In-Person Only</span>
-                ) : virtualLink ? (
+            {eventType !== 'importantDate' && attendanceOptions !== 'inPerson' && (
+              <Bento.Item icon="webcam" label="Virtual Attendance" className="[grid-area:link]">
+                {virtualLink ? (
                   <div className="flex flex-col gap-1">
                     <Hyperlink
                       link={{ url: virtualLink, newTab: true, allowReferrer: false }}
@@ -192,13 +250,22 @@ const EventDetails: React.FC<Event> = ({
               </Bento.Item>
             )}
 
-            {/* Location */}
-            {eventType !== 'importantDate' && (
+            {/* Contact */}
+            {eventType !== 'importantDate' && contact && typeof contact === 'object' && (
               <Bento.Item
-                icon="map-pin"
-                label="Location"
-                className="lg:col-start-2 lg:row-start-1 lg:row-span-3"
+                icon="contact"
+                label="Organizer"
+                className="[grid-area:contact] flex flex-col"
               >
+                <div className="flex grow items-center">
+                  <ContactPerson contact={contact} size="md" />
+                </div>
+              </Bento.Item>
+            )}
+
+            {/* Location */}
+            {eventType !== 'importantDate' && attendanceOptions !== 'virtual' && (
+              <Bento.Item icon="map-pin" label="Location" className="[grid-area:map] flex flex-col">
                 {location ? (
                   <div className="flex flex-col gap-1">
                     {location.website ? (
@@ -211,14 +278,15 @@ const EventDetails: React.FC<Event> = ({
                     <span className="text-lg text-foreground-muted">
                       {`${location.streetAddress}${location.streetAddress2 ? ` ${location.streetAddress2}` : ''}, ${location.city}, ${location.state} ${location.zipCode}`}
                     </span>
-                    <GoogleMap
-                      location={location}
-                      height={200}
-                      containerClassName="rounded-lg overflow-hidden"
-                    />
+                    <GoogleMap location={location} height={200} containerClassName="rounded-lg" />
                   </div>
                 ) : (
-                  <span className="text-lg font-medium">Location Details Unavailable</span>
+                  <div className="flex flex-col grow">
+                    <span className="text-lg font-medium">Location Details Unavailable</span>
+                    <div className="flex grow items-center justify-center">
+                      <MapPinXIcon size={48} className="text-foreground-muted" />
+                    </div>
+                  </div>
                 )}
               </Bento.Item>
             )}
