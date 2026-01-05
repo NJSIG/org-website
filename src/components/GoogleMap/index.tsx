@@ -1,8 +1,8 @@
 'use client';
 
+import { useMapApiKey } from '@/providers/MapApiProvider';
 import { cn } from '@/utilities/cn';
 import { MapPinXIcon } from 'lucide-react';
-import { useMapApiKey } from '@/providers/MapApiProvider';
 
 type LocationAddress = {
   name?: unknown;
@@ -68,7 +68,13 @@ export const GoogleMap = (props: MapProps) => {
 
   return (
     <div
-      className={cn({ 'njsig__map-container': admin, '': !admin }, containerClassName)}
+      className={cn(
+        {
+          'njsig__map-container': admin,
+          'relative w-full h-full max-h-80 overflow-hidden aspect-square': !admin,
+        },
+        containerClassName,
+      )}
       style={admin ? { height: `${height}px`, width: width ? `${width}px` : '100%' } : {}}
     >
       {hasValidData ? (
@@ -80,6 +86,7 @@ export const GoogleMap = (props: MapProps) => {
           referrerPolicy="no-referrer-when-downgrade"
           src={src}
           allowFullScreen
+          className={cn({ 'absolute top-0 left-0 w-full h-full': !admin })}
         ></iframe>
       ) : (
         <div

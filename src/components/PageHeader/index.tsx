@@ -3,11 +3,11 @@ import { cn } from '@/utilities/cn';
 export const PageHeader: React.FC<{
   children: React.ReactNode;
   className?: string;
-  innerClassName?: string;
-}> = ({ children, className, innerClassName }) => {
+  inner?: { className?: string };
+}> = ({ children, className, inner }) => {
   return (
-    <div className={cn('bg-njsig-background px-6 py-10', className)}>
-      <div className={cn('max-w-7xl mx-auto flex flex-col gap-4 text-njsig-shade', innerClassName)}>
+    <div className={cn('bg-njsig-background text-njsig-shade px-6 py-10', className)}>
+      <div className={cn('max-w-7xl mx-auto flex flex-col gap-4', inner?.className)}>
         {children}
       </div>
     </div>
