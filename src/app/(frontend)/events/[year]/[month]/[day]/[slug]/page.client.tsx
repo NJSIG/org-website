@@ -49,8 +49,8 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
 
 /**
  * This component renders the header for the event page.
- * It displays the event category, title, and contact person.
- * It also includes a button to add the event to the calendar.
+ * It displays the event dates, title, event type, and associated categories.
+ * A placeholder is included for potential "add to calendar" functionality.
  */
 const EventHeader: React.FC<Event> = ({
   eventType,
