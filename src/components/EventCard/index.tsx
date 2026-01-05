@@ -38,7 +38,7 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
         <EventCardLabel startDate={startDate} endDate={endDate} />
         <h3 className="font-light tracking-wide text-2xl mb-4">{title}</h3>
         <div className="flex items-start justify-between gap-2">
-          <EventCardType eventType={eventType} />
+          <EventCardType eventType={eventType} important={important} />
           {categories && categories.length > 0 && (
             <div className="flex items-center gap-1 flex-wrap justify-end">
               {event.categories.map((category) => {
@@ -110,8 +110,8 @@ const EventCardLabel: React.FC<{
 };
 
 export const EventCardType: React.FC<
-  Pick<Event, 'eventType'> & { iconSize?: number; className?: string }
-> = ({ eventType, iconSize = 14, className: classNameFromProps }) => {
+  Pick<Event, 'eventType' | 'important'> & { iconSize?: number; className?: string }
+> = ({ eventType, important, iconSize = 14, className: classNameFromProps }) => {
   const className = cn(
     'inline-flex items-center gap-1 text-sm text-(--event-theme-shade) shrink-0',
     classNameFromProps,
@@ -122,6 +122,7 @@ export const EventCardType: React.FC<
       return (
         <span className={className}>
           <UsersIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Board of Trustees Meeting</span>
         </span>
       );
@@ -129,6 +130,7 @@ export const EventCardType: React.FC<
       return (
         <span className={className}>
           <BoxesIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Sub-fund Meeting</span>
         </span>
       );
@@ -136,6 +138,7 @@ export const EventCardType: React.FC<
       return (
         <span className={className}>
           <TriangleIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>NJSIG Event</span>
         </span>
       );
@@ -143,6 +146,7 @@ export const EventCardType: React.FC<
       return (
         <span className={className}>
           <ShapesIcon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Other Event</span>
         </span>
       );
@@ -157,6 +161,7 @@ export const EventCardType: React.FC<
       return (
         <span className={className}>
           <CalendarX2Icon size={iconSize} />
+          {important && <CircleAlertIcon size={iconSize} />}
           <span>Unknown Event Type</span>
         </span>
       );
