@@ -77,6 +77,31 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
+          name: 'presenter',
+          type: 'text',
+          admin: {
+            description: 'A person or organization',
+          },
+        },
+        {
+          name: 'credits',
+          type: 'text',
+          localized: true,
+          admin: {
+            description: 'QPA or other credits',
+          },
+        },
+      ],
+      admin: {
+        condition: (_, siblingData) =>
+          siblingData.eventType !== EventType.ImportantDate &&
+          siblingData.eventType !== EventType.TrusteeMeeting,
+      },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'startDate',
           type: 'date',
           required: true,

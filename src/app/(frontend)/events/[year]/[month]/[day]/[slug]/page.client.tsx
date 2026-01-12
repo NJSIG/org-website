@@ -137,6 +137,8 @@ const EventHeader: React.FC<Event> = ({
 const EventDetails: React.FC<Event> = ({
   eventType,
   description,
+  presenter,
+  credits,
   startDate,
   endDate,
   startTime,
@@ -184,24 +186,34 @@ const EventDetails: React.FC<Event> = ({
         <TitleTheme size="responsive" animated={false}>
           Event Details
         </TitleTheme>
-        {description && <RichText data={description} className="mx-0" />}
         <div className="w-full mt-4">
           <Bento
             className={cn({
               // Important Dates show the date and time
-              "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
+              "[grid-template-areas:'description'_'date'_'time'] lg:[grid-template-areas:'description_description'_'date_time']":
                 eventType === 'importantDate',
               // In-Person events show the date, time, and map
-              "[grid-template-areas:'date'_'time'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_map_map'_'time_map_map'_'contact_map_map']":
+              "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'description_description_presenter'_'description_description_credits'_'date_map_map'_'time_map_map'_'contact_map_map']":
                 eventType !== 'importantDate' && attendanceOptions === 'inPerson',
               // Virtual events show the date, time, and link
-              "[grid-template-areas:'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'date_time'_'link_contact']":
+              "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'description_description'_'presenter_credits'_'date_time'_'link_contact']":
                 eventType !== 'importantDate' && attendanceOptions === 'virtual',
               // Hybrid events show the date, time, link, and map
-              "[grid-template-areas:'date'_'time'_'link'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'date_time_map_map'_'link_link_map_map'_'contact_contact_map_map']":
+              "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'link'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'description_description_description_presenter'_'description_description_description_credits'_'date_time_map_map'_'link_link_map_map'_'contact_contact_map_map']":
                 eventType !== 'importantDate' && attendanceOptions === 'hybrid',
             })}
           >
+            {/* Description */}
+            {description && (
+              <Bento.Item
+                icon="book-open-text"
+                label="Description"
+                className="[grid-area:description]"
+              >
+                <RichText data={description} className="mx-0" />
+              </Bento.Item>
+            )}
+
             {/* Date */}
             <Bento.Item icon="calendar" label="Date" className="[grid-area:date] flex flex-col">
               <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
