@@ -14,10 +14,14 @@ export type BentoItemProps = {
   children: React.ReactNode;
 };
 
-const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } = ({
-  className,
-  children,
-}) => {
+export type BentoPlaceholderProps = {
+  className?: string;
+  children?: React.ReactNode;
+};
+
+const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } & {
+  Placeholder: React.FC<BentoPlaceholderProps>;
+} = ({ className, children }) => {
   return <div className={cn('grid auto-cols-fr auto-rows-fr gap-4', className)}>{children}</div>;
 };
 
@@ -31,6 +35,10 @@ Bento.Item = function Item({ icon, label, className, children }: BentoItemProps)
       {children}
     </div>
   );
+};
+
+Bento.Placeholder = function Placeholder({ className, children }: BentoPlaceholderProps) {
+  return <div className={cn('rounded-3xl bg-njsig-primary', className)}>{children}</div>;
 };
 
 export default Bento;

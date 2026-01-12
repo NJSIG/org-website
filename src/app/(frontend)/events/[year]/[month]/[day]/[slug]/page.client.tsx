@@ -186,7 +186,60 @@ const EventDetails: React.FC<Event> = ({
         <TitleTheme size="responsive" animated={false}>
           Event Details
         </TitleTheme>
-        <div className="w-full mt-4">
+        <div className="w-full">
+          {(description || presenter || credits) && (
+            <Bento
+              className={cn({
+                // With Description
+                "[grid-template-areas:'description'_'presenter'_'credits'] lg:[grid-template-areas:'description_description'_'presenter_credits']":
+                  description,
+                // Without Description
+                "[grid-template-areas:'presenter'_'credits'] lg:[grid-template-areas:'presenter_credits']":
+                  !description,
+              })}
+            >
+              {/* Description */}
+              {description && (
+                <Bento.Item
+                  icon="book-open-text"
+                  label="Description"
+                  className="[grid-area:description]"
+                >
+                  <RichText data={description} className="mx-0" />
+                </Bento.Item>
+              )}
+
+              {/* Presenter */}
+              {presenter || (presenter && !credits) ? (
+                <Bento.Item
+                  icon="megaphone"
+                  label="Presenter"
+                  className="[grid-area:presenter] flex flex-col"
+                >
+                  <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
+                    <span>{presenter}</span>
+                  </div>
+                </Bento.Item>
+              ) : (
+                <Bento.Placeholder className="[grid-area:presenter] bg-(--event-theme-accent)" />
+              )}
+
+              {/* Credits */}
+              {credits || (credits && !presenter) ? (
+                <Bento.Item
+                  icon="graduation-cap"
+                  label="Credits"
+                  className="[grid-area:credits] flex flex-col"
+                >
+                  <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
+                    <span>{credits}</span>
+                  </div>
+                </Bento.Item>
+              ) : (
+                <Bento.Placeholder className="[grid-area:credits] bg-(--event-theme-accent)" />
+              )}
+            </Bento>
+          )}
           <Bento
             className={cn({
               // Important Dates show the date and time
@@ -196,24 +249,13 @@ const EventDetails: React.FC<Event> = ({
               "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'description_description_presenter'_'description_description_credits'_'date_map_map'_'time_map_map'_'contact_map_map']":
                 eventType !== 'importantDate' && attendanceOptions === 'inPerson',
               // Virtual events show the date, time, and link
-              "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'description_description'_'presenter_credits'_'date_time'_'link_contact']":
+              "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'link'_'contact'] lg:[grid-template-areas:'presenter_credits'_'description_description'_'date_time'_'link_contact']":
                 eventType !== 'importantDate' && attendanceOptions === 'virtual',
               // Hybrid events show the date, time, link, and map
               "[grid-template-areas:'description'_'presenter'_'credits'_'date'_'time'_'link'_'contact'_'map'_'map'_'map'] lg:[grid-template-areas:'description_description_description_presenter'_'description_description_description_credits'_'date_time_map_map'_'link_link_map_map'_'contact_contact_map_map']":
                 eventType !== 'importantDate' && attendanceOptions === 'hybrid',
             })}
           >
-            {/* Description */}
-            {description && (
-              <Bento.Item
-                icon="book-open-text"
-                label="Description"
-                className="[grid-area:description]"
-              >
-                <RichText data={description} className="mx-0" />
-              </Bento.Item>
-            )}
-
             {/* Date */}
             <Bento.Item icon="calendar" label="Date" className="[grid-area:date] flex flex-col">
               <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
