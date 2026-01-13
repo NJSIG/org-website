@@ -4,7 +4,9 @@ import { slugField } from '@/fields/slug';
 import { uiMapField } from '@/fields/uiMap';
 import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
 import { CollectionConfig } from 'payload';
-import { clearLocationHook, revalidateEventDeleteHook, revalidateEventHook } from './hooks';
+import { clearLocationHook } from './hooks/clearLocationHook';
+import { revalidateEventDeleteHook } from './hooks/revalidateEventDeleteHook';
+import { revalidateEventHook } from './hooks/revalidateEventHook';
 
 enum EventType {
   TrusteeMeeting = 'trusteeMeeting',
