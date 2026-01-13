@@ -79,24 +79,49 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
-          name: 'presenter',
-          type: 'text',
-          admin: {
-            description: 'A person or organization',
-          },
+          name: 'presenters',
+          type: 'array',
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'title',
+              type: 'text',
+              admin: {
+                description: 'Title or Affiliation',
+              },
+              hooks: {
+                beforeChange: [nullEmptyFieldHook],
+              },
+            },
+          ],
+          maxRows: 4,
           hooks: {
-            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
         {
           name: 'credits',
-          type: 'text',
+          type: 'array',
           localized: true,
+          fields: [
+            {
+              name: 'credit',
+              type: 'text',
+              required: true,
+              hooks: {
+                beforeChange: [nullEmptyFieldHook],
+              },
+            },
+          ],
           admin: {
             description: 'QPA or other credits',
           },
           hooks: {
-            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
       ],
@@ -252,7 +277,6 @@ export const Events: CollectionConfig<'events'> = {
                     { label: 'Other', value: 'other' },
                   ],
                   defaultValue: 'zoom',
-                  required: true,
                   admin: {
                     width: '20%',
                   },
