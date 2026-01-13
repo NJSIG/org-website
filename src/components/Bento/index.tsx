@@ -16,6 +16,7 @@ export type BentoItemProps = {
 
 export type BentoPlaceholderProps = {
   className?: string;
+  withPattern?: boolean;
   children?: React.ReactNode;
 };
 
@@ -37,8 +38,20 @@ Bento.Item = function Item({ icon, label, className, children }: BentoItemProps)
   );
 };
 
-Bento.Placeholder = function Placeholder({ className, children }: BentoPlaceholderProps) {
-  return <div className={cn('rounded-3xl bg-njsig-primary', className)}>{children}</div>;
+Bento.Placeholder = function Placeholder({
+  className,
+  withPattern = false,
+  children,
+}: BentoPlaceholderProps) {
+  return (
+    <div className={cn('rounded-3xl bg-(--bento-placeholder)/30', className)}>
+      {withPattern ? (
+        <div className="rounded-3xl fibers fiber-strength-4 h-full w-full">{children}</div>
+      ) : (
+        <>{children}</>
+      )}
+    </div>
+  );
 };
 
 export default Bento;

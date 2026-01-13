@@ -419,6 +419,48 @@
   );
 }
 
+/*
+ * Fiber Background Accent
+ *
+ * These are used to create a subtle accent background
+ */
+@utility fibers {
+  background-image: repeating-linear-gradient(
+    var(--fiber-angle, 135deg),
+    color-mix(in oklch, currentColor var(--fiber-strength, 8%), transparent) 0 1px,
+    transparent 1px var(--fiber-gap, 6px)
+  );
+}
+
+/* Angles */
+@utility fiber-angle-* {
+  --fiber-angle: calc(--value(integer) * 1deg);
+}
+
+/* Strength */
+@utility fiber-strength-* {
+  --fiber-strength: calc(--value(integer) * 1%);
+}
+
+/* Gaps (scale-aligned) */
+@utility fiber-gap-1 {
+  --fiber-gap: calc(var(--spacing) * 1);
+}
+@utility fiber-gap-1.5 {
+  --fiber-gap: calc(var(--spacing) * 1.5);
+}
+@utility fiber-gap-2 {
+  --fiber-gap: calc(var(--spacing) * 2);
+}
+@utility fiber-gap-2.5 {
+  --fiber-gap: calc(var(--spacing) * 2.5);
+}
+
+/* Arbitrary gaps */
+@utility fiber-gap-* {
+  --fiber-gap: --value;
+}
+
 /**
  * Color Mixes
  *
@@ -627,6 +669,7 @@
 
   /* Bento */
   --bento-icon-stroke: var(--color-njsig-primary);
+  --bento-placeholder: var(--color-njsig-tint);
 
   /* Resource List */
   --resource-theme: var(--color-njsig-primary);
@@ -801,6 +844,7 @@
     --event-tile-bespoke-light: var(--color-sea-green-700);
     --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --bento-icon-stroke: var(--color-caip-midtone);
+    --bento-placeholder: var(--color-caip-tint);
   }
 
   .event-theme-subfund {
@@ -814,6 +858,7 @@
     --event-tile-bespoke-light: var(--color-trendy-pink-700);
     --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --bento-icon-stroke: var(--color-ericwest-midtone);
+    --bento-placeholder: var(--color-ericwest-tint);
   }
 
   .event-theme-other {
@@ -827,6 +872,7 @@
     --event-tile-bespoke-light: var(--color-sushi-700);
     --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --bento-icon-stroke: var(--color-ericsouth-midtone);
+    --bento-placeholder: var(--color-ericsouth-tint);
   }
 
   .event-theme-important {
@@ -840,5 +886,6 @@
     --event-tile-bespoke-light: var(--color-tahiti-gold-700);
     --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --bento-icon-stroke: var(--color-mocssif-midtone);
+    --bento-placeholder: var(--color-mocssif-tint);
   }
 }
