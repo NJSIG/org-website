@@ -1,5 +1,7 @@
 import { anyone, editor } from '@/access';
-import { computeBlurDataHook, populateTitleFromFileHook, snakeCaseUploadsHook } from '@/hooks';
+import { computeBlurDataHook } from '@/hooks/computeBlurDataHook';
+import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
+import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
   FixedToolbarFeature,
@@ -131,7 +133,7 @@ export const Media: CollectionConfig = {
     ],
   },
   hooks: {
-    beforeOperation: [snakeCaseUploadsHook],
+    beforeOperation: [createSnakeCaseUploadsHook('media')],
     beforeChange: [computeBlurDataHook, populateTitleFromFileHook],
   },
 };

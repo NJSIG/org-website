@@ -1,6 +1,8 @@
 import { anyone, editor } from '@/access';
 import { uiTipField } from '@/fields/uiTip';
-import { checkSquareHook, computeBlurDataHook, snakeCaseUploadsHook } from '@/hooks';
+import { checkSquareHook } from '@/hooks/checkSquareHook';
+import { computeBlurDataHook } from '@/hooks/computeBlurDataHook';
+import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 
 const webp: ImageUploadFormatOptions = {
@@ -68,7 +70,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
     },
   },
   hooks: {
-    beforeOperation: [snakeCaseUploadsHook],
+    beforeOperation: [createSnakeCaseUploadsHook('contact-portraits')],
     beforeChange: [checkSquareHook, computeBlurDataHook],
   },
 };

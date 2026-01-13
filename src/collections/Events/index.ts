@@ -2,10 +2,9 @@ import { editor, editorOrPublished } from '@/access';
 import { resourceGroupField } from '@/fields/resourceGroup';
 import { slugField } from '@/fields/slug';
 import { uiMapField } from '@/fields/uiMap';
-import { populatePublishedAtHook } from '@/hooks';
+import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
 import { CollectionConfig } from 'payload';
-import { revalidateEventDeleteHook, revalidateEventHook } from './hooks';
-import { clearLocationHook } from './hooks/clearLocationHook';
+import { clearLocationHook, revalidateEventDeleteHook, revalidateEventHook } from './hooks';
 
 enum EventType {
   TrusteeMeeting = 'trusteeMeeting',
