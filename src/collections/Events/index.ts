@@ -2,12 +2,14 @@ import { editor, editorOrPublished } from '@/access';
 import { resourceGroupField } from '@/fields/resourceGroup';
 import { slugField } from '@/fields/slug';
 import { uiMapField } from '@/fields/uiMap';
-import { populatePublishedAtHook } from '@/hooks';
+import { nullEmptyFieldHook } from '@/hooks/nullEmptyFieldHook';
+import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
 import { CollectionConfig } from 'payload';
-import { revalidateEventDeleteHook, revalidateEventHook } from './hooks';
-import { clearLocationHook } from './hooks/clearLocationHook';
+import { nullUnusedFieldsHook } from './hooks/nullUnusedFieldsHook';
+import { revalidateEventDeleteHook } from './hooks/revalidateEventDeleteHook';
+import { revalidateEventHook } from './hooks/revalidateEventHook';
 
-enum EventType {
+export enum EventTypeValues {
   TrusteeMeeting = 'trusteeMeeting',
   SubfundMeeting = 'subfundMeeting',
   ImportantDate = 'importantDate',
@@ -15,7 +17,7 @@ enum EventType {
   OtherEvent = 'otherEvent',
 }
 
-enum AttendanceOptions {
+export enum AttendanceOptionValues {
   InPerson = 'inPerson',
   Virtual = 'virtual',
   Hybrid = 'hybrid',
@@ -44,11 +46,11 @@ export const Events: CollectionConfig<'events'> = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Sub-fund Meeting', value: EventType.SubfundMeeting },
-        { label: 'Trustee Meeting', value: EventType.TrusteeMeeting },
-        { label: 'NJSIG Event', value: EventType.NjsigEvent },
-        { label: 'Important Date', value: EventType.ImportantDate },
-        { label: 'Other Event', value: EventType.OtherEvent },
+        { label: 'Sub-fund Meeting', value: EventTypeValues.SubfundMeeting },
+        { label: 'Trustee Meeting', value: EventTypeValues.TrusteeMeeting },
+        { label: 'NJSIG Event', value: EventTypeValues.NjsigEvent },
+        { label: 'Important Date', value: EventTypeValues.ImportantDate },
+        { label: 'Other Event', value: EventTypeValues.OtherEvent },
       ],
       admin: {
         isClearable: false,
@@ -77,6 +79,37 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
+          name: 'presenter',
+          type: 'text',
+          admin: {
+            description: 'A person or organization',
+          },
+          hooks: {
+            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+          },
+        },
+        {
+          name: 'credits',
+          type: 'text',
+          localized: true,
+          admin: {
+            description: 'QPA or other credits',
+          },
+          hooks: {
+            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+          },
+        },
+      ],
+      admin: {
+        condition: (_, siblingData) =>
+          siblingData.eventType !== EventTypeValues.ImportantDate &&
+          siblingData.eventType !== EventTypeValues.TrusteeMeeting,
+      },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'startDate',
           type: 'date',
           required: true,
@@ -95,7 +128,10 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'dayOnly',
               displayFormat: 'MMM d, yyy',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+          },
+          hooks: {
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
       ],
@@ -111,7 +147,10 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+          },
+          hooks: {
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
         {
@@ -133,7 +172,10 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+          },
+          hooks: {
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
       ],
@@ -158,7 +200,10 @@ export const Events: CollectionConfig<'events'> = {
           required: true,
           admin: {
             description: 'The contact person for the event.',
-            condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+          },
+          hooks: {
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
       ],
@@ -167,7 +212,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'group',
       admin: {
         hideGutter: true,
-        condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+        condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
       },
       fields: [
         {
@@ -178,11 +223,11 @@ export const Events: CollectionConfig<'events'> = {
               label: 'Attendance Options',
               type: 'select',
               required: true,
-              defaultValue: AttendanceOptions.InPerson,
+              defaultValue: AttendanceOptionValues.InPerson,
               options: [
-                { label: 'In-Person', value: AttendanceOptions.InPerson },
-                { label: 'Virtual', value: AttendanceOptions.Virtual },
-                { label: 'Hybrid', value: AttendanceOptions.Hybrid },
+                { label: 'In-Person', value: AttendanceOptionValues.InPerson },
+                { label: 'Virtual', value: AttendanceOptionValues.Virtual },
+                { label: 'Hybrid', value: AttendanceOptionValues.Hybrid },
               ],
               admin: {
                 width: '50%',
@@ -193,7 +238,7 @@ export const Events: CollectionConfig<'events'> = {
               type: 'row',
               admin: {
                 condition: (_, siblingData) =>
-                  siblingData.attendanceOptions !== AttendanceOptions.InPerson,
+                  siblingData.attendanceOptions !== AttendanceOptionValues.InPerson,
               },
               fields: [
                 {
@@ -211,6 +256,9 @@ export const Events: CollectionConfig<'events'> = {
                   admin: {
                     width: '20%',
                   },
+                  hooks: {
+                    beforeChange: [nullUnusedFieldsHook],
+                  },
                 },
                 {
                   name: 'virtualLink',
@@ -221,6 +269,9 @@ export const Events: CollectionConfig<'events'> = {
                       'The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.',
                     width: '60%',
                   },
+                  hooks: {
+                    beforeChange: [nullUnusedFieldsHook],
+                  },
                 },
                 {
                   name: 'virtualPasscode',
@@ -228,6 +279,9 @@ export const Events: CollectionConfig<'events'> = {
                   type: 'text',
                   admin: {
                     width: '20%',
+                  },
+                  hooks: {
+                    beforeChange: [nullUnusedFieldsHook],
                   },
                 },
               ],
@@ -237,7 +291,7 @@ export const Events: CollectionConfig<'events'> = {
               admin: {
                 hideGutter: true,
                 condition: (_, siblingData) =>
-                  siblingData.attendanceOptions !== AttendanceOptions.Virtual,
+                  siblingData.attendanceOptions !== AttendanceOptionValues.Virtual,
               },
               fields: [
                 {
@@ -251,7 +305,7 @@ export const Events: CollectionConfig<'events'> = {
                     width: '50%',
                   },
                   hooks: {
-                    beforeChange: [clearLocationHook],
+                    beforeChange: [nullUnusedFieldsHook],
                   },
                 },
                 uiMapField(),
@@ -277,7 +331,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Mark this event as important to emphasize its significance.',
         position: 'sidebar',
-        condition: (_, siblingData) => siblingData.eventType !== EventType.ImportantDate,
+        condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
       },
     },
     ...slugField('title', {

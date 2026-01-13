@@ -650,6 +650,14 @@ export interface Event {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * A person or organization
+   */
+  presenter?: string | null;
+  /**
+   * QPA or other credits
+   */
+  credits?: string | null;
   startDate: string;
   endDate?: string | null;
   registrationTime?: string | null;
@@ -1443,6 +1451,8 @@ export interface EventsSelect<T extends boolean = true> {
   eventType?: T;
   title?: T;
   description?: T;
+  presenter?: T;
+  credits?: T;
   startDate?: T;
   endDate?: T;
   registrationTime?: T;

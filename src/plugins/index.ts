@@ -1,4 +1,4 @@
-import { revalidateRedirectsHook } from '@/hooks';
+import { revalidateRedirectsHook } from '@/hooks/revalidateRedirectsHook';
 import { Page } from '@/payload-types';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';

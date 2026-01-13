@@ -1,7 +1,8 @@
 import { anyone, editor } from '@/access';
-import { populatePublishedAtHook, snakeCaseUploadsHook } from '@/hooks';
 import { populateFileTypeHook } from '@/hooks/populateFileTypeHook';
+import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
 import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
+import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
 import { CollectionConfig } from 'payload';
 
 const supportedMimeTypes = [
@@ -66,7 +67,7 @@ export const Documents: CollectionConfig = {
     mimeTypes: supportedMimeTypes,
   },
   hooks: {
-    beforeOperation: [snakeCaseUploadsHook],
+    beforeOperation: [createSnakeCaseUploadsHook('documents')],
     beforeChange: [populatePublishedAtHook, populateTitleFromFileHook, populateFileTypeHook],
   },
 };

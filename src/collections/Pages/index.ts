@@ -2,7 +2,7 @@ import { editor, editorOrPublished } from '@/access';
 import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { dynamicBlocksField, templateOptions } from '@/fields/dynamicBlocks';
 import { slugField } from '@/fields/slug';
-import { populatePublishedAtHook } from '@/hooks';
+import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
 import {
   MetaDescriptionField,

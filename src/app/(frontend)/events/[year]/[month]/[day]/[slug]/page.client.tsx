@@ -137,6 +137,8 @@ const EventHeader: React.FC<Event> = ({
 const EventDetails: React.FC<Event> = ({
   eventType,
   description,
+  presenter,
+  credits,
   startDate,
   endDate,
   startTime,
@@ -184,10 +186,95 @@ const EventDetails: React.FC<Event> = ({
         <TitleTheme size="responsive" animated={false}>
           Event Details
         </TitleTheme>
-        {description && <RichText data={description} className="mx-0" />}
-        <div className="w-full mt-4">
+        <div className="w-full">
+          {(description || (presenter && presenter !== '') || (credits && credits !== '')) && (
+            <Bento
+              className={cn('auto-rows-min', {
+                // With Description
+                "[grid-template-areas:'description'_'presenter'_'credits'] lg:[grid-template-areas:'description_description_presenter'_'description_description_credits']":
+                  description,
+                // Without Description
+                "[grid-template-areas:'presenter'_'credits'] lg:[grid-template-areas:'presenter_credits']":
+                  !description,
+                // With Description and no Presenter or Credits
+                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_placeholder']":
+                  !presenter && !credits,
+              })}
+            >
+              {/* Description */}
+              {description && (
+                <Bento.Item
+                  icon="book-open-text"
+                  label="Description"
+                  className="[grid-area:description]"
+                >
+                  <RichText data={description} className="mx-0" />
+                </Bento.Item>
+              )}
+
+              {/* Details Or Placeholder */}
+              {(presenter && presenter !== '') || (credits && credits !== '') ? (
+                <>
+                  {/* Presenter */}
+                  {presenter && presenter !== '' ? (
+                    <Bento.Item
+                      icon="megaphone"
+                      label="Presenter"
+                      className="[grid-area:presenter] flex flex-col"
+                    >
+                      <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
+                        <span>{presenter}</span>
+                      </div>
+                    </Bento.Item>
+                  ) : (
+                    <Bento.Placeholder
+                      className="[grid-area:credits] min-h-12"
+                      data-placeholder-for="presenter"
+                      withPattern
+                    />
+                  )}
+
+                  {/* Credits - Note: If we have credits but no presenter we shift the credits box into the presenter slot for better left-to-right reading flow */}
+                  {credits && credits !== '' ? (
+                    <Bento.Item
+                      icon="graduation-cap"
+                      label="Credits"
+                      className={cn(
+                        {
+                          '[grid-area:credits]': presenter && presenter !== '',
+                          '[grid-area-presenter]': !presenter,
+                        },
+                        'flex flex-col',
+                      )}
+                    >
+                      <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
+                        <span>{credits}</span>
+                      </div>
+                    </Bento.Item>
+                  ) : (
+                    <Bento.Placeholder
+                      className="[grid-area:credits] min-h-12"
+                      data-placeholder-for="credits"
+                      withPattern
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Placeholder used as an accent when no presenter and no credits are provided */}
+                  {!presenter && !credits && (
+                    <Bento.Placeholder
+                      className="[grid-area:placeholder] min-h-12"
+                      data-placeholder-for="details"
+                      withPattern
+                    />
+                  )}
+                </>
+              )}
+            </Bento>
+          )}
           <Bento
-            className={cn({
+            className={cn('mt-4', {
               // Important Dates show the date and time
               "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
                 eventType === 'importantDate',
