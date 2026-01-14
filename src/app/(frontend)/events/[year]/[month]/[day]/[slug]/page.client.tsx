@@ -221,7 +221,7 @@ const EventDetails: React.FC<Event> = ({
                   {presenters && presenters.length > 0 ? (
                     <Bento.Item
                       icon="megaphone"
-                      label="Presenter"
+                      label={presenters.length > 1 ? 'Presenters' : 'Presenter'}
                       className="[grid-area:presenters] flex flex-col"
                     >
                       <div className="flex flex-col gap-2 grow justify-center">
@@ -247,7 +247,7 @@ const EventDetails: React.FC<Event> = ({
                   {credits && credits.length > 0 ? (
                     <Bento.Item
                       icon="graduation-cap"
-                      label="Credits"
+                      label={credits.length > 1 ? 'Credits' : 'Credit'}
                       className={cn(
                         {
                           '[grid-area:credits]': presenters && presenters.length > 0,

@@ -650,6 +650,9 @@ export interface Event {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Persons or organizations presenting the main topic
+   */
   presenters?:
     | {
         name: string;

@@ -98,7 +98,14 @@ export const Events: CollectionConfig<'events'> = {
               },
             },
           ],
-          maxRows: 4,
+          maxRows: 3,
+          admin: {
+            description: 'Persons or organizations presenting the main topic',
+            initCollapsed: true,
+            components: {
+              RowLabel: '@/collections/Events/EventDynamicLabels',
+            },
+          },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
           },
@@ -117,8 +124,13 @@ export const Events: CollectionConfig<'events'> = {
               },
             },
           ],
+          maxRows: 3,
           admin: {
             description: 'QPA or other credits',
+            initCollapsed: true,
+            components: {
+              RowLabel: '@/collections/Events/EventDynamicLabels',
+            },
           },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
