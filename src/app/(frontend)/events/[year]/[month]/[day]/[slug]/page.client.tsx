@@ -28,6 +28,14 @@ type EventPageClientProps = {
   related: EventTileData[];
 };
 
+enum VirtualProviderLinkText {
+  zoom = 'Zoom Meeting Link',
+  googleMeet = 'Google Meet Link',
+  microsoftTeams = 'Microsoft Teams Meeting Link',
+  goToMeeting = 'GoTo Meeting Link',
+  other = 'Meeting Link',
+}
+
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
 
@@ -338,8 +346,8 @@ const EventDetails: React.FC<Event> = ({
                         link={{ url: virtualLink, newTab: true, allowReferrer: false }}
                         className="text-[clamp(18px,6vw,24px)] font-medium"
                       >
-                        {virtualProvider
-                          ? `${virtualProvider} Meeting Link`
+                        {virtualProvider && hasMeetingLinkText(virtualProvider)
+                          ? `${VirtualProviderLinkText[virtualProvider]}`
                           : 'Virtual Meeting Link'}{' '}
                         <ArrowUpRightIcon size={16} className="inline-block" />
                       </Hyperlink>
@@ -463,5 +471,9 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
     </div>
   );
 };
+
+function hasMeetingLinkText(key: string): boolean {
+  return key in VirtualProviderLinkText;
+}
 
 export default EventPageClient;
