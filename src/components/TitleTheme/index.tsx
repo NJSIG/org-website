@@ -67,7 +67,7 @@ export default function TitleTheme({
         data-underline={underlined ? 'expanded' : 'collapsed'}
         className={cn(containerVariants({ size, animated }), className)}
       >
-        <p className={textVariants({ size })}>{children}</p>
+        <h3 className={textVariants({ size })}>{children}</h3>
         <span className={underlineVariants({ size, animated })}></span>
       </InView>
     );
@@ -75,7 +75,7 @@ export default function TitleTheme({
 
   return (
     <div className={cn(containerVariants({ size }), className)}>
-      <p className={textVariants({ size })}>{children}</p>
+      <h3 className={textVariants({ size })}>{children}</h3>
       <span className={underlineVariants({ size })}></span>
     </div>
   );
