@@ -428,7 +428,7 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
         <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {events && events.length > 0 ? (
             events.map((event) => (
               <EventTile
