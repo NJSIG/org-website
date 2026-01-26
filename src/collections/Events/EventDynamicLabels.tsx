@@ -9,16 +9,25 @@ type CreditLabel = NonNullable<Event['credits']>[number];
 
 const EventDynamicLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<PresenterLabel | CreditLabel>();
+  let label = 'Item';
 
   if (isPresenter(data)) {
-    return <div>{data.name}</div>;
+    label = 'Presenter';
+
+    if (data.name?.length > 0) {
+      return <div>{data.name}</div>;
+    }
   }
 
   if (isCredit(data)) {
-    return <div>{data.credit}</div>;
+    label = 'Credit';
+
+    if (data.credit?.length > 0) {
+      return <div>{data.credit}</div>;
+    }
   }
 
-  return <div>{`Item ${rowNumber}`}</div>;
+  return <div>{`${label} ${(rowNumber || 0) + 1}`}</div>;
 };
 
 function isPresenter(data: PresenterLabel | CreditLabel): data is PresenterLabel {
