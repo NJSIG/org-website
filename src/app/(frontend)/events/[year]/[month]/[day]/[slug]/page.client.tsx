@@ -193,13 +193,13 @@ const EventDetails: React.FC<Event> = ({
             <Bento
               className={cn('auto-rows-min', {
                 // With Description
-                "[grid-template-areas:'description'_'presenters'_'credits'] lg:[grid-template-areas:'description_description_presenters'_'description_description_credits']":
+                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_presenters_presenters'_'description_description_description_credits_credits']":
                   description,
                 // Without Description
                 "[grid-template-areas:'presenters'_'credits'] lg:[grid-template-areas:'presenters_credits']":
                   !description,
                 // With Description and no Presenters or Credits
-                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_placeholder']":
+                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_placeholder_placeholder']":
                   (!presenters || presenters.length <= 0) && !credits,
               })}
             >
@@ -326,27 +326,35 @@ const EventDetails: React.FC<Event> = ({
 
             {/* Virtual */}
             {eventType !== 'importantDate' && attendanceOptions !== 'inPerson' && (
-              <Bento.Item icon="webcam" label="Virtual Attendance" className="[grid-area:link]">
-                {virtualLink ? (
-                  <div className="flex flex-col gap-1">
-                    <Hyperlink
-                      link={{ url: virtualLink, newTab: true, allowReferrer: false }}
-                      className="text-lg font-medium"
-                    >
-                      {virtualProvider ? `${virtualProvider} Meeting Link` : 'Virtual Meeting Link'}{' '}
-                      <ArrowUpRightIcon size={16} className="inline-block" />
-                    </Hyperlink>
-                    {virtualPasscode && (
-                      <span className="text-lg text-foreground-muted">
-                        Passcode: <strong>{virtualPasscode}</strong>
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-lg font-medium">
-                    Virtual Attendance Details Unavailable
-                  </span>
-                )}
+              <Bento.Item
+                icon="webcam"
+                label="Virtual Attendance"
+                className="[grid-area:link] flex flex-col"
+              >
+                <div className="flex flex-col gap-1 grow justify-center">
+                  {virtualLink ? (
+                    <>
+                      <Hyperlink
+                        link={{ url: virtualLink, newTab: true, allowReferrer: false }}
+                        className="text-[clamp(18px,6vw,24px)] font-medium"
+                      >
+                        {virtualProvider
+                          ? `${virtualProvider} Meeting Link`
+                          : 'Virtual Meeting Link'}{' '}
+                        <ArrowUpRightIcon size={16} className="inline-block" />
+                      </Hyperlink>
+                      {virtualPasscode && (
+                        <span className="text-[clamp(16px,4vw,20px)] text-foreground-muted">
+                          Passcode: <strong>{virtualPasscode}</strong>
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="text-[clamp(18px,6vw,24px)] font-medium">
+                      Virtual Attendance Details Unavailable
+                    </span>
+                  )}
+                </div>
               </Bento.Item>
             )}
 
