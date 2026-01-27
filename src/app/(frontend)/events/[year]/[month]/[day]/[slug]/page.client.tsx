@@ -472,8 +472,8 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
   );
 };
 
-function hasMeetingLinkText(key: string): boolean {
-  return key in VirtualProviderLinkText;
+function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLinkText {
+  return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);
 }
 
 export default EventPageClient;
