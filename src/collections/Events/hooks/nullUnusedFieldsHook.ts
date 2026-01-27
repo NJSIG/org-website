@@ -8,7 +8,7 @@ export const nullUnusedFieldsHook: FieldHook = ({ siblingData, field, value }) =
       case EventTypeValues.ImportantDate:
         if (
           [
-            'presenter',
+            'presenters',
             'credits',
             'endDate',
             'registrationTime',
@@ -28,7 +28,7 @@ export const nullUnusedFieldsHook: FieldHook = ({ siblingData, field, value }) =
         }
         break;
       case EventTypeValues.TrusteeMeeting:
-        if (['presenter', 'credits'].includes(field.name)) {
+        if (['presenters', 'credits'].includes(field.name)) {
           return null;
         }
         break;
