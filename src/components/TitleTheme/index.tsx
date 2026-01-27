@@ -44,11 +44,13 @@ const underlineVariants = cva('bg-(--title-theme-accent)', {
 export default function TitleTheme({
   size = 'medium',
   animated = false,
+  asHeading = false,
   className,
   children,
 }: {
   size?: 'small' | 'medium' | 'responsive';
   animated?: boolean;
+  asHeading?: boolean;
   className?: string;
   children: React.ReactNode;
 }): React.JSX.Element {
@@ -67,7 +69,11 @@ export default function TitleTheme({
         data-underline={underlined ? 'expanded' : 'collapsed'}
         className={cn(containerVariants({ size, animated }), className)}
       >
-        <h3 className={textVariants({ size })}>{children}</h3>
+        {asHeading ? (
+          <h2 className={textVariants({ size })}>{children}</h2>
+        ) : (
+          <p className={textVariants({ size })}>{children}</p>
+        )}
         <span className={underlineVariants({ size, animated })}></span>
       </InView>
     );
@@ -75,7 +81,11 @@ export default function TitleTheme({
 
   return (
     <div className={cn(containerVariants({ size }), className)}>
-      <h3 className={textVariants({ size })}>{children}</h3>
+      {asHeading ? (
+        <h2 className={textVariants({ size })}>{children}</h2>
+      ) : (
+        <p className={textVariants({ size })}>{children}</p>
+      )}
       <span className={underlineVariants({ size })}></span>
     </div>
   );
