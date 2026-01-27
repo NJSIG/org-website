@@ -259,7 +259,7 @@ const EventDetails: React.FC<Event> = ({
                       className={cn(
                         {
                           '[grid-area:credits]': presenters && presenters.length > 0,
-                          '[grid-area-presenters]': !presenters || presenters.length <= 0,
+                          '[grid-area:presenters]': !presenters || presenters.length <= 0,
                         },
                         'flex flex-col',
                       )}
