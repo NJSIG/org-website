@@ -208,7 +208,7 @@ const EventDetails: React.FC<Event> = ({
                   !description,
                 // With Description and no Presenters or Credits
                 "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_placeholder_placeholder']":
-                  (!presenters || presenters.length <= 0) && !credits,
+                  (!presenters || presenters.length <= 0) && (!credits || credits.length <= 0),
               })}
             >
               {/* Description */}
