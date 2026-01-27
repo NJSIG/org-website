@@ -11,7 +11,7 @@ const EventDynamicLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<PresenterLabel | CreditLabel>();
   let label = 'Item';
 
-  if (isPresenter(data)) {
+  if (data && isPresenter(data)) {
     label = 'Presenter';
 
     if (data.name?.length > 0) {
@@ -19,7 +19,7 @@ const EventDynamicLabel: React.FC<RowLabelProps> = () => {
     }
   }
 
-  if (isCredit(data)) {
+  if (data && isCredit(data)) {
     label = 'Credit';
 
     if (data.credit?.length > 0) {
