@@ -40,6 +40,133 @@ export const HeroImages: CollectionConfig = {
       },
     },
     {
+      type: 'group',
+      name: 'customPositioning',
+      label: 'Custom Positioning',
+      admin: {
+        description: 'Adjust the positioning of the image within its container across breakpoints.',
+      },
+      fields: [
+        {
+          type: 'group',
+          name: 'smallScreens',
+          label: 'Small Screens',
+          fields: [
+            {
+              type: 'checkbox',
+              name: 'enabled',
+              label: 'Enable for Small Screens',
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  type: 'text',
+                  name: 'xPos',
+                  label: 'Horizontal Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use left, center, right, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+                {
+                  type: 'text',
+                  name: 'yPos',
+                  label: 'Vertical Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use top, center, bottom, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'group',
+          name: 'mediumScreens',
+          label: 'Medium Screens',
+          fields: [
+            {
+              type: 'checkbox',
+              name: 'enabled',
+              label: 'Enable for Medium Screens',
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  type: 'text',
+                  name: 'xPos',
+                  label: 'Horizontal Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use left, center, right, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+                {
+                  type: 'text',
+                  name: 'yPos',
+                  label: 'Vertical Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use top, center, bottom, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'group',
+          name: 'largeScreens',
+          label: 'Large Screens',
+          fields: [
+            {
+              type: 'checkbox',
+              name: 'enabled',
+              label: 'Enable for Large Screens',
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  type: 'text',
+                  name: 'xPos',
+                  label: 'Horizontal Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use left, center, right, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+                {
+                  type: 'text',
+                  name: 'yPos',
+                  label: ' Vertical Position',
+                  admin: {
+                    width: '50%',
+                    placeholder: 'e.g., 20%, center, 150px',
+                    description: 'Use top, center, bottom, or a value in %, em, rem, or px',
+                    condition: (_, siblingData) => siblingData.enabled,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'blurData',
       label: 'Blur Data',
       type: 'text',

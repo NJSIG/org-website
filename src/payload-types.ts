@@ -244,6 +244,44 @@ export interface HeroImage {
    */
   alt: string;
   /**
+   * Adjust the positioning of the image within its container across breakpoints.
+   */
+  customPositioning?: {
+    smallScreens?: {
+      enabled?: boolean | null;
+      /**
+       * Use left, center, right, or a value in %, em, rem, or px
+       */
+      xPos?: string | null;
+      /**
+       * Use top, center, bottom, or a value in %, em, rem, or px
+       */
+      yPos?: string | null;
+    };
+    mediumScreens?: {
+      enabled?: boolean | null;
+      /**
+       * Use left, center, right, or a value in %, em, rem, or px
+       */
+      xPos?: string | null;
+      /**
+       * Use top, center, bottom, or a value in %, em, rem, or px
+       */
+      yPos?: string | null;
+    };
+    largeScreens?: {
+      enabled?: boolean | null;
+      /**
+       * Use left, center, right, or a value in %, em, rem, or px
+       */
+      xPos?: string | null;
+      /**
+       * Use top, center, bottom, or a value in %, em, rem, or px
+       */
+      yPos?: string | null;
+    };
+  };
+  /**
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
@@ -1645,6 +1683,31 @@ export interface DocumentsSelect<T extends boolean = true> {
 export interface HeroImagesSelect<T extends boolean = true> {
   title?: T;
   alt?: T;
+  customPositioning?:
+    | T
+    | {
+        smallScreens?:
+          | T
+          | {
+              enabled?: T;
+              xPos?: T;
+              yPos?: T;
+            };
+        mediumScreens?:
+          | T
+          | {
+              enabled?: T;
+              xPos?: T;
+              yPos?: T;
+            };
+        largeScreens?:
+          | T
+          | {
+              enabled?: T;
+              xPos?: T;
+              yPos?: T;
+            };
+      };
   blurData?: T;
   prefix?: T;
   updatedAt?: T;

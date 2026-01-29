@@ -687,6 +687,14 @@
   --callout-shadow-md-l: -10px 10px 0 0 var(--color-njsig-accent-midtone);
   --callout-shadow-md-r: 10px 10px 0 0 var(--color-njsig-accent-midtone);
 
+  /* Hero Image Positioning Defaults */
+  --hero-h-pos: center;
+  --hero-v-pos: bottom;
+  --hero-h-pos-lg: var(--hero-h-pos);
+  --hero-v-pos-lg: var(--hero-v-pos);
+  --hero-h-pos-xl: var(--hero-h-pos);
+  --hero-v-pos-xl: var(--hero-v-pos);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
