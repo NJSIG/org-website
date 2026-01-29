@@ -651,13 +651,27 @@ export interface Event {
     [k: string]: unknown;
   } | null;
   /**
-   * A person or organization
+   * Persons or organizations presenting the main topic
    */
-  presenter?: string | null;
+  presenters?:
+    | {
+        name: string;
+        /**
+         * Title or Affiliation
+         */
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * QPA or other credits
    */
-  credits?: string | null;
+  credits?:
+    | {
+        credit: string;
+        id?: string | null;
+      }[]
+    | null;
   startDate: string;
   endDate?: string | null;
   registrationTime?: string | null;
@@ -672,7 +686,7 @@ export interface Event {
    */
   contact?: (string | null) | Contact;
   attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
-  virtualProvider: 'zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other';
+  virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
   /**
    * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
    */
@@ -1451,8 +1465,19 @@ export interface EventsSelect<T extends boolean = true> {
   eventType?: T;
   title?: T;
   description?: T;
-  presenter?: T;
-  credits?: T;
+  presenters?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        id?: T;
+      };
+  credits?:
+    | T
+    | {
+        credit?: T;
+        id?: T;
+      };
   startDate?: T;
   endDate?: T;
   registrationTime?: T;

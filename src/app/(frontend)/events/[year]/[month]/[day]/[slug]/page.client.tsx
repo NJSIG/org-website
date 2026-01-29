@@ -28,6 +28,14 @@ type EventPageClientProps = {
   related: EventTileData[];
 };
 
+enum VirtualProviderLinkText {
+  zoom = 'Zoom Meeting Link',
+  googleMeet = 'Google Meet Link',
+  microsoftTeams = 'Microsoft Teams Meeting Link',
+  goToMeeting = 'GoTo Meeting Link',
+  other = 'Meeting Link',
+}
+
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
 
@@ -137,7 +145,7 @@ const EventHeader: React.FC<Event> = ({
 const EventDetails: React.FC<Event> = ({
   eventType,
   description,
-  presenter,
+  presenters,
   credits,
   startDate,
   endDate,
@@ -187,18 +195,20 @@ const EventDetails: React.FC<Event> = ({
           Event Details
         </TitleTheme>
         <div className="w-full">
-          {(description || (presenter && presenter !== '') || (credits && credits !== '')) && (
+          {(description ||
+            (presenters && presenters.length > 0) ||
+            (credits && credits.length > 0)) && (
             <Bento
               className={cn('auto-rows-min', {
                 // With Description
-                "[grid-template-areas:'description'_'presenter'_'credits'] lg:[grid-template-areas:'description_description_presenter'_'description_description_credits']":
+                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_presenters_presenters'_'description_description_description_credits_credits']":
                   description,
                 // Without Description
-                "[grid-template-areas:'presenter'_'credits'] lg:[grid-template-areas:'presenter_credits']":
+                "[grid-template-areas:'presenters'_'credits'] lg:[grid-template-areas:'presenters_credits']":
                   !description,
-                // With Description and no Presenter or Credits
-                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_placeholder']":
-                  !presenter && !credits,
+                // With Description and no Presenters or Credits
+                "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_placeholder_placeholder']":
+                  (!presenters || presenters.length <= 0) && (!credits || credits.length <= 0),
               })}
             >
               {/* Description */}
@@ -213,17 +223,24 @@ const EventDetails: React.FC<Event> = ({
               )}
 
               {/* Details Or Placeholder */}
-              {(presenter && presenter !== '') || (credits && credits !== '') ? (
+              {(presenters && presenters.length > 0) || (credits && credits.length > 0) ? (
                 <>
                   {/* Presenter */}
-                  {presenter && presenter !== '' ? (
+                  {presenters && presenters.length > 0 ? (
                     <Bento.Item
                       icon="megaphone"
-                      label="Presenter"
-                      className="[grid-area:presenter] flex flex-col"
+                      label={presenters.length > 1 ? 'Presenters' : 'Presenter'}
+                      className="[grid-area:presenters] flex flex-col"
                     >
-                      <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
-                        <span>{presenter}</span>
+                      <div className="flex flex-col gap-2 grow justify-center">
+                        {presenters.map((p, index) => (
+                          <div key={index}>
+                            <p className="font-medium text-[clamp(16px,6vw,20px)]">{p.name}</p>
+                            {p.title && p.title !== '' && (
+                              <small className="text-sm text-foreground-muted">{p.title}</small>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </Bento.Item>
                   ) : (
@@ -235,20 +252,24 @@ const EventDetails: React.FC<Event> = ({
                   )}
 
                   {/* Credits - Note: If we have credits but no presenter we shift the credits box into the presenter slot for better left-to-right reading flow */}
-                  {credits && credits !== '' ? (
+                  {credits && credits.length > 0 ? (
                     <Bento.Item
                       icon="graduation-cap"
-                      label="Credits"
+                      label={credits.length > 1 ? 'Credits' : 'Credit'}
                       className={cn(
                         {
-                          '[grid-area:credits]': presenter && presenter !== '',
-                          '[grid-area-presenter]': !presenter,
+                          '[grid-area:credits]': presenters && presenters.length > 0,
+                          '[grid-area:presenters]': !presenters || presenters.length <= 0,
                         },
                         'flex flex-col',
                       )}
                     >
-                      <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(18px,6vw,24px)]">
-                        <span>{credits}</span>
+                      <div className="flex flex-col gap-1 grow justify-center">
+                        {credits.map((c, index) => (
+                          <span className="font-medium text-[clamp(16px,6vw,18px)]" key={index}>
+                            {c.credit}
+                          </span>
+                        ))}
                       </div>
                     </Bento.Item>
                   ) : (
@@ -262,7 +283,7 @@ const EventDetails: React.FC<Event> = ({
               ) : (
                 <>
                   {/* Placeholder used as an accent when no presenter and no credits are provided */}
-                  {!presenter && !credits && (
+                  {(!presenters || presenters.length <= 0) && (!credits || credits.length <= 0) && (
                     <Bento.Placeholder
                       className="[grid-area:placeholder] min-h-12"
                       data-placeholder-for="details"
@@ -313,27 +334,35 @@ const EventDetails: React.FC<Event> = ({
 
             {/* Virtual */}
             {eventType !== 'importantDate' && attendanceOptions !== 'inPerson' && (
-              <Bento.Item icon="webcam" label="Virtual Attendance" className="[grid-area:link]">
-                {virtualLink ? (
-                  <div className="flex flex-col gap-1">
-                    <Hyperlink
-                      link={{ url: virtualLink, newTab: true, allowReferrer: false }}
-                      className="text-lg font-medium"
-                    >
-                      {virtualProvider ? `${virtualProvider} Meeting Link` : 'Virtual Meeting Link'}{' '}
-                      <ArrowUpRightIcon size={16} className="inline-block" />
-                    </Hyperlink>
-                    {virtualPasscode && (
-                      <span className="text-lg text-foreground-muted">
-                        Passcode: <strong>{virtualPasscode}</strong>
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-lg font-medium">
-                    Virtual Attendance Details Unavailable
-                  </span>
-                )}
+              <Bento.Item
+                icon="webcam"
+                label="Virtual Attendance"
+                className="[grid-area:link] flex flex-col"
+              >
+                <div className="flex flex-col gap-1 grow justify-center">
+                  {virtualLink ? (
+                    <>
+                      <Hyperlink
+                        link={{ url: virtualLink, newTab: true, allowReferrer: false }}
+                        className="text-[clamp(18px,6vw,24px)] font-medium"
+                      >
+                        {virtualProvider && hasMeetingLinkText(virtualProvider)
+                          ? `${VirtualProviderLinkText[virtualProvider]}`
+                          : 'Virtual Meeting Link'}{' '}
+                        <ArrowUpRightIcon size={16} className="inline-block" />
+                      </Hyperlink>
+                      {virtualPasscode && (
+                        <span className="text-[clamp(16px,4vw,20px)] text-foreground-muted">
+                          Passcode: <strong>{virtualPasscode}</strong>
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="text-[clamp(18px,6vw,24px)] font-medium">
+                      Virtual Attendance Details Unavailable
+                    </span>
+                  )}
+                </div>
               </Bento.Item>
             )}
 
@@ -407,7 +436,7 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
         <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {events && events.length > 0 ? (
             events.map((event) => (
               <EventTile
@@ -442,5 +471,9 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
     </div>
   );
 };
+
+function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLinkText {
+  return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);
+}
 
 export default EventPageClient;

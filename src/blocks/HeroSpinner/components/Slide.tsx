@@ -37,11 +37,11 @@ const HeroSlide = memo<{
   return (
     <div
       data-state={isActive ? 'active' : 'inactive'}
-      className={cn('h-[465px] xl:h-[600px] group', {
+      className={cn('h-116.25 xl:h-150 group', {
         hidden: !isActive,
       })}
     >
-      <div className="absolute top-0 h-[380px] lg:h-[465px] xl:h-[600px] w-screen max-w-full">
+      <div className="absolute top-0 h-95 lg:h-116.25 xl:h-150 w-screen max-w-full">
         <Image
           loader={heroImageLoader}
           src={imageData.url}

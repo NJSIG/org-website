@@ -15,10 +15,8 @@ export const BannerTitleBlock: React.FC<BannerTitleBlockProps> = ({ image, theme
   };
 
   return (
-    <div
-      className={cn('h-[296px] lg:h-[364px] xl:h-[464px] relative flex items-end justify-center')}
-    >
-      <div className="absolute top-0 h-[200px] lg:h-[300px] xl:h-[400px] w-screen max-w-full -z-1">
+    <div className={cn('h-74 lg:h-91 xl:h-116 relative flex items-end justify-center')}>
+      <div className="absolute top-0 h-50 lg:h-75 xl:h-100 w-screen max-w-full -z-1">
         <Image
           loader={heroImageLoader}
           src={imageData.url}

@@ -79,24 +79,61 @@ export const Events: CollectionConfig<'events'> = {
       type: 'row',
       fields: [
         {
-          name: 'presenter',
-          type: 'text',
+          name: 'presenters',
+          type: 'array',
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'title',
+              type: 'text',
+              admin: {
+                description: 'Title or Affiliation',
+              },
+              hooks: {
+                beforeChange: [nullEmptyFieldHook],
+              },
+            },
+          ],
+          maxRows: 3,
           admin: {
-            description: 'A person or organization',
+            description: 'Persons or organizations presenting the main topic',
+            initCollapsed: true,
+            components: {
+              RowLabel: '@/collections/Events/EventDynamicLabels',
+            },
           },
           hooks: {
-            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
         {
           name: 'credits',
-          type: 'text',
+          type: 'array',
           localized: true,
+          fields: [
+            {
+              name: 'credit',
+              type: 'text',
+              required: true,
+              hooks: {
+                beforeChange: [nullEmptyFieldHook],
+              },
+            },
+          ],
+          maxRows: 3,
           admin: {
             description: 'QPA or other credits',
+            initCollapsed: true,
+            components: {
+              RowLabel: '@/collections/Events/EventDynamicLabels',
+            },
           },
           hooks: {
-            beforeChange: [nullEmptyFieldHook, nullUnusedFieldsHook],
+            beforeChange: [nullUnusedFieldsHook],
           },
         },
       ],
@@ -252,7 +289,6 @@ export const Events: CollectionConfig<'events'> = {
                     { label: 'Other', value: 'other' },
                   ],
                   defaultValue: 'zoom',
-                  required: true,
                   admin: {
                     width: '20%',
                   },

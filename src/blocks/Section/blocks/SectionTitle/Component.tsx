@@ -15,7 +15,7 @@ export const SectionTitleBlock: React.FC<SectionTitleBlockProps> = ({
       })}
     >
       {viewOptions !== 'titleOnly' && (
-        <TitleTheme size="responsive" animated={true}>
+        <TitleTheme size="responsive" animated={true} asHeading={viewOptions === 'themeOnly'}>
           {theme}
         </TitleTheme>
       )}
