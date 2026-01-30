@@ -5,12 +5,12 @@ type CustomPosition = {
   vVar: `--${string}`;
 };
 
-type customPositions = Record<`--${string}`, string>;
+type CustomPositionStyles = Record<`--${string}`, string>;
 
-export const applyCustomPosition = (customPositions: CustomPosition[]): React.CSSProperties => {
-  const styles: customPositions = {};
+export const applyCustomPosition = (positions: CustomPosition[]): React.CSSProperties => {
+  const styles: CustomPositionStyles = {};
 
-  customPositions.forEach(({ xPos, yPos, hVar, vVar }) => {
+  positions.forEach(({ xPos, yPos, hVar, vVar }) => {
     styles[hVar] = xPos || 'center';
     styles[vVar] = yPos || 'bottom';
   });
