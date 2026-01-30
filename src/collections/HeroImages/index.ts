@@ -180,7 +180,7 @@ export const HeroImages: CollectionConfig = {
                 {
                   type: 'text',
                   name: 'yPos',
-                  label: ' Vertical Position',
+                  label: 'Vertical Position',
                   admin: {
                     width: '50%',
                     placeholder: 'e.g., 20%, center, 150px',
