@@ -18,21 +18,18 @@ export const BannerTitleBlock: React.FC<BannerTitleBlockProps> = ({ image, theme
 
   const style = applyCustomPosition([
     {
-      enabled: imageData.customPositioning?.smallScreens?.enabled,
       xPos: imageData.customPositioning?.smallScreens?.xPos,
       yPos: imageData.customPositioning?.smallScreens?.yPos,
       hVar: '--hero-h-pos',
       vVar: '--hero-v-pos',
     },
     {
-      enabled: imageData.customPositioning?.mediumScreens?.enabled,
       xPos: imageData.customPositioning?.mediumScreens?.xPos,
       yPos: imageData.customPositioning?.mediumScreens?.yPos,
       hVar: '--hero-h-pos-lg',
       vVar: '--hero-v-pos-lg',
     },
     {
-      enabled: imageData.customPositioning?.largeScreens?.enabled,
       xPos: imageData.customPositioning?.largeScreens?.xPos,
       yPos: imageData.customPositioning?.largeScreens?.yPos,
       hVar: '--hero-h-pos-xl',

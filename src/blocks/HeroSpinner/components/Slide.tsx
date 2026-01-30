@@ -2,6 +2,7 @@ import { ButtonLink } from '@/components/ButtonLink';
 import TitleTheme from '@/components/TitleTheme';
 import { LinkAppearanceHelper } from '@/fields/link/types';
 import { HeroImage, HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-types';
+import { applyCustomPosition } from '@/utilities/applyCustomImagePosition';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
 import { getMediaUrl } from '@/utilities/getMediaUrl';
@@ -30,9 +31,32 @@ const HeroSlide = memo<{
       ),
       alt: (slide.backgroundImage as HeroImage)?.alt || '',
       blurData: blurDataToBlurDataURL((slide.backgroundImage as HeroImage).blurData),
+      customPositioning: applyCustomPosition([
+        {
+          xPos: (slide.backgroundImage as HeroImage).customPositioning?.smallScreens?.xPos,
+          yPos: (slide.backgroundImage as HeroImage).customPositioning?.smallScreens?.yPos,
+          hVar: '--hero-h-pos',
+          vVar: '--hero-v-pos',
+        },
+        {
+          xPos: (slide.backgroundImage as HeroImage).customPositioning?.mediumScreens?.xPos,
+          yPos: (slide.backgroundImage as HeroImage).customPositioning?.mediumScreens?.yPos,
+          hVar: '--hero-h-pos-lg',
+          vVar: '--hero-v-pos-lg',
+        },
+        {
+          xPos: (slide.backgroundImage as HeroImage).customPositioning?.largeScreens?.xPos,
+          yPos: (slide.backgroundImage as HeroImage).customPositioning?.largeScreens?.yPos,
+          hVar: '--hero-h-pos-xl',
+          vVar: '--hero-v-pos-xl',
+        },
+      ]),
     }),
     [slide],
   );
+
+  console.log('Blur Data', imageData.blurData);
+  console.log('Position', imageData.customPositioning);
 
   return (
     <div
@@ -41,7 +65,11 @@ const HeroSlide = memo<{
         hidden: !isActive,
       })}
     >
-      <div className="absolute top-0 h-95 lg:h-116.25 xl:h-150 w-screen max-w-full">
+      <div
+        className="absolute top-0 h-95 lg:h-116.25 xl:h-150 w-screen max-w-full"
+        style={imageData.customPositioning}
+        suppressHydrationWarning
+      >
         <Image
           loader={heroImageLoader}
           src={imageData.url}
@@ -51,7 +79,7 @@ const HeroSlide = memo<{
           priority={isPriority}
           placeholder="blur"
           blurDataURL={imageData.blurData}
-          className="object-cover object-bottom-right @5xl:object-[center_right] @5xl:@max-9xl:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
+          className="object-cover object-[var(--hero-h-pos)_var(--hero-v-pos)] @5xl:object-[var(--hero-h-pos-lg)_var(--hero-v-pos-lg)] @7xl:object-[var(--hero-h-pos-xl)_var(--hero-v-pos-xl)] @5xl:@max-9xl:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
         />
       </div>
       <div
