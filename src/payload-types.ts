@@ -250,33 +250,33 @@ export interface HeroImage {
     smallScreens?: {
       enabled?: boolean | null;
       /**
-       * Use left, center, right, or a value in %, em, rem, or px
+       * Use left, center, right, or a value in %, em, rem, or px. Defaults to center.
        */
       xPos?: string | null;
       /**
-       * Use top, center, bottom, or a value in %, em, rem, or px
+       * Use top, center, bottom, or a value in %, em, rem, or px. Defaults to bottom.
        */
       yPos?: string | null;
     };
     mediumScreens?: {
       enabled?: boolean | null;
       /**
-       * Use left, center, right, or a value in %, em, rem, or px
+       * Use left, center, right, or a value in %, em, rem, or px. Defaults to center.
        */
       xPos?: string | null;
       /**
-       * Use top, center, bottom, or a value in %, em, rem, or px
+       * Use top, center, bottom, or a value in %, em, rem, or px. Defaults to bottom.
        */
       yPos?: string | null;
     };
     largeScreens?: {
       enabled?: boolean | null;
       /**
-       * Use left, center, right, or a value in %, em, rem, or px
+       * Use left, center, right, or a value in %, em, rem, or px. Defaults to center.
        */
       xPos?: string | null;
       /**
-       * Use top, center, bottom, or a value in %, em, rem, or px
+       * Use top, center, bottom, or a value in %, em, rem, or px. Defaults to bottom.
        */
       yPos?: string | null;
     };
