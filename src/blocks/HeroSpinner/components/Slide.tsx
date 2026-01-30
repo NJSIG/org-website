@@ -55,9 +55,6 @@ const HeroSlide = memo<{
     [slide],
   );
 
-  console.log('Blur Data', imageData.blurData);
-  console.log('Position', imageData.customPositioning);
-
   return (
     <div
       data-state={isActive ? 'active' : 'inactive'}
@@ -68,7 +65,6 @@ const HeroSlide = memo<{
       <div
         className="absolute top-0 h-95 lg:h-116.25 xl:h-150 w-screen max-w-full"
         style={imageData.customPositioning}
-        suppressHydrationWarning
       >
         <Image
           loader={heroImageLoader}
