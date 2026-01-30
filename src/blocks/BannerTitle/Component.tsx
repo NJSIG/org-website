@@ -1,6 +1,7 @@
 import { CalloutCard } from '@/components/CalloutCard';
 import TitleTheme from '@/components/TitleTheme';
 import { BannerTitleBlock as BannerTitleBlockProps, HeroImage } from '@/payload-types';
+import { applyCustomPosition } from '@/utilities/applyCustomImagePosition';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
 import { getMediaUrl } from '@/utilities/getMediaUrl';
@@ -15,52 +16,29 @@ export const BannerTitleBlock: React.FC<BannerTitleBlockProps> = ({ image, theme
     customPositioning: (image as HeroImage).customPositioning,
   };
 
-  const customPositions: Record<`--${string}`, string> = {};
-  const applyCustomPosition = (
-    enabled: boolean | null | undefined,
-    xPos: string | null | undefined,
-    yPos: string | null | undefined,
-    hVar: `--${string}`,
-    vVar: `--${string}`,
-  ) => {
-    if (!enabled) {
-      return;
-    }
-
-    if (xPos != null) {
-      customPositions[hVar] = xPos;
-    }
-
-    if (yPos != null) {
-      customPositions[vVar] = yPos;
-    }
-  };
-
-  applyCustomPosition(
-    imageData.customPositioning?.smallScreens?.enabled,
-    imageData.customPositioning?.smallScreens?.xPos,
-    imageData.customPositioning?.smallScreens?.yPos,
-    '--hero-h-pos',
-    '--hero-v-pos',
-  );
-
-  applyCustomPosition(
-    imageData.customPositioning?.mediumScreens?.enabled,
-    imageData.customPositioning?.mediumScreens?.xPos,
-    imageData.customPositioning?.mediumScreens?.yPos,
-    '--hero-h-pos-lg',
-    '--hero-v-pos-lg',
-  );
-
-  applyCustomPosition(
-    imageData.customPositioning?.largeScreens?.enabled,
-    imageData.customPositioning?.largeScreens?.xPos,
-    imageData.customPositioning?.largeScreens?.yPos,
-    '--hero-h-pos-xl',
-    '--hero-v-pos-xl',
-  );
-
-  const style = customPositions as React.CSSProperties;
+  const style = applyCustomPosition([
+    {
+      enabled: imageData.customPositioning?.smallScreens?.enabled,
+      xPos: imageData.customPositioning?.smallScreens?.xPos,
+      yPos: imageData.customPositioning?.smallScreens?.yPos,
+      hVar: '--hero-h-pos',
+      vVar: '--hero-v-pos',
+    },
+    {
+      enabled: imageData.customPositioning?.mediumScreens?.enabled,
+      xPos: imageData.customPositioning?.mediumScreens?.xPos,
+      yPos: imageData.customPositioning?.mediumScreens?.yPos,
+      hVar: '--hero-h-pos-lg',
+      vVar: '--hero-v-pos-lg',
+    },
+    {
+      enabled: imageData.customPositioning?.largeScreens?.enabled,
+      xPos: imageData.customPositioning?.largeScreens?.xPos,
+      yPos: imageData.customPositioning?.largeScreens?.yPos,
+      hVar: '--hero-h-pos-xl',
+      vVar: '--hero-v-pos-xl',
+    },
+  ]);
 
   return (
     <div
