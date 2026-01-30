@@ -4,16 +4,19 @@ type SiblingData = {
   enabled?: boolean;
 };
 
+const VALID_VALUES = ['left', 'center', 'right'];
+const VALID_UNITS = ['%', 'em', 'rem', 'px'];
+
 export const validateHorizontalValues: TextFieldValidation = (value, ctx) => {
   if (value == null || (ctx.siblingData as SiblingData).enabled === false) {
     return true;
   }
 
-  const validValues = ['left', 'center', 'right'];
-  const validUnits = ['%', 'em', 'rem', 'px'];
+  const cleanValue = value.trim().toLocaleLowerCase();
 
-  const isValidValue = validValues.includes(value.toLowerCase());
-  const hasValidUnit = validUnits.some((unit) => value.endsWith(unit)) && !isNaN(parseFloat(value));
+  const isValidValue = VALID_VALUES.includes(cleanValue);
+  const hasValidUnit =
+    VALID_UNITS.some((unit) => cleanValue.endsWith(unit)) && !isNaN(parseFloat(cleanValue));
 
   if (isValidValue || hasValidUnit) {
     return true;
