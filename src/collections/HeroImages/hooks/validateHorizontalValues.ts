@@ -5,7 +5,7 @@ type SiblingData = {
 };
 
 const VALID_VALUES = ['left', 'center', 'right'];
-const VALID_UNITS = ['%', 'em', 'rem', 'px'];
+const VALID_UNITS: RegExp = /^\d+(?:\.\d+)?(%|em|rem|px)$/;
 
 export const validateHorizontalValues: TextFieldValidation = (value, ctx) => {
   if (value == null || (ctx.siblingData as SiblingData).enabled === false) {
@@ -15,8 +15,7 @@ export const validateHorizontalValues: TextFieldValidation = (value, ctx) => {
   const cleanValue = value.trim().toLocaleLowerCase();
 
   const isValidValue = VALID_VALUES.includes(cleanValue);
-  const hasValidUnit =
-    VALID_UNITS.some((unit) => cleanValue.endsWith(unit)) && !isNaN(parseFloat(cleanValue));
+  const hasValidUnit = VALID_UNITS.test(cleanValue);
 
   if (isValidValue || hasValidUnit) {
     return true;
