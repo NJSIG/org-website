@@ -1,4 +1,4 @@
-import { HeaderThemeProvider } from './HeaderTheme';
+import { HeaderThemeProvider } from './HeaderThemeProvider';
 import { MapApiProvider } from './MapApiProvider';
 
 export const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {

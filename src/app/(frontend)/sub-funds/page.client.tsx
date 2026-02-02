@@ -3,7 +3,7 @@
 import { PageHeader, PageSubtitle, PageTitle } from '@/components/PageHeader';
 import { SubfundCapsule } from '@/components/SubfundCapsule';
 import { Subfund } from '@/payload-types';
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { useEffect } from 'react';
 
 type SubfundsPageClientProps = {

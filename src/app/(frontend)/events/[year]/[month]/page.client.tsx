@@ -6,7 +6,7 @@ import EventsCalendar from '@/components/EventsCalendar';
 import { EventsCalendarProvider, useEventsCalendar } from '@/components/EventsCalendar/provider';
 import { EventsCalendarData } from '@/components/EventsCalendar/types';
 import { PageHeader, PageTitle } from '@/components/PageHeader';
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { useEffect, useState } from 'react';
 
 type EventsPageClientProps = {
