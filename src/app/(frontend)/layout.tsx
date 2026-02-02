@@ -1,3 +1,4 @@
+import { Analytics } from '@/components/Analytics';
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
 import { Providers } from '@/providers';
@@ -14,7 +15,6 @@ const inter = Inter({ subsets: ['latin'] });
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode();
 
-  // TODO: Does the html element need "suppressHydrationWarning"?
   return (
     <html lang="en" className={inter.className}>
       <head>
@@ -22,6 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className="flex flex-col min-h-screen bg-background text-foreground">
         <Providers>
+          <Analytics />
           <Header />
           <main className="flex flex-col grow">{children}</main>
           <Footer />
