@@ -11,13 +11,28 @@ const cmsButtonAppearance: LinkAppearanceHelper<'button'> = {
   microInteraction: 'upRight',
 };
 
-export const CMSButtonBlock: React.FC<CMSButtonBlockProps> = ({ cmsButtonLink }) => {
+export const CMSButtonBlock: React.FC<CMSButtonBlockProps> = ({ cmsButtonLink, analytics }) => {
+  const classNames = [];
+
+  if (analytics?.hasAnalyticsEvent) {
+    if (analytics.eventName) {
+      classNames.push(`plausible-event-name=${analytics.eventName}`);
+    }
+
+    if (analytics.properties && analytics.properties.length > 0) {
+      analytics.properties.map(({ propertyName, propertyValue }) => {
+        classNames.push(`plausible-event-${propertyName}=${propertyValue}`);
+      });
+    }
+  }
+
   return (
     <ButtonLink
       link={{
         ...cmsButtonLink,
         ...cmsButtonAppearance,
       }}
+      className={classNames.length > 0 ? classNames.join(' ') : ''}
     />
   );
 };
