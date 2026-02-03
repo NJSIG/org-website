@@ -12,10 +12,8 @@ export const validateVerticalValues: TextFieldValidation = (value, ctx) => {
     return true;
   }
 
-  const cleanValue = value.trim().toLocaleLowerCase();
-
-  const isValidValue = VALID_VALUES.includes(cleanValue);
-  const hasValidUnit = VALID_UNITS.test(cleanValue);
+  const isValidValue = VALID_VALUES.includes(value);
+  const hasValidUnit = VALID_UNITS.test(value);
 
   if (isValidValue || hasValidUnit) {
     return true;
