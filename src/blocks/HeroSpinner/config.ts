@@ -1,3 +1,4 @@
+import { plausibleCustomEventField } from '@/fields/analytics/plausibleCustomEvent';
 import { linkField } from '@/fields/link';
 import { uiTipField } from '@/fields/uiTip';
 import { Block } from 'payload';
@@ -69,6 +70,7 @@ export const HeroSpinner: Block = {
           overrides: {
             name: 'heroLink',
             label: 'Call to Action',
+            fields: [plausibleCustomEventField()],
           },
         }),
       ],
