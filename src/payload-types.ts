@@ -233,7 +233,7 @@ export interface HeroSpinnerBlock {
             properties?:
               | {
                   /**
-                   * May only contain letters, numbers, and underscores. This must match exactly with the Property set up in the Plausible dashboard.
+                   * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
                    */
                   propertyName: string;
                   /**
@@ -590,7 +590,7 @@ export interface CMSButtonBlock {
     properties?:
       | {
           /**
-           * May only contain letters, numbers, and underscores. This must match exactly with the Property set up in the Plausible dashboard.
+           * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
            */
           propertyName: string;
           /**
