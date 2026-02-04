@@ -49,6 +49,8 @@ This repository contains the source code for the NJSIG (New Jersey Schools Insur
 
     # You can also run with Turbopack:
     pnpm dev --turbo
+    # or
+    pnpm turbo
    ```
 
 ## Contributing
