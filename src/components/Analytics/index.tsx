@@ -3,11 +3,11 @@
 import { useEffect } from 'react';
 
 export const Analytics: React.FC = () => {
-  useEffect(() => {
-    const domain = process.env.NEXT_PUBLIC_TRACKING_DOMAIN;
-    const endpoint = process.env.NEXT_PUBLIC_PLAUSIBLE_ENDPOINT;
-    const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
+  const domain = process.env.NEXT_PUBLIC_TRACKING_DOMAIN;
+  const endpoint = process.env.NEXT_PUBLIC_PLAUSIBLE_ENDPOINT;
+  const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
 
+  useEffect(() => {
     if (!domain || !endpoint) {
       return;
     }
@@ -36,6 +36,7 @@ export const Analytics: React.FC = () => {
         console.error('Failed to initialize Plausible analytics:', error);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
