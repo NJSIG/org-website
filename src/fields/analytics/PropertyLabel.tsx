@@ -10,11 +10,11 @@ const PropertyLabel: React.FC<RowLabelProps> = () => {
   const name = data?.propertyName?.trim() ?? '';
   const value = data?.propertyValue?.trim() ?? '';
 
-  if ((!name || name === '') && (!value || value === '')) {
+  if (!name && !value) {
     return <div>Custom Property {rowNumber}</div>;
   }
 
-  if (!value || value === '') {
+  if (!value) {
     return <div>Custom Property: {name}</div>;
   }
 
