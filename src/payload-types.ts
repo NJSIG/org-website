@@ -221,6 +221,29 @@ export interface HeroSpinnerBlock {
           microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
           icon?: string | null;
+          analytics?: {
+            /**
+             * Enabling an Analytics Event will send data to Plausible Analytics when this element is interacted with.
+             */
+            hasAnalyticsEvent?: boolean | null;
+            /**
+             * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs. This must match exactly with the Event set up in the Plausible dashboard.
+             */
+            eventName?: string | null;
+            properties?:
+              | {
+                  /**
+                   * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
+                   */
+                  propertyName: string;
+                  /**
+                   * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs.
+                   */
+                  propertyValue: string;
+                  id?: string | null;
+                }[]
+              | null;
+          };
         };
         id?: string | null;
       }[]
@@ -554,6 +577,29 @@ export interface CMSButtonBlock {
     microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
     iconPosition?: ('none' | 'before' | 'after') | false;
     icon?: string | null;
+  };
+  analytics?: {
+    /**
+     * Enabling an Analytics Event will send data to Plausible Analytics when this element is interacted with.
+     */
+    hasAnalyticsEvent?: boolean | null;
+    /**
+     * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs. This must match exactly with the Event set up in the Plausible dashboard.
+     */
+    eventName?: string | null;
+    properties?:
+      | {
+          /**
+           * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
+           */
+          propertyName: string;
+          /**
+           * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs.
+           */
+          propertyValue: string;
+          id?: string | null;
+        }[]
+      | null;
   };
   id?: string | null;
   blockName?: string | null;

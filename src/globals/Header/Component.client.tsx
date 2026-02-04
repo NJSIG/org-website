@@ -1,6 +1,6 @@
 'use client';
 
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import React, { useEffect, useState } from 'react';
 
 import { ButtonLink } from '@/components/ButtonLink';

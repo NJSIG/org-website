@@ -12,10 +12,10 @@ export const validateHorizontalValues: TextFieldValidation = (value, ctx) => {
     return true;
   }
 
-  const cleanValue = value.trim().toLocaleLowerCase();
+  const normalizedValue = value.trim().toLowerCase();
 
-  const isValidValue = VALID_VALUES.includes(cleanValue);
-  const hasValidUnit = VALID_UNITS.test(cleanValue);
+  const isValidValue = VALID_VALUES.includes(normalizedValue);
+  const hasValidUnit = VALID_UNITS.test(normalizedValue);
 
   if (isValidValue || hasValidUnit) {
     return true;

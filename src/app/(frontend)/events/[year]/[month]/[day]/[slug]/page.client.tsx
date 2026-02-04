@@ -18,7 +18,7 @@ import RichText from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';

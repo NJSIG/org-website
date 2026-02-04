@@ -14,7 +14,7 @@ import ResourceList from '@/components/ResourceList';
 import RichText from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
 import { Subfund } from '@/payload-types';
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import Image from 'next/image';

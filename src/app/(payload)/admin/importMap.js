@@ -5,8 +5,8 @@ import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
-import { FolderTableCell as FolderTableCell_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
-import { FolderField as FolderField_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
+import { FolderTableCell as FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
+import { FolderField as FolderField_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -25,17 +25,18 @@ import { default as default_ba8926285091515107c0c9d760efbd05 } from '@/fields/re
 import { default as default_ff78a844b71cbd43995d5a2ff2fd039e } from '@/collections/Events/EventDynamicLabels'
 import { MapComponent as MapComponent_942564c2dc824fbaf238a77c4ddabd1e } from '@/fields/uiMap/MapComponent'
 import { PatternComponent as PatternComponent_590c95173faedf8954cfcb6268c4aa1c } from '@/fields/pattern/PatternComponent'
-import { FolderTypeField as FolderTypeField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
+import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { default as default_d8d4f8b836facc01bc30ce3da60643b8 } from '@/globals/Header/admin/NavLinkLabel'
 import { default as default_36da8d5ac52e64cc186c4e90bd0be630 } from '@/globals/Header/admin/NavGroupLabel'
 import { VariantSelectComponent as VariantSelectComponent_d307d0f47a3707080e06970456566883 } from '@/fields/link/VariantSelectComponent'
 import { default as default_ffd965a062a94bd70a8ba03fe4e534d4 } from '@/fields/linkGroup/LinkLabel'
 import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/Footer/admin/NavGroupLabel'
+import { default as default_1a6c145e485e0d2cc5518b2526ce2bfe } from '@/fields/analytics/PropertyLabel'
 import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/HeroSpinner/admin/SlideLabel'
 import { default as default_7b0da33588c22cbe7e3dd7054120c9e3 } from '@/blocks/EmphasizedList/ItemLabel'
 import { AdminProviders as AdminProviders_250ae40988cfdbb45bc2a16f2814b159 } from '@/providers/admin'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
-import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
+import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
   "@/fields/uiTip/TipComponent#TipComponent": TipComponent_ed951cda59362e013cdc79b468aaa07d,
@@ -45,8 +46,8 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
-  "@payloadcms/ui/rsc#FolderTableCell": FolderTableCell_ab83ff7e88da8d3530831f296ec4756a,
-  "@payloadcms/ui/rsc#FolderField": FolderField_ab83ff7e88da8d3530831f296ec4756a,
+  "@payloadcms/next/rsc#FolderTableCell": FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1,
+  "@payloadcms/next/rsc#FolderField": FolderField_f9c02e79a4aed9a3924487c0cd4cafb1,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -65,15 +66,16 @@ export const importMap = {
   "@/collections/Events/EventDynamicLabels#default": default_ff78a844b71cbd43995d5a2ff2fd039e,
   "@/fields/uiMap/MapComponent#MapComponent": MapComponent_942564c2dc824fbaf238a77c4ddabd1e,
   "@/fields/pattern/PatternComponent#PatternComponent": PatternComponent_590c95173faedf8954cfcb6268c4aa1c,
-  "@payloadcms/ui#FolderTypeField": FolderTypeField_3817bf644402e67bfe6577f60ef982de,
+  "@payloadcms/next/client#FolderTypeField": FolderTypeField_2b8867833a34864a02ddf429b0728a40,
   "@/globals/Header/admin/NavLinkLabel#default": default_d8d4f8b836facc01bc30ce3da60643b8,
   "@/globals/Header/admin/NavGroupLabel#default": default_36da8d5ac52e64cc186c4e90bd0be630,
   "@/fields/link/VariantSelectComponent#VariantSelectComponent": VariantSelectComponent_d307d0f47a3707080e06970456566883,
   "@/fields/linkGroup/LinkLabel#default": default_ffd965a062a94bd70a8ba03fe4e534d4,
   "@/globals/Footer/admin/NavGroupLabel#default": default_4279f94a5be184600522edbb3823cd6d,
+  "@/fields/analytics/PropertyLabel#default": default_1a6c145e485e0d2cc5518b2526ce2bfe,
   "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31,
   "@/blocks/EmphasizedList/ItemLabel#default": default_7b0da33588c22cbe7e3dd7054120c9e3,
   "@/providers/admin#AdminProviders": AdminProviders_250ae40988cfdbb45bc2a16f2814b159,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
-  "@payloadcms/ui/rsc#CollectionCards": CollectionCards_ab83ff7e88da8d3530831f296ec4756a
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

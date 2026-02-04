@@ -1,7 +1,7 @@
 'use client';
 
 import { Templates } from '@/fields/dynamicBlocks/types';
-import { useHeaderTheme } from '@/providers/HeaderTheme';
+import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import React, { useEffect } from 'react';
 
 type PageClientProps = {

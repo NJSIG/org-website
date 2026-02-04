@@ -5,6 +5,7 @@ import { HeroImage, HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-
 import { applyCustomPosition } from '@/utilities/applyCustomImagePosition';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';
 import { cn } from '@/utilities/cn';
+import { createAnalyticsEventClasses } from '@/utilities/createAnalyticsEventClasses';
 import { getMediaUrl } from '@/utilities/getMediaUrl';
 import heroImageLoader from '@/utilities/heroImageLoader';
 import Image from 'next/image';
@@ -23,7 +24,7 @@ const HeroSlide = memo<{
   isActive: boolean;
   isPriority: boolean;
 }>(({ slide, isActive, isPriority }) => {
-  const imageData = useMemo(
+  const slideData = useMemo(
     () => ({
       url: getMediaUrl(
         (slide.backgroundImage as HeroImage)?.url,
@@ -51,6 +52,7 @@ const HeroSlide = memo<{
           vVar: '--hero-v-pos-xl',
         },
       ]),
+      analytics: createAnalyticsEventClasses(slide.heroLink?.analytics),
     }),
     [slide],
   );
@@ -64,17 +66,17 @@ const HeroSlide = memo<{
     >
       <div
         className="absolute top-0 h-95 lg:h-116.25 xl:h-150 w-screen max-w-full"
-        style={imageData.customPositioning}
+        style={slideData.customPositioning}
       >
         <Image
           loader={heroImageLoader}
-          src={imageData.url}
-          alt={imageData.alt}
+          src={slideData.url}
+          alt={slideData.alt}
           fill
           sizes="100vw"
           priority={isPriority}
           placeholder="blur"
-          blurDataURL={imageData.blurData}
+          blurDataURL={slideData.blurData}
           className="object-cover object-[var(--hero-h-pos)_var(--hero-v-pos)] @5xl:object-[var(--hero-h-pos-lg)_var(--hero-v-pos-lg)] @7xl:object-[var(--hero-h-pos-xl)_var(--hero-v-pos-xl)] @5xl:@max-9xl:clip-path-polygon-[0_0,100%_0,100%_70%,0_100%]"
         />
       </div>
@@ -99,6 +101,7 @@ const HeroSlide = memo<{
                 ...slide.heroLink,
                 ...ctaButtonAppearance,
               }}
+              className={slideData.analytics}
             />
           )}
         </div>
