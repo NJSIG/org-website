@@ -1,9 +1,8 @@
 import { CheckboxField, deepMerge, GroupField, TextField } from 'payload';
 import { uiTipField } from '../uiTip';
+import { clearWhenDisabled } from './hooks/clearWhenDisabled';
 import { convertSpacesHook } from './hooks/convertSpacesHook';
-import { validateEventName } from './hooks/validateEventName';
-import { validatePropertyName } from './hooks/validatePropertyName';
-import { validatePropertyValue } from './hooks/validatePropertyValue';
+import { validatePlausibleValue } from './hooks/validatePlausibleValue';
 
 type PlausibleCustomEventType = (overrides?: {
   checkboxOverrides?: Partial<CheckboxField>;
@@ -37,9 +36,8 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
   const tipField = uiTipField(
     [
       'Make sure to set up the corresponding Event in the Plausible dashboard (https://analytics.cloud.njsig.org).',
-      "Be aware that the Plausible Dashboard will allow you to create Custom Events and Properties that are not valid for use in the CMS, see each field's description for acceptable formats.",
-      'Spaces, when allowed, will be converted to plus signs (+) when saved.',
       'All custom events and properties created here must match exactly with those set up in the Plausible dashboard for tracking to work correctly.',
+      'Spaces will be converted to plus signs (+) automatically.',
     ],
     {
       admin: {
@@ -62,8 +60,9 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
       },
       hooks: {
         beforeValidate: [convertSpacesHook],
+        beforeChange: [clearWhenDisabled],
       },
-      validate: validateEventName,
+      validate: validatePlausibleValue,
     },
     eventOverrides,
   );
@@ -76,10 +75,13 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
       required: true,
       admin: {
         description:
-          'May only contain letters, numbers, and underscores. This must match exactly with the Property set up in the Plausible dashboard.',
+          'May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.',
         placeholder: 'e.g., eventFilter',
       },
-      validate: validatePropertyName,
+      hooks: {
+        beforeValidate: [convertSpacesHook],
+      },
+      validate: validatePlausibleValue,
     },
     propertyNameOverrides,
   );
@@ -98,7 +100,7 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
       hooks: {
         beforeValidate: [convertSpacesHook],
       },
-      validate: validatePropertyValue,
+      validate: validatePlausibleValue,
     },
     propertyValueOverrides,
   );
@@ -126,12 +128,10 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
             RowLabel: '@/fields/analytics/PropertyLabel',
           },
         },
-        fields: [
-          {
-            type: 'row',
-            fields: [propertyNameField, propertyValueField],
-          },
-        ],
+        hooks: {
+          beforeChange: [clearWhenDisabled],
+        },
+        fields: [propertyNameField, propertyValueField],
       },
     ],
   };
