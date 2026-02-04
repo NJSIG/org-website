@@ -6,6 +6,7 @@ export const Analytics: React.FC = () => {
   useEffect(() => {
     const domain = process.env.NEXT_PUBLIC_TRACKING_DOMAIN;
     const endpoint = process.env.NEXT_PUBLIC_PLAUSIBLE_ENDPOINT;
+    const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
 
     if (!domain || !endpoint) {
       return;
@@ -24,7 +25,7 @@ export const Analytics: React.FC = () => {
         outboundLinks: true,
         fileDownloads: true,
         formSubmissions: true,
-        captureOnLocalhost: true,
+        captureOnLocalhost,
         customProperties: (eventName): Record<string, string> => {
           return eventName === 'pageview' ? { title: document.title } : {};
         },
