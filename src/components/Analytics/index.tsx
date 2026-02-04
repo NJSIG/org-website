@@ -13,7 +13,7 @@ export const Analytics: React.FC = () => {
     }
 
     // The Plausible tracker is client side only and appears to export location
-    // at a top level, Next.JS SSR doesn't like that so were doing a dynamic
+    // at a top level, Next.JS SSR doesn't like that so we're doing a dynamic
     // import of the tracking function, this will only run once in the effect.
 
     (async () => {
