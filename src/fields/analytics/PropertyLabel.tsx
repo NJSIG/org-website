@@ -2,24 +2,19 @@
 
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import React from 'react';
-
-interface PropertyLabel {
-  id?: string;
-  propertyName?: string;
-  propertyValue?: string;
-}
+import { AnalyticsEvent } from './types';
 
 const PropertyLabel: React.FC<RowLabelProps> = () => {
-  const { rowNumber, data } = useRowLabel<PropertyLabel>();
+  const { rowNumber, data } = useRowLabel<NonNullable<AnalyticsEvent['properties']>[0]>();
 
   const name = data?.propertyName?.trim() ?? '';
   const value = data?.propertyValue?.trim() ?? '';
 
-  if (!name && !value) {
+  if ((!name || name === '') && (!value || value === '')) {
     return `Custom Property ${rowNumber}`;
   }
 
-  if (!value) {
+  if (!value || value === '') {
     return `Custom Property: ${name}`;
   }
 
