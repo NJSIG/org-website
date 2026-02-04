@@ -63,7 +63,7 @@ Copyright © 2026 New Jersey Schools Insurance Group.
 
 This project is licensed under the Elastic License 2.0.
 You may not use this software to provide a commercial hosted or managed service.
-See the [LICENSE](LICENSE) file for details.
+See the [LICENSE](LICENSE.md) file for details.
 
 ## Third-Party Software Notices
 
