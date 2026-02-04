@@ -3,24 +3,28 @@ import { TextFieldValidation } from 'payload';
 const VALID_VALUE_WITH_SPACES_REGEX: RegExp = /^[a-zA-Z0-9 _\-\+]+$/;
 const VALID_VALUE_NO_SPACES_REGEX: RegExp = /^[a-zA-Z0-9_\-\+]+$/;
 
-enum FIELD_NAMES {
+enum FIELDS {
   eventName = 'Event Name',
   propertyName = 'Property Name',
   propertyValue = 'Property Value',
 }
 
 enum ERROR_MESSAGES {
-  eventName = `${FIELD_NAMES.eventName} can only contain letters, numbers, spaces, underscores, hyphens, and plus signs.`,
-  propertyName = `${FIELD_NAMES.propertyName} can only contain letters, numbers, underscores, hyphens, and plus signs.`,
-  propertyValue = `${FIELD_NAMES.propertyValue} can only contain letters, numbers, spaces, underscores, hyphens, and plus signs.`,
+  eventName = `${FIELDS.eventName} can only contain letters, numbers, spaces, underscores, hyphens, and plus signs.`,
+  propertyName = `${FIELDS.propertyName} can only contain letters, numbers, underscores, hyphens, and plus signs.`,
+  propertyValue = `${FIELDS.propertyValue} can only contain letters, numbers, spaces, underscores, hyphens, and plus signs.`,
 }
 
 export const validatePlausibleValue: TextFieldValidation = (value, { path }) => {
   const field = path.at(-1);
   let VALID_VALUE_REGEX: RegExp;
 
+  if (!isValidFieldName(field)) {
+    return `Invalid field name passed to validation: ${field}`;
+  }
+
   if (value == null) {
-    return `${FIELD_NAMES[field as keyof typeof FIELD_NAMES]} is required.`;
+    return `${FIELDS[field]} is required.`;
   }
 
   switch (field) {
@@ -39,5 +43,9 @@ export const validatePlausibleValue: TextFieldValidation = (value, { path }) => 
     return true;
   }
 
-  return ERROR_MESSAGES[field as keyof typeof FIELD_NAMES];
+  return ERROR_MESSAGES[field as keyof typeof FIELDS];
 };
+
+function isValidFieldName(field: string | number | undefined): field is keyof typeof FIELDS {
+  return Object.values(FIELDS).includes(field as FIELDS);
+}
