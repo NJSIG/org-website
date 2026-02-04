@@ -17,19 +17,24 @@ export const Analytics: React.FC = () => {
     // import of the tracking function, this will only run once in the effect.
 
     (async () => {
-      const { init } = await import('@plausible-analytics/tracker');
+      try {
+        const { init } = await import('@plausible-analytics/tracker');
 
-      init({
-        domain,
-        endpoint,
-        outboundLinks: true,
-        fileDownloads: true,
-        formSubmissions: true,
-        captureOnLocalhost,
-        customProperties: (eventName): Record<string, string> => {
-          return eventName === 'pageview' ? { title: document.title } : {};
-        },
-      });
+        init({
+          domain,
+          endpoint,
+          outboundLinks: true,
+          fileDownloads: true,
+          formSubmissions: true,
+          captureOnLocalhost,
+          customProperties: (eventName): Record<string, string> => {
+            return eventName === 'pageview' ? { title: document.title } : {};
+          },
+        });
+      } catch (error) {
+        // Prevent unhandled promise rejections if the import or init call fails
+        console.error('Failed to initialize Plausible analytics:', error);
+      }
     })();
   }, []);
 
