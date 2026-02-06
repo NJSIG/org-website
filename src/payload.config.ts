@@ -98,6 +98,13 @@ export default buildConfig({
     },
     components: {
       providers: ['@/providers/admin#AdminProviders'],
+      views: {
+        analytics: {
+          Component: '@/admin/views/PlausibleView#AnalyticsView',
+          path: '/analytics',
+        },
+      },
+      afterNavLinks: [{ path: '@/admin/components/AfterNavLinks#AfterNavLinks' }],
     },
   },
   collections,
