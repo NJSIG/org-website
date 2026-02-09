@@ -14,13 +14,10 @@ export const AfterNavLinks: React.FC = () => {
         href={href}
         className="nav__link"
         id="nav-analytics"
-        style={{ cursor: active ? 'pointer' : 'default', pointerEvents: active ? 'none' : 'auto' }}
+        style={{ cursor: active ? 'default' : 'pointer', pointerEvents: active ? 'none' : 'auto' }}
       >
-        {active && (
-          <div className="nav__link-indicator">
-            <span className="nav__link-label">Analytics</span>
-          </div>
-        )}
+        {active && <div className="nav__link-indicator"></div>}
+        <span className="nav__link-label">Analytics</span>
       </Link>
     </NavGroup>
   );
