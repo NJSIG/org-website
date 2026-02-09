@@ -1,6 +1,8 @@
 'use client';
 
+import { ErrorMessage } from '@/admin/components/ErrorMessage';
 import { KPICard } from '@/admin/components/KPICard';
+import { LoadingMessage } from '@/admin/components/LoadingMessage';
 import { Table } from '@/admin/components/Table';
 import { ViewHeader } from '@/admin/components/ViewHeader';
 import {
@@ -87,7 +89,14 @@ export const AnalyticsClient: React.FC = () => {
         const response = await fetch(`/api/analytics/detailed?period=${period}`);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch analytics data.');
+          switch (response.status) {
+            case 401:
+              throw new Error('Unauthorized. You must be signed in to access this endpoint.');
+            case 403:
+              throw new Error('Forbidden. You do not have permission to access this endpoint.');
+            default:
+              throw new Error('An unknown error occurred when attempting to fetch analytics data.');
+          }
         }
 
         const analyticsData = await response.json();
@@ -104,11 +113,11 @@ export const AnalyticsClient: React.FC = () => {
   }, [period]);
 
   if (loading) {
-    return <div>Loading analytics...</div>;
+    return <LoadingMessage message="Analytics Data is loading..." />;
   }
 
   if (error || !data) {
-    return <div>{error || 'Unable to load analytics data.'}</div>;
+    return <ErrorMessage message={error || 'Failed to load analytics data.'} />;
   }
 
   const { stats, timeseries, pages, sources, events, realtime } = data;
