@@ -1,6 +1,6 @@
 @import '~@payloadcms/ui/scss';
 
-@layer payload-default {
+@layer payload {
   .card {
     &__kpi {
       --kpi-color: var(--no-change, black);
