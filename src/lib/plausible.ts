@@ -229,6 +229,11 @@ export async function getPlausibleData(period: string = '7d'): Promise<Plausible
   }
 }
 
+/**
+ * Format a number into a more readable string with K/M suffixes.
+ * @param num
+ * @returns
+ */
 export function formatNumber(num: number | unknown): string {
   if (typeof num !== 'number' || isNaN(num)) {
     return 'NaN';
@@ -245,6 +250,11 @@ export function formatNumber(num: number | unknown): string {
   return num.toString();
 }
 
+/**
+ * Format duration given in seconds to a more readable string with minutes and seconds.
+ * @param seconds
+ * @returns
+ */
 export function formatDuration(seconds: number | unknown): string {
   if (typeof seconds !== 'number' || isNaN(seconds)) {
     return 'NaN';
@@ -260,6 +270,11 @@ export function formatDuration(seconds: number | unknown): string {
   return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
 }
 
+/**
+ * Format a number as a percentage string.
+ * @param value
+ * @returns
+ */
 export function formatPercentage(value: number | unknown): string {
   if (typeof value !== 'number' || isNaN(value)) {
     return 'NaN';
@@ -268,6 +283,11 @@ export function formatPercentage(value: number | unknown): string {
   return `${Math.round(value)}%`;
 }
 
+/**
+ * Format change value into text with sign and determine if it's positive.
+ * @param change
+ * @returns
+ */
 export function formatChange(change: number | null): { text: string; isPositive: boolean } {
   if (change === null || change === 0) {
     return { text: '0%', isPositive: false };
