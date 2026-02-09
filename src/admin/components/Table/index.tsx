@@ -10,7 +10,7 @@ export const Table = <T extends Record<string, unknown>>({
   return (
     <div className="collection-list__tables" style={{ marginBottom: '2rem' }}>
       <div className="table-wrap">
-        <h3 style={{ marginBottom: '1rem' }}>{title}</h3>
+        <h2 className="dashboard__label">{title}</h2>
         <div className="table">
           <table cellPadding={0} cellSpacing={0}>
             <thead>
