@@ -1,8 +1,38 @@
 import { getPlausibleData } from '@/lib/plausible';
+import configPromise from '@payload-config';
 import { NextRequest, NextResponse } from 'next/server';
+import { getPayload, PayloadRequest } from 'payload';
 
 export async function GET(req: NextRequest) {
   try {
+    const payload = await getPayload({ config: configPromise });
+
+    let auth;
+
+    try {
+      auth = await payload.auth({
+        req: req as unknown as PayloadRequest,
+        headers: req.headers,
+      });
+    } catch (error) {
+      payload.logger.error({ err: error }, 'Error verifying token for analytics detail route.');
+      return NextResponse.json(
+        { error: 'An unexpected error occurred while verifying access rights.' },
+        { status: 500 },
+      );
+    }
+
+    const user = auth?.user;
+    const allowedRoles = new Set(['admin', 'editor']);
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+    }
+
+    if (!allowedRoles.has(user.role)) {
+      return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
+    }
+
     const searchParams = req.nextUrl.searchParams;
     const period = searchParams.get('period') || '7d';
     const data = await getPlausibleData(period);
