@@ -1,0 +1,25 @@
+@layer payload {
+  .error {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+
+    &__container {
+      flex-direction: column;
+      margin: 0 auto;
+      width: auto;
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      line-height: 20px;
+      gap: 1rem;
+    }
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+}
