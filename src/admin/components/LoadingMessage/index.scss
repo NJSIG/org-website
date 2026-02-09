@@ -1,0 +1,18 @@
+@layer payload {
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 0;
+
+    &__spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    &__text {
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+}
