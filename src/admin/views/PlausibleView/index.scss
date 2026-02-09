@@ -1,0 +1,70 @@
+@import '~@payloadcms/ui/scss';
+
+@layer payload-default {
+  .analytics {
+    --no-change: #656a70;
+    --positive-change: #32945f;
+    --positive-change-tint: #88cda1;
+    --negative-change: #ee7e8f;
+
+    &__realtime {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1rem;
+
+      > .marker {
+        display: inline-block;
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        background-color: var(--no-change);
+        position: relative;
+      }
+
+      > .detail {
+        font-size: 1.2em;
+      }
+
+      &--online {
+        > .marker {
+          background-color: var(--positive-change);
+
+          &:after {
+            display: block;
+            content: '';
+            height: inherit;
+            width: inherit;
+            border-radius: inherit;
+            background-color: var(--positive-change-tint);
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+    }
+
+    &__kpis {
+      --cols: 4;
+    }
+  }
+
+  html[data-theme='dark'] {
+    .analytics {
+      --no-change: #7b8086;
+      --positive-change: #6dbb8b;
+      --positive-change-tint: #b6e3c5;
+      --negative-change: #ee7e8f;
+    }
+  }
+
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
+}
