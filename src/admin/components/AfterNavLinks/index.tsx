@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 export const AfterNavLinks: React.FC = () => {
   const pathname = usePathname();
   const href = '/admin/analytics';
-  const active = pathname.includes(href);
+  const active = pathname === href || pathname.startsWith(href + '/');
 
   return (
     <NavGroup label="Views">
