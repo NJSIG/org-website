@@ -80,6 +80,7 @@ export const AnalyticsClient: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setError(null);
       setLoading(true);
 
       try {
