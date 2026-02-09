@@ -18,12 +18,6 @@ export const KPICard = (props: CardProps) => {
   const isPositive = isPositiveGood ? changeData.isPositive : !changeData.isPositive;
   const hasDelta = changeData.text !== '0' && changeData.text !== '0%';
 
-  console.group('KPI:', title);
-  console.log('Formatted Value', formattedValue);
-  console.log('Change Data', changeData);
-  console.log('Is Positive?', isPositive);
-  console.groupEnd();
-
   return (
     <li>
       <div className="card" style={{ flexDirection: 'column' }}>
