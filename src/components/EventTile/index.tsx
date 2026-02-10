@@ -5,6 +5,7 @@ import { generateEventLink } from '@/utilities/generateEventLink';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { useHasHydrated } from '../hooks/useHasHydrated';
 import { SubfundPill } from '../SubfundPill';
 import { EventTileContext, useEventTileContext } from './context';
 import {
@@ -16,6 +17,8 @@ import {
 } from './types';
 
 const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => {
+  const hydrated = useHasHydrated();
+
   const tileClasses = cn(
     'group/event-tile rounded-3xl bg-(--event-tile) text-(--event-tile-foreground) min-h-52 min-w-52 transition-colors relative',
     {
@@ -27,8 +30,8 @@ const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => 
   );
 
   const href = event ? (event === 'all' ? '/events' : generateEventLink(event)) : undefined;
-  const startDate = typeof event === 'object' ? new Date(event.startDate) : null;
-  const startTime = typeof event === 'object' ? new Date(event.startTime) : null;
+  const startDate = hydrated && typeof event === 'object' ? new Date(event.startDate) : null;
+  const startTime = hydrated && typeof event === 'object' ? new Date(event.startTime) : null;
 
   const formattedMonth = startDate
     ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(startDate)
@@ -62,13 +65,20 @@ const EventTile: React.FC<EventTileProps> = ({ event, className, children }) => 
 
 const EventTileHeader: React.FC<EventHeaderProps> = ({ heading, className }) => {
   const { event, formattedDate } = useEventTileContext();
+  const showDateSkeleton = !heading && !formattedDate && event && event !== 'all';
   const title = heading
     ? heading.toUpperCase()
     : formattedDate || (event === 'all' ? 'ALL EVENTS' : 'EVENT');
 
   return (
     <div className={cn('flex items-center justify-between w-full', className)}>
-      <h4 className="text-xl font-bold uppercase">{title}</h4>
+      <h4 className="text-xl font-bold uppercase">
+        {showDateSkeleton ? (
+          <span className="inline-block h-5 w-20 rounded bg-foreground/10 align-middle animate-pulse" />
+        ) : (
+          title
+        )}
+      </h4>
       <ArrowUpRightIcon
         className={cn('group-hover/event-tile:motion-safe:animate-micro-up-right', {
           'stroke-(--event-tile-bespoke-accent)': event === 'all',
@@ -88,7 +98,13 @@ const EventTileDetail: React.FC<EventDetailProps> = ({ content: contentFromProps
 
   return (
     <div className={cn('flex flex-col mt-2 text-left grow', className)}>
-      {formattedTime ? <small className="text-sm font-medium">{formattedTime}</small> : null}
+      {formattedTime ? (
+        <small className="text-sm font-medium">{formattedTime}</small>
+      ) : event && event !== 'all' ? (
+        <small className="text-sm font-medium">
+          <span className="inline-block h-4 w-14 rounded bg-foreground/10 align-middle animate-pulse" />
+        </small>
+      ) : null}
       {content ? <p>{content}</p> : null}
       {event !== 'all' &&
         event?.categories &&
