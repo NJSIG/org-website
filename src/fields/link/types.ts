@@ -1,4 +1,4 @@
-import { IconNames } from '@/fields/lucideIconPicker/types';
+import { IconNames } from '@/fields/LucideIconPicker/types';
 import { Page } from '@/payload-types';
 import { Field, GroupField } from 'payload';
 

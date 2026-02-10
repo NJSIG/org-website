@@ -1,7 +1,7 @@
 import { editor, editorOrPublished } from '@/access';
-import { linkField } from '@/fields/link';
-import { patternField } from '@/fields/pattern';
-import { uiMapField } from '@/fields/uiMap';
+import { linkField } from '@/fields/Link';
+import { patternField } from '@/fields/Pattern';
+import { uiMapField } from '@/fields/UIMap';
 import { CollectionConfig } from 'payload';
 
 export const Locations: CollectionConfig<'locations'> = {

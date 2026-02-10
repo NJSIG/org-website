@@ -1,6 +1,6 @@
 'use client';
 
-import { Templates } from '@/fields/dynamicBlocks/types';
+import { Templates } from '@/fields/DynamicBlocks/types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import React, { useEffect } from 'react';
 

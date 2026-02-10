@@ -1,5 +1,5 @@
 import { Field, GroupField } from 'payload';
-import { LinkDestinations } from '../link/types';
+import { LinkDestinations } from '../Link/types';
 
 // Helper type for options
 type Options = { label: string; value: string };

@@ -1,5 +1,5 @@
-import { plausibleCustomEventField } from '@/fields/analytics/plausibleCustomEvent';
-import { linkField } from '@/fields/link';
+import { plausibleCustomEventField } from '@/fields/Analytics/plausibleCustomEvent';
+import { linkField } from '@/fields/Link';
 import { Block } from 'payload';
 
 export const CMSButton: Block = {

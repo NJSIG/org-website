@@ -1,4 +1,4 @@
-import { uiTipField } from '@/fields/uiTip';
+import { uiTipField } from '@/fields/UITip';
 import { Block } from 'payload';
 
 export const BannerTitle: Block = {

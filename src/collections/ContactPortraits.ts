@@ -1,8 +1,8 @@
 import { anyone, editor } from '@/access';
-import { uiTipField } from '@/fields/uiTip';
-import { checkSquareHook } from '@/hooks/checkSquareHook';
-import { computeBlurDataHook } from '@/hooks/computeBlurDataHook';
-import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
+import { checkSquareHook } from '@/collections/hooks/checkSquareHook';
+import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
+import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { uiTipField } from '@/fields/UITip';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 
 const webp: ImageUploadFormatOptions = {

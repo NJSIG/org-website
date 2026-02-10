@@ -1,9 +1,9 @@
 import { editor, editorOrPublished } from '@/access';
-import { resourceGroupField } from '@/fields/resourceGroup';
-import { slugField } from '@/fields/slug';
-import { uiMapField } from '@/fields/uiMap';
-import { nullEmptyFieldHook } from '@/hooks/nullEmptyFieldHook';
-import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
+import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
+import { nullEmptyFieldHook } from '@/fields/hooks/nullEmptyFieldHook';
+import { resourceGroupField } from '@/fields/ResourceGroup';
+import { slugField } from '@/fields/Slug';
+import { uiMapField } from '@/fields/UIMap';
 import { CollectionConfig } from 'payload';
 import { nullUnusedFieldsHook } from './hooks/nullUnusedFieldsHook';
 import { revalidateEventDeleteHook } from './hooks/revalidateEventDeleteHook';

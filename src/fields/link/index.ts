@@ -1,5 +1,5 @@
 import { deepMerge, Field, GroupField } from 'payload';
-import { lucideIconPickerField } from '../lucideIconPicker';
+import { lucideIconPickerField } from '../LucideIconPicker';
 import { clearIconHook } from './hooks/clearIconHook';
 import {
   ColorVariantOptions,
@@ -285,7 +285,7 @@ export const linkField: LinkType = ({
             admin: {
               components: {
                 Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  path: '@/fields/Link/VariantSelectComponent#VariantSelectComponent',
                   clientProps: {
                     variant: 'style',
                     variantOptions: linkStyleVariantOptions,
@@ -316,7 +316,7 @@ export const linkField: LinkType = ({
             admin: {
               components: {
                 Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  path: '@/fields/Link/VariantSelectComponent#VariantSelectComponent',
                   clientProps: {
                     variant: 'color',
                     variantOptions: linkColorVariantOptions,
@@ -345,7 +345,7 @@ export const linkField: LinkType = ({
             admin: {
               components: {
                 Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  path: '@/fields/Link/VariantSelectComponent#VariantSelectComponent',
                   clientProps: {
                     variant: 'size',
                     variantOptions: linkSizeVariantOptions,
@@ -374,7 +374,7 @@ export const linkField: LinkType = ({
             admin: {
               components: {
                 Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  path: '@/fields/Link/VariantSelectComponent#VariantSelectComponent',
                   clientProps: {
                     variant: 'microInteraction',
                     variantOptions: linkMicroInteractionVariantOptions,
@@ -409,7 +409,7 @@ export const linkField: LinkType = ({
             admin: {
               components: {
                 Field: {
-                  path: '@/fields/link/VariantSelectComponent#VariantSelectComponent',
+                  path: '@/fields/Link/VariantSelectComponent#VariantSelectComponent',
                   clientProps: {
                     variant: 'iconPosition',
                     variantOptions: linkIconPositionVariantOptions,

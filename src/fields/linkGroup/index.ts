@@ -1,5 +1,5 @@
 import { ArrayField, deepMerge, Field } from 'payload';
-import { linkField } from '../link';
+import { linkField } from '../Link';
 import {
   AllowedColorVariantsForAppearances,
   AllowedIconsPositionVariantsForAppearances,
@@ -8,7 +8,7 @@ import {
   AllowedStyleVariantsForAppearances,
   LinkAppearances,
   LinkDestinations,
-} from '../link/types';
+} from '../Link/types';
 
 export type LinkGroupType = <
   T extends LinkAppearances[] | false | undefined = undefined,
@@ -48,7 +48,7 @@ export const linkGroupField: LinkGroupType = ({
     admin: {
       initCollapsed: true,
       components: {
-        RowLabel: '@/fields/linkGroup/LinkLabel',
+        RowLabel: '@/fields/LinkGroup/LinkLabel',
       },
     },
   };

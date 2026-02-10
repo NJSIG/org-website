@@ -1,8 +1,8 @@
 import { deepMerge, GroupField } from 'payload';
-import { linkField } from '../link';
-import { LinkDestinations } from '../link/types';
-import { lucideIconPickerField } from '../lucideIconPicker';
-import { IconNames } from '../lucideIconPicker/types';
+import { linkField } from '../Link';
+import { LinkDestinations } from '../Link/types';
+import { lucideIconPickerField } from '../LucideIconPicker';
+import { IconNames } from '../LucideIconPicker/types';
 import { ResourceField, ResourceTypeOptions } from './types';
 
 export const resourceTypeOptions: ResourceTypeOptions = {

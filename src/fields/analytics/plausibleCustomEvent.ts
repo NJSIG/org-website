@@ -1,5 +1,5 @@
 import { CheckboxField, deepMerge, GroupField, TextField } from 'payload';
-import { uiTipField } from '../uiTip';
+import { uiTipField } from '../UITip';
 import { clearWhenDisabled } from './hooks/clearWhenDisabled';
 import { convertSpacesHook } from './hooks/convertSpacesHook';
 import { validatePlausibleValue } from './hooks/validatePlausibleValue';
@@ -125,7 +125,7 @@ export const plausibleCustomEventField: PlausibleCustomEventType = (overrides = 
           initCollapsed: true,
           condition: (_, siblingData) => siblingData.hasAnalyticsEvent,
           components: {
-            RowLabel: '@/fields/analytics/PropertyLabel',
+            RowLabel: '@/fields/Analytics/PropertyLabel',
           },
         },
         hooks: {

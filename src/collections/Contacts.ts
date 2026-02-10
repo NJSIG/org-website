@@ -1,5 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
-import { patternField } from '@/fields/pattern';
+import { patternField } from '@/fields/Pattern';
 import { CollectionConfig } from 'payload';
 
 export const Contacts: CollectionConfig<'contacts'> = {

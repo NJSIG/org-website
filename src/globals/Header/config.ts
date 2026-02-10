@@ -1,7 +1,7 @@
 import { admin, anyone } from '@/access';
-import { linkField } from '@/fields/link';
-import { linkGroupField } from '@/fields/linkGroup';
-import { lucideIconPickerField } from '@/fields/lucideIconPicker';
+import { linkField } from '@/fields/Link';
+import { linkGroupField } from '@/fields/LinkGroup';
+import { lucideIconPickerField } from '@/fields/LucideIconPicker';
 import { GlobalConfig } from 'payload';
 import { revalidateHeaderHook } from './hooks/revalidateHeaderHook';
 

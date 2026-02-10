@@ -12,8 +12,8 @@ import {
   VideoIcon,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { LinkField } from '../link/types';
-import { ResourceTypes } from '../resource/types';
+import { LinkField } from '../Link/types';
+import { ResourceTypes } from '../Resource/types';
 
 interface ResourceLabel {
   resource?: {

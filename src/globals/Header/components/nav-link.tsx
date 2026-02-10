@@ -1,5 +1,5 @@
 import DynamicIcon from '@/components/DynamicIcon';
-import { LinkField } from '@/fields/link/types';
+import { LinkField } from '@/fields/Link/types';
 import { cn } from '@/utilities/cn';
 import { cva } from 'class-variance-authority';
 import { ArrowUpRightIcon } from 'lucide-react';

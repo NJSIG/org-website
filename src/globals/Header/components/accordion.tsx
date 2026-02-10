@@ -4,7 +4,7 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDownIcon } from 'lucide-react';
 import * as React from 'react';
 
-import { IconNames } from '@/fields/lucideIconPicker/types';
+import { IconNames } from '@/fields/LucideIconPicker/types';
 import { buttonVariants } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
 import { cva, VariantProps } from 'class-variance-authority';

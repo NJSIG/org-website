@@ -9,7 +9,7 @@ export const uiTipField: UITipFieldType = (tips, overrides = {}) => {
     admin: {
       components: {
         Field: {
-          path: '@/fields/uiTip/TipComponent#TipComponent',
+          path: '@/fields/UITip/TipComponent#TipComponent',
           clientProps: { tips },
         },
       },

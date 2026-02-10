@@ -9,7 +9,7 @@ export const uiMapField: UIMapFieldType = (overrides = {}) => {
     admin: {
       components: {
         Field: {
-          path: '@/fields/uiMap/MapComponent#MapComponent',
+          path: '@/fields/UIMap/MapComponent#MapComponent',
         },
       },
     },
