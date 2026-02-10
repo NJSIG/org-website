@@ -13,21 +13,21 @@ export const AnalyticsView: React.FC<AdminViewServerProps> = ({
   if (!initPageResult.req.user) {
     return (
       <MinimalTemplate className="njsig-minimal">
-        <div className="error">
-          <div className="error__title">
+        <div className="unauthorized">
+          <div className="unauthorized__title">
             <ShieldAlertIcon size={36} />
             <h2>Unauthorized</h2>
           </div>
-          <div className="error__description">
+          <div className="unauthorized__description">
             <p>You must be logged in to see this page.</p>
           </div>
-          <div className="error__actions">
+          <div className="unauthorized__actions">
             <Button
               el="link"
               to="/"
               size="large"
               buttonStyle="secondary"
-              className="error__button error__button--wide"
+              className="unauthorized__button unauthorized__button--wide"
             >
               Go Back Home
             </Button>
@@ -36,7 +36,7 @@ export const AnalyticsView: React.FC<AdminViewServerProps> = ({
               to="/admin/login"
               size="large"
               buttonStyle="primary"
-              className="error__button"
+              className="unauthorized__button"
             >
               Login
             </Button>
