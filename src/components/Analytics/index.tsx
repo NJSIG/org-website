@@ -22,7 +22,7 @@ export const Analytics: React.FC = () => {
 
         init({
           domain,
-          endpoint: `${host}/api/event`,
+          endpoint: new URL('/api/event', host).toString(),
           outboundLinks: true,
           fileDownloads: true,
           formSubmissions: true,
