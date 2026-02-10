@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 
 export const Analytics: React.FC = () => {
-  const domain = process.env.NEXT_PUBLIC_TRACKING_DOMAIN;
-  const endpoint = process.env.NEXT_PUBLIC_PLAUSIBLE_ENDPOINT;
+  const domain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  const host = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST;
   const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
 
   useEffect(() => {
-    if (!domain || !endpoint) {
+    if (!domain || !host) {
       return;
     }
 
@@ -22,7 +22,7 @@ export const Analytics: React.FC = () => {
 
         init({
           domain,
-          endpoint,
+          endpoint: new URL('/api/event', host).toString(),
           outboundLinks: true,
           fileDownloads: true,
           formSubmissions: true,

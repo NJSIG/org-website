@@ -7,7 +7,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Main Nav Click Trigger Bug (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Main nav icon FOUC (Flash of Unstyled Content) (see @globals/Header/components/navigation-menu.tsx)
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
-- [ ] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
 - [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
@@ -21,7 +20,6 @@ NJSIG's website is a great resource for information about the organization, incl
   - [ ] Customize Colors
 - [ ] Customize Login Page
 - [ ] Previews for global elements
-- [ ] Add to calendar functionality for events
 - [ ] Event mailing lists
 
 ### COMPLETED TASKS ✔
@@ -54,3 +52,5 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Revisit sizing for event map
 - [x] Revisit text sizing in event bento
 - [x] Add important event marker
+- [x] Add to calendar functionality for events
+- [x] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)

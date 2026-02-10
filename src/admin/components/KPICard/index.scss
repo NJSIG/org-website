@@ -1,0 +1,32 @@
+@import '~@payloadcms/ui/scss';
+
+@layer payload {
+  .card {
+    &__kpi {
+      --kpi-color: var(--no-change, black);
+
+      &--positive {
+        --kpi-color: var(--positive-change, green);
+      }
+
+      &--negative {
+        --kpi-color: var(--negative-change, red);
+      }
+    }
+  }
+
+  .kpi {
+    &__value {
+      display: flex;
+      align-items: center;
+      font-size: 36px;
+      line-height: 36px;
+      color: var(--kpi-color);
+      margin-bottom: 0.5rem;
+    }
+
+    &__change {
+      color: var(--theme-text);
+    }
+  }
+}
