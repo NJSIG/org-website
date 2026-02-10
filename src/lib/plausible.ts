@@ -100,17 +100,22 @@ async function fetchPlausibleAPI<T>(
   schema: z.ZodSchema<T>,
 ): Promise<T | null> {
   const config = getPlausibleConfig();
+  const { apiKey, siteId, apiHost } = config;
 
   try {
+    if (!apiKey || !siteId || !apiHost) {
+      throw new Error('Configuration Error');
+    }
+
     const queryParams = new URLSearchParams({
-      site_id: config.siteId!,
+      site_id: siteId,
       ...params,
     });
 
-    const url = `${config.apiHost}/api/v1/stats/${endpoint}?${queryParams}`;
+    const url = new URL(`/api/v1/stats/${endpoint}?${queryParams}`, apiHost).toString();
     const response = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${config.apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       next: {
         revalidate: 300, // Revalidate every 5 minutes
