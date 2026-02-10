@@ -41,6 +41,12 @@ export async function GET(req: NextRequest) {
 
     const searchParams = req.nextUrl.searchParams;
     const period = searchParams.get('period') || '7d';
+    const allowedPeriods = new Set(['day', '7d', '30d', '12mo']);
+
+    if (!allowedPeriods.has(period)) {
+      return NextResponse.json({ error: 'Invalid period parameter.' }, { status: 400 });
+    }
+
     const data = await getPlausibleData(period);
 
     if (!data) {
