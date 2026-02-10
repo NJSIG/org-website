@@ -41,7 +41,7 @@ function formatAxisDate(dateStr: string, period: string, _index?: number, _total
   switch (period) {
     case 'day':
       return date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
-    case '12mo':
+    case '12mo': {
       const month = date.getMonth();
 
       if (month === 0) {
@@ -49,6 +49,7 @@ function formatAxisDate(dateStr: string, period: string, _index?: number, _total
       }
 
       return date.toLocaleDateString('en-US', { month: 'short' });
+    }
     case '30d':
       return date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
     default:
