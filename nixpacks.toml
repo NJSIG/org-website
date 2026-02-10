@@ -1,7 +1,7 @@
 [phases.build]
 cmds = [
-  "next build --experimental-build-mode compile --turbo"
+  "next build --experimental-build-mode compile"
 ]
 
 [start]
-cmds = "next build --experimental-build-mode generate --turbo && next start --turbo"
+cmds = "next build --experimental-build-mode generate && next start"
