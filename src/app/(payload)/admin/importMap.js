@@ -20,11 +20,11 @@ import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { LucideIconPickerComponent as LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06 } from '@/fields/lucideIconPicker/LucideIconPickerComponent'
-import { default as default_ba8926285091515107c0c9d760efbd05 } from '@/fields/resourceGroup/ResourceLabel'
+import { LucideIconPickerComponent as LucideIconPickerComponent_e18a573b0b53240b4f67efda868a2e24 } from '@/fields/LucideIconPicker/LucideIconPickerComponent'
+import { default as default_e69dd0f8ea53230d004a9a778cfc6860 } from '@/fields/ResourceGroup/ResourceLabel'
 import { default as default_ff78a844b71cbd43995d5a2ff2fd039e } from '@/collections/Events/EventDynamicLabels'
 import { MapComponent as MapComponent_99b7a550d131dad82d3ef497009b98fa } from '@/fields/UIMap/MapComponent'
-import { PatternComponent as PatternComponent_590c95173faedf8954cfcb6268c4aa1c } from '@/fields/pattern/PatternComponent'
+import { PatternComponent as PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a } from '@/fields/Pattern/PatternComponent'
 import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { default as default_d8d4f8b836facc01bc30ce3da60643b8 } from '@/globals/Header/admin/NavLinkLabel'
 import { default as default_36da8d5ac52e64cc186c4e90bd0be630 } from '@/globals/Header/admin/NavGroupLabel'
@@ -63,11 +63,11 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/fields/lucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_762666e29c6ae8d8e7a1748a444b6b06,
-  "@/fields/resourceGroup/ResourceLabel#default": default_ba8926285091515107c0c9d760efbd05,
+  "@/fields/LucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_e18a573b0b53240b4f67efda868a2e24,
+  "@/fields/ResourceGroup/ResourceLabel#default": default_e69dd0f8ea53230d004a9a778cfc6860,
   "@/collections/Events/EventDynamicLabels#default": default_ff78a844b71cbd43995d5a2ff2fd039e,
   "@/fields/UIMap/MapComponent#MapComponent": MapComponent_99b7a550d131dad82d3ef497009b98fa,
-  "@/fields/pattern/PatternComponent#PatternComponent": PatternComponent_590c95173faedf8954cfcb6268c4aa1c,
+  "@/fields/Pattern/PatternComponent#PatternComponent": PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a,
   "@payloadcms/next/client#FolderTypeField": FolderTypeField_2b8867833a34864a02ddf429b0728a40,
   "@/globals/Header/admin/NavLinkLabel#default": default_d8d4f8b836facc01bc30ce3da60643b8,
   "@/globals/Header/admin/NavGroupLabel#default": default_36da8d5ac52e64cc186c4e90bd0be630,

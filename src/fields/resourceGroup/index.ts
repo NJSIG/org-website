@@ -30,7 +30,7 @@ export const resourceGroupField: ResourceGroupType = ({
     admin: {
       initCollapsed: true,
       components: {
-        RowLabel: '@/fields/resourceGroup/ResourceLabel',
+        RowLabel: '@/fields/ResourceGroup/ResourceLabel',
       },
     },
   };

@@ -38,7 +38,7 @@ export const lucideIconPickerField: LucideIconPickerType = ({
     admin: {
       components: {
         Field: {
-          path: '@/fields/lucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent',
+          path: '@/fields/LucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent',
           clientProps: {
             icons: allIcons,
           },
