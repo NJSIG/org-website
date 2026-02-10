@@ -294,7 +294,11 @@ export function formatPercentage(value: number | unknown): string {
  * @returns
  */
 export function formatChange(change: number | null): { text: string; isPositive: boolean } {
-  if (change === null || change === 0) {
+  if (change === null) {
+    return { text: 'N/A', isPositive: false };
+  }
+
+  if (change === 0) {
     return { text: '0%', isPositive: false };
   }
 
