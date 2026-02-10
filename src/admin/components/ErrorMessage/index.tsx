@@ -11,7 +11,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   return (
     <div className="error">
       <div className="card error__container">
-        <h3 className=" card__title error__title">
+        <h3 className="card__title error__title">
           <TriangleAlertIcon size={24} />
           <span>Error</span>
         </h3>
