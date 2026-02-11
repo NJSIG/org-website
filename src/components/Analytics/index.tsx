@@ -8,7 +8,14 @@ export const Analytics: React.FC = () => {
   const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
 
   useEffect(() => {
+    console.group('Plausible Config');
+    console.log('NEXT_PUBLIC_PLAUSIBLE_DOMAIN', domain);
+    console.log('NEXT_PUBLIC_PLAUSIBLE_HOST', host);
+    console.log('NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST', captureOnLocalhost);
+    console.groupEnd();
+
     if (!domain || !host) {
+      console.warn('Plausible analytics is not configured properly.');
       return;
     }
 
