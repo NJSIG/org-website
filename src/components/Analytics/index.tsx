@@ -1,12 +1,13 @@
 'use client';
 
-import getConfig from 'next/config';
 import { useEffect } from 'react';
 
 export const Analytics: React.FC = () => {
-  const { PLAUSIBLE_DOMAIN, PLAUSIBLE_HOST, PLAUSIBLE_ON_LOCALHOST } = getConfig();
-
   useEffect(() => {
+    const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+    const PLAUSIBLE_HOST = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST;
+    const PLAUSIBLE_ON_LOCALHOST = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST;
+
     console.group('Plausible Config');
     console.log('NEXT_PUBLIC_PLAUSIBLE_DOMAIN', PLAUSIBLE_DOMAIN);
     console.log('NEXT_PUBLIC_PLAUSIBLE_HOST', PLAUSIBLE_HOST);
@@ -42,7 +43,6 @@ export const Analytics: React.FC = () => {
         console.error('Failed to initialize Plausible analytics:', error);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
