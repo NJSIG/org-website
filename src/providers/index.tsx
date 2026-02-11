@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { HeaderThemeProvider } from './HeaderThemeProvider';
 import { MapApiProvider } from './MapApiProvider';
 import { PlausibleConfigProvider } from './PlausibleConfigProvider';
@@ -9,20 +10,21 @@ export const Providers: React.FC<{ children: React.ReactNode }> = ({ children })
   const plausibleHost = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST;
   const plausibleOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST;
 
-  let plausibleConfig = undefined;
+  const plausibleConfig = PlausibleConfigSchema.safeParse({
+    domain: plausibleDomain,
+    host: plausibleHost,
+    captureOnLocalhost: plausibleOnLocalhost,
+  });
 
-  try {
-    plausibleConfig = PlausibleConfigSchema.parse({
-      domain: plausibleDomain,
-      host: plausibleHost,
-      captureOnLocalhost: plausibleOnLocalhost,
-    });
-  } catch (e) {
-    console.warn('Plausible analytics is not configured properly:', e);
+  if (!plausibleConfig.success) {
+    console.warn(
+      'Invalid Plausible analytics configuration:',
+      z.prettifyError(plausibleConfig.error),
+    );
   }
 
   return (
-    <PlausibleConfigProvider config={plausibleConfig}>
+    <PlausibleConfigProvider config={plausibleConfig.success ? plausibleConfig.data : undefined}>
       <MapApiProvider apiKey={mapsApiKey}>
         <HeaderThemeProvider>{children}</HeaderThemeProvider>
       </MapApiProvider>

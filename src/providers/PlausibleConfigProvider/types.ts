@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 
 const HOSTNAME_REGEX = /^(?=.{1,253}$)(?!-)(?:[a-z0-9-]{1,63}\.)+[a-z]{2,63}$/i;
 
