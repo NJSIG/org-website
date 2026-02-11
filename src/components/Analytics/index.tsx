@@ -1,21 +1,14 @@
 'use client';
 
+import { usePlausibleConfig } from '@/providers/PlausibleConfigProvider';
 import { useEffect } from 'react';
 
 export const Analytics: React.FC = () => {
+  const config = usePlausibleConfig();
+
   useEffect(() => {
-    const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-    const PLAUSIBLE_HOST = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST;
-    const PLAUSIBLE_ON_LOCALHOST = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST;
-
-    console.group('Plausible Config');
-    console.log('NEXT_PUBLIC_PLAUSIBLE_DOMAIN', PLAUSIBLE_DOMAIN);
-    console.log('NEXT_PUBLIC_PLAUSIBLE_HOST', PLAUSIBLE_HOST);
-    console.log('NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST', PLAUSIBLE_ON_LOCALHOST);
-    console.groupEnd();
-
-    if (!PLAUSIBLE_DOMAIN || !PLAUSIBLE_HOST) {
-      console.warn('Plausible analytics is not configured properly.');
+    if (config === undefined) {
+      console.warn('Plausible analytics is not configured, skipping initialization.');
       return;
     }
 
@@ -28,12 +21,12 @@ export const Analytics: React.FC = () => {
         const { init } = await import('@plausible-analytics/tracker');
 
         init({
-          domain: PLAUSIBLE_DOMAIN,
-          endpoint: new URL('/api/event', PLAUSIBLE_HOST).toString(),
+          domain: config.domain,
+          endpoint: new URL('/api/event', config.host).toString(),
           outboundLinks: true,
           fileDownloads: true,
           formSubmissions: true,
-          captureOnLocalhost: PLAUSIBLE_ON_LOCALHOST === 'true',
+          captureOnLocalhost: config.captureOnLocalhost,
           customProperties: (eventName): Record<string, string> => {
             return eventName === 'pageview' ? { title: document.title } : {};
           },
@@ -43,6 +36,7 @@ export const Analytics: React.FC = () => {
         console.error('Failed to initialize Plausible analytics:', error);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
