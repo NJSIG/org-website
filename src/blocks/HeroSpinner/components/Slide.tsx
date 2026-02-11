@@ -1,6 +1,6 @@
 import { ButtonLink } from '@/components/ButtonLink';
 import TitleTheme from '@/components/TitleTheme';
-import { LinkAppearanceHelper } from '@/fields/link/types';
+import { LinkAppearanceHelper } from '@/fields/Link/types';
 import { HeroImage, HeroSpinnerBlock as HeroSpinnerBlockProps } from '@/payload-types';
 import { applyCustomPosition } from '@/utilities/applyCustomImagePosition';
 import { blurDataToBlurDataURL } from '@/utilities/blurDataToBlurDataURL';

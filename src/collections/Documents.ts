@@ -1,8 +1,8 @@
 import { anyone, editor } from '@/access';
-import { populateFileTypeHook } from '@/hooks/populateFileTypeHook';
-import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
-import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
-import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
+import { populateFileTypeHook } from '@/collections/hooks/populateFileTypeHook';
+import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
+import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
+import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
 import { CollectionConfig } from 'payload';
 
 const supportedMimeTypes = [

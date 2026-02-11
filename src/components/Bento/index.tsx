@@ -1,4 +1,4 @@
-import { IconNames } from '@/fields/lucideIconPicker/types';
+import { IconNames } from '@/fields/LucideIconPicker/types';
 import { cn } from '@/utilities/cn';
 import DynamicIcon from '../DynamicIcon';
 

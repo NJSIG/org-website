@@ -1,7 +1,7 @@
 import { ArrayField, deepMerge, Field, GroupField } from 'payload';
-import { LinkDestinations } from '../link/types';
-import { resourceField } from '../resource';
-import { ResourceTypes } from '../resource/types';
+import { LinkDestinations } from '../Link/types';
+import { resourceField } from '../Resource';
+import { ResourceTypes } from '../Resource/types';
 
 export type ResourceGroupType = (options?: {
   resourceTypes?: ResourceTypes[];
@@ -30,7 +30,7 @@ export const resourceGroupField: ResourceGroupType = ({
     admin: {
       initCollapsed: true,
       components: {
-        RowLabel: '@/fields/resourceGroup/ResourceLabel',
+        RowLabel: '@/fields/ResourceGroup/ResourceLabel',
       },
     },
   };

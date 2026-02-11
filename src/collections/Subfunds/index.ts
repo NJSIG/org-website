@@ -1,6 +1,6 @@
 import { editor, editorOrPublished } from '@/access';
-import { resourceGroupField } from '@/fields/resourceGroup';
-import { slugField } from '@/fields/slug';
+import { resourceGroupField } from '@/fields/ResourceGroup';
+import { slugField } from '@/fields/Slug';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
 import {
   MetaDescriptionField,

@@ -1,7 +1,7 @@
 import { anyone, editor } from '@/access';
-import { computeBlurDataHook } from '@/hooks/computeBlurDataHook';
-import { populateTitleFromFileHook } from '@/hooks/populateTitleFromFileHook';
-import { createSnakeCaseUploadsHook } from '@/hooks/snakeCaseUploadsHook';
+import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
+import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
+import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
   FixedToolbarFeature,

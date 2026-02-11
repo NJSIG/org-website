@@ -1,5 +1,5 @@
 import { ButtonLink } from '@/components/ButtonLink';
-import { LinkAppearanceHelper } from '@/fields/link/types';
+import { LinkAppearanceHelper } from '@/fields/Link/types';
 import { CMSButtonBlock as CMSButtonBlockProps } from '@/payload-types';
 import { createAnalyticsEventClasses } from '@/utilities/createAnalyticsEventClasses';
 

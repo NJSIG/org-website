@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ButtonLink } from '@/components/ButtonLink';
 import { Logo } from '@/components/Logo';
-import { LinkAppearanceHelper } from '@/fields/link/types';
+import { LinkAppearanceHelper } from '@/fields/Link/types';
 import {
   Accordion,
   AccordionContent,

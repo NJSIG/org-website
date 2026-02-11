@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@/fields/analytics/types';
+import { AnalyticsEvent } from '@/fields/Analytics/types';
 
 export const createAnalyticsEventClasses = (analytics: AnalyticsEvent | undefined): string => {
   const classNames = [];

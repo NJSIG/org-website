@@ -17,7 +17,7 @@ export const patternField: PatternFieldType = ({ overrides = {}, pattern }) => {
           clientProps: {
             pattern,
           },
-          path: '@/fields/pattern/PatternComponent#PatternComponent',
+          path: '@/fields/Pattern/PatternComponent#PatternComponent',
         },
       },
     },

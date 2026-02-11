@@ -1,6 +1,6 @@
-import { plausibleCustomEventField } from '@/fields/analytics/plausibleCustomEvent';
-import { linkField } from '@/fields/link';
-import { uiTipField } from '@/fields/uiTip';
+import { plausibleCustomEventField } from '@/fields/Analytics/plausibleCustomEvent';
+import { linkField } from '@/fields/Link';
+import { uiTipField } from '@/fields/UITip';
 import { Block } from 'payload';
 
 export const HeroSpinner: Block = {

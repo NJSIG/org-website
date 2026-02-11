@@ -1,5 +1,5 @@
 import { BlocksField, deepMerge, SelectField } from 'payload';
-import { uiTipField } from '../uiTip';
+import { uiTipField } from '../UITip';
 import { BlockFilters, BlockSlugs, DynamicBlocksType, TemplateOptions, Templates } from './types';
 
 export const templateOptions: TemplateOptions = {

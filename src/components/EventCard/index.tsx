@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { SubfundPill } from '../SubfundPill';
+import { useHasHydrated } from '../hooks/useHasHydrated';
 import { EventCardData } from './types';
 
 const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
@@ -72,14 +73,18 @@ const EventCardLabel: React.FC<{
   startDate: string;
   endDate?: string | null;
 }> = ({ startDate: startDateFromProps, endDate: endDateFromProps }) => {
-  const startDate = new Date(startDateFromProps);
-  const endDate = endDateFromProps ? new Date(endDateFromProps) : undefined;
+  const hydrated = useHasHydrated();
 
-  const formattedStartMonth = new Intl.DateTimeFormat('en-US', { month: 'short' })
-    .format(startDate)
-    .toUpperCase();
+  const startDate = hydrated ? new Date(startDateFromProps) : null;
+  const endDate = hydrated && endDateFromProps ? new Date(endDateFromProps) : undefined;
 
-  const formattedStartDay = new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate);
+  const formattedStartMonth = startDate
+    ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(startDate).toUpperCase()
+    : undefined;
+
+  const formattedStartDay = startDate
+    ? new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(startDate)
+    : undefined;
 
   const formattedEndMonth = endDate
     ? new Intl.DateTimeFormat('en-US', { month: 'short' }).format(endDate).toUpperCase()
@@ -92,16 +97,23 @@ const EventCardLabel: React.FC<{
   return (
     <small className="flex items-center justify-between text-(--event-theme-shade)">
       <span className="text-sm font-semibold">
-        <time dateTime={startDateFromProps}>
-          {formattedStartMonth} {formattedStartDay}
-        </time>
-        {endDateFromProps && (
+        {hydrated && formattedStartMonth && formattedStartDay ? (
           <>
-            {' - '}
-            <time dateTime={endDateFromProps}>
-              {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''} {formattedEndDay}
+            <time dateTime={startDateFromProps}>
+              {formattedStartMonth} {formattedStartDay}
             </time>
+            {endDateFromProps && (
+              <>
+                {' - '}
+                <time dateTime={endDateFromProps}>
+                  {formattedEndMonth !== formattedStartMonth ? formattedEndMonth : ''}{' '}
+                  {formattedEndDay}
+                </time>
+              </>
+            )}
           </>
+        ) : (
+          <span className="inline-block h-4 w-24 rounded bg-foreground/10 align-middle animate-pulse" />
         )}
       </span>
       <ArrowUpRightIcon size={24} className="group-hover/event-card:animate-micro-up-right" />

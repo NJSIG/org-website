@@ -1,8 +1,8 @@
 import { editor, editorOrPublished } from '@/access';
+import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
-import { dynamicBlocksField, templateOptions } from '@/fields/dynamicBlocks';
-import { slugField } from '@/fields/slug';
-import { populatePublishedAtHook } from '@/hooks/populatePublishedAtHook';
+import { dynamicBlocksField, templateOptions } from '@/fields/DynamicBlocks';
+import { slugField } from '@/fields/Slug';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
 import {
   MetaDescriptionField,

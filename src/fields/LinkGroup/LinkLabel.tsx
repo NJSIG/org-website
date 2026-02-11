@@ -4,7 +4,7 @@ import { isObject } from '@/utilities/isObject';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';
-import { LinkField } from '../link/types';
+import { LinkField } from '../Link/types';
 
 interface LinkLabel {
   link: LinkField;

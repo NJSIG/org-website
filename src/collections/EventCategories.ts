@@ -1,5 +1,5 @@
 import { admin, editorOrPublished } from '@/access';
-import { slugField } from '@/fields/slug';
+import { slugField } from '@/fields/Slug';
 import { CollectionConfig } from 'payload';
 
 export const EventCategories: CollectionConfig<'event-categories'> = {

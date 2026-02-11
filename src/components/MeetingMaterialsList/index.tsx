@@ -6,6 +6,7 @@ import {
 } from '@/primitives/ui/accordion';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
 import { useRef } from 'react';
+import { useHasHydrated } from '../hooks/useHasHydrated';
 import { useIsTruncated } from '../hooks/useIsTruncated';
 import ResourceList from '../ResourceList';
 import { MeetingMaterialsData, MeetingMaterialsListProps } from './types';
@@ -28,7 +29,9 @@ const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({ meetings, c
 };
 
 const MeetingHeader: React.FC<{ meeting: MeetingMaterialsData }> = ({ meeting }) => {
-  const startDate = typeof meeting === 'object' ? new Date(meeting.startDate) : null;
+  const hydrated = useHasHydrated();
+
+  const startDate = hydrated && typeof meeting === 'object' ? new Date(meeting.startDate) : null;
 
   const formattedDate = startDate
     ? new Intl.DateTimeFormat('en-US', { month: 'long', day: '2-digit', year: 'numeric' }).format(
@@ -48,8 +51,12 @@ const MeetingHeader: React.FC<{ meeting: MeetingMaterialsData }> = ({ meeting })
       <Tooltip>
         <TooltipTrigger asChild disabled={resourceCount === 0}>
           <div className="grow overflow-hidden">
-            {formattedDate && (
+            {formattedDate ? (
               <small className="text-sm text-foreground-muted">{formattedDate}</small>
+            ) : (
+              <small className="text-sm text-foreground-muted">
+                <span className="inline-block h-4 w-36 rounded bg-foreground/10 align-middle animate-pulse" />
+              </small>
             )}
             <h4
               className="text-lg font-bold whitespace-nowrap overflow-hidden text-ellipsis"

@@ -24,7 +24,7 @@ import { EventCategories } from './collections/EventCategories';
 import { HeroImages } from './collections/HeroImages';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
-import { defaultLexical } from './fields/defaultLexical';
+import { defaultLexical } from './fields/DefaultLexical';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
