@@ -1,14 +1,14 @@
 'use client';
 
+import { usePlausibleConfig } from '@/providers/PlausibleConfigProvider';
 import { useEffect } from 'react';
 
 export const Analytics: React.FC = () => {
-  const domain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  const host = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST;
-  const captureOnLocalhost = process.env.NEXT_PUBLIC_PLAUSIBLE_ON_LOCALHOST === 'true';
+  const config = usePlausibleConfig();
 
   useEffect(() => {
-    if (!domain || !host) {
+    if (config === undefined) {
+      console.warn('Plausible analytics is not configured, skipping initialization.');
       return;
     }
 
@@ -21,12 +21,12 @@ export const Analytics: React.FC = () => {
         const { init } = await import('@plausible-analytics/tracker');
 
         init({
-          domain,
-          endpoint: new URL('/api/event', host).toString(),
+          domain: config.domain,
+          endpoint: new URL('/api/event', config.host).toString(),
           outboundLinks: true,
           fileDownloads: true,
           formSubmissions: true,
-          captureOnLocalhost,
+          captureOnLocalhost: config.captureOnLocalhost,
           customProperties: (eventName): Record<string, string> => {
             return eventName === 'pageview' ? { title: document.title } : {};
           },
