@@ -13,16 +13,18 @@ import {
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical';
 import { TextFieldSingleValidation } from 'payload';
+import { FontSizeFeature } from './features/FontSize/feature.server';
 
 export const defaultLexical = lexicalEditor({
   features: [
     ParagraphFeature(),
-    BoldFeature(),
-    ItalicFeature(),
     HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
     UnorderedListFeature(),
     OrderedListFeature(),
     BlockquoteFeature(),
+    FontSizeFeature(),
+    BoldFeature(),
+    ItalicFeature(),
     LinkFeature({
       enabledCollections: ['pages', 'events'],
       fields: ({ defaultFields }) => {
