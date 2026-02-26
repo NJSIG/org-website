@@ -10,19 +10,24 @@ import {
   LinkFields,
   OrderedListFeature,
   ParagraphFeature,
+  TextStateFeature,
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical';
 import { TextFieldSingleValidation } from 'payload';
-import { FontSizeFeature } from './features/FontSize/feature.server';
+import { availableFontSizes } from './utils/availableFontSizes';
 
 export const defaultLexical = lexicalEditor({
   features: [
     ParagraphFeature(),
     HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+    TextStateFeature({
+      state: {
+        fontSize: availableFontSizes(['sm', 'base', 'xl', '2xl']),
+      },
+    }),
     UnorderedListFeature(),
     OrderedListFeature(),
     BlockquoteFeature(),
-    FontSizeFeature(),
     BoldFeature(),
     ItalicFeature(),
     LinkFeature({

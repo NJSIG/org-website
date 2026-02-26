@@ -11,7 +11,7 @@ import { EventTileData } from '@/components/EventTile/types';
 import MeetingMaterialsList from '@/components/MeetingMaterialsList';
 import { MeetingMaterialsData } from '@/components/MeetingMaterialsList/types';
 import ResourceList from '@/components/ResourceList';
-import RichText from '@/components/RichText';
+import { RichText } from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
 import { Subfund } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';

@@ -14,7 +14,7 @@ import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
 import { PageHeader, PageTitle } from '@/components/PageHeader';
 import ResourceList from '@/components/ResourceList';
-import RichText from '@/components/RichText';
+import { RichText } from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
 import { Event } from '@/payload-types';
