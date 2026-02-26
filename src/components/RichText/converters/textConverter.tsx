@@ -61,7 +61,7 @@ export const textConverter: JSXConverters<SerializedTextNode> = {
       text = <sup>{text}</sup>;
     }
 
-    // Test State Formatter
+    // Text State Formatter
     if (node.$) {
       Object.entries(TEXT_STATE).forEach(([stateKey, stateValues]) => {
         const stateValue = node.$ && (node.$[stateKey] as TextStateKeys);
