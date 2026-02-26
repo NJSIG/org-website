@@ -5,7 +5,7 @@ import { ArrowUpRightIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ContactPerson } from '../ContactPerson';
-import RichText from '../RichText';
+import { RichText } from '../RichText';
 
 type SubfundCapsuleProps = {
   subfund: Subfund;
