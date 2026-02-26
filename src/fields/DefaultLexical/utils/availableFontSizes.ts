@@ -82,7 +82,7 @@ export const availableFontSizes = (
 ): TextStateFontSizeConfig => {
   if (!Array.isArray(enabledSizes) || !enabledSizes.every((size) => size in defaultFontSizes)) {
     console.warn(
-      `Invalid font sizes provided: ${enabledSizes}. Falling back to default sizes: ${Object.keys(DEFAULT_SIZES).join(', ')}.`,
+      `Invalid font sizes provided: ${enabledSizes}. Falling back to default sizes: ${DEFAULT_SIZES.join(', ')}.`,
     );
 
     enabledSizes = DEFAULT_SIZES;
