@@ -10,67 +10,67 @@ export const defaultFontSizes: TextStateFontSizeConfig = {
   '2xs': {
     label: '2XS',
     css: {
-      'font-size': '0.625rem', // 10px
+      fontSize: '0.625rem', // 10px
     },
   },
   xs: {
     label: 'Extra Small',
     css: {
-      'font-size': '0.75rem', // 12px
+      fontSize: '0.75rem', // 12px
     },
   },
   sm: {
     label: 'Small',
     css: {
-      'font-size': '0.875rem', // 14px
+      fontSize: '0.875rem', // 14px
     },
   },
   base: {
     label: 'Base',
     css: {
-      'font-size': '1rem', // 16px
+      fontSize: '1rem', // 16px
     },
   },
   lg: {
     label: 'Large',
     css: {
-      'font-size': '1.125rem', // 18px
+      fontSize: '1.125rem', // 18px
     },
   },
   xl: {
     label: 'XL',
     css: {
-      'font-size': '1.25rem', // 20px
+      fontSize: '1.25rem', // 20px
     },
   },
   '2xl': {
     label: '2XL',
     css: {
-      'font-size': '1.5rem', // 24px
+      fontSize: '1.5rem', // 24px
     },
   },
   '3xl': {
     label: '3XL',
     css: {
-      'font-size': '1.875rem', // 30px
+      fontSize: '1.875rem', // 30px
     },
   },
   '4xl': {
     label: '4XL',
     css: {
-      'font-size': '2.25rem', // 36px
+      fontSize: '2.25rem', // 36px
     },
   },
   '5xl': {
     label: '5XL',
     css: {
-      'font-size': '3rem', // 48px
+      fontSize: '3rem', // 48px
     },
   },
   '6xl': {
     label: '6XL',
     css: {
-      'font-size': '3.75rem', // 60px
+      fontSize: '3.75rem', // 60px
     },
   },
 };
