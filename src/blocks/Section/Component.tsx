@@ -3,7 +3,7 @@ import { EventTilesBlock } from '@/blocks/EventTiles/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { ImageCalloutBlock } from '../ImageCallout/Component';
+import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
