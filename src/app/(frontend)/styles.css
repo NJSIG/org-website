@@ -152,13 +152,13 @@
   /** TailwindCSS Customizations **/
   --breakpoint-3xl: 120rem;
 
-  --container-8xl: 96rem;
-  --container-9xl: 120rem;
+  --container-8xl: 96rem; /* 1536px */
+  --container-9xl: 120rem; /* 1920px */
 
-  --container-section: 56.25rem;
-  --container-section-wide: 80rem;
-  --container-section-content: 31.25rem;
-  --container-section-wide-content: 37.5rem;
+  --container-section: 56.25rem; /* 900px */
+  --container-section-wide: 80rem; /* 1280px */
+  --container-section-content: 31.25rem; /* 500px */
+  --container-section-wide-content: 35.875rem; /* 574px */
 }
 
 /*
@@ -680,12 +680,6 @@
   --subfund-foreground: var(--color-njsig-neutral-shade);
   --subfund-accent: var(--color-njsig-neutral-midtone);
   --subfund-contact-ring: var(--color-njsig-neutral-shade);
-
-  /* Callout Shadows */
-  --callout-shadow-sm-l: -8px 8px 0 0 var(--color-njsig-accent-midtone);
-  --callout-shadow-sm-r: 8px 8px 0 0 var(--color-njsig-accent-midtone);
-  --callout-shadow-md-l: -10px 10px 0 0 var(--color-njsig-accent-midtone);
-  --callout-shadow-md-r: 10px 10px 0 0 var(--color-njsig-accent-midtone);
 
   /* Hero Image Positioning Defaults */
   --hero-h-pos: center;

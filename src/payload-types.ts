@@ -66,17 +66,18 @@ export interface Config {
     users: UserAuthOperations;
   };
   blocks: {
-    heroSpinner: HeroSpinnerBlock;
-    hiddenTitle: HiddenTitleBlock;
     bannerTitle: BannerTitleBlock;
-    section: SectionBlock;
-    sectionTitle: SectionTitleBlock;
-    sectionCols: SectionColumnsBlock;
-    sectionContent: SectionContentBlock;
     cmsButton: CMSButtonBlock;
-    optimizedImage: OptimizedImageBlock;
     emphasizedList: EmphasizedListBlock;
     eventTiles: EventTilesBlock;
+    heroSpinner: HeroSpinnerBlock;
+    hiddenTitle: HiddenTitleBlock;
+    imageCallout: ImageCalloutBlock;
+    optimizedImage: OptimizedImageBlock;
+    sectionCols: SectionColumnsBlock;
+    sectionContent: SectionContentBlock;
+    section: SectionBlock;
+    sectionTitle: SectionTitleBlock;
   };
   collections: {
     pages: Page;
@@ -149,9 +150,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: 'en';
-  user: User & {
-    collection: 'users';
-  };
+  user: User;
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -183,74 +182,24 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroSpinnerBlock".
+ * via the `definition` "BannerTitleBlock".
  */
-export interface HeroSpinnerBlock {
+export interface BannerTitleBlock {
   /**
-   * Time in seconds before automatically transitioning to the next slide.
+   * The theme is displayed as a pre-title above the main title.
    */
-  slideTimeout: number;
-  slides?:
-    | {
-        backgroundImage: string | HeroImage;
-        /**
-         * Themes are displayed as a smaller title above the headline.
-         */
-        theme: string;
-        /**
-         * The main title of the slide.
-         */
-        headline: string;
-        heroLink?: {
-          type?: 'reference' | null;
-          newTab?: boolean | null;
-          allowReferrer?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: string | Page;
-          } | null;
-          url?: string | null;
-          label?: string | null;
-          /**
-           * Choose how the link will be displayed.
-           */
-          appearance?: 'cta' | null;
-          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-          colorVariant?: ('default' | 'primary' | 'accent') | false;
-          sizeVariant?: ('small' | 'medium' | 'large') | false;
-          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
-          iconPosition?: ('none' | 'before' | 'after') | false;
-          icon?: string | null;
-          analytics?: {
-            /**
-             * Enabling an Analytics Event will send data to Plausible Analytics when this element is interacted with.
-             */
-            hasAnalyticsEvent?: boolean | null;
-            /**
-             * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs. This must match exactly with the Event set up in the Plausible dashboard.
-             */
-            eventName?: string | null;
-            properties?:
-              | {
-                  /**
-                   * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
-                   */
-                  propertyName: string;
-                  /**
-                   * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs.
-                   */
-                  propertyValue: string;
-                  id?: string | null;
-                }[]
-              | null;
-          };
-        };
-        id?: string | null;
-      }[]
-    | null;
+  theme?: string | null;
+  /**
+   * The title to display.
+   */
+  title: string;
+  /**
+   * Banner Title uses Hero Images for greater control over the final result across screen sizes.
+   */
+  image: string | HeroImage;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'heroSpinner';
+  blockType: 'bannerTitle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -382,175 +331,6 @@ export interface HeroImage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: string;
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  layout: {
-    /**
-     * Select the template for this page. The template value will determine which blocks are available.
-     */
-    template: 'default' | 'home' | 'navOnly';
-    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | BannerTitleBlock | SectionBlock)[] | null;
-  };
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  template?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HiddenTitleBlock".
- */
-export interface HiddenTitleBlock {
-  /**
-   * A visually hidden title for accessibility purposes. This should only be used if there is no visible title on the page.
-   */
-  title: string;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hiddenTitle';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BannerTitleBlock".
- */
-export interface BannerTitleBlock {
-  /**
-   * The theme is displayed as a pre-title above the main title.
-   */
-  theme?: string | null;
-  /**
-   * The title to display.
-   */
-  title: string;
-  /**
-   * Banner Title uses Hero Images for greater control over the final result across screen sizes.
-   */
-  image: string | HeroImage;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'bannerTitle';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionBlock".
- */
-export interface SectionBlock {
-  contentWidth: 'normal' | 'wide';
-  /**
-   * Some styles will enforce local dark mode for better contrast.
-   */
-  backgroundStyle: 'default' | 'azureGradient';
-  sectionBlocks: (
-    | SectionColumnsBlock
-    | SectionContentBlock
-    | SectionTitleBlock
-    | CMSButtonBlock
-    | OptimizedImageBlock
-    | EmphasizedListBlock
-    | EventTilesBlock
-  )[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'section';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionColumnsBlock".
- */
-export interface SectionColumnsBlock {
-  /**
-   * This setting determines how columns with different heights are aligned vertically.
-   */
-  vertAlign: 'top' | 'center' | 'bottom';
-  colOne: {
-    visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?:
-      | (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock | EmphasizedListBlock)[]
-      | null;
-  };
-  colTwo: {
-    visibility: 'desktop' | 'tablet' | 'mobile';
-    colBlocks?:
-      | (SectionContentBlock | SectionTitleBlock | CMSButtonBlock | OptimizedImageBlock | EmphasizedListBlock)[]
-      | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'sectionCols';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionContentBlock".
- */
-export interface SectionContentBlock {
-  /**
-   * Formatting options are limited to maintain consistency across the site.
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'sectionContent';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SectionTitleBlock".
- */
-export interface SectionTitleBlock {
-  /**
-   * The theme is displayed as a pre-title above the main title.
-   */
-  theme: string;
-  /**
-   * The main title of the section.
-   */
-  title: string;
-  /**
-   * You can choose to visually hide the theme or title.
-   */
-  viewOptions: 'titleAndTheme' | 'titleOnly' | 'themeOnly';
-  /**
-   * Include a 40px bottom margin for the section title.
-   */
-  bottomMargin?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'sectionTitle';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CMSButtonBlock".
  */
 export interface CMSButtonBlock {
@@ -607,26 +387,240 @@ export interface CMSButtonBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "OptimizedImageBlock".
+ * via the `definition` "pages".
  */
-export interface OptimizedImageBlock {
+export interface Page {
+  id: string;
   /**
-   * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
-  image: string | Media;
-  width?: number | null;
-  height?: number | null;
+  title: string;
+  layout: {
+    /**
+     * Select the template for this page. The template value will determine which blocks are available.
+     */
+    template: 'default' | 'home' | 'navOnly';
+    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | BannerTitleBlock | SectionBlock)[] | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  template?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroSpinnerBlock".
+ */
+export interface HeroSpinnerBlock {
   /**
-   * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
+   * Time in seconds before automatically transitioning to the next slide.
    */
-  priority?: boolean | null;
-  /**
-   * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
-   */
-  placeholder?: boolean | null;
+  slideTimeout: number;
+  slides?:
+    | {
+        backgroundImage: string | HeroImage;
+        /**
+         * Themes are displayed as a smaller title above the headline.
+         */
+        theme: string;
+        /**
+         * The main title of the slide.
+         */
+        headline: string;
+        heroLink?: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+          /**
+           * Choose how the link will be displayed.
+           */
+          appearance?: 'cta' | null;
+          styleVariant?: ('flat' | 'outline' | 'ghost') | false;
+          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          sizeVariant?: ('small' | 'medium' | 'large') | false;
+          microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
+          iconPosition?: ('none' | 'before' | 'after') | false;
+          icon?: string | null;
+          analytics?: {
+            /**
+             * Enabling an Analytics Event will send data to Plausible Analytics when this element is interacted with.
+             */
+            hasAnalyticsEvent?: boolean | null;
+            /**
+             * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs. This must match exactly with the Event set up in the Plausible dashboard.
+             */
+            eventName?: string | null;
+            properties?:
+              | {
+                  /**
+                   * May only contain letters, numbers, underscores, hyphens, and plus signs. This must match exactly with the Property set up in the Plausible dashboard.
+                   */
+                  propertyName: string;
+                  /**
+                   * May only contain letters, numbers, spaces, underscores, hyphens, and plus signs.
+                   */
+                  propertyValue: string;
+                  id?: string | null;
+                }[]
+              | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'optimizedImage';
+  blockType: 'heroSpinner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HiddenTitleBlock".
+ */
+export interface HiddenTitleBlock {
+  /**
+   * A visually hidden title for accessibility purposes. This should only be used if there is no visible title on the page.
+   */
+  title: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hiddenTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  contentWidth: 'normal' | 'wide';
+  /**
+   * Some styles will enforce local dark mode for better contrast.
+   */
+  backgroundStyle: 'default' | 'azureGradient';
+  sectionBlocks: (
+    | CMSButtonBlock
+    | EmphasizedListBlock
+    | EventTilesBlock
+    | ImageCalloutBlock
+    | OptimizedImageBlock
+    | SectionColumnsBlock
+    | SectionContentBlock
+    | SectionTitleBlock
+  )[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmphasizedListBlock".
+ */
+export interface EmphasizedListBlock {
+  /**
+   * Select the color of the triangular bullets
+   */
+  bullColor?: ('primary' | 'accent') | null;
+  listItems?:
+    | {
+        title: string;
+        content: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emphasizedList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventTilesBlock".
+ */
+export interface EventTilesBlock {
+  /**
+   * Set the number of tiles to display, including the "View All" tile
+   */
+  tiles: number;
+  /**
+   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   */
+  categoryFilters?: (string | EventCategory)[] | null;
+  /**
+   * Toggle to show or hide the "View All" tile at the end of the list.
+   */
+  showViewAll?: boolean | null;
+  /**
+   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   */
+  enableSubscribe?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventTiles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageCalloutBlock".
+ */
+export interface ImageCalloutBlock {
+  calloutContent: {
+    /**
+     * The theme is displayed as a title above the callout text.
+     */
+    theme?: string | null;
+    /**
+     * The content to display in the callout.
+     */
+    content: string;
+    position: 'left' | 'right';
+  };
+  calloutImage: {
+    /**
+     * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
+     */
+    image: string | Media;
+    border: 'none' | 'primaryMidtone';
+    width?: number | null;
+    height?: number | null;
+    /**
+     * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
+     */
+    priority?: boolean | null;
+    /**
+     * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
+     */
+    placeholder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageCallout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -827,18 +821,6 @@ export interface Event {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories".
- */
-export interface EventCategory {
-  id: string;
-  name: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1064,48 +1046,117 @@ export interface Document {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EmphasizedListBlock".
+ * via the `definition` "OptimizedImageBlock".
  */
-export interface EmphasizedListBlock {
+export interface OptimizedImageBlock {
   /**
-   * Select the color of the triangular bullets
+   * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
    */
-  bullColor?: ('primary' | 'accent') | null;
-  listItems?:
-    | {
-        title: string;
-        content: string;
-        id?: string | null;
-      }[]
-    | null;
+  image: string | Media;
+  width?: number | null;
+  height?: number | null;
+  /**
+   * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
+   */
+  priority?: boolean | null;
+  /**
+   * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
+   */
+  placeholder?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'emphasizedList';
+  blockType: 'optimizedImage';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventTilesBlock".
+ * via the `definition` "SectionColumnsBlock".
  */
-export interface EventTilesBlock {
+export interface SectionColumnsBlock {
   /**
-   * Set the number of tiles to display, including the "View All" tile
+   * This setting determines how columns with different heights are aligned vertically.
    */
-  tiles: number;
-  /**
-   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
-   */
-  categoryFilters?: (string | EventCategory)[] | null;
-  /**
-   * Toggle to show or hide the "View All" tile at the end of the list.
-   */
-  showViewAll?: boolean | null;
-  /**
-   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
-   */
-  enableSubscribe?: boolean | null;
+  vertAlign: 'top' | 'center' | 'bottom';
+  colOne: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?:
+      | (
+          | CMSButtonBlock
+          | EmphasizedListBlock
+          | ImageCalloutBlock
+          | OptimizedImageBlock
+          | SectionContentBlock
+          | SectionTitleBlock
+        )[]
+      | null;
+  };
+  colTwo: {
+    visibility: 'desktop' | 'tablet' | 'mobile';
+    colBlocks?:
+      | (
+          | CMSButtonBlock
+          | EmphasizedListBlock
+          | ImageCalloutBlock
+          | OptimizedImageBlock
+          | SectionContentBlock
+          | SectionTitleBlock
+        )[]
+      | null;
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'eventTiles';
+  blockType: 'sectionCols';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionContentBlock".
+ */
+export interface SectionContentBlock {
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionContent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionTitleBlock".
+ */
+export interface SectionTitleBlock {
+  /**
+   * The theme is displayed as a pre-title above the main title.
+   */
+  theme: string;
+  /**
+   * The main title of the section.
+   */
+  title: string;
+  /**
+   * You can choose to visually hide the theme or title.
+   */
+  viewOptions: 'titleAndTheme' | 'titleOnly' | 'themeOnly';
+  /**
+   * Include a 40px bottom margin for the section title.
+   */
+  bottomMargin?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionTitle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1227,6 +1278,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

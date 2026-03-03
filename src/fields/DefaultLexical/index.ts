@@ -1,4 +1,5 @@
 import {
+  AlignFeature,
   BlockquoteFeature,
   BoldFeature,
   FixedToolbarFeature,
@@ -30,6 +31,7 @@ export const defaultLexical = lexicalEditor({
     BlockquoteFeature(),
     BoldFeature(),
     ItalicFeature(),
+    AlignFeature(),
     LinkFeature({
       enabledCollections: ['pages', 'events'],
       fields: ({ defaultFields }) => {

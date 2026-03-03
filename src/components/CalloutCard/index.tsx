@@ -8,16 +8,26 @@ export const CalloutCard: React.FC<{
   return (
     <div
       className={cn(
-        'dark flex flex-col gap-6 p-8 bg-njsig-shade text-foreground-inverted',
+        'dark flex flex-col gap-6 p-8 bg-njsig-shade text-foreground-inverted rounded-lg relative mb-2.5',
         {
-          'mb-2 xl:mb-2.5': shadow,
-          'shadow-(--callout-shadow-sm-l) xl:shadow-(--callout-shadow-md-l)': shadow === 'left',
-          'shadow-(--callout-shadow-sm-r) xl:shadow-(--callout-shadow-md-r)': shadow === 'right',
+          'ml-2.5': shadow === 'left',
+          'mr-2.5': shadow === 'right',
         },
         className,
       )}
     >
       {children}
+      {shadow && (
+        <div
+          className={cn(
+            'absolute h-full w-full -z-1 bg-njsig-accent-midtone rounded-lg -bottom-2 xl:-bottom-2.5',
+            {
+              '-left-2 xl:-left-2.5 rounded-bl-2xl xl:rounded-bl-[18px]': shadow === 'left',
+              '-right-2 xl:-right-2.5 rounded-br-2xl xl:rounded-br-[18px]': shadow === 'right',
+            },
+          )}
+        />
+      )}
     </div>
   );
 };

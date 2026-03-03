@@ -1,5 +1,6 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
+import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
@@ -8,11 +9,12 @@ import { SectionContentBlock } from '../SectionContent/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const columnBlockComponents = {
-  sectionTitle: SectionTitleBlock,
-  sectionContent: SectionContentBlock,
   cmsButton: CMSButtonBlock,
-  optimizedImage: OptimizedImageBlock,
   emphasizedList: EmphasizedListBlock,
+  imageCallout: ImageCalloutBlock,
+  optimizedImage: OptimizedImageBlock,
+  sectionContent: SectionContentBlock,
+  sectionTitle: SectionTitleBlock,
 };
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
@@ -43,11 +45,14 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   if (hasColumns) {
     return (
       <div
-        className={cn('flex justify-between group-[.content-width-wide]/section:gap-32', {
-          'items-start': vertAlign === 'top',
-          'items-center': vertAlign === 'center',
-          'items-end': vertAlign === 'bottom',
-        })}
+        className={cn(
+          'flex flex-wrap justify-center group-[.content-width-wide]/section:gap-8 xl:group-[.content-width-wide]/section:gap-32',
+          {
+            'items-start': vertAlign === 'top',
+            'items-center': vertAlign === 'center',
+            'items-end': vertAlign === 'bottom',
+          },
+        )}
       >
         {colOneHasBlocks && (
           <div className={columnStyleVariants({ visibility: colOne.visibility })}>

@@ -42,7 +42,7 @@ export const RichText = (props: RichTextProps) => {
         'payload-richtext',
         {
           container: enableGutter,
-          'prose prose-battleship prose-lg dark:prose-invert mx-auto': enableProse,
+          'prose prose-battleship prose-lg dark:prose-invert': enableProse,
         },
         className,
       )}
