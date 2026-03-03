@@ -45,11 +45,14 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   if (hasColumns) {
     return (
       <div
-        className={cn('flex justify-between group-[.content-width-wide]/section:gap-32', {
-          'items-start': vertAlign === 'top',
-          'items-center': vertAlign === 'center',
-          'items-end': vertAlign === 'bottom',
-        })}
+        className={cn(
+          'flex flex-wrap justify-center group-[.content-width-wide]/section:gap-8 xl:group-[.content-width-wide]/section:gap-32',
+          {
+            'items-start': vertAlign === 'top',
+            'items-center': vertAlign === 'center',
+            'items-end': vertAlign === 'bottom',
+          },
+        )}
       >
         {colOneHasBlocks && (
           <div className={columnStyleVariants({ visibility: colOne.visibility })}>
