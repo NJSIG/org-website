@@ -25,11 +25,12 @@ const columnField: Field[] = [
     type: 'blocks',
     blocks: [],
     blockReferences: [
+      'cmsButton',
+      'emphasizedList',
+      'imageCallout',
+      'optimizedImage',
       'sectionContent',
       'sectionTitle',
-      'cmsButton',
-      'optimizedImage',
-      'emphasizedList',
     ],
   },
 ];

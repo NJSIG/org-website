@@ -10,9 +10,9 @@ type RenderBlocksProps = {
 };
 
 const blockComponents = {
+  bannerTitle: BannerTitleBlock,
   heroSpinner: HeroSpinnerBlock,
   hiddenTitle: HiddenTitleBlock,
-  bannerTitle: BannerTitleBlock,
   section: SectionBlock,
 };
 

@@ -8,7 +8,11 @@ export const CalloutCard: React.FC<{
   return (
     <div
       className={cn(
-        'dark flex flex-col gap-6 p-8 bg-njsig-shade text-foreground-inverted rounded-lg relative',
+        'dark flex flex-col gap-6 p-8 bg-njsig-shade text-foreground-inverted rounded-lg relative mb-2.5',
+        {
+          'ml-2.5': shadow === 'left',
+          'mr-2.5': shadow === 'right',
+        },
         className,
       )}
     >

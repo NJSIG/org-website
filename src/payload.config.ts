@@ -17,6 +17,7 @@ import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { EventTiles } from './blocks/EventTiles/config';
+import { ImageCallout } from './blocks/ImageCallout/config';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -52,17 +53,18 @@ const collections = [
 // Defining blocks multiple time can bloat the config and information sent to the client
 // see https://payloadcms.com/docs/fields/blocks#block-references
 const blocks = [
-  HeroSpinner,
-  HiddenTitle,
   BannerTitle,
-  Section.Root,
-  Section.Title,
-  Section.Columns,
-  Section.Content,
   CMSButton,
-  OptimizedImage,
   EmphasizedList,
   EventTiles,
+  HeroSpinner,
+  HiddenTitle,
+  ImageCallout,
+  OptimizedImage,
+  Section.Columns,
+  Section.Content,
+  Section.Root,
+  Section.Title,
 ];
 
 export default buildConfig({

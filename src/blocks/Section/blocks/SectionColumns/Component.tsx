@@ -1,5 +1,6 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
+import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
@@ -8,11 +9,12 @@ import { SectionContentBlock } from '../SectionContent/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const columnBlockComponents = {
-  sectionTitle: SectionTitleBlock,
-  sectionContent: SectionContentBlock,
   cmsButton: CMSButtonBlock,
-  optimizedImage: OptimizedImageBlock,
   emphasizedList: EmphasizedListBlock,
+  imageCallout: ImageCalloutBlock,
+  optimizedImage: OptimizedImageBlock,
+  sectionContent: SectionContentBlock,
+  sectionTitle: SectionTitleBlock,
 };
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?

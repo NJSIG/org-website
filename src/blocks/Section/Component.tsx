@@ -3,17 +3,19 @@ import { EventTilesBlock } from '@/blocks/EventTiles/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { ImageCalloutBlock } from '../ImageCallout/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 
 const sectionBlockComponents = {
-  sectionTitle: SectionTitleBlock,
-  sectionCols: SectionColumnsBlock,
-  sectionContent: SectionContentBlock,
-  optimizedImage: OptimizedImageBlock,
   emphasizedList: EmphasizedListBlock,
   eventTiles: EventTilesBlock,
+  imageCallout: ImageCalloutBlock,
+  optimizedImage: OptimizedImageBlock,
+  sectionCols: SectionColumnsBlock,
+  sectionContent: SectionContentBlock,
+  sectionTitle: SectionTitleBlock,
 };
 
 export const SectionBlock: React.FC<SectionBlockProps> = ({
