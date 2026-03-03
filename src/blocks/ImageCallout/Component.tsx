@@ -10,9 +10,9 @@ export const ImageCalloutBlock: React.FC<ImageCalloutBlockProps> = ({
 }) => {
   return (
     <div
-      className={cn('relative pb-12', {
-        'xl:pl-12': calloutContent.position === 'left',
-        'xl:pr-12': calloutContent.position === 'right',
+      className={cn('relative pb-32 md:pb-12', {
+        'md:pl-12': calloutContent.position === 'left',
+        'md:pr-12': calloutContent.position === 'right',
       })}
     >
       <div
@@ -34,9 +34,9 @@ export const ImageCalloutBlock: React.FC<ImageCalloutBlockProps> = ({
         />
       </div>
       <div
-        className={cn('absolute bottom-0 left-1/2 -translate-x-1/2 xl:translate-0', {
-          'xl:left-0': calloutContent.position === 'left',
-          'xl:left-auto xl:right-0': calloutContent.position === 'right',
+        className={cn('absolute bottom-0 left-1/2 -translate-x-1/2 md:translate-0', {
+          'md:left-0': calloutContent.position === 'left',
+          'md:left-auto md:right-0': calloutContent.position === 'right',
         })}
       >
         <CalloutCard shadow={calloutContent.position} className="w-80 h-52 gap-4">
