@@ -12,6 +12,12 @@
 
   /* NJSIG Custom Styles */
   .njsig {
+    &__row-label {
+      align-items: center;
+      display: flex;
+      gap: 0.5rem;
+    }
+
     &__link-row-label {
       align-items: center;
       display: flex;
