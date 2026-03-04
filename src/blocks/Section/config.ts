@@ -47,6 +47,7 @@ export const Section: Block = {
         'cmsButton',
         'emphasizedList',
         'eventTiles',
+        'iconList',
         'imageCallout',
         'optimizedImage',
         'sectionCols',
