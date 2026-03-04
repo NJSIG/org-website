@@ -20,7 +20,7 @@ const ItemLabel: React.FC<RowLabelProps> = () => {
 
   return (
     <div className="njsig__row-label">
-      <DynamicIcon name={data.icon} />
+      {data?.icon && <DynamicIcon name={data.icon} />}
       <span>{label}</span>
     </div>
   );
