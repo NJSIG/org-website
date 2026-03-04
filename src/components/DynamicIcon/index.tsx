@@ -49,6 +49,7 @@ const DynamicIcon = memo(({ name, size, ...rest }: DynamicIconProps) => {
           'size-4': size === 16,
           // size-6 is the default
           'size-10': size === 40,
+          'size-16 [&>svg]:stroke-1': size === 64,
         },
       )}
     >
