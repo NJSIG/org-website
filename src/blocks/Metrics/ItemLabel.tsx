@@ -12,9 +12,11 @@ interface ItemLabel {
 
 const ItemLabel: React.FC<RowLabelProps> = () => {
   const { rowNumber, data } = useRowLabel<ItemLabel>();
+  const trimmedLabel = data?.label?.trim();
+  const hasValue = data?.value !== null && data?.value !== undefined;
   const label =
-    data?.value && data?.label && data.label !== ''
-      ? `${data.value} | ${data.label}`
+    hasValue && trimmedLabel
+      ? `${data?.value} | ${trimmedLabel}`
       : `Item ${(rowNumber ?? 0) + 1}`;
 
   return (
