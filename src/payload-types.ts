@@ -74,6 +74,7 @@ export interface Config {
     hiddenTitle: HiddenTitleBlock;
     iconList: IconListBlock;
     imageCallout: ImageCalloutBlock;
+    metrics: MetricsBlock;
     optimizedImage: OptimizedImageBlock;
     sectionCols: SectionColumnsBlock;
     sectionContent: SectionContentBlock;
@@ -521,6 +522,7 @@ export interface SectionBlock {
     | EventTilesBlock
     | IconListBlock
     | ImageCalloutBlock
+    | MetricsBlock
     | OptimizedImageBlock
     | SectionColumnsBlock
     | SectionContentBlock
@@ -1066,6 +1068,45 @@ export interface Document {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MetricsBlock".
+ */
+export interface MetricsBlock {
+  /**
+   * The number of columns to display. On smaller screens, the layout will adjust to fit the screen size.
+   */
+  columns?: ('one' | 'two' | 'three' | 'four') | null;
+  items?:
+    | {
+        icon: string;
+        /**
+         * The background color for the icon.
+         */
+        iconBackgroundColor:
+          | 'azureMidtone'
+          | 'ceruleanMidtone'
+          | 'glacialMidtone'
+          | 'raspberryMidtone'
+          | 'seaGreenMidtone'
+          | 'sushiMidtone'
+          | 'tahitiGoldMidtone'
+          | 'trendyPinkMidtone';
+        /**
+         * The numeric metric value to display.
+         */
+        value: number;
+        /**
+         * The label to display below the metric value.
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'metrics';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

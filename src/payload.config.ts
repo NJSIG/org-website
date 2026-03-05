@@ -6,6 +6,7 @@ import {
   HiddenTitle,
   IconList,
   ImageCallout,
+  Metrics,
   Section,
 } from '@/blocks';
 import { CMSButton } from '@/blocks/CMSButton/config';
@@ -67,6 +68,7 @@ const blocks = [
   HiddenTitle,
   IconList,
   ImageCallout,
+  Metrics,
   OptimizedImage,
   Section.Columns,
   Section.Content,
