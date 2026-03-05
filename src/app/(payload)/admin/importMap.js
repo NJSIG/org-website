@@ -36,6 +36,7 @@ import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/F
 import { default as default_f028dfe501ccb68d96f11295b8d2eed9 } from '@/fields/Analytics/PropertyLabel'
 import { default as default_7b0da33588c22cbe7e3dd7054120c9e3 } from '@/blocks/EmphasizedList/ItemLabel'
 import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/HeroSpinner/admin/SlideLabel'
+import { default as default_1e2b88e3016e9cc11f789fe3b32c294b } from '@/blocks/IconList/ItemLabel'
 import { AfterNavLinks as AfterNavLinks_8e733769a645f3f3131abcfeb7eee164 } from '@/admin/components/AfterNavLinks'
 import { AdminProviders as AdminProviders_250ae40988cfdbb45bc2a16f2814b159 } from '@/providers/admin'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
@@ -81,6 +82,7 @@ export const importMap = {
   "@/fields/Analytics/PropertyLabel#default": default_f028dfe501ccb68d96f11295b8d2eed9,
   "@/blocks/EmphasizedList/ItemLabel#default": default_7b0da33588c22cbe7e3dd7054120c9e3,
   "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31,
+  "@/blocks/IconList/ItemLabel#default": default_1e2b88e3016e9cc11f789fe3b32c294b,
   "@/admin/components/AfterNavLinks#AfterNavLinks": AfterNavLinks_8e733769a645f3f3131abcfeb7eee164,
   "@/providers/admin#AdminProviders": AdminProviders_250ae40988cfdbb45bc2a16f2814b159,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,

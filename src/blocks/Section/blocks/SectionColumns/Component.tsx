@@ -19,7 +19,7 @@ const columnBlockComponents = {
 
 // TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
 const columnStyleVariants = cva(
-  'group-[.content-width-normal]/section:max-w-section-content group-[.content-width-wide]/section:max-w-section-wide-content flex flex-col items-center md:items-start gap-8',
+  'group-[.content-width-normal]/section:max-w-section-content group-[.content-width-wide]/section:max-w-section-wide-content flex flex-col items-center md:items-start gap-8 group is-columns',
   {
     variants: {
       visibility: {
@@ -46,7 +46,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
     return (
       <div
         className={cn(
-          'flex flex-wrap justify-center group-[.content-width-wide]/section:gap-8 xl:group-[.content-width-wide]/section:gap-32',
+          'flex flex-wrap justify-between group-[.content-width-wide]/section:gap-8 xl:group-[.content-width-wide]/section:gap-32',
           {
             'items-start': vertAlign === 'top',
             'items-center': vertAlign === 'center',

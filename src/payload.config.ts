@@ -1,5 +1,13 @@
 // storage-adapter-import-placeholder
-import { BannerTitle, HeroSpinner, HiddenTitle, Section } from '@/blocks';
+import {
+  BannerTitle,
+  EventTiles,
+  HeroSpinner,
+  HiddenTitle,
+  IconList,
+  ImageCallout,
+  Section,
+} from '@/blocks';
 import { CMSButton } from '@/blocks/CMSButton/config';
 import { EmphasizedList } from '@/blocks/EmphasizedList/config';
 import { OptimizedImage } from '@/blocks/OptimizedImage/config';
@@ -16,8 +24,6 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
-import { EventTiles } from './blocks/EventTiles/config';
-import { ImageCallout } from './blocks/ImageCallout/config';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -59,6 +65,7 @@ const blocks = [
   EventTiles,
   HeroSpinner,
   HiddenTitle,
+  IconList,
   ImageCallout,
   OptimizedImage,
   Section.Columns,

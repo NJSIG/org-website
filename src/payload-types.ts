@@ -72,6 +72,7 @@ export interface Config {
     eventTiles: EventTilesBlock;
     heroSpinner: HeroSpinnerBlock;
     hiddenTitle: HiddenTitleBlock;
+    iconList: IconListBlock;
     imageCallout: ImageCalloutBlock;
     optimizedImage: OptimizedImageBlock;
     sectionCols: SectionColumnsBlock;
@@ -518,6 +519,7 @@ export interface SectionBlock {
     | CMSButtonBlock
     | EmphasizedListBlock
     | EventTilesBlock
+    | IconListBlock
     | ImageCalloutBlock
     | OptimizedImageBlock
     | SectionColumnsBlock
@@ -584,6 +586,27 @@ export interface EventCategory {
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IconListBlock".
+ */
+export interface IconListBlock {
+  /**
+   * A two column layout will display odd items in the left column and even items in the right column. Two columns will stack as one column on smaller screens.
+   */
+  columns?: ('one' | 'two') | null;
+  items?:
+    | {
+        icon: string;
+        title?: string | null;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'iconList';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1111,6 +1134,14 @@ export interface SectionColumnsBlock {
  * via the `definition` "SectionContentBlock".
  */
 export interface SectionContentBlock {
+  /**
+   * If enabled, the content will be centered within the section.
+   */
+  centerBlock?: boolean | null;
+  /**
+   * Add a gutter for horizontal padding when using outside of a section block.
+   */
+  enableGutter?: boolean | null;
   /**
    * Formatting options are limited to maintain consistency across the site.
    */

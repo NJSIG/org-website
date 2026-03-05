@@ -1,6 +1,6 @@
 import { SVGProps } from 'react';
 
-export type IconSize = 16 | 24 | 40;
+export type IconSize = 16 | 24 | 40 | 64;
 
 export interface CustomIconProps extends SVGProps<SVGSVGElement> {
   size?: IconSize;

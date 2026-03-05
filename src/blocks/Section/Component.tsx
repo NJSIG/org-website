@@ -1,9 +1,10 @@
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
 import { EventTilesBlock } from '@/blocks/EventTiles/Component';
+import { IconListBlock } from '@/blocks/IconList/Component';
+import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
@@ -11,6 +12,7 @@ import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 const sectionBlockComponents = {
   emphasizedList: EmphasizedListBlock,
   eventTiles: EventTilesBlock,
+  iconList: IconListBlock,
   imageCallout: ImageCalloutBlock,
   optimizedImage: OptimizedImageBlock,
   sectionCols: SectionColumnsBlock,
