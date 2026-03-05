@@ -16,6 +16,58 @@
       align-items: center;
       display: flex;
       gap: 0.5rem;
+
+      --contained-icon-color: #898e94; // Battleship Gray 600
+
+      &__contained-icon {
+        align-items: center;
+        background-color: var(--contained-icon-color);
+        border-radius: 12px;
+        display: flex;
+        height: 24px;
+        justify-content: center;
+        width: 24px;
+
+        > span {
+          align-items: center;
+          display: flex;
+          height: 16px;
+          justify-content: center;
+          width: 16px;
+        }
+
+        &[data-color='azureMidtone'] {
+          --contained-icon-color: #7b8fb6; // 400
+        }
+
+        &[data-color='ceruleanMidtone'] {
+          --contained-icon-color: #5dade2; // 400
+        }
+
+        &[data-color='glacialMidtone'] {
+          --contained-icon-color: #5d83e2; // 500
+        }
+
+        &[data-color='raspberryMidtone'] {
+          --contained-icon-color: #ee7e8f; // 400
+        }
+
+        &[data-color='seaGreenMidtone'] {
+          --contained-icon-color: #6dbb8b; // 400
+        }
+
+        &[data-color='sushiMidtone'] {
+          --contained-icon-color: #a8bd61; // 400
+        }
+
+        &[data-color='tahitiGoldMidtone'] {
+          --contained-icon-color: #f69449; // 400
+        }
+
+        &[data-color='trendyPinkMidtone'] {
+          --contained-icon-color: #bf9dd5; // 400
+        }
+      }
     }
 
     &__link-row-label {

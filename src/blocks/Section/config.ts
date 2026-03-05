@@ -49,6 +49,7 @@ export const Section: Block = {
         'eventTiles',
         'iconList',
         'imageCallout',
+        'metrics',
         'optimizedImage',
         'sectionCols',
         'sectionContent',

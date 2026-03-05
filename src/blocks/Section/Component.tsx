@@ -5,6 +5,7 @@ import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { MetricsBlock } from '../Metrics/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
@@ -14,6 +15,7 @@ const sectionBlockComponents = {
   eventTiles: EventTilesBlock,
   iconList: IconListBlock,
   imageCallout: ImageCalloutBlock,
+  metrics: MetricsBlock,
   optimizedImage: OptimizedImageBlock,
   sectionCols: SectionColumnsBlock,
   sectionContent: SectionContentBlock,
