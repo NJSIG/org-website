@@ -36,6 +36,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
           'flex flex-col px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 2xl:pt-16 2xl:pb-20',
           {
             'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
+            'bg-azure-100': backgroundStyle === 'azureLight',
           },
         )}
       >

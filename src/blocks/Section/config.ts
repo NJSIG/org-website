@@ -30,6 +30,7 @@ export const Section: Block = {
           options: [
             { label: 'Default', value: 'default' },
             { label: 'Azure Gradient (Dark)', value: 'azureGradient' },
+            { label: 'Azure (Light)', value: 'azureLight' },
           ],
           admin: {
             description: 'Some styles will enforce local dark mode for better contrast.',

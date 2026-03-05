@@ -515,7 +515,7 @@ export interface SectionBlock {
   /**
    * Some styles will enforce local dark mode for better contrast.
    */
-  backgroundStyle: 'default' | 'azureGradient';
+  backgroundStyle: 'default' | 'azureGradient' | 'azureLight';
   sectionBlocks: (
     | CMSButtonBlock
     | EmphasizedListBlock
