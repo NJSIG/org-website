@@ -11,8 +11,8 @@ export const MetricsBlock: React.FC<MetricsBlockProps> = ({ columns, items }) =>
         'md:grid-cols-4': columns === 'four',
       })}
     >
-      {items?.map(({ id, icon, iconBackgroundColor, value, label }) => (
-        <div key={id} className="flex flex-col items-center gap-4">
+      {items?.map(({ id, icon, iconBackgroundColor, value, label }, index) => (
+        <div key={id ?? `metric-${index}`} className="flex flex-col items-center gap-4">
           <div
             className={cn(
               'flex items-center justify-center size-20 rounded-full text-foreground-inverted',
