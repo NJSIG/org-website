@@ -4,7 +4,6 @@ import { cn } from '@/utilities/cn';
 
 export const SectionContentBlock: React.FC<SectionContentBlockProps> = ({
   centerBlock,
-  enableGutter,
   content,
 }) => {
   return (
@@ -13,7 +12,7 @@ export const SectionContentBlock: React.FC<SectionContentBlockProps> = ({
       className={cn('max-w-section-content not-last:mb-8 group-[.is-columns]:mb-0', {
         'mx-auto': centerBlock,
       })}
-      enableGutter={enableGutter ?? false}
+      enableGutter={false}
     />
   );
 };
