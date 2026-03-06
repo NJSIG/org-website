@@ -9,7 +9,7 @@ export const SectionContentBlock: React.FC<SectionContentBlockProps> = ({
   return (
     <RichText
       data={content}
-      className={cn('max-w-section-content not-last:mb-8 group-[.is-columns]:mb-0', {
+      className={cn('not-last:mb-8 group-[.is-columns]:mb-0', {
         'mx-auto': centerBlock,
       })}
       enableGutter={false}
