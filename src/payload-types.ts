@@ -511,7 +511,7 @@ export interface HiddenTitleBlock {
  * via the `definition` "SectionBlock".
  */
 export interface SectionBlock {
-  contentWidth: 'normal' | 'wide';
+  contentWidth: 'narrow' | 'normal' | 'wide';
   /**
    * Some styles will enforce local dark mode for better contrast.
    */
@@ -1179,10 +1179,6 @@ export interface SectionContentBlock {
    * If enabled, the content will be centered within the section.
    */
   centerBlock?: boolean | null;
-  /**
-   * Add a gutter for horizontal padding when using outside of a section block.
-   */
-  enableGutter?: boolean | null;
   /**
    * Formatting options are limited to maintain consistency across the site.
    */

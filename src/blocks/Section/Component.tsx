@@ -42,6 +42,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
       >
         <div
           className={cn('mx-auto w-full group/section', {
+            'content-width-narrow max-w-section-narrow': contentWidth === 'narrow',
             'content-width-normal max-w-section': contentWidth === 'normal',
             'content-width-wide max-w-section-wide': contentWidth === 'wide',
           })}

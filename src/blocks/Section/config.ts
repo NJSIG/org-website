@@ -1,4 +1,45 @@
 import { Block } from 'payload';
+import {
+  SectionBlockFilters,
+  SectionBlockSlugs,
+  SectionWidthOptions,
+  SectionWidths,
+} from './blocks/types';
+
+const widthOptions: SectionWidthOptions = {
+  narrow: { label: 'Narrow', value: 'narrow' },
+  normal: { label: 'Normal', value: 'normal' },
+  wide: { label: 'Wide', value: 'wide' },
+};
+
+const allSectionBlocks: SectionBlockSlugs[] = [
+  'cmsButton',
+  'emphasizedList',
+  'eventTiles',
+  'iconList',
+  'imageCallout',
+  'metrics',
+  'optimizedImage',
+  'sectionCols',
+  'sectionContent',
+  'sectionTitle',
+];
+
+const sectionBlockFilters: SectionBlockFilters = {
+  narrow: [
+    'cmsButton',
+    'emphasizedList',
+    'eventTiles',
+    'iconList',
+    'imageCallout',
+    'metrics',
+    'optimizedImage',
+    'sectionContent',
+    'sectionTitle',
+  ],
+  normal: allSectionBlocks,
+  wide: allSectionBlocks,
+};
 
 export const Section: Block = {
   slug: 'section',
@@ -14,10 +55,7 @@ export const Section: Block = {
           type: 'select',
           required: true,
           defaultValue: 'normal',
-          options: [
-            { label: 'Normal', value: 'normal' },
-            { label: 'Wide', value: 'wide' },
-          ],
+          options: Object.values(widthOptions),
           admin: {
             isClearable: false,
           },
@@ -44,18 +82,16 @@ export const Section: Block = {
       name: 'sectionBlocks',
       required: true,
       blocks: [],
-      blockReferences: [
-        'cmsButton',
-        'emphasizedList',
-        'eventTiles',
-        'iconList',
-        'imageCallout',
-        'metrics',
-        'optimizedImage',
-        'sectionCols',
-        'sectionContent',
-        'sectionTitle',
-      ],
+      blockReferences: allSectionBlocks,
+      filterOptions: ({ siblingData: _siblingData }) => {
+        const siblingData = _siblingData as { contentWidth?: SectionWidths } | undefined;
+
+        if (siblingData?.contentWidth) {
+          return sectionBlockFilters[siblingData.contentWidth] || [];
+        }
+
+        return [];
+      },
       defaultValue: [{ blockType: 'sectionTitle' }],
     },
   ],
