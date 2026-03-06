@@ -155,10 +155,12 @@
   --container-8xl: 96rem; /* 1536px */
   --container-9xl: 120rem; /* 1920px */
 
+  --container-section-narrow: 37.5rem; /* 600px */
   --container-section: 56.25rem; /* 900px */
   --container-section-wide: 80rem; /* 1280px */
   --container-section-content: 31.25rem; /* 500px */
   --container-section-wide-content: 35.875rem; /* 574px */
+  --container-section-narrow-content: 37.5rem; /* 600px Narrow content is designed for single column content */
 }
 
 /*

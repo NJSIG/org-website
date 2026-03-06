@@ -4,16 +4,16 @@ import { cn } from '@/utilities/cn';
 
 export const SectionContentBlock: React.FC<SectionContentBlockProps> = ({
   centerBlock,
-  enableGutter,
   content,
 }) => {
   return (
     <RichText
       data={content}
-      className={cn('max-w-section-content not-last:mb-8 group-[.is-columns]:mb-0', {
-        'mx-auto': centerBlock,
+      className={cn('not-last:mb-8 group-[.is-columns]:mb-0', {
+        'mx-auto group-[.content-width-normal]/section:max-w-section-content group-[.content-width-wide]/section:max-w-section-wide-content':
+          centerBlock,
       })}
-      enableGutter={enableGutter ?? false}
+      enableGutter={false}
     />
   );
 };

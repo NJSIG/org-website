@@ -7,26 +7,12 @@ export const SectionContent: Block = {
   imageAltText: 'Section Content Block',
   fields: [
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'centerBlock',
-          type: 'checkbox',
-          defaultValue: false,
-          admin: {
-            description: 'If enabled, the content will be centered within the section.',
-          },
-        },
-        {
-          name: 'enableGutter',
-          type: 'checkbox',
-          defaultValue: false,
-          admin: {
-            description:
-              'Add a gutter for horizontal padding when using outside of a section block.',
-          },
-        },
-      ],
+      name: 'centerBlock',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'If enabled, the content will be centered within the section.',
+      },
     },
     {
       name: 'content',

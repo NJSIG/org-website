@@ -5,12 +5,14 @@ import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { SectionBlock as SectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
+import { CMSButtonBlock } from '../CMSButton/Component';
 import { MetricsBlock } from '../Metrics/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 
 const sectionBlockComponents = {
+  cmsButton: CMSButtonBlock,
   emphasizedList: EmphasizedListBlock,
   eventTiles: EventTilesBlock,
   iconList: IconListBlock,
@@ -36,11 +38,13 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
           'flex flex-col px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 2xl:pt-16 2xl:pb-20',
           {
             'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
+            'bg-azure-100': backgroundStyle === 'azureLight',
           },
         )}
       >
         <div
           className={cn('mx-auto w-full group/section', {
+            'content-width-narrow max-w-section-narrow': contentWidth === 'narrow',
             'content-width-normal max-w-section': contentWidth === 'normal',
             'content-width-wide max-w-section-wide': contentWidth === 'wide',
           })}
