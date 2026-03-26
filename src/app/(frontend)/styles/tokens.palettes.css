@@ -1,0 +1,145 @@
+/**
+ * Palette tokens are the source-of-truth color scales used across the frontend.
+ * Each token stores a single OKLCH color value at a specific shade step so UI
+ * components can reference consistent, reusable color values.
+ *
+ * Naming convention:
+ * - Format: --color-<palette-name>-<shade>
+ * - <palette-name> is a semantic palette key (for example: azure, cerulean, sushi)
+ * - <shade> is an ordered intensity step: 50, 100, 200, ..., 900, 950
+ *   where lower numbers are lighter tints and higher numbers are darker shades
+ *
+ * Usage:
+ * - Reference directly in CSS: color: var(--color-azure-700);
+ * - Reference as Tailwind CSS colors: text-azure-700, bg-azure-700, border-azure-700
+ *
+ * Usage Guidelines:
+ * - Use as building blocks for semantic tokens in other style layers
+ *   (for example, mapping brand or sub-fund roles to a palette shade)
+ * - Use palette tokens when you need a specific color value that doesn't have a semantic role
+ *   (for example, a specific shade of gray for a border or background)
+ * - Avoid using palette tokens directly in component styles when a semantic token can be used instead
+ */
+@theme {
+  /** NJSIG Brand Color Palettes **/
+  --color-azure-50: oklch(0.9735 0.005 263.54);
+  --color-azure-100: oklch(0.9458 0.01 263.54);
+  --color-azure-200: oklch(0.8811 0.021 263.54);
+  --color-azure-300: oklch(0.7747 0.04 263.54);
+  --color-azure-400: oklch(0.6481 0.063 263.54);
+  --color-azure-500: oklch(0.5505 0.073 263.54);
+  --color-azure-600: oklch(0.4833 0.073 263.54);
+  --color-azure-700: oklch(0.4074 0.059 263.54);
+  --color-azure-800: oklch(0.3712 0.047 263.54);
+  --color-azure-900: oklch(0.338 0.039 263.54);
+  --color-azure-950: oklch(0.2619 0.027 263.54);
+
+  --color-dandelion-50: oklch(0.9869 0.021 95.25);
+  --color-dandelion-100: oklch(0.9645 0.06 96.14);
+  --color-dandelion-200: oklch(0.9277 0.118 95.6);
+  --color-dandelion-300: oklch(0.902 0.14 92.62);
+  --color-dandelion-400: oklch(0.8466 0.168 84.63);
+  --color-dandelion-500: oklch(0.7788 0.167 69.89);
+  --color-dandelion-600: oklch(0.6728 0.161 57.88);
+  --color-dandelion-700: oklch(0.5598 0.149 48.55);
+  --color-dandelion-800: oklch(0.4748 0.128 45.43);
+  --color-dandelion-900: oklch(0.4168 0.108 45.87);
+  --color-dandelion-950: oklch(0.2808 0.076 45.94);
+
+  --color-battleship-gray-50: oklch(0.9821 0 252.85);
+  --color-battleship-gray-100: oklch(0.9664 0.001 252.85);
+  --color-battleship-gray-200: oklch(0.9396 0.002 252.85);
+  --color-battleship-gray-300: oklch(0.8843 0.004 252.85);
+  --color-battleship-gray-400: oklch(0.8157 0.005 252.85);
+  --color-battleship-gray-500: oklch(0.7323 0.009 252.85);
+  --color-battleship-gray-600: oklch(0.6445 0.011 252.85);
+  --color-battleship-gray-700: oklch(0.5976 0.011 252.85);
+  --color-battleship-gray-800: oklch(0.5229 0.011 252.85);
+  --color-battleship-gray-900: oklch(0.4618 0.008 252.85);
+  --color-battleship-gray-950: oklch(0.3476 0.006 252.85);
+
+  /** NJSIG Sub-fund Color Palettes **/
+  --color-glacial-50: oklch(0.9694 0.0115 264.51);
+  --color-glacial-100: oklch(0.9296 0.0263 264.44);
+  --color-glacial-200: oklch(0.8766 0.048 263.13);
+  --color-glacial-300: oklch(0.7971 0.0786 260.52);
+  --color-glacial-400: oklch(0.6943 0.1216 261.66);
+  --color-glacial-500: oklch(0.6271 0.1496 265.84);
+  --color-glacial-600: oklch(0.5261 0.1857 267.42);
+  --color-glacial-700: oklch(0.4728 0.1861 268.85);
+  --color-glacial-800: oklch(0.415 0.1545 270.79);
+  --color-glacial-900: oklch(0.3709 0.1174 271.49);
+  --color-glacial-950: oklch(0.2814 0.0736 273.31);
+
+  --color-sea-green-50: oklch(0.9737 0.012 155.69);
+  --color-sea-green-100: oklch(0.9363 0.034 155.69);
+  --color-sea-green-200: oklch(0.8762 0.062 155.69);
+  --color-sea-green-300: oklch(0.7903 0.094 155.69);
+  --color-sea-green-400: oklch(0.7285 0.105 155.69);
+  --color-sea-green-500: oklch(0.5962 0.123 155.69);
+  --color-sea-green-600: oklch(0.5072 0.109 155.69);
+  --color-sea-green-700: oklch(0.4338 0.089 155.69);
+  --color-sea-green-800: oklch(0.3741 0.072 155.69);
+  --color-sea-green-900: oklch(0.3288 0.058 155.69);
+  --color-sea-green-950: oklch(0.2326 0.038 155.69);
+
+  --color-cerulean-50: oklch(0.976 0.009 239.78);
+  --color-cerulean-100: oklch(0.9471 0.019 239.78);
+  --color-cerulean-200: oklch(0.8874 0.044 239.78);
+  --color-cerulean-300: oklch(0.7966 0.081 239.78);
+  --color-cerulean-400: oklch(0.7182 0.11 239.78);
+  --color-cerulean-500: oklch(0.6153 0.132 239.78);
+  --color-cerulean-600: oklch(0.526 0.12 239.67);
+  --color-cerulean-700: oklch(0.4488 0.102 239.78);
+  --color-cerulean-800: oklch(0.4009 0.089 239.78);
+  --color-cerulean-900: oklch(0.3609 0.074 239.78);
+  --color-cerulean-950: oklch(0.2744 0.054 239.78);
+
+  --color-sushi-50: oklch(0.9791 0.017 119.65);
+  --color-sushi-100: oklch(0.9462 0.033 119.65);
+  --color-sushi-200: oklch(0.8977 0.064 119.65);
+  --color-sushi-300: oklch(0.8304 0.097 119.65);
+  --color-sushi-400: oklch(0.762 0.12 119.65);
+  --color-sushi-500: oklch(0.6796 0.125 119.65);
+  --color-sushi-600: oklch(0.5657 0.105 119.65);
+  --color-sushi-700: oklch(0.4707 0.083 119.65);
+  --color-sushi-800: oklch(0.4079 0.065 119.65);
+  --color-sushi-900: oklch(0.3701 0.0542 119.97);
+  --color-sushi-950: oklch(0.248 0.037 119.65);
+
+  --color-trendy-pink-50: oklch(0.9798 0.007 311.86);
+  --color-trendy-pink-100: oklch(0.9561 0.016 311.86);
+  --color-trendy-pink-200: oklch(0.9122 0.029 311.86);
+  --color-trendy-pink-300: oklch(0.8425 0.053 311.86);
+  --color-trendy-pink-400: oklch(0.7457 0.078 311.86);
+  --color-trendy-pink-500: oklch(0.636 0.119 311.86);
+  --color-trendy-pink-600: oklch(0.5667 0.123 311.86);
+  --color-trendy-pink-700: oklch(0.4666 0.111 311.86);
+  --color-trendy-pink-800: oklch(0.411 0.093 311.86);
+  --color-trendy-pink-900: oklch(0.3708 0.076 311.86);
+  --color-trendy-pink-950: oklch(0.2605 0.065 311.86);
+
+  --color-tahiti-gold-50: oklch(0.9785 0.013 56.26);
+  --color-tahiti-gold-100: oklch(0.941 0.035 54.8);
+  --color-tahiti-gold-200: oklch(0.8771 0.077 55.68);
+  --color-tahiti-gold-300: oklch(0.8109 0.125 55.88);
+  --color-tahiti-gold-400: oklch(0.7559 0.148 55.54);
+  --color-tahiti-gold-500: oklch(0.6958 0.16 55.54);
+  --color-tahiti-gold-600: oklch(0.5997 0.147 55.95);
+  --color-tahiti-gold-700: oklch(0.5063 0.124 55.66);
+  --color-tahiti-gold-800: oklch(0.4346 0.107 55.64);
+  --color-tahiti-gold-900: oklch(0.3835 0.094 55.65);
+  --color-tahiti-gold-950: oklch(0.259 0.063 56.22);
+
+  --color-raspberry-50: oklch(0.9708 0.013 11.62);
+  --color-raspberry-100: oklch(0.9443 0.025 11.62);
+  --color-raspberry-200: oklch(0.8972 0.047 11.62);
+  --color-raspberry-300: oklch(0.8167 0.087 11.62);
+  --color-raspberry-400: oklch(0.7231 0.138 11.62);
+  --color-raspberry-500: oklch(0.6373 0.182 11.62);
+  --color-raspberry-600: oklch(0.5761 0.193 11.62);
+  --color-raspberry-700: oklch(0.4958 0.175 11.62);
+  --color-raspberry-800: oklch(0.4409 0.151 11.62);
+  --color-raspberry-900: oklch(0.4004 0.131 11.62);
+  --color-raspberry-950: oklch(0.2653 0.089 11.62);
+}

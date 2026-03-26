@@ -1,0 +1,226 @@
+:root {
+  /* Section Titles */
+  --title-theme-accent: var(--color-njsig-accent-midtone);
+
+  /* Event Tiles */
+  --event-tile: var(--color-njsig-neutral-tint);
+  --event-tile-foreground: var(--color-foreground);
+  --event-tile-bespoke-dark: var(--color-azure-900);
+  --event-tile-bespoke-light: var(--color-azure-700);
+  --event-tile-bespoke-foreground: var(--color-foreground-inverted);
+  --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
+
+  /* Event Page */
+  --event-theme-background: var(--color-njsig-neutral-background);
+  --event-theme-foreground: var(--color-foreground);
+  --event-theme-accent: var(--color-njsig-neutral-midtone);
+  --event-theme-shade: var(--color-njsig-neutral-shade);
+  --event-theme-shade-foreground: var(--color-foreground-inverted);
+
+  /* Bento */
+  --bento-icon-stroke: var(--color-njsig-primary);
+  --bento-placeholder: var(--color-njsig-tint);
+
+  /* Resource List */
+  --resource-theme: var(--color-njsig-primary);
+
+  /* Sub-fund Page */
+  --subfund-background: var(--color-njsig-neutral-background);
+  --subfund-capsule-bg: var(--color-battleship-gray-100);
+  --subfund-foreground: var(--color-njsig-neutral-shade);
+  --subfund-accent: var(--color-njsig-neutral-midtone);
+  --subfund-contact-ring: var(--color-njsig-neutral-shade);
+
+  /* Hero Image Positioning Defaults */
+  --hero-h-pos: center;
+  --hero-v-pos: bottom;
+  --hero-h-pos-lg: var(--hero-h-pos);
+  --hero-v-pos-lg: var(--hero-v-pos);
+  --hero-h-pos-xl: var(--hero-h-pos);
+  --hero-v-pos-xl: var(--hero-v-pos);
+}
+
+/*
+ * Override prefers-color-scheme
+ *
+ * If a parent is dark, then all children are dark
+ *
+ * If a child needs to be light, it can use the `light` class to
+ * override the `dark` class from the parent.
+ */
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/*
+ * Base Styles
+ *
+ * These are the base styles for the application.
+ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  .subfund-theme-bacceic {
+    --subfund-background: var(--color-bacceic-background);
+    --subfund-capsule-bg: var(--color-glacial-100);
+    --subfund-foreground: var(--color-bacceic-shade);
+    --subfund-accent: var(--color-bacceic-midtone);
+    --subfund-contact-ring: var(--color-bacceic-primary);
+    --title-theme-accent: var(--color-bacceic-midtone);
+    --event-tile-bespoke-dark: var(--color-glacial-900);
+    --event-tile-bespoke-light: var(--color-glacial-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-bacceic-midtone);
+  }
+
+  .subfund-theme-caip {
+    --subfund-background: var(--color-caip-background);
+    --subfund-capsule-bg: var(--color-sea-green-100);
+    --subfund-foreground: var(--color-caip-shade);
+    --subfund-accent: var(--color-caip-midtone);
+    --subfund-contact-ring: var(--color-caip-primary);
+    --title-theme-accent: var(--color-caip-midtone);
+    --event-tile-bespoke-dark: var(--color-sea-green-900);
+    --event-tile-bespoke-light: var(--color-sea-green-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-caip-midtone);
+  }
+
+  .subfund-theme-ericnorth {
+    --subfund-background: var(--color-ericnorth-background);
+    --subfund-capsule-bg: var(--color-cerulean-100);
+    --subfund-foreground: var(--color-ericnorth-shade);
+    --subfund-accent: var(--color-ericnorth-midtone);
+    --subfund-contact-ring: var(--color-ericnorth-primary);
+    --title-theme-accent: var(--color-ericnorth-midtone);
+    --event-tile-bespoke-dark: var(--color-cerulean-900);
+    --event-tile-bespoke-light: var(--color-cerulean-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-ericnorth-midtone);
+  }
+
+  .subfund-theme-ericsouth {
+    --subfund-background: var(--color-ericsouth-background);
+    --subfund-capsule-bg: var(--color-sushi-100);
+    --subfund-foreground: var(--color-ericsouth-shade);
+    --subfund-accent: var(--color-ericsouth-midtone);
+    --subfund-contact-ring: var(--color-ericsouth-primary);
+    --title-theme-accent: var(--color-ericsouth-midtone);
+    --event-tile-bespoke-dark: var(--color-sushi-900);
+    --event-tile-bespoke-light: var(--color-sushi-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-ericsouth-midtone);
+  }
+
+  .subfund-theme-ericwest {
+    --subfund-background: var(--color-ericwest-background);
+    --subfund-capsule-bg: var(--color-trendy-pink-100);
+    --subfund-foreground: var(--color-ericwest-shade);
+    --subfund-accent: var(--color-ericwest-midtone);
+    --subfund-contact-ring: var(--color-ericwest-primary);
+    --title-theme-accent: var(--color-ericwest-midtone);
+    --event-tile-bespoke-dark: var(--color-trendy-pink-900);
+    --event-tile-bespoke-light: var(--color-trendy-pink-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-ericwest-midtone);
+  }
+
+  .subfund-theme-mocssif {
+    --subfund-background: var(--color-mocssif-background);
+    --subfund-capsule-bg: var(--color-tahiti-gold-100);
+    --subfund-foreground: var(--color-mocssif-shade);
+    --subfund-accent: var(--color-mocssif-midtone);
+    --subfund-contact-ring: var(--color-mocssif-primary);
+    --title-theme-accent: var(--color-mocssif-midtone);
+    --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
+    --event-tile-bespoke-light: var(--color-tahiti-gold-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-mocssif-midtone);
+  }
+
+  .subfund-theme-njeif {
+    --subfund-background: var(--color-njeif-background);
+    --subfund-capsule-bg: var(--color-raspberry-100);
+    --subfund-foreground: var(--color-njeif-shade);
+    --subfund-accent: var(--color-njeif-midtone);
+    --subfund-contact-ring: var(--color-njeif-primary);
+    --title-theme-accent: var(--color-njeif-midtone);
+    --event-tile-bespoke-dark: var(--color-raspberry-900);
+    --event-tile-bespoke-light: var(--color-raspberry-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --resource-theme: var(--color-njeif-midtone);
+  }
+
+  .event-theme-njsig {
+    --event-theme-background: var(--color-bacceic-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-bacceic-midtone);
+    --event-theme-shade: var(--color-bacceic-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+  }
+
+  .event-theme-trustee {
+    --event-theme-background: var(--color-caip-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-caip-midtone);
+    --event-theme-shade: var(--color-caip-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-caip-midtone);
+    --event-tile-bespoke-dark: var(--color-sea-green-900);
+    --event-tile-bespoke-light: var(--color-sea-green-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-caip-midtone);
+    --bento-placeholder: var(--color-caip-tint);
+  }
+
+  .event-theme-subfund {
+    --event-theme-background: var(--color-ericwest-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-ericwest-midtone);
+    --event-theme-shade: var(--color-ericwest-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-ericwest-midtone);
+    --event-tile-bespoke-dark: var(--color-trendy-pink-900);
+    --event-tile-bespoke-light: var(--color-trendy-pink-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-ericwest-midtone);
+    --bento-placeholder: var(--color-ericwest-tint);
+  }
+
+  .event-theme-other {
+    --event-theme-background: var(--color-ericsouth-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-ericsouth-midtone);
+    --event-theme-shade: var(--color-ericsouth-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-ericsouth-midtone);
+    --event-tile-bespoke-dark: var(--color-sushi-900);
+    --event-tile-bespoke-light: var(--color-sushi-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-ericsouth-midtone);
+    --bento-placeholder: var(--color-ericsouth-tint);
+  }
+
+  .event-theme-important {
+    --event-theme-background: var(--color-mocssif-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-mocssif-midtone);
+    --event-theme-shade: var(--color-mocssif-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-mocssif-midtone);
+    --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
+    --event-tile-bespoke-light: var(--color-tahiti-gold-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-mocssif-midtone);
+    --bento-placeholder: var(--color-mocssif-tint);
+  }
+}

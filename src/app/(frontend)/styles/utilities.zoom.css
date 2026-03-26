@@ -1,0 +1,11 @@
+/**
+  * Zoom
+  *
+  * These are used to create a zoom effect on elements.
+  * Usage: zm-150 will result in 150% zoom
+  * Usage: zm-normal will reset the zoom to normal
+  */
+@utility zm-* {
+  zoom: --value('normal', 'reset');
+  zoom: calc(--value(integer) * 1%);
+}

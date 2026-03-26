@@ -1,0 +1,87 @@
+/**
+ * Semantic tokens map design intent (brand, role, and state) to underlying palette tokens.
+ *
+ * Use semantic tokens in components and layouts instead of raw palette values so visual meaning
+ * stays consistent even if the brand palette changes.
+ *
+ * Usage guidelines:
+ * - Prefer role-based tokens (for example foreground, background, divider, accent).
+ * - Avoid referencing primitive color tokens directly in feature-level styles.
+ * - Add new semantic tokens when introducing a new UI meaning, not just a new shade.
+ */
+@theme inline {
+  /** NJSIG Brand Color Tokens **/
+  --color-brand-primary: var(--color-azure-600);
+  --color-brand-accent: var(--color-dandelion-300);
+
+  --color-njsig-primary: var(--color-azure-600);
+  --color-njsig-background: var(--color-azure-50);
+  --color-njsig-tint: var(--color-azure-200);
+  --color-njsig-midtone: var(--color-azure-400);
+  --color-njsig-shade: var(--color-azure-800);
+
+  --color-njsig-accent-primary: var(--color-dandelion-300);
+  --color-njsig-accent-background: var(--color-dandelion-50);
+  --color-njsig-accent-tint: var(--color-dandelion-300);
+  --color-njsig-accent-midtone: var(--color-dandelion-400);
+  --color-njsig-accent-shade: var(--color-dandelion-500);
+
+  --color-njsig-neutral-primary: var(--color-battleship-gray-600);
+  --color-njsig-neutral-background: var(--color-battleship-gray-50);
+  --color-njsig-neutral-tint: var(--color-battleship-gray-200);
+  --color-njsig-neutral-midtone: var(--color-battleship-gray-400);
+  --color-njsig-neutral-shade: var(--color-battleship-gray-800);
+
+  /** NJSIG Sub-fund Color Tokens **/
+  --color-bacceic-primary: var(--color-glacial-500);
+  --color-bacceic-background: var(--color-glacial-50);
+  --color-bacceic-tint: var(--color-glacial-300);
+  --color-bacceic-midtone: var(--color-glacial-500);
+  --color-bacceic-shade: var(--color-glacial-700);
+
+  --color-caip-primary: var(--color-sea-green-400);
+  --color-caip-background: var(--color-sea-green-50);
+  --color-caip-tint: var(--color-sea-green-300);
+  --color-caip-midtone: var(--color-sea-green-400);
+  --color-caip-shade: var(--color-sea-green-700);
+
+  --color-ericnorth-primary: var(--color-cerulean-400);
+  --color-ericnorth-background: var(--color-cerulean-50);
+  --color-ericnorth-tint: var(--color-cerulean-300);
+  --color-ericnorth-midtone: var(--color-cerulean-400);
+  --color-ericnorth-shade: var(--color-cerulean-700);
+
+  --color-ericsouth-primary: var(--color-sushi-400);
+  --color-ericsouth-background: var(--color-sushi-50);
+  --color-ericsouth-tint: var(--color-sushi-300);
+  --color-ericsouth-midtone: var(--color-sushi-400);
+  --color-ericsouth-shade: var(--color-sushi-700);
+
+  --color-ericwest-primary: var(--color-trendy-pink-400);
+  --color-ericwest-background: var(--color-trendy-pink-50);
+  --color-ericwest-tint: var(--color-trendy-pink-300);
+  --color-ericwest-midtone: var(--color-trendy-pink-400);
+  --color-ericwest-shade: var(--color-trendy-pink-700);
+
+  --color-mocssif-primary: var(--color-tahiti-gold-400);
+  --color-mocssif-background: var(--color-tahiti-gold-50);
+  --color-mocssif-tint: var(--color-tahiti-gold-300);
+  --color-mocssif-midtone: var(--color-tahiti-gold-400);
+  --color-mocssif-shade: var(--color-tahiti-gold-700);
+
+  --color-njeif-primary: var(--color-raspberry-400);
+  --color-njeif-background: var(--color-raspberry-50);
+  --color-njeif-tint: var(--color-raspberry-300);
+  --color-njeif-midtone: var(--color-raspberry-400);
+  --color-njeif-shade: var(--color-raspberry-700);
+
+  /** Text Colors **/
+  --color-foreground: var(--color-battleship-gray-950);
+  --color-foreground-muted: var(--color-battleship-gray-800);
+  --color-foreground-inverted: var(--color-battleship-gray-50);
+  --color-foreground-inverted-muted: var(--color-battleship-gray-200);
+  --color-foreground-link: var(--color-blue-700);
+
+  /** Ancillary Colors **/
+  --color-divider: var(--color-njsig-neutral-midtone);
+}

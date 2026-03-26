@@ -1,0 +1,31 @@
+/**
+ * Container tokens define widths and max-widths for layout containers and
+ * content measures. These tokens help maintain consistent spacing and readable line
+ * lengths across the application.
+ *
+ * - Breakpoints are for display widths and can be used in media queries.
+ * - General Containers are for content widths and can be used for layout wrappers.
+ * - Section Containers are for specific content sections and can be used for both layout wrappers and content measures.
+ *
+ * Usage guidance:
+ * - Use breakpoint tokens in media queries to create responsive designs.
+ * - Use general container tokens for main layout wrappers that define the overall content width.
+ * - Use section tokens for block/section wrappers.
+ * - Prefer these tokens over one-off max-width values in components.
+ */
+@theme {
+  /** Extend Default Breakpoints **/
+  --breakpoint-3xl: 120rem; /* 1920px */
+
+  /** Extend Default Container Sizes **/
+  --container-8xl: 96rem; /* 1536px */
+  --container-9xl: 120rem; /* 1920px */
+
+  /** Section Sizes **/
+  --container-section-narrow: 37.5rem; /* 600px */
+  --container-section: 56.25rem; /* 900px */
+  --container-section-wide: 80rem; /* 1280px */
+  --container-section-content: 31.25rem; /* 500px */
+  --container-section-wide-content: 35.875rem; /* 574px */
+  --container-section-narrow-content: 37.5rem; /* 600px Narrow content is designed for single column content */
+}

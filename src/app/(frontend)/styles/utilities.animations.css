@@ -1,0 +1,257 @@
+/**
+ * Animation Utilities are a collection of CSS custom properties and keyframe animations
+ * for consistent, performant animations and micro-interactions across the application.
+ *
+ * Usage:
+ * Apply animations using Tailwind's animate-* utilities. For example:
+ *   <div class="animate-micro-wiggle">Wiggly element</div>
+ *   <div class="animate-micro-bounce">Bouncy element</div>
+ *
+ * Micro Interactions:
+ * - micro-wiggle: Subtle rotation wiggle
+ * - micro-up-right: Small upward-right movement
+ * - micro-bounce: Vertical bounce
+ * - micro-bounce-right: Horizontal bounce to the right
+ * - micro-bounce-left: Horizontal bounce to the left
+ * - micro-bounce-down: Vertical bounce downward
+ *
+ * Animate To Utility:
+ * This solves issues with delayed animations not playing properly.
+ * The `--animate-to` utility extends the `tw-animate-css` plugin.
+ * It allows defining custom state-to-state animations using CSS custom properties:
+ *   --animate-from-opacity: Starting opacity
+ *   --animate-to-opacity: Ending opacity
+ *   --animate-from-translate-x/y: Starting position
+ *   --animate-to-translate-x/y: Ending position
+ *   --animate-from-scale: Starting scale
+ *   --animate-to-scale: Ending scale
+ *   --animate-from-rotate: Starting rotation
+ *   --animate-to-rotate: Ending rotation
+ *
+ * Complex Animation Helpers:
+ * Complex animation helpers are utilities designed for specific, more intricate animations that target particular
+ * elements, such as SVG icons. They utilize the micro animation keyframes and properties to create engaging interactions.
+ * - animate-icon-download: Animates SVG elements for a download icon
+ * - animate-icon-external-link: Animates SVG elements for an external link icon
+ *
+ * Animation Overrides:
+ * These utilities provide overrides for the `tw-animate-css` plugin, allowing for more control over enter and exit animations,
+ * especially when delays are involved. They define custom properties for fade and slide animations that can be used in
+ * conjunction with the plugin's classes.
+ */
+
+@theme inline {
+  /* Default micro animation timing */
+  --micro-animation-time: 0.2s;
+  --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Micro Wiggle */
+  --animate-micro-wiggle: wiggle var(--micro-animation-time) var(--ease-out-back);
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      rotate: 0deg;
+    }
+    25% {
+      rotate: 5deg;
+    }
+    75% {
+      rotate: -3deg;
+    }
+  }
+
+  /* Micro Up Right */
+  --animate-micro-up-right: micro-up-right var(--micro-animation-time);
+
+  @keyframes micro-up-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 1.5px -1.5px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce */
+  --animate-micro-bounce: micro-bounce var(--micro-animation-time);
+
+  @keyframes micro-bounce {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 0 -3px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Right */
+  --animate-micro-bounce-right: micro-bounce-right var(--micro-animation-time);
+
+  @keyframes micro-bounce-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Left */
+  --animate-micro-bounce-left: micro-bounce-left var(--micro-animation-time);
+
+  @keyframes micro-bounce-left {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: -3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Down */
+  --animate-micro-bounce-down: micro-bounce-down var(--micro-animation-time);
+
+  @keyframes micro-bounce-down {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 0 3px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /**
+   * Animate extends the `tw-animate-css` plugin
+   * This extension solves the issue of delayed animations no playing properly
+   * see the utility overrides below for more information.
+   */
+  --animate-to: to-state var(--tw-animation-duration, var(--tw-duration, 150ms))
+    var(--tw-ease, ease) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1)
+    var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+
+  @keyframes to-state {
+    from {
+      opacity: var(--animate-from-opacity, 1);
+      transform: translate3d(
+          var(--animate-from-translate-x, 0),
+          var(--animate-from-translate-y, 0),
+          0
+        )
+        scale3d(
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1)
+        )
+        rotate(var(--animate-from-rotate, 0));
+    }
+    to {
+      opacity: var(--animate-to-opacity, 1);
+      transform: translate3d(var(--animate-to-translate-x, 0), var(--animate-to-translate-y, 0), 0)
+        scale3d(var(--animate-to-scale, 1), var(--animate-to-scale, 1), var(--animate-to-scale, 1))
+        rotate(var(--animate-to-rotate, 0));
+    }
+  }
+}
+
+/** Complex Animation Helpers
+ *
+ * These utilities are used for complex icon animations
+ * that require targeting specific parts of an SVG with
+ * one or more animation properties.
+ */
+@utility animate-icon-download {
+  & > polyline,
+  & > line {
+    animation: var(--animate-micro-bounce);
+  }
+}
+
+@utility animate-icon-external-link {
+  & > path:nth-child(-n + 2) {
+    animation: var(--animate-micro-up-right);
+  }
+}
+
+/**
+ * Animation Overrides
+ *
+ * These are used to create override animations for elements.
+ * Animations available the in `tw-animate-css` plugin use either
+ * `to` or `from` to define the start and end of the animation.
+ * This causes issues if you want to delay enter or exit animations.
+ *
+ * See `tw-animate-css` for usage, this extension follow the same conventions.
+ */
+
+/** New fade-from and fade-to utilities */
+@utility fade-from-* {
+  --animate-from-opacity: calc(--value(integer) / 100);
+}
+
+@utility fade-to-* {
+  --animate-to-opacity: calc(--value(integer) / 100);
+}
+
+/** Overrides for tw-animate-css fade utilities */
+@utility fade-in {
+  --tw-enter-opacity: 0;
+  --animate-from-opacity: 0;
+  --animate-to-opacity: 1;
+}
+
+@utility fade-in-* {
+  --tw-enter-opacity: calc(--value(number) / 100);
+  --tw-enter-opacity: --value(--percentage-*, [*]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage-*, [*]);
+  --animate-to-opacity: 1;
+}
+
+@utility fade-out {
+  --tw-exit-opacity: 0;
+  --animate-from-opacity: 1;
+  --animate-to-opacity: 0;
+}
+
+@utility fade-out-* {
+  --tw-exit-opacity: calc(--value(number) / 100);
+  --tw-exit-opacity: --value(--percentage-*, [*]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage-*, [*]);
+  --animate-to-opacity: 0;
+}
+
+/** Overrides for tw-animate-css slide utilities */
+@utility slide-in-from-bottom {
+  --animate-from-translate-y: 100%;
+  --animate-to-translate-y: 0;
+}
+
+@utility slide-in-from-bottom-* {
+  --animate-from-translate-y: calc(--value(integer) * var(--spacing));
+  --animate-from-translate-y: calc(--value(--percentage-*, --percentage-translate-*) * 100%);
+  --animate-from-translate-y: calc(--value(ratio) * 100%);
+  --animate-from-translate-y: --value(--translate-*, [percentage], [length]);
+  --animate-to-translate-y: 0;
+}
