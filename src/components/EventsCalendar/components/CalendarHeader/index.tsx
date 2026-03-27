@@ -126,7 +126,7 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
           )}
           {/* Year Select */}
           {showYearPicker && (
-            <ScrollArea type="always" className="h-[184px]">
+            <ScrollArea type="always" className="h-46">
               <div className="grid gap-2 grid-cols-3">
                 {yearRange.map((year) => (
                   <Button
@@ -171,7 +171,7 @@ const CalendarFilters: React.FC = () => {
           <div className="grid gap-2">
             <CalendarFilterButton
               filter="trusteeMeeting"
-              eventClass="event-theme-trustee"
+              eventClass="event-theme event-theme-trustee"
               label={{
                 singular: 'Board of Trustees Meeting',
                 plural: 'Board of Trustees Meetings',
@@ -181,7 +181,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="subfundMeeting"
-              eventClass="event-theme-subfund"
+              eventClass="event-theme event-theme-subfund"
               label={{
                 singular: 'Sub-fund Meeting',
                 plural: 'Sub-fund Meetings',
@@ -191,7 +191,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="njsigEvent"
-              eventClass="event-theme-njsig"
+              eventClass="event-theme event-theme-njsig"
               label={{
                 singular: 'NJSIG Event',
                 plural: 'NJSIG Events',
@@ -201,7 +201,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="otherEvent"
-              eventClass="event-theme-other"
+              eventClass="event-theme event-theme-other"
               label={{
                 singular: 'Other Event',
                 plural: 'Other Events',
@@ -211,7 +211,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="importantDate"
-              eventClass="event-theme-important"
+              eventClass="event-theme event-theme-important"
               label={{
                 singular: 'Important Date',
                 plural: 'Important Dates',

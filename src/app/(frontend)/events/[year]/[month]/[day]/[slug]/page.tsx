@@ -155,7 +155,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
   return (
     <article
-      className={cn({
+      className={cn('event-theme', {
         'event-theme-trustee': event.eventType === 'trusteeMeeting',
         'event-theme-subfund': event.eventType === 'subfundMeeting',
         'event-theme-njsig': event.eventType === 'njsigEvent',

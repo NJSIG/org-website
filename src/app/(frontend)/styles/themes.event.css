@@ -1,7 +1,24 @@
 /* Themed Overrides */
 @layer base {
+  :root {
+    /* Event Tiles */
+    --event-tile: var(--color-njsig-neutral-tint);
+    --event-tile-foreground: var(--color-foreground);
+    --event-tile-bespoke-dark: var(--color-azure-900);
+    --event-tile-bespoke-light: var(--color-azure-700);
+    --event-tile-bespoke-foreground: var(--color-foreground-inverted);
+    --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
+
+    /* Event Page */
+    --event-theme-background: var(--color-njsig-neutral-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-njsig-neutral-midtone);
+    --event-theme-shade: var(--color-njsig-neutral-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+  }
+
   /* Shared Defaults */
-  :is(.event-theme-trustee, .event-theme-subfund, .event-theme-other, .event-theme-important) {
+  .event-theme {
     --event-theme-foreground: var(--color-foreground);
     --event-theme-shade-foreground: var(--color-foreground-inverted);
     --event-tile-bespoke-accent: var(--color-foreground-inverted);

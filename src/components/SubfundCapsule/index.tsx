@@ -16,7 +16,7 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
     <Link
       href={`/sub-funds/${subfund.slug}`}
       className={cn(
-        `subfund-theme-${subfund.theme}`,
+        `subfund-theme subfund-theme-${subfund.theme}`,
         'flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative min-h-72',
       )}
     >

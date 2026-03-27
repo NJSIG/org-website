@@ -1,15 +1,16 @@
 /* Themed Overrides */
 @layer base {
+  :root {
+    /* Sub-fund Page */
+    --subfund-background: var(--color-njsig-neutral-background);
+    --subfund-capsule-bg: var(--color-battleship-gray-100);
+    --subfund-foreground: var(--color-njsig-neutral-shade);
+    --subfund-accent: var(--color-njsig-neutral-midtone);
+    --subfund-contact-ring: var(--color-njsig-neutral-shade);
+  }
+
   /* Shared Defaults */
-  :is(
-    .subfund-theme-bacceic,
-    .subfund-theme-caip,
-    .subfund-theme-ericnorth,
-    .subfund-theme-ericsouth,
-    .subfund-theme-ericwest,
-    .subfund-theme-mocssif,
-    .subfund-theme-njeif
-  ) {
+  .subfund-theme {
     --event-tile-bespoke-accent: var(--color-foreground-inverted);
   }
 

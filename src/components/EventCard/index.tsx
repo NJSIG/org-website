@@ -24,6 +24,7 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
   return (
     <article
       className={cn(
+        'event-theme',
         {
           'event-theme-trustee': eventType === 'trusteeMeeting',
           'event-theme-subfund': eventType === 'subfundMeeting',

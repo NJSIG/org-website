@@ -59,6 +59,7 @@ const CalendarEventMarkers: React.FC<
           key={event.id}
           aria-label={getAriaLabelForEventType(event.eventType)}
           className={cn(
+            'event-theme',
             {
               'event-theme-trustee': event.eventType === 'trusteeMeeting',
               'event-theme-subfund': event.eventType === 'subfundMeeting',

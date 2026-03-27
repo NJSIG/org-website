@@ -7,34 +7,12 @@
   /* Section Titles */
   --title-theme-accent: var(--color-njsig-accent-midtone);
 
-  /* Event Tiles */
-  --event-tile: var(--color-njsig-neutral-tint);
-  --event-tile-foreground: var(--color-foreground);
-  --event-tile-bespoke-dark: var(--color-azure-900);
-  --event-tile-bespoke-light: var(--color-azure-700);
-  --event-tile-bespoke-foreground: var(--color-foreground-inverted);
-  --event-tile-bespoke-accent: var(--color-njsig-accent-midtone);
-
-  /* Event Page */
-  --event-theme-background: var(--color-njsig-neutral-background);
-  --event-theme-foreground: var(--color-foreground);
-  --event-theme-accent: var(--color-njsig-neutral-midtone);
-  --event-theme-shade: var(--color-njsig-neutral-shade);
-  --event-theme-shade-foreground: var(--color-foreground-inverted);
-
   /* Bento */
   --bento-icon-stroke: var(--color-njsig-primary);
   --bento-placeholder: var(--color-njsig-tint);
 
   /* Resource List */
   --resource-theme: var(--color-njsig-primary);
-
-  /* Sub-fund Page */
-  --subfund-background: var(--color-njsig-neutral-background);
-  --subfund-capsule-bg: var(--color-battleship-gray-100);
-  --subfund-foreground: var(--color-njsig-neutral-shade);
-  --subfund-accent: var(--color-njsig-neutral-midtone);
-  --subfund-contact-ring: var(--color-njsig-neutral-shade);
 
   /* Hero Image Positioning Defaults */
   --hero-h-pos: center;
