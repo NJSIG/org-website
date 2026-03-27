@@ -1,0 +1,57 @@
+@layer base {
+  .event-theme-trustee {
+    --event-theme-background: var(--color-caip-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-caip-midtone);
+    --event-theme-shade: var(--color-caip-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-caip-midtone);
+    --event-tile-bespoke-dark: var(--color-sea-green-900);
+    --event-tile-bespoke-light: var(--color-sea-green-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-caip-midtone);
+    --bento-placeholder: var(--color-caip-tint);
+  }
+
+  .event-theme-subfund {
+    --event-theme-background: var(--color-ericwest-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-ericwest-midtone);
+    --event-theme-shade: var(--color-ericwest-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-ericwest-midtone);
+    --event-tile-bespoke-dark: var(--color-trendy-pink-900);
+    --event-tile-bespoke-light: var(--color-trendy-pink-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-ericwest-midtone);
+    --bento-placeholder: var(--color-ericwest-tint);
+  }
+
+  .event-theme-other {
+    --event-theme-background: var(--color-ericsouth-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-ericsouth-midtone);
+    --event-theme-shade: var(--color-ericsouth-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-ericsouth-midtone);
+    --event-tile-bespoke-dark: var(--color-sushi-900);
+    --event-tile-bespoke-light: var(--color-sushi-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-ericsouth-midtone);
+    --bento-placeholder: var(--color-ericsouth-tint);
+  }
+
+  .event-theme-important {
+    --event-theme-background: var(--color-mocssif-background);
+    --event-theme-foreground: var(--color-foreground);
+    --event-theme-accent: var(--color-mocssif-midtone);
+    --event-theme-shade: var(--color-mocssif-shade);
+    --event-theme-shade-foreground: var(--color-foreground-inverted);
+    --title-theme-accent: var(--color-mocssif-midtone);
+    --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
+    --event-tile-bespoke-light: var(--color-tahiti-gold-700);
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+    --bento-icon-stroke: var(--color-mocssif-midtone);
+    --bento-placeholder: var(--color-mocssif-tint);
+  }
+}
