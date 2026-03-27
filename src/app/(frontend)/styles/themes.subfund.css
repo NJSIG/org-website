@@ -1,4 +1,19 @@
+/* Themed Overrides */
 @layer base {
+  /* Shared Defaults */
+  :is(
+    .subfund-theme-bacceic,
+    .subfund-theme-caip,
+    .subfund-theme-ericnorth,
+    .subfund-theme-ericsouth,
+    .subfund-theme-ericwest,
+    .subfund-theme-mocssif,
+    .subfund-theme-njeif
+  ) {
+    --event-tile-bespoke-accent: var(--color-foreground-inverted);
+  }
+
+  /* Per-Theme Overrides */
   .subfund-theme-bacceic {
     --subfund-background: var(--color-bacceic-background);
     --subfund-capsule-bg: var(--color-glacial-100);
@@ -8,7 +23,6 @@
     --title-theme-accent: var(--color-bacceic-midtone);
     --event-tile-bespoke-dark: var(--color-glacial-900);
     --event-tile-bespoke-light: var(--color-glacial-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-bacceic-midtone);
   }
 
@@ -21,7 +35,6 @@
     --title-theme-accent: var(--color-caip-midtone);
     --event-tile-bespoke-dark: var(--color-sea-green-900);
     --event-tile-bespoke-light: var(--color-sea-green-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-caip-midtone);
   }
 
@@ -34,7 +47,6 @@
     --title-theme-accent: var(--color-ericnorth-midtone);
     --event-tile-bespoke-dark: var(--color-cerulean-900);
     --event-tile-bespoke-light: var(--color-cerulean-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-ericnorth-midtone);
   }
 
@@ -47,7 +59,6 @@
     --title-theme-accent: var(--color-ericsouth-midtone);
     --event-tile-bespoke-dark: var(--color-sushi-900);
     --event-tile-bespoke-light: var(--color-sushi-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-ericsouth-midtone);
   }
 
@@ -60,7 +71,6 @@
     --title-theme-accent: var(--color-ericwest-midtone);
     --event-tile-bespoke-dark: var(--color-trendy-pink-900);
     --event-tile-bespoke-light: var(--color-trendy-pink-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-ericwest-midtone);
   }
 
@@ -73,7 +83,6 @@
     --title-theme-accent: var(--color-mocssif-midtone);
     --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
     --event-tile-bespoke-light: var(--color-tahiti-gold-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-mocssif-midtone);
   }
 
@@ -86,7 +95,6 @@
     --title-theme-accent: var(--color-njeif-midtone);
     --event-tile-bespoke-dark: var(--color-raspberry-900);
     --event-tile-bespoke-light: var(--color-raspberry-700);
-    --event-tile-bespoke-accent: var(--color-foreground-inverted);
     --resource-theme: var(--color-njeif-midtone);
   }
 }

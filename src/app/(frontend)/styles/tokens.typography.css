@@ -1,15 +1,11 @@
 /**
- * Typography tokens define, override, and extend the base typography tokens provided by Tailwind CSS.
- * These tokens ensure design consistency and make it easy to maintain typography across the entire application
- * by centralizing definitions in one location. They provide custom font families, text sizes, and line heights
- * that are consistent across the entire application.
+ * Tokens: Typography
  *
- * Usage:
- * - Font families are available through the `font-*` class: `font-sans`
- * - Text sizes are available through the `text-*` class: `text-2xs`
- * - Line heights are automatically applied or can be overridden with `leading-*` classes
+ * Font and type-scale tokens shared across the frontend.
  *
- * Example: <p className="font-sans text-2xs">Custom typography</p>
+ * Naming Guide:
+ * - Font families: --font-<role>
+ * - Type sizes: --text-<scale>
  */
 @theme {
   /** Define Fonts **/

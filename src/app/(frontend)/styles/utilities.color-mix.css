@@ -1,12 +1,9 @@
 /**
- * Color Mixes
+ * Utilities: Color Mix
  *
- * These are used to create a color mix of the base color
- * and a tint (white) or shade (black).
- *
- * Usage: text-mix-tint-azure-500/10
- * Will result in 10% white tint on azure-500
+ * Utilities for tinting and shading color tokens with white or black mixes.
  */
+/* Text */
 @utility text-mix-tint-* {
   color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
@@ -15,6 +12,7 @@
   color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
 }
 
+/* Background */
 @utility bg-mix-tint-* {
   background-color: color-mix(
     in oklch,
@@ -31,6 +29,7 @@
   );
 }
 
+/* Border */
 @utility border-mix-tint-* {
   border-color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }

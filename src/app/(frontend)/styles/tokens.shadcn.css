@@ -1,5 +1,11 @@
 /**
- * shadcn/ui is a copy-and-paste component system built on Radix UI and Tailwind CSS.
+ * Tokens: shadcn Bridge
+ *
+ * Compatibility bridge between shadcn variable names and Tailwind-facing color aliases.
+ *
+ * Naming Guide:
+ * - Keep upstream shadcn names in :root for compatibility.
+ * - Expose frontend aliases as --color-<role>-<variant> in @theme inline.
  *
  * TODO: These shadcn token styles need to be audited to ensure they stay aligned with our design system.
  * There may be an opportunity to prune unused tokens.

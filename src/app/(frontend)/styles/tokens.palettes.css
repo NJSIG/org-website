@@ -1,24 +1,11 @@
 /**
- * Palette tokens are the source-of-truth color scales used across the frontend.
- * Each token stores a single OKLCH color value at a specific shade step so UI
- * components can reference consistent, reusable color values.
+ * Tokens: Palettes
  *
- * Naming convention:
- * - Format: --color-<palette-name>-<shade>
- * - <palette-name> is a semantic palette key (for example: azure, cerulean, sushi)
- * - <shade> is an ordered intensity step: 50, 100, 200, ..., 900, 950
- *   where lower numbers are lighter tints and higher numbers are darker shades
+ * Source-of-truth OKLCH color scales used by semantic tokens and selective direct palette usage.
  *
- * Usage:
- * - Reference directly in CSS: color: var(--color-azure-700);
- * - Reference as Tailwind CSS colors: text-azure-700, bg-azure-700, border-azure-700
- *
- * Usage Guidelines:
- * - Use as building blocks for semantic tokens in other style layers
- *   (for example, mapping brand or sub-fund roles to a palette shade)
- * - Use palette tokens when you need a specific color value that doesn't have a semantic role
- *   (for example, a specific shade of gray for a border or background)
- * - Avoid using palette tokens directly in component styles when a semantic token can be used instead
+ * Naming Guide:
+ * - Palette colors: --color-<color-name>-<shade>
+ * - Shade scale: 50..950 (light to dark)
  */
 @theme {
   /** NJSIG Brand Color Palettes **/

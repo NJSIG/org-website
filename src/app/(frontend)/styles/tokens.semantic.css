@@ -1,13 +1,12 @@
 /**
- * Semantic tokens map design intent (brand, role, and state) to underlying palette tokens.
+ * Tokens: Semantic Colors
  *
- * Use semantic tokens in components and layouts instead of raw palette values so visual meaning
- * stays consistent even if the brand palette changes.
+ * Role-based tokens that map UI intent to palette values.
  *
- * Usage guidelines:
- * - Prefer role-based tokens (for example foreground, background, divider, accent).
- * - Avoid referencing primitive color tokens directly in feature-level styles.
- * - Add new semantic tokens when introducing a new UI meaning, not just a new shade.
+ * Naming Guide:
+ * - Semantic colors: --color-<role>-<variant>
+ * - Keep fund-scoped tokens as compatibility aliases until usage is fully audited.
+ * TODO(naming-audit): Migrate fund-scoped names to shared role-forward aliases when safe.
  */
 @theme inline {
   /** NJSIG Brand Color Tokens **/

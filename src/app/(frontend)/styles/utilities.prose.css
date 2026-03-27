@@ -1,11 +1,7 @@
 /**
- * Prose Utility:
- * The `prose-battleship` utility defines a custom prose style using the Tailwind CSS Typography plugin.
- * It sets a comprehensive color scheme for various prose elements, including body text, headings, links, bold text,
- * counters, bullets, horizontal rules, quotes, captions, code blocks, and table borders. The utility also includes
- * inverted color variants for dark mode support.
+ * Utilities: Prose
  *
- * This utility allows for consistent styling of rich text content across the application while adhering to the Battleship color palette.
+ * Typography plugin color map for prose content in the Battleship palette.
  */
 @utility prose-battleship {
   --tw-prose-body:

@@ -1,3 +1,8 @@
+/* Variants */
+/* Ensure `.dark` Propagates To Descendants Unless `.light` Explicitly Opts Out. */
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/* Tokens */
 :root {
   /* Section Titles */
   --title-theme-accent: var(--color-njsig-accent-midtone);
@@ -40,21 +45,7 @@
   --hero-v-pos-xl: var(--hero-v-pos);
 }
 
-/*
- * Override prefers-color-scheme
- *
- * If a parent is dark, then all children are dark
- *
- * If a child needs to be light, it can use the `light` class to
- * override the `dark` class from the parent.
- */
-@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
-
-/*
- * Base Styles
- *
- * These are the base styles for the application.
- */
+/* Base */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -67,13 +58,5 @@
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
-  }
-
-  .event-theme-njsig {
-    --event-theme-background: var(--color-bacceic-background);
-    --event-theme-foreground: var(--color-foreground);
-    --event-theme-accent: var(--color-bacceic-midtone);
-    --event-theme-shade: var(--color-bacceic-shade);
-    --event-theme-shade-foreground: var(--color-foreground-inverted);
   }
 }

@@ -1,6 +1,7 @@
 /**
- * Background Gradient Azure to Right
- * A gradient that transitions from a dark azure to a lighter azure, moving horizontally from left to right.
+ * Utilities: Backgrounds
+ *
+ * Background gradient and texture utilities.
  */
 @utility bg-azure-to-r {
   background-image: linear-gradient(
@@ -11,12 +12,7 @@
   );
 }
 
-/*
- * Fiber Background Accent
- * A subtle, repeating linear gradient that creates a fiber-like texture.
- * The fibers are angled at 135 degrees and consist of a color that is a mix of the current text color and transparency,
- * creating a textured background effect. The strength and gap of the fibers can be adjusted using CSS variables.
- */
+/* Fiber Texture */
 @utility fibers {
   background-image: repeating-linear-gradient(
     var(--fiber-angle, 135deg),
@@ -25,7 +21,7 @@
   );
 }
 
-/* Fiber Angles */
+/* Fiber Controls */
 @utility fiber-angle-* {
   --fiber-angle: calc(--value(integer) * 1deg);
 }
@@ -35,7 +31,7 @@
   --fiber-strength: calc(--value(integer) * 1%);
 }
 
-/* Fiber Gaps (scale-aligned) */
+/* Fiber Gaps (Scale-Aligned) */
 @utility fiber-gap-1 {
   --fiber-gap: calc(var(--spacing) * 1);
 }

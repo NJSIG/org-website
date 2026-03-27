@@ -1,47 +1,13 @@
 /**
- * Animation Utilities are a collection of CSS custom properties and keyframe animations
- * for consistent, performant animations and micro-interactions across the application.
+ * Utilities: Animations
  *
- * Usage:
- * Apply animations using Tailwind's animate-* utilities. For example:
- *   <div class="animate-micro-wiggle">Wiggly element</div>
- *   <div class="animate-micro-bounce">Bouncy element</div>
- *
- * Micro Interactions:
- * - micro-wiggle: Subtle rotation wiggle
- * - micro-up-right: Small upward-right movement
- * - micro-bounce: Vertical bounce
- * - micro-bounce-right: Horizontal bounce to the right
- * - micro-bounce-left: Horizontal bounce to the left
- * - micro-bounce-down: Vertical bounce downward
- *
- * Animate To Utility:
- * This solves issues with delayed animations not playing properly.
- * The `--animate-to` utility extends the `tw-animate-css` plugin.
- * It allows defining custom state-to-state animations using CSS custom properties:
- *   --animate-from-opacity: Starting opacity
- *   --animate-to-opacity: Ending opacity
- *   --animate-from-translate-x/y: Starting position
- *   --animate-to-translate-x/y: Ending position
- *   --animate-from-scale: Starting scale
- *   --animate-to-scale: Ending scale
- *   --animate-from-rotate: Starting rotation
- *   --animate-to-rotate: Ending rotation
- *
- * Complex Animation Helpers:
- * Complex animation helpers are utilities designed for specific, more intricate animations that target particular
- * elements, such as SVG icons. They utilize the micro animation keyframes and properties to create engaging interactions.
- * - animate-icon-download: Animates SVG elements for a download icon
- * - animate-icon-external-link: Animates SVG elements for an external link icon
- *
- * Animation Overrides:
- * These utilities provide overrides for the `tw-animate-css` plugin, allowing for more control over enter and exit animations,
- * especially when delays are involved. They define custom properties for fade and slide animations that can be used in
- * conjunction with the plugin's classes.
+ * Shared animation tokens, keyframes, and utility overrides for tw-animate-css.
+ * Includes micro-interactions, `--animate-to` state transitions, and icon helpers.
  */
 
+/* Theme Tokens and Keyframes */
 @theme inline {
-  /* Default micro animation timing */
+  /* Default Micro Animation Timing */
   --micro-animation-time: 0.2s;
   --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
@@ -174,12 +140,7 @@
   }
 }
 
-/** Complex Animation Helpers
- *
- * These utilities are used for complex icon animations
- * that require targeting specific parts of an SVG with
- * one or more animation properties.
- */
+/* Utility Helpers */
 @utility animate-icon-download {
   & > polyline,
   & > line {
@@ -193,18 +154,9 @@
   }
 }
 
-/**
- * Animation Overrides
- *
- * These are used to create override animations for elements.
- * Animations available the in `tw-animate-css` plugin use either
- * `to` or `from` to define the start and end of the animation.
- * This causes issues if you want to delay enter or exit animations.
- *
- * See `tw-animate-css` for usage, this extension follow the same conventions.
- */
+/* Utility Overrides */
 
-/** New fade-from and fade-to utilities */
+/* Fade */
 @utility fade-from-* {
   --animate-from-opacity: calc(--value(integer) / 100);
 }
@@ -213,7 +165,6 @@
   --animate-to-opacity: calc(--value(integer) / 100);
 }
 
-/** Overrides for tw-animate-css fade utilities */
 @utility fade-in {
   --tw-enter-opacity: 0;
   --animate-from-opacity: 0;
@@ -242,7 +193,7 @@
   --animate-to-opacity: 0;
 }
 
-/** Overrides for tw-animate-css slide utilities */
+/* Slide */
 @utility slide-in-from-bottom {
   --animate-from-translate-y: 100%;
   --animate-to-translate-y: 0;
