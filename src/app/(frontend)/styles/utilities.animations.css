@@ -109,7 +109,7 @@
 
   /**
    * Animate extends the `tw-animate-css` plugin
-   * This extension solves the issue of delayed animations no playing properly
+   * This extension solves the issue of delayed animations not playing properly
    * see the utility overrides below for more information.
    */
   --animate-to: to-state var(--tw-animation-duration, var(--tw-duration, 150ms))
