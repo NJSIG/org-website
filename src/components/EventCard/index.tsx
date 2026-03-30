@@ -23,17 +23,12 @@ const EventCard: React.FC<{ event: EventCardData }> = ({ event }) => {
 
   return (
     <article
+      data-event-theme={event.eventType}
       className={cn(
-        'event-theme',
+        'event-theme rounded-3xl group/event-card relative overflow-hidden bg-njsig-neutral-tint p-4 hover:bg-(--event-theme-accent)/15 transition-colors cursor-pointer',
         {
-          'event-theme-trustee': eventType === 'trusteeMeeting',
-          'event-theme-subfund': eventType === 'subfundMeeting',
-          'event-theme-njsig': eventType === 'njsigEvent',
-          'event-theme-other': eventType === 'otherEvent',
-          'event-theme-important': eventType === 'importantDate',
           'border-2 border-(--event-theme-accent)': important || eventType === 'importantDate',
         },
-        'rounded-3xl group/event-card relative overflow-hidden bg-njsig-neutral-tint p-4 hover:bg-(--event-theme-accent)/15 transition-colors cursor-pointer',
       )}
     >
       <Link href={href}>

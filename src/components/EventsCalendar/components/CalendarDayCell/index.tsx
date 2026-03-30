@@ -58,16 +58,9 @@ const CalendarEventMarkers: React.FC<
         <span
           key={event.id}
           aria-label={getAriaLabelForEventType(event.eventType)}
+          data-event-theme={event.eventType}
           className={cn(
-            'event-theme',
-            {
-              'event-theme-trustee': event.eventType === 'trusteeMeeting',
-              'event-theme-subfund': event.eventType === 'subfundMeeting',
-              'event-theme-njsig': event.eventType === 'njsigEvent',
-              'event-theme-other': event.eventType === 'otherEvent',
-              'event-theme-important': event.eventType === 'importantDate',
-            },
-            'grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/30',
+            'event-theme grow h-2 max-w-3 first:rounded-l-sm last:rounded-r-sm bg-(--event-theme-accent)/30',
             {
               'bg-(--event-theme-accent)': filters?.includes(event.eventType) && isInMonth,
             },

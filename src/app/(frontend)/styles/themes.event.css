@@ -25,7 +25,7 @@
   }
 
   /* Per-Theme Overrides */
-  .event-theme-trustee {
+  [data-event-theme='trusteeMeeting'] {
     --event-theme-background: var(--color-caip-background);
     --event-theme-accent: var(--color-caip-midtone);
     --event-theme-shade: var(--color-caip-shade);
@@ -36,7 +36,7 @@
     --bento-placeholder: var(--color-caip-tint);
   }
 
-  .event-theme-subfund {
+  [data-event-theme='subfundMeeting'] {
     --event-theme-background: var(--color-ericwest-background);
     --event-theme-accent: var(--color-ericwest-midtone);
     --event-theme-shade: var(--color-ericwest-shade);
@@ -47,7 +47,7 @@
     --bento-placeholder: var(--color-ericwest-tint);
   }
 
-  .event-theme-other {
+  [data-event-theme='otherEvent'] {
     --event-theme-background: var(--color-ericsouth-background);
     --event-theme-accent: var(--color-ericsouth-midtone);
     --event-theme-shade: var(--color-ericsouth-shade);
@@ -58,7 +58,7 @@
     --bento-placeholder: var(--color-ericsouth-tint);
   }
 
-  .event-theme-important {
+  [data-event-theme='importantDate'] {
     --event-theme-background: var(--color-mocssif-background);
     --event-theme-accent: var(--color-mocssif-midtone);
     --event-theme-shade: var(--color-mocssif-shade);
@@ -68,7 +68,7 @@
     --bento-icon-stroke: var(--color-mocssif-midtone);
     --bento-placeholder: var(--color-mocssif-tint);
   }
-  .event-theme-njsig {
+  [data-event-theme='njsigEvent'] {
     --event-theme-background: var(--color-bacceic-background);
     --event-theme-accent: var(--color-bacceic-midtone);
     --event-theme-shade: var(--color-bacceic-shade);

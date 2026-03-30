@@ -171,7 +171,7 @@ const CalendarFilters: React.FC = () => {
           <div className="grid gap-2">
             <CalendarFilterButton
               filter="trusteeMeeting"
-              eventClass="event-theme event-theme-trustee"
+              eventType="trusteeMeeting"
               label={{
                 singular: 'Board of Trustees Meeting',
                 plural: 'Board of Trustees Meetings',
@@ -181,7 +181,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="subfundMeeting"
-              eventClass="event-theme event-theme-subfund"
+              eventType="subfundMeeting"
               label={{
                 singular: 'Sub-fund Meeting',
                 plural: 'Sub-fund Meetings',
@@ -191,7 +191,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="njsigEvent"
-              eventClass="event-theme event-theme-njsig"
+              eventType="njsigEvent"
               label={{
                 singular: 'NJSIG Event',
                 plural: 'NJSIG Events',
@@ -201,7 +201,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="otherEvent"
-              eventClass="event-theme event-theme-other"
+              eventType="otherEvent"
               label={{
                 singular: 'Other Event',
                 plural: 'Other Events',
@@ -211,7 +211,7 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="importantDate"
-              eventClass="event-theme event-theme-important"
+              eventType="importantDate"
               label={{
                 singular: 'Important Date',
                 plural: 'Important Dates',
@@ -229,10 +229,10 @@ const CalendarFilters: React.FC = () => {
 const CalendarFilterButton: React.FC<{
   filter: NonNullable<EventsCalendarContextType['filters']>[number];
   label: { singular: string; plural: string };
-  eventClass: string;
+  eventType: string;
   isActive: boolean;
   toggleFilter: (filter: NonNullable<EventsCalendarContextType['filters']>[number]) => void;
-}> = ({ filter, label, eventClass, isActive, toggleFilter }) => {
+}> = ({ filter, label, eventType, isActive, toggleFilter }) => {
   const filterButtonVariant = cn(
     buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
     'flex gap-4 justify-start',
@@ -240,7 +240,8 @@ const CalendarFilterButton: React.FC<{
 
   return (
     <label
-      className={cn(eventClass, filterButtonVariant, 'cursor-pointer', {
+      data-event-theme={eventType}
+      className={cn('event-theme', filterButtonVariant, 'cursor-pointer', {
         'bg-(--event-theme-background)': isActive,
       })}
     >
