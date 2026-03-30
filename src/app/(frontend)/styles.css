@@ -5,22 +5,16 @@
 
 /* Tokens */
 @import './styles/tokens.palettes.css';
-@import './styles/tokens.typography.css';
-@import './styles/tokens.container.css';
-@import './styles/tokens.semantic.css';
+@import './styles/tokens.tailwind.css';
 @import './styles/tokens.shadcn.css';
+@import './styles/tokens.semantic.css';
 
 /* Utilities */
+@import './styles/utilities.core.css';
 @import './styles/utilities.animations.css';
-@import './styles/utilities.backgrounds.css';
-@import './styles/utilities.clip-path.css';
-@import './styles/utilities.color-mix.css';
 @import './styles/utilities.prose.css';
-@import './styles/utilities.zoom.css';
 
-/* Base */
+/* Theme */
 @import './styles/themes.base.css';
-
-/* Themed Overrides */
 @import './styles/themes.subfund.css';
 @import './styles/themes.event.css';
