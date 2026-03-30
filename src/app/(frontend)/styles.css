@@ -16,5 +16,5 @@
 
 /* Theme */
 @import './styles/themes.base.css';
-@import './styles/themes.subfund.css';
 @import './styles/themes.event.css';
+@import './styles/themes.subfund.css';
