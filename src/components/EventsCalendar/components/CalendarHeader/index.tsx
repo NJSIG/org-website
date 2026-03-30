@@ -171,7 +171,6 @@ const CalendarFilters: React.FC = () => {
           <div className="grid gap-2">
             <CalendarFilterButton
               filter="trusteeMeeting"
-              eventType="trusteeMeeting"
               label={{
                 singular: 'Board of Trustees Meeting',
                 plural: 'Board of Trustees Meetings',
@@ -181,7 +180,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="subfundMeeting"
-              eventType="subfundMeeting"
               label={{
                 singular: 'Sub-fund Meeting',
                 plural: 'Sub-fund Meetings',
@@ -191,7 +189,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="njsigEvent"
-              eventType="njsigEvent"
               label={{
                 singular: 'NJSIG Event',
                 plural: 'NJSIG Events',
@@ -201,7 +198,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="otherEvent"
-              eventType="otherEvent"
               label={{
                 singular: 'Other Event',
                 plural: 'Other Events',
@@ -211,7 +207,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="importantDate"
-              eventType="importantDate"
               label={{
                 singular: 'Important Date',
                 plural: 'Important Dates',
@@ -229,10 +224,9 @@ const CalendarFilters: React.FC = () => {
 const CalendarFilterButton: React.FC<{
   filter: NonNullable<EventsCalendarContextType['filters']>[number];
   label: { singular: string; plural: string };
-  eventType: string;
   isActive: boolean;
   toggleFilter: (filter: NonNullable<EventsCalendarContextType['filters']>[number]) => void;
-}> = ({ filter, label, eventType, isActive, toggleFilter }) => {
+}> = ({ filter, label, isActive, toggleFilter }) => {
   const filterButtonVariant = cn(
     buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
     'flex gap-4 justify-start',
@@ -240,7 +234,7 @@ const CalendarFilterButton: React.FC<{
 
   return (
     <label
-      data-event-theme={eventType}
+      data-event-theme={filter}
       className={cn('event-theme', filterButtonVariant, 'cursor-pointer', {
         'bg-(--event-theme-background)': isActive,
       })}
