@@ -4,9 +4,10 @@
  * Typography plugin color map for prose content in the Battleship palette.
  */
 @utility prose-battleship {
-  --tw-prose-body:
-    var(--color-battleship-gray-950), --tw-prose-headings: var(--color-battleship-gray-950);
-  --tw-prose-lead: var(--color-battleship-gray-700), --tw-prose-links: var(--color-blue-700);
+  --tw-prose-body: var(--color-battleship-gray-950);
+  --tw-prose-headings: var(--color-battleship-gray-950);
+  --tw-prose-lead: var(--color-battleship-gray-700);
+  --tw-prose-links: var(--color-blue-700);
   --tw-prose-bold: var(--color-battleship-gray-950);
   --tw-prose-counters: var(--color-battleship-gray-600);
   --tw-prose-bullets: var(--color-battleship-gray-400);
@@ -35,4 +36,13 @@
   --tw-prose-invert-pre-bg: rgb(0 0 0 / 50%);
   --tw-prose-invert-th-borders: var(--color-battleship-gray-600);
   --tw-prose-invert-td-borders: var(--color-battleship-gray-700);
+
+  /* Override typography's default link underline: only show on hover. */
+  &.prose :where(a):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+    text-decoration-line: none;
+  }
+
+  &.prose :where(a:hover):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+    text-decoration-line: underline;
+  }
 }
