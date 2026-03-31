@@ -1,0 +1,40 @@
+/* Theme Tokens */
+:root {
+  /* Section Titles */
+  --title-theme-accent: var(--color-njsig-accent-midtone);
+
+  /* Bento */
+  --bento-icon-stroke: var(--color-njsig-primary);
+  --bento-placeholder: var(--color-njsig-tint);
+
+  /* Resource List */
+  --resource-theme: var(--color-njsig-primary);
+
+  /* Hero Image Positioning Defaults */
+  --hero-h-pos: center;
+  --hero-v-pos: bottom;
+  --hero-h-pos-lg: var(--hero-h-pos);
+  --hero-v-pos-lg: var(--hero-v-pos);
+  --hero-h-pos-xl: var(--hero-h-pos);
+  --hero-v-pos-xl: var(--hero-v-pos);
+}
+
+/* Variants */
+/* Ensure `.dark` Propagates To Descendants Unless `.light` Explicitly Opts Out. */
+@custom-variant dark (&:where(.dark, .dark *):not(.light, .light *));
+
+/* Base */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled):not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+}

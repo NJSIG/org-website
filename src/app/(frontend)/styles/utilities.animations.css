@@ -1,0 +1,208 @@
+/**
+ * Utilities: Animations
+ *
+ * Shared animation tokens, keyframes, and utility overrides for tw-animate-css.
+ * Includes micro-interactions, `--animate-to` state transitions, and icon helpers.
+ */
+
+/* Theme Tokens and Keyframes */
+@theme inline {
+  /* Default Micro Animation Timing */
+  --micro-animation-time: 0.2s;
+  --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Micro Wiggle */
+  --animate-micro-wiggle: wiggle var(--micro-animation-time) var(--ease-out-back);
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      rotate: 0deg;
+    }
+    25% {
+      rotate: 5deg;
+    }
+    75% {
+      rotate: -3deg;
+    }
+  }
+
+  /* Micro Up Right */
+  --animate-micro-up-right: micro-up-right var(--micro-animation-time);
+
+  @keyframes micro-up-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 1.5px -1.5px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce */
+  --animate-micro-bounce: micro-bounce var(--micro-animation-time);
+
+  @keyframes micro-bounce {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 0 -3px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Right */
+  --animate-micro-bounce-right: micro-bounce-right var(--micro-animation-time);
+
+  @keyframes micro-bounce-right {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Left */
+  --animate-micro-bounce-left: micro-bounce-left var(--micro-animation-time);
+
+  @keyframes micro-bounce-left {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: -3px 0;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /* Micro Bounce Down */
+  --animate-micro-bounce-down: micro-bounce-down var(--micro-animation-time);
+
+  @keyframes micro-bounce-down {
+    0%,
+    100% {
+      translate: 0 0;
+      animation-timing-function: ease-out;
+    }
+
+    25% {
+      translate: 0 3px;
+      animation-timing-function: var(--ease-out-back);
+    }
+  }
+
+  /**
+   * Animate extends the `tw-animate-css` plugin
+   * This extension solves the issue of delayed animations not playing properly
+   * see the utility overrides below for more information.
+   */
+  --animate-to: to-state var(--tw-animation-duration, var(--tw-duration, 150ms))
+    var(--tw-ease, ease) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1)
+    var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+
+  @keyframes to-state {
+    from {
+      opacity: var(--animate-from-opacity, 1);
+      transform: translate3d(
+          var(--animate-from-translate-x, 0),
+          var(--animate-from-translate-y, 0),
+          0
+        )
+        scale3d(
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1),
+          var(--animate-from-scale, 1)
+        )
+        rotate(var(--animate-from-rotate, 0));
+    }
+    to {
+      opacity: var(--animate-to-opacity, 1);
+      transform: translate3d(var(--animate-to-translate-x, 0), var(--animate-to-translate-y, 0), 0)
+        scale3d(var(--animate-to-scale, 1), var(--animate-to-scale, 1), var(--animate-to-scale, 1))
+        rotate(var(--animate-to-rotate, 0));
+    }
+  }
+}
+
+/* Utility Helpers */
+@utility animate-icon-download {
+  & > polyline,
+  & > line {
+    animation: var(--animate-micro-bounce);
+  }
+}
+
+@utility animate-icon-external-link {
+  & > path:nth-child(-n + 2) {
+    animation: var(--animate-micro-up-right);
+  }
+}
+
+/* Utility Overrides */
+
+/* Fade */
+@utility fade-from-* {
+  --animate-from-opacity: calc(--value(integer) / 100);
+}
+
+@utility fade-to-* {
+  --animate-to-opacity: calc(--value(integer) / 100);
+}
+
+@utility fade-in {
+  --tw-enter-opacity: 0;
+  --animate-from-opacity: 0;
+  --animate-to-opacity: 1;
+}
+
+@utility fade-in-* {
+  --tw-enter-opacity: calc(--value(number) / 100);
+  --tw-enter-opacity: --value(--percentage-*, [*]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage-*, [*]);
+  --animate-to-opacity: 1;
+}
+
+@utility fade-out {
+  --tw-exit-opacity: 0;
+  --animate-from-opacity: 1;
+  --animate-to-opacity: 0;
+}
+
+@utility fade-out-* {
+  --tw-exit-opacity: calc(--value(number) / 100);
+  --tw-exit-opacity: --value(--percentage-*, [*]);
+  --animate-from-opacity: calc(--value(number) / 100);
+  --animate-from-opacity: --value(--percentage-*, [*]);
+  --animate-to-opacity: 0;
+}
+
+/* Slide */
+@utility slide-in-from-bottom {
+  --animate-from-translate-y: 100%;
+  --animate-to-translate-y: 0;
+}
+
+@utility slide-in-from-bottom-* {
+  --animate-from-translate-y: calc(--value(integer) * var(--spacing));
+  --animate-from-translate-y: calc(--value(--percentage-*, --percentage-translate-*) * 100%);
+  --animate-from-translate-y: calc(--value(ratio) * 100%);
+  --animate-from-translate-y: --value(--translate-*, [percentage], [length]);
+  --animate-to-translate-y: 0;
+}

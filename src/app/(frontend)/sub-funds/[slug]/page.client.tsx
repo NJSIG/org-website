@@ -38,7 +38,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
   }, [setHeaderTheme]);
 
   return (
-    <div className={cn(`subfund-theme-${subfund.theme}`)}>
+    <div className="subfund-theme" data-subfund-theme={subfund.theme}>
       {/* Sub-fund Header */}
       <section className="px-6 py-10 flex items-center justify-center bg-(--subfund-background)">
         <div className="w-full max-w-section flex flex-col gap-4 relative">

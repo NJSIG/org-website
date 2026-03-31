@@ -126,7 +126,7 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
           )}
           {/* Year Select */}
           {showYearPicker && (
-            <ScrollArea type="always" className="h-[184px]">
+            <ScrollArea type="always" className="h-46">
               <div className="grid gap-2 grid-cols-3">
                 {yearRange.map((year) => (
                   <Button
@@ -171,7 +171,6 @@ const CalendarFilters: React.FC = () => {
           <div className="grid gap-2">
             <CalendarFilterButton
               filter="trusteeMeeting"
-              eventClass="event-theme-trustee"
               label={{
                 singular: 'Board of Trustees Meeting',
                 plural: 'Board of Trustees Meetings',
@@ -181,7 +180,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="subfundMeeting"
-              eventClass="event-theme-subfund"
               label={{
                 singular: 'Sub-fund Meeting',
                 plural: 'Sub-fund Meetings',
@@ -191,7 +189,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="njsigEvent"
-              eventClass="event-theme-njsig"
               label={{
                 singular: 'NJSIG Event',
                 plural: 'NJSIG Events',
@@ -201,7 +198,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="otherEvent"
-              eventClass="event-theme-other"
               label={{
                 singular: 'Other Event',
                 plural: 'Other Events',
@@ -211,7 +207,6 @@ const CalendarFilters: React.FC = () => {
             />
             <CalendarFilterButton
               filter="importantDate"
-              eventClass="event-theme-important"
               label={{
                 singular: 'Important Date',
                 plural: 'Important Dates',
@@ -229,10 +224,9 @@ const CalendarFilters: React.FC = () => {
 const CalendarFilterButton: React.FC<{
   filter: NonNullable<EventsCalendarContextType['filters']>[number];
   label: { singular: string; plural: string };
-  eventClass: string;
   isActive: boolean;
   toggleFilter: (filter: NonNullable<EventsCalendarContextType['filters']>[number]) => void;
-}> = ({ filter, label, eventClass, isActive, toggleFilter }) => {
+}> = ({ filter, label, isActive, toggleFilter }) => {
   const filterButtonVariant = cn(
     buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
     'flex gap-4 justify-start',
@@ -240,7 +234,8 @@ const CalendarFilterButton: React.FC<{
 
   return (
     <label
-      className={cn(eventClass, filterButtonVariant, 'cursor-pointer', {
+      data-event-theme={filter}
+      className={cn('event-theme', filterButtonVariant, 'cursor-pointer', {
         'bg-(--event-theme-background)': isActive,
       })}
     >

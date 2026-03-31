@@ -1,0 +1,112 @@
+/**
+ * Utilities: Backgrounds
+ *
+ * Background gradient and texture utilities.
+ */
+@utility bg-azure-to-r {
+  background-image: linear-gradient(
+    to right,
+    var(--color-azure-900) 0%,
+    var(--color-azure-900) 30%,
+    var(--color-azure-700) 100%
+  );
+}
+
+/* Fiber Texture */
+@utility fibers {
+  background-image: repeating-linear-gradient(
+    var(--fiber-angle, 135deg),
+    color-mix(in oklch, currentColor var(--fiber-strength, 8%), transparent) 0 1px,
+    transparent 1px var(--fiber-gap, 6px)
+  );
+}
+
+/* Fiber Controls */
+@utility fiber-angle-* {
+  --fiber-angle: calc(--value(integer) * 1deg);
+}
+
+/* Fiber Strength */
+@utility fiber-strength-* {
+  --fiber-strength: calc(--value(integer) * 1%);
+}
+
+/* Fiber Gaps (Scale-Aligned) */
+@utility fiber-gap-1 {
+  --fiber-gap: calc(var(--spacing) * 1);
+}
+@utility fiber-gap-1.5 {
+  --fiber-gap: calc(var(--spacing) * 1.5);
+}
+@utility fiber-gap-2 {
+  --fiber-gap: calc(var(--spacing) * 2);
+}
+@utility fiber-gap-2.5 {
+  --fiber-gap: calc(var(--spacing) * 2.5);
+}
+@utility fiber-gap-* {
+  --fiber-gap: --value;
+}
+
+/**
+ * Clip Path Utilities:
+ * This utility allows you to apply a polygonal clip path to any element using Tailwind's utility syntax.
+ * The value is defined as a series of coordinates in the format x,y, where x and y can be in any CSS unit (%, px, etc.).
+ *
+ * Usage: clip-path-polygon-0,0_100%,0_100%,100%_0,100% will apply a clip path that creates a diamond shape.
+ */
+@utility clip-path-polygon-* {
+  clip-path: polygon(--value([*]));
+}
+
+/**
+ * Utilities: Color Mix
+ *
+ * Utilities for tinting and shading color tokens with white or black mixes.
+ */
+/* Text */
+@utility text-mix-tint-* {
+  color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
+}
+
+@utility text-mix-shade-* {
+  color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
+}
+
+/* Background */
+@utility bg-mix-tint-* {
+  background-color: color-mix(
+    in oklch,
+    --value(--color-*, [*]),
+    white calc(--modifier(integer) * 1%)
+  );
+}
+
+@utility bg-mix-shade-* {
+  background-color: color-mix(
+    in oklch,
+    --value(--color-*, [*]),
+    black calc(--modifier(integer) * 1%)
+  );
+}
+
+/* Border */
+@utility border-mix-tint-* {
+  border-color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
+}
+
+@utility border-mix-shade-* {
+  border-color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
+}
+
+/**
+  * Zoom
+  *
+  * These are used to create a zoom effect on elements.
+  * Usage: zm-150 will result in 150% zoom
+  * Usage: zm-normal will reset the zoom to normal
+  */
+@utility zm-* {
+  zoom: --value('normal', 'reset');
+  zoom: calc(--value(integer) * 1%);
+}

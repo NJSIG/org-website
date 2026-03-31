@@ -1,5 +1,4 @@
 import { Subfund } from '@/payload-types';
-import { cn } from '@/utilities/cn';
 import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -15,10 +14,8 @@ export const SubfundCapsule: React.FC<SubfundCapsuleProps> = ({ subfund }) => {
   return (
     <Link
       href={`/sub-funds/${subfund.slug}`}
-      className={cn(
-        `subfund-theme-${subfund.theme}`,
-        'flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative min-h-72',
-      )}
+      data-subfund-theme={subfund.theme}
+      className="subfund-theme flex flex-col gap-4 p-6 rounded-3xl bg-(--subfund-capsule-bg) group/capsule w-full max-w-section hover:bg-mix-shade-(--subfund-capsule-bg)/2 transition-colors relative min-h-72"
     >
       <div className="flex items-center justify-between w-full pb-2 border-b-[6px] border-(--subfund-accent)">
         <h3 className="text-5xl font-extrabold text-(--subfund-foreground)">{subfund.shortName}</h3>
