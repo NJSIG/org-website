@@ -76,6 +76,7 @@ export interface Config {
     imageCallout: ImageCalloutBlock;
     metrics: MetricsBlock;
     optimizedImage: OptimizedImageBlock;
+    relatedCards: RelatedCardsBlock;
     sectionCols: SectionColumnsBlock;
     sectionContent: SectionContentBlock;
     section: SectionBlock;
@@ -524,6 +525,7 @@ export interface SectionBlock {
     | ImageCalloutBlock
     | MetricsBlock
     | OptimizedImageBlock
+    | RelatedCardsBlock
     | SectionColumnsBlock
     | SectionContentBlock
     | SectionTitleBlock
@@ -1130,6 +1132,33 @@ export interface OptimizedImageBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'optimizedImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RelatedCardsBlock".
+ */
+export interface RelatedCardsBlock {
+  cards?:
+    | {
+        title: string;
+        description: string;
+        link?: {
+          type?: 'reference' | null;
+          newTab?: boolean | null;
+          allowReferrer?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'relatedCards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

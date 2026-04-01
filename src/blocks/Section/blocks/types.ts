@@ -6,6 +6,7 @@ import {
   ImageCalloutBlock,
   MetricsBlock,
   OptimizedImageBlock,
+  RelatedCardsBlock,
   SectionColumnsBlock,
   SectionContentBlock,
   SectionTitleBlock,
@@ -25,6 +26,7 @@ type SectionBlocks =
   | ImageCalloutBlock
   | MetricsBlock
   | OptimizedImageBlock
+  | RelatedCardsBlock
   | SectionColumnsBlock
   | SectionContentBlock
   | SectionTitleBlock;

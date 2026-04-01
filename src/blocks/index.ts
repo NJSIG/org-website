@@ -8,6 +8,7 @@ import { IconList } from './IconList/config';
 import { ImageCallout } from './ImageCallout/config';
 import { Metrics } from './Metrics/config';
 import { OptimizedImage } from './OptimizedImage/config';
+import { RelatedCards } from './RelatedCards/config';
 import { Section } from './Section';
 import { SectionColumns, SectionTitle } from './Section/blocks';
 
@@ -22,6 +23,7 @@ export {
   ImageCallout,
   Metrics,
   OptimizedImage,
+  RelatedCards,
   Section,
   SectionColumns,
   SectionTitle,
