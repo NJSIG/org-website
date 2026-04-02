@@ -8,7 +8,7 @@ export type LinkField = {
   allowReferrer?: boolean | null | undefined;
   reference?:
     | {
-        relationTo: RelationTypes[];
+        relationTo: string;
         value: string | Page;
       }
     | null
