@@ -340,7 +340,7 @@ export interface CMSButtonBlock {
   /**
    * Link to a CMS page or collection item. The button will render with an arrow-up-right icon after the label.
    */
-  cmsButtonLink?: {
+  cmsButtonLink: {
     type?: 'reference' | null;
     newTab?: boolean | null;
     allowReferrer?: boolean | null;
@@ -417,6 +417,15 @@ export interface Page {
   slugLock?: boolean | null;
   publishedAt?: string | null;
   template?: string | null;
+  parent?: (string | null) | Page;
+  breadcrumbs?:
+    | {
+        doc?: (string | null) | Page;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -443,7 +452,7 @@ export interface HeroSpinnerBlock {
          * The main title of the slide.
          */
         headline: string;
-        heroLink?: {
+        heroLink: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -1142,7 +1151,7 @@ export interface RelatedCardsBlock {
     | {
         title: string;
         description: string;
-        link?: {
+        link: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -1631,6 +1640,15 @@ export interface PagesSelect<T extends boolean = true> {
   slugLock?: T;
   publishedAt?: T;
   template?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2165,7 +2183,7 @@ export interface Header {
         callout: {
           title: string;
           text: string;
-          calloutLink?: {
+          calloutLink: {
             type?: 'reference' | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
@@ -2237,7 +2255,7 @@ export interface Header {
     | null;
   ctaButtons?:
     | {
-        link?: {
+        link: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -2278,7 +2296,7 @@ export interface Footer {
         label: string;
         links?:
           | {
-              link?: {
+              link: {
                 type?: ('reference' | 'custom') | null;
                 newTab?: boolean | null;
                 allowReferrer?: boolean | null;
@@ -2300,7 +2318,7 @@ export interface Footer {
    */
   policyLinks?:
     | {
-        link?: {
+        link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
