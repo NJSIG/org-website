@@ -11,7 +11,8 @@ export const formatSlug = (val: string): string =>
 
 export const formatSlugHook =
   (fallback: string): FieldHook =>
-  ({ data, operation, value, originalDoc }) => {
+  ({ data, operation, value, originalDoc, siblingData }) => {
+    console.log('slug sibling data', siblingData);
     // Only format if value is explicitly provided (user typed in slug field)
     if (typeof value === 'string' && value !== originalDoc?.slug) {
       return formatSlug(value);

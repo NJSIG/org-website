@@ -89,7 +89,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
   const { slug = 'home' } = await paramsPromise;
-  const url = '/' + slug;
+  const decodedSlug = decodeURIComponent(slug);
+  const url = '/' + decodedSlug;
   const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug });
 
   if (!page) {

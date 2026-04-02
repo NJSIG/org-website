@@ -1,6 +1,7 @@
 import { revalidateRedirectsHook } from '@/collections/hooks/revalidateRedirectsHook';
 import { Page } from '@/payload-types';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
@@ -62,6 +63,11 @@ export const plugins: Plugin[] = [
         secretAccessKey: requiredS3Vars.S3_SECRET_ACCESS_KEY,
       },
     },
+  }),
+  nestedDocsPlugin({
+    collections: ['pages'],
+    generateLabel: (_, doc) => String(doc.title),
+    generateURL: (docs) => docs.reduce((url, doc) => `${url}/${String(doc.slug)}`, ''),
   }),
   redirectsPlugin({
     collections: ['pages'],
