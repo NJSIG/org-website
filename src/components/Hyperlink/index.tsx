@@ -1,5 +1,6 @@
 import { LinkField } from '@/fields/Link/types';
 import { cn } from '@/utilities/cn';
+import { getPagePath } from '@/utilities/getPagePath';
 import Link from 'next/link';
 
 // TODO: default url to not found page
@@ -24,7 +25,9 @@ export const Hyperlink = (props: Props) => {
         href={
           link.reference
             ? typeof link.reference?.value === 'object'
-              ? (link.reference.value.slug as string)
+              ? link.reference.relationTo === 'pages'
+                ? (getPagePath(link.reference.value) ?? errorPageUrl)
+                : `/${link.reference.relationTo}/${link.reference.value.slug}`
               : errorPageUrl
             : link.url || errorPageUrl
         }

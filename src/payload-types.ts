@@ -415,9 +415,11 @@ export interface Page {
   };
   slug?: string | null;
   slugLock?: boolean | null;
-  publishedAt?: string | null;
-  template?: string | null;
   parent?: (string | null) | Page;
+  publishedAt?: string | null;
+  /**
+   * Breadcrumbs are generated based on the page hierarchy.
+   */
   breadcrumbs?:
     | {
         doc?: (string | null) | Page;
@@ -426,6 +428,7 @@ export interface Page {
         id?: string | null;
       }[]
     | null;
+  template?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -1638,9 +1641,8 @@ export interface PagesSelect<T extends boolean = true> {
       };
   slug?: T;
   slugLock?: T;
-  publishedAt?: T;
-  template?: T;
   parent?: T;
+  publishedAt?: T;
   breadcrumbs?:
     | T
     | {
@@ -1649,6 +1651,7 @@ export interface PagesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  template?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;

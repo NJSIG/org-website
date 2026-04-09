@@ -1,5 +1,6 @@
 import { revalidateRedirectsHook } from '@/collections/hooks/revalidateRedirectsHook';
 import { Page } from '@/payload-types';
+import { getPagePath } from '@/utilities/getPagePath';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
@@ -33,8 +34,9 @@ const generateTitle: GenerateTitle<Page> = ({ doc }) => {
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
   const url = getServerSideUrl();
+  const pagePath = getPagePath(doc);
 
-  return doc?.slug ? `${url}/${doc.slug}` : url;
+  return pagePath ? `${url}${pagePath}` : url;
 };
 
 export const plugins: Plugin[] = [

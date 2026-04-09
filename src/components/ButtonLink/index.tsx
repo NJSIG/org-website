@@ -1,6 +1,7 @@
 import { LinkField } from '@/fields/Link/types';
 import { Button } from '@/primitives/ui/button';
 import { cn } from '@/utilities/cn';
+import { getPagePath } from '@/utilities/getPagePath';
 import Link from 'next/link';
 import DynamicIcon from '../DynamicIcon';
 import { Hyperlink } from '../Hyperlink';
@@ -79,7 +80,9 @@ const ButtonLink: React.FC<Props> = (props) => {
             href={
               reference
                 ? typeof reference?.value === 'object' && reference.value.slug
-                  ? `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
+                  ? reference.relationTo === 'pages'
+                    ? (getPagePath(reference.value) ?? errorPageUrl)
+                    : `/${reference.relationTo}/${reference.value.slug}`
                   : errorPageUrl
                 : url || errorPageUrl
             }

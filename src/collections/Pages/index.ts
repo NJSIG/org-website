@@ -3,7 +3,10 @@ import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAt
 import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { dynamicBlocksField, templateOptions } from '@/fields/DynamicBlocks';
 import { slugField } from '@/fields/Slug';
+import { Page } from '@/payload-types';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
+import { getPagePath } from '@/utilities/getPagePath';
+import { createBreadcrumbsField, createParentField } from '@payloadcms/plugin-nested-docs';
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -27,6 +30,7 @@ export const Pages: CollectionConfig<'pages'> = {
   defaultPopulate: {
     title: true,
     slug: true,
+    breadcrumbs: true,
   },
   fields: [
     {
@@ -77,6 +81,23 @@ export const Pages: CollectionConfig<'pages'> = {
       ],
     },
     ...slugField(),
+    createParentField('pages', {
+      admin: {
+        position: 'sidebar',
+        condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value, siblingData }) => {
+            if (siblingData?.layout?.template === 'navOnly') {
+              return null;
+            }
+
+            return value;
+          },
+        ],
+      },
+    }),
     {
       name: 'publishedAt',
       type: 'date',
@@ -85,6 +106,12 @@ export const Pages: CollectionConfig<'pages'> = {
         readOnly: true,
       },
     },
+    createBreadcrumbsField('pages', {
+      admin: {
+        description: 'Breadcrumbs are generated based on the page hierarchy.',
+        condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
+      },
+    }),
     {
       name: 'template',
       type: 'text',
@@ -124,9 +151,12 @@ export const Pages: CollectionConfig<'pages'> = {
     defaultColumns: ['title', 'slug', 'template', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {
+        const pagePath = getPagePath(data as Partial<Page>) || '/';
+
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'pages',
+          path: pagePath,
           req,
         });
 
@@ -137,6 +167,7 @@ export const Pages: CollectionConfig<'pages'> = {
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'pages',
+        path: getPagePath(data as Partial<Page>) || '/',
         req,
       }),
     useAsTitle: 'title',
