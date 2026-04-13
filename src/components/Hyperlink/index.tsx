@@ -17,7 +17,7 @@ export const Hyperlink = (props: Props) => {
   const { link, className, children } = props;
   const defaultStyle = 'text-foreground-link hover:underline underline-offset-2 transition-all';
 
-  const styles = cn(defaultStyle, className);
+  const classes = cn(defaultStyle, className);
 
   if (link.type === 'reference') {
     return (
@@ -31,7 +31,7 @@ export const Hyperlink = (props: Props) => {
               : errorPageUrl
             : link.url || errorPageUrl
         }
-        className={styles}
+        className={classes}
       >
         {children}
       </Link>
@@ -44,7 +44,7 @@ export const Hyperlink = (props: Props) => {
       target={link.newTab ? '_blank' : undefined}
       rel="noopener"
       referrerPolicy={link.allowReferrer ? 'strict-origin-when-cross-origin' : 'no-referrer'}
-      className={styles}
+      className={classes}
     >
       {children}
     </a>
