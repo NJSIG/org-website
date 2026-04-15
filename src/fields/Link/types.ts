@@ -1,5 +1,5 @@
 import { IconNames } from '@/fields/LucideIconPicker/types';
-import { Page } from '@/payload-types';
+import { Event, Page, Subfund } from '@/payload-types';
 import { CollectionSlug, Field, GroupField } from 'payload';
 
 export type LinkField = {
@@ -9,7 +9,7 @@ export type LinkField = {
   reference?:
     | {
         relationTo: CollectionSlug;
-        value: string | Page;
+        value: string | Page | Event | Subfund;
       }
     | null
     | undefined;
@@ -29,7 +29,7 @@ type Options = { label: string; value: string };
 
 // Relation Types
 // Add additional relation types as needed
-export type RelationTypes = 'pages' | 'events';
+export type RelationTypes = 'pages' | 'events' | 'subfunds';
 
 // Link Destinations
 export type LinkDestinations = 'reference' | 'custom';
