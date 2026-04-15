@@ -39,6 +39,13 @@ const generateURL: GenerateURL<Page> = ({ doc }) => {
   return pagePath ? `${url}${pagePath}` : url;
 };
 
+const generateNestedDocsURL = (docs: Array<Pick<Page, 'slug'>>) => {
+  return docs
+    .map(({ slug }) => (typeof slug === 'string' && slug !== 'home' ? slug : ''))
+    .filter(Boolean)
+    .join('/');
+};
+
 export const plugins: Plugin[] = [
   s3Storage({
     collections: {
@@ -69,7 +76,7 @@ export const plugins: Plugin[] = [
   nestedDocsPlugin({
     collections: ['pages'],
     generateLabel: (_, doc) => String(doc.title),
-    generateURL: (docs) => docs.reduce((url, doc) => `${url}/${String(doc.slug)}`, ''),
+    generateURL: generateNestedDocsURL,
   }),
   redirectsPlugin({
     collections: ['pages'],
