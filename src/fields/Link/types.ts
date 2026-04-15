@@ -1,6 +1,6 @@
 import { IconNames } from '@/fields/LucideIconPicker/types';
 import { Page } from '@/payload-types';
-import { Field, GroupField } from 'payload';
+import { CollectionSlug, Field, GroupField } from 'payload';
 
 export type LinkField = {
   type?: 'reference' | 'custom' | null | undefined;
@@ -8,7 +8,7 @@ export type LinkField = {
   allowReferrer?: boolean | null | undefined;
   reference?:
     | {
-        relationTo: string;
+        relationTo: CollectionSlug;
         value: string | Page;
       }
     | null
