@@ -17,7 +17,7 @@ export const RelatedCardsBlock: React.FC<RelatedCardsBlockProps> = ({ cards }) =
             'first:rounded-tl-3xl first:rounded-tr-3xl lg:first:rounded-tr-none lg:first:rounded-bl-3xl',
             'last:rounded-br-3xl last:rounded-bl-3xl lg:last:rounded-bl-none lg:last:rounded-tr-3xl',
             {
-              'from-azure-900 to bg-azure-500': cards.length === 1,
+              'from-azure-900 to-azure-500': cards.length === 1,
               'first:from-azure-900 first:to-azure-700 last:from-azure-700 last:to-azure-500':
                 cards.length === 2,
               'first:from-azure-900 first:to-azure-800 nth-2:from-azure-800 nth-2:to-azure-600 last:from-azure-600 last:to-azure-500':
