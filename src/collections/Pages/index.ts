@@ -82,6 +82,11 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     ...slugField(),
     createParentField('pages', {
+      filterOptions: ({ id }) => ({
+        id: { not_equals: id }, // Prevent self reference
+        slug: { not_equals: 'home' }, // Prevent referencing the home page
+        'layout.template': { not_equals: 'navOnly' }, // Prevent referencing navOnly pages
+      }),
       admin: {
         position: 'sidebar',
         condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
