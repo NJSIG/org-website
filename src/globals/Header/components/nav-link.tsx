@@ -1,6 +1,7 @@
 import DynamicIcon from '@/components/DynamicIcon';
 import { LinkField } from '@/fields/Link/types';
 import { cn } from '@/utilities/cn';
+import { getPagePath } from '@/utilities/getPagePath';
 import { cva } from 'class-variance-authority';
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -44,7 +45,9 @@ export const NavLink: React.FC<Props> = (props) => {
       href={
         reference
           ? typeof reference?.value === 'object' && reference.value.slug
-            ? `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
+            ? reference.relationTo === 'pages'
+              ? (getPagePath(reference.value) ?? errorPageUrl)
+              : `/${reference.relationTo}/${reference.value.slug}`
             : errorPageUrl
           : errorPageUrl
       }

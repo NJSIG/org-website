@@ -2,23 +2,38 @@ import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
 import { PayloadRedirects } from '@/components/PayloadRedirects';
 import { generateMetaGraph } from '@/utilities/generateMetaGraph';
+import { getPagePath } from '@/utilities/getPagePath';
 import configPromise from '@payload-config';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { getPayload, RequiredDataFromCollectionSlug } from 'payload';
 import { cache } from 'react';
 import PageClient from './page.client';
 
 type Args = {
-  params: Promise<{ slug?: string }>;
+  params: Promise<{ slug?: string[] }>;
+};
+
+const getRequestedPath = async (paramsPromise: Args['params']) => {
+  const { slug = [] } = await paramsPromise;
+  const decodedSegments = slug.map((segment) => decodeURIComponent(segment)).filter(Boolean);
+
+  if (decodedSegments.length === 0) {
+    return {
+      leafSlug: 'home',
+      requestedPath: '/',
+    };
+  }
+
+  return {
+    leafSlug: decodedSegments[decodedSegments.length - 1],
+    requestedPath: `/${decodedSegments.join('/')}`,
+  };
 };
 
 /**
- * This function is used to query a page by its slug.
- * It uses the Payload CMS to find the page in the 'pages' collection.
- * It also checks if the draft mode is enabled and uses that to query the page.
- * @param slug - The slug of the page to query.
- * @returns The page object if found, otherwise null.
+ * Query page data by leaf slug. Slugs remain globally unique, then URL is verified against breadcrumbs.
  */
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode();
@@ -40,12 +55,6 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   return result.docs?.[0] || null;
 });
 
-/**
- * This function generates static parameters for the pages.
- * It queries the Payload CMS to get all the pages in the 'pages' collection.
- * It filters out the 'home' page and returns the slugs of the other pages.
- * This is used for static generation of the pages.
- */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
   const pages = await payload.find({
@@ -56,44 +65,42 @@ export async function generateStaticParams() {
     pagination: false,
     select: {
       slug: true,
+      breadcrumbs: true,
     },
   });
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home';
-    })
-    .map(({ slug }) => {
-      return { slug };
-    });
+    ?.map((doc) => getPagePath(doc))
+    .filter((path): path is string => Boolean(path && path !== '/'))
+    .map((path) => ({
+      slug: path.split('/').filter(Boolean),
+    }));
 
   return params;
 }
 
-/**
- * This function generates metadata for a page based on its slug.
- */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'home' } = await paramsPromise;
-  const page = await queryPageBySlug({ slug });
+  const { leafSlug } = await getRequestedPath(paramsPromise);
+  const page = await queryPageBySlug({ slug: leafSlug });
 
   return generateMetaGraph({ doc: page });
 }
 
-/**
- * This function is used to render a page based on its slug.
- * It queries the page from the Payload CMS and checks if it exists.
- * If the page does not exist, it redirects to the specified URL.
- * If the page exists, it renders the page content.
- */
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
-  const { slug = 'home' } = await paramsPromise;
-  const url = '/' + slug;
-  const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug });
+  const { leafSlug, requestedPath } = await getRequestedPath(paramsPromise);
+  const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
+    slug: leafSlug,
+  });
 
   if (!page) {
-    return <PayloadRedirects url={url} />;
+    return <PayloadRedirects url={requestedPath} />;
+  }
+
+  const canonicalPath = getPagePath(page);
+
+  if (canonicalPath && canonicalPath !== requestedPath) {
+    redirect(canonicalPath);
   }
 
   const {

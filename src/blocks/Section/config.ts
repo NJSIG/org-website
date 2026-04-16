@@ -20,6 +20,7 @@ const allSectionBlocks: SectionBlockSlugs[] = [
   'imageCallout',
   'metrics',
   'optimizedImage',
+  'relatedCards',
   'sectionCols',
   'sectionContent',
   'sectionTitle',

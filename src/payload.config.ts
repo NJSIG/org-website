@@ -7,6 +7,7 @@ import {
   IconList,
   ImageCallout,
   Metrics,
+  RelatedCards,
   Section,
 } from '@/blocks';
 import { CMSButton } from '@/blocks/CMSButton/config';
@@ -70,6 +71,7 @@ const blocks = [
   ImageCallout,
   Metrics,
   OptimizedImage,
+  RelatedCards,
   Section.Columns,
   Section.Content,
   Section.Root,

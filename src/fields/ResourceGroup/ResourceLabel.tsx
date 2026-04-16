@@ -1,6 +1,6 @@
 'use client';
 
-import { isObject } from '@/utilities/isObject';
+import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLable';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import {
   AudioLinesIcon,
@@ -60,7 +60,7 @@ const ResourceLabel: React.FC<RowLabelProps> = () => {
       break;
     case 'link':
       if (link?.type === 'reference' && link?.reference) {
-        label = `Reference to: ${link.reference?.relationTo} - ${isObject(link.reference?.value) ? link.reference.value.title : link.reference.value}`;
+        label = `Reference to: ${link.reference?.relationTo} - ${getLinkReferenceLabel(link)}`;
       } else if (link?.type === 'custom' && link?.url) {
         label = `Custom URL: ${link.url}`;
       }

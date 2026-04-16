@@ -1,3 +1,4 @@
+import { getPagePath } from '@/utilities/getPagePath';
 import config from '@payload-config';
 import { getServerSideSitemap } from 'next-sitemap';
 import { unstable_cache } from 'next/cache';
@@ -24,6 +25,7 @@ const getPagesSitemap = unstable_cache(
       },
       select: {
         slug: true,
+        breadcrumbs: true,
         updatedAt: true,
       },
     });
@@ -45,8 +47,10 @@ const getPagesSitemap = unstable_cache(
       ? results.docs
           .filter((page) => Boolean(page?.slug))
           .map((page) => {
+            const pagePath = getPagePath(page) || '/';
+
             return {
-              loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
+              loc: `${SITE_URL}${pagePath}`,
               lastmod: page?.updatedAt || dateFallback,
             };
           })

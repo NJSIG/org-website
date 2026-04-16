@@ -9,6 +9,7 @@ const nextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './src/utilities/coolifyImageLoader.ts',
+    qualities: [60, 75, 80, 90, 100]
   },
 };
 

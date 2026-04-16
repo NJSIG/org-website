@@ -1,3 +1,4 @@
+import { getPagePath } from '@/utilities/getPagePath';
 import type { SerializedLinkNode } from '@payloadcms/richtext-lexical';
 
 /**
@@ -16,7 +17,11 @@ export const internalLinkConverter = ({ linkNode }: { linkNode: SerializedLinkNo
 
   switch (relationTo) {
     case 'pages':
-      return `/${slug}`;
+      return (
+        getPagePath(
+          value as { slug?: string | null; breadcrumbs?: { url?: string | null }[] | null },
+        ) ?? `/${slug}`
+      );
     case 'posts':
       return `/blog/${slug}`;
     default:

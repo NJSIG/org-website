@@ -1,6 +1,6 @@
 import { IconNames } from '@/fields/LucideIconPicker/types';
-import { Page } from '@/payload-types';
-import { Field, GroupField } from 'payload';
+import { Event, Page, Subfund } from '@/payload-types';
+import { CollectionSlug, Field, GroupField } from 'payload';
 
 export type LinkField = {
   type?: 'reference' | 'custom' | null | undefined;
@@ -8,8 +8,8 @@ export type LinkField = {
   allowReferrer?: boolean | null | undefined;
   reference?:
     | {
-        relationTo: 'pages'; // Add other collections here
-        value: string | Page;
+        relationTo: CollectionSlug;
+        value: string | Page | Event | Subfund;
       }
     | null
     | undefined;
@@ -26,6 +26,10 @@ export type LinkField = {
 
 // Helper type for options
 type Options = { label: string; value: string };
+
+// Relation Types
+// Add additional relation types as needed
+export type RelationTypes = 'pages' | 'events' | 'subfunds';
 
 // Link Destinations
 export type LinkDestinations = 'reference' | 'custom';
@@ -143,6 +147,7 @@ export type LinkType = <T extends LinkAppearances[] | false | undefined = undefi
     microInteractions?: AllowedMicroInteractionVariantsForAppearances<T>[] | false | undefined;
   };
   destinations?: LinkDestinations[];
+  relationTypes?: RelationTypes[];
   disableNewTab?: boolean;
   disableLabel?: boolean;
   required?: boolean;

@@ -1,3 +1,4 @@
+import { getPagePath } from '@/utilities/getPagePath';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { CollectionAfterChangeHook } from 'payload';
 import type { Page } from '../../../payload-types';
@@ -9,25 +10,21 @@ export const revalidatePageHook: CollectionAfterChangeHook<Page> = ({
 }) => {
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {
-      // If the slug is 'home', revalidate the root path
-      // Otherwise, revalidate the path of the slug
-      const path = doc.slug === 'home' ? '/' : `/${doc.slug}`;
+      const path = getPagePath(doc);
 
-      payload.logger.info(`Revalidating page at: ${path}`);
+      payload.logger.info(`Revalidating page at: ${path || '/'}`);
 
-      revalidatePath(path);
+      revalidatePath(path || '/');
       revalidateTag('pages-sitemap');
     }
 
     // If the page was previously published, we need to revalidate the old path
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
-      // If the slug is 'home', revalidate the root path
-      // Otherwise, revalidate the path of the slug
-      const oldPath = previousDoc.slug === 'home' ? '/' : `/${previousDoc.slug}`;
+      const oldPath = getPagePath(previousDoc);
 
-      payload.logger.info(`Revalidating old page at: ${oldPath}`);
+      payload.logger.info(`Revalidating old page at: ${oldPath || '/'}`);
 
-      revalidatePath(oldPath);
+      revalidatePath(oldPath || '/');
       revalidateTag('pages-sitemap');
     }
   }

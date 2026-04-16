@@ -8,7 +8,7 @@ type PageClientProps = {
   template?: Templates;
 };
 
-const PageClient: React.FC<PageClientProps> = (props) => {
+const PageClient: React.FC<PageClientProps> = () => {
   const { setHeaderTheme } = useHeaderTheme();
 
   useEffect(() => {

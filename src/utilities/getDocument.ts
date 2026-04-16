@@ -4,15 +4,17 @@ import { getPayload } from 'payload';
 
 type Collection = keyof Config['collections'];
 
-export async function getDocument(collection: Collection, slug: string, depth = 0) {
+export async function getDocument(collection: Collection, id: string, depth = 0) {
   const payload = await getPayload({ config: configPromise });
 
   const page = await payload.find({
     collection,
     depth,
+    limit: 1,
+    pagination: false,
     where: {
-      slug: {
-        equals: slug,
+      id: {
+        equals: id,
       },
     },
   });

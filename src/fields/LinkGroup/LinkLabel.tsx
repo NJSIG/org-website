@@ -1,6 +1,6 @@
 'use client';
 
-import { isObject } from '@/utilities/isObject';
+import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLable';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';
@@ -16,7 +16,7 @@ const LinkLabel: React.FC<RowLabelProps> = () => {
   const label =
     (link?.label && link?.label !== '' ? link.label : undefined) ??
     (link?.type === 'reference' && link?.reference
-      ? `Reference to: ${link.reference?.relationTo} - ${isObject(link.reference?.value) ? link.reference.value.title : link.reference.value}`
+      ? `Reference to: ${link.reference?.relationTo} - ${getLinkReferenceLabel(link)}`
       : undefined) ??
     (link?.type === 'custom' && link?.url ? `Custom URL: ${link.url}` : undefined) ??
     `Link ${rowNumber !== undefined ? rowNumber + 1 : ''}`;

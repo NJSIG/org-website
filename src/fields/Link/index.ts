@@ -128,6 +128,7 @@ export const linkField: LinkType = ({
   appearances,
   variants,
   destinations,
+  relationTypes,
   disableNewTab = false,
   disableLabel = false,
   required = true,
@@ -148,6 +149,7 @@ export const linkField: LinkType = ({
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
+    required,
     admin: {
       hideGutter: true,
     },
@@ -203,7 +205,7 @@ export const linkField: LinkType = ({
             name: 'reference',
             label: 'Document to Link To',
             type: 'relationship',
-            relationTo: ['pages'], // Add other collections here
+            relationTo: relationTypes?.length ? relationTypes : ['pages'],
             required,
             admin: {
               style: {

@@ -1,5 +1,6 @@
 import { Config, Media, Page } from '@/payload-types';
 import { Metadata } from 'next';
+import { getPagePath } from './getPagePath';
 import { getServerSideUrl } from './getServerSideUrl';
 import { mergeOpenGraph } from './mergeOpenGraph';
 
@@ -31,6 +32,7 @@ const getImageUrl = (image?: Media | Config['db']['defaultIDType'] | null): stri
  */
 export const generateMetaGraph = async (args: { doc: Partial<Page> | null }): Promise<Metadata> => {
   const { doc } = args;
+  const pagePath = getPagePath(doc) || '/';
 
   const ogImage = getImageUrl(doc?.meta?.image);
   const title = doc?.meta?.title
@@ -49,7 +51,7 @@ export const generateMetaGraph = async (args: { doc: Partial<Page> | null }): Pr
           ]
         : undefined,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: pagePath,
     }),
     title,
   };

@@ -5,17 +5,17 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbo",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "lint:next": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "lint:types": "cross-env NODE_OPTIONS=--no-deprecation tsc --noEmit",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "update:icons": "pnpm up lucide-react lucide-static --latest",
-    "turbo": "pnpm dev --turbo"
+    "update:icons": "pnpm up lucide-react lucide-static --latest"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
@@ -23,6 +23,7 @@
     "@payloadcms/email-nodemailer": "^3.77.0",
     "@payloadcms/live-preview-react": "^3.77.0",
     "@payloadcms/next": "^3.77.0",
+    "@payloadcms/plugin-nested-docs": "~3.77.0",
     "@payloadcms/plugin-redirects": "^3.77.0",
     "@payloadcms/plugin-seo": "^3.77.0",
     "@payloadcms/richtext-lexical": "^3.77.0",
@@ -45,7 +46,7 @@
     "lucide-react": "^0.575.0",
     "lucide-static": "^0.575.0",
     "minimatch": "^10.2.4",
-    "next": "15.4.10",
+    "next": "15.4.11",
     "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.13",
     "payload": "latest",
