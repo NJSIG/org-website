@@ -21,7 +21,11 @@ export const populatePublishedAtHook: CollectionBeforeChangeHook = ({
     const now = new Date();
 
     // Set publishedAt when transitioning to published status
-    if (data._status === 'published' && originalDoc?._status !== 'published') {
+    if (
+      data._status === 'published' &&
+      originalDoc?._status !== 'published' &&
+      !originalDoc?.publishedAt
+    ) {
       return {
         ...data,
         publishedAt: now,
@@ -29,12 +33,14 @@ export const populatePublishedAtHook: CollectionBeforeChangeHook = ({
     }
 
     // Set to null when becoming unpublished
-    if (data._status !== 'published') {
-      return {
-        ...data,
-        publishedAt: null,
-      };
-    }
+    // This block seems to be clearing the publishedAt date when a new draft is created from a published document, this is not desired.
+    // We want to maintain the original publishedAt date even if the document changes.
+    // if (data._status !== 'published') {
+    //   return {
+    //     ...data,
+    //     publishedAt: null,
+    //   };
+    // }
   }
 
   return data;

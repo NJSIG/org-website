@@ -80,7 +80,7 @@ export const Pages: CollectionConfig<'pages'> = {
         },
       ],
     },
-    ...slugField(),
+    // Sidebar Fields
     createParentField('pages', {
       filterOptions: ({ id }) => ({
         id: { not_equals: id }, // Prevent self reference
@@ -103,6 +103,7 @@ export const Pages: CollectionConfig<'pages'> = {
         ],
       },
     }),
+    ...slugField(),
     {
       name: 'publishedAt',
       type: 'date',
@@ -111,12 +112,23 @@ export const Pages: CollectionConfig<'pages'> = {
         readOnly: true,
       },
     },
+    {
+      name: 'updatedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
+    // Breadcrumbs Field
+    // This must be at the top level per the Nested Docs plugin requirements, but we can conditionally hide it in the UI since it's not relevant for all page types
     createBreadcrumbsField('pages', {
       admin: {
         description: 'Breadcrumbs are generated based on the page hierarchy.',
         condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
       },
     }),
+    // Hidden Fields
     {
       name: 'template',
       type: 'text',
@@ -136,6 +148,7 @@ export const Pages: CollectionConfig<'pages'> = {
       },
     },
   ],
+  defaultSort: 'title',
   hooks: {
     beforeChange: [populatePublishedAtHook],
     afterChange: [revalidatePageHook],

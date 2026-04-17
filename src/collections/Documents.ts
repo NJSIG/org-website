@@ -41,6 +41,15 @@ export const Documents: CollectionConfig = {
       collection: 'events',
       on: 'resources.resource.document',
     },
+    // Sidebar Fields
+    {
+      name: 'fileType',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
     {
       name: 'publishedAt',
       type: 'date',
@@ -50,8 +59,8 @@ export const Documents: CollectionConfig = {
       },
     },
     {
-      name: 'fileType',
-      type: 'text',
+      name: 'updatedAt',
+      type: 'date',
       admin: {
         position: 'sidebar',
         readOnly: true,
