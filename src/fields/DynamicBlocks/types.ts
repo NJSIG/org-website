@@ -2,6 +2,7 @@ import {
   BannerTitleBlock,
   HeroSpinnerBlock,
   HiddenTitleBlock,
+  PageTitleBlock,
   SectionBlock,
 } from '@/payload-types';
 import { Field, SelectField } from 'payload';
@@ -12,7 +13,12 @@ type Options = { label: string; value: string };
 export type Templates = 'default' | 'home' | 'navOnly';
 export type TemplateOptions = Record<Templates, Options>;
 
-type Blocks = HeroSpinnerBlock | HiddenTitleBlock | BannerTitleBlock | SectionBlock;
+type Blocks =
+  | BannerTitleBlock
+  | HeroSpinnerBlock
+  | HiddenTitleBlock
+  | PageTitleBlock
+  | SectionBlock;
 export type BlockSlugs = Blocks['blockType'];
 
 export type BlockFilters = {

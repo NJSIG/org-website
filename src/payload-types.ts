@@ -76,6 +76,7 @@ export interface Config {
     imageCallout: ImageCalloutBlock;
     metrics: MetricsBlock;
     optimizedImage: OptimizedImageBlock;
+    pageTitle: PageTitleBlock;
     relatedCards: RelatedCardsBlock;
     sectionCols: SectionColumnsBlock;
     sectionContent: SectionContentBlock;
@@ -403,7 +404,7 @@ export interface Page {
      * Select the template for this page. The template value will determine which blocks are available.
      */
     template: 'default' | 'home' | 'navOnly';
-    blocks?: (HeroSpinnerBlock | HiddenTitleBlock | BannerTitleBlock | SectionBlock)[] | null;
+    blocks?: (BannerTitleBlock | HeroSpinnerBlock | HiddenTitleBlock | PageTitleBlock | SectionBlock)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -519,6 +520,20 @@ export interface HiddenTitleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hiddenTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PageTitleBlock".
+ */
+export interface PageTitleBlock {
+  title: string;
+  /**
+   * The subtitle is displayed below the main title in a smaller font size.
+   */
+  subtitle?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pageTitle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

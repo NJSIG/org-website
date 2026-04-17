@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { BannerTitleBlock } from './BannerTitle/Component';
 import { HeroSpinnerBlock } from './HeroSpinner/Component';
 import { HiddenTitleBlock } from './HiddenTitle/Component';
+import { PageTitleBlock } from './PageTitle/Component';
 import { SectionBlock } from './Section/Component';
 
 type RenderBlocksProps = {
@@ -13,6 +14,7 @@ const blockComponents = {
   bannerTitle: BannerTitleBlock,
   heroSpinner: HeroSpinnerBlock,
   hiddenTitle: HiddenTitleBlock,
+  pageTitle: PageTitleBlock,
   section: SectionBlock,
 };
 
