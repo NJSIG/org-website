@@ -113,8 +113,9 @@ export const Pages: CollectionConfig<'pages'> = {
       },
     },
     {
-      name: 'updatedAt',
+      name: 'lastUpdatedAt',
       type: 'date',
+      virtual: 'updatedAt',
       admin: {
         position: 'sidebar',
         readOnly: true,

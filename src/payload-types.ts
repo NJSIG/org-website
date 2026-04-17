@@ -417,7 +417,7 @@ export interface Page {
   slug?: string | null;
   slugLock?: boolean | null;
   publishedAt?: string | null;
-  updatedAt: string;
+  lastUpdatedAt?: string | null;
   /**
    * Breadcrumbs are generated based on the page hierarchy.
    */
@@ -431,6 +431,7 @@ export interface Page {
     | null;
   template?: string | null;
   folder?: (string | null) | FolderInterface;
+  updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
@@ -857,6 +858,7 @@ export interface Event {
   slug?: string | null;
   slugLock?: boolean | null;
   publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1068,9 +1070,10 @@ export interface Document {
   };
   fileType?: string | null;
   publishedAt?: string | null;
-  updatedAt: string;
+  lastUpdatedAt?: string | null;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
+  updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
   url?: string | null;
@@ -1643,7 +1646,7 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   publishedAt?: T;
-  updatedAt?: T;
+  lastUpdatedAt?: T;
   breadcrumbs?:
     | T
     | {
@@ -1654,6 +1657,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   template?: T;
   folder?: T;
+  updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
   _status?: T;
@@ -1771,6 +1775,7 @@ export interface EventsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   publishedAt?: T;
+  lastUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1877,9 +1882,10 @@ export interface DocumentsSelect<T extends boolean = true> {
   relatedEvents?: T;
   fileType?: T;
   publishedAt?: T;
-  updatedAt?: T;
+  lastUpdatedAt?: T;
   prefix?: T;
   folder?: T;
+  updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
   url?: T;

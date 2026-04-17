@@ -59,8 +59,9 @@ export const Documents: CollectionConfig = {
       },
     },
     {
-      name: 'updatedAt',
+      name: 'lastUpdatedAt',
       type: 'date',
+      virtual: 'updatedAt',
       admin: {
         position: 'sidebar',
         readOnly: true,

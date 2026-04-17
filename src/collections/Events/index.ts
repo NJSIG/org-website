@@ -387,8 +387,9 @@ export const Events: CollectionConfig<'events'> = {
       },
     },
     {
-      name: 'updatedAt',
+      name: 'lastUpdatedAt',
       type: 'date',
+      virtual: 'updatedAt',
       admin: {
         position: 'sidebar',
         readOnly: true,
