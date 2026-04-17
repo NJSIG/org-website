@@ -7,6 +7,7 @@ import {
   IconList,
   ImageCallout,
   Metrics,
+  PageTitle,
   RelatedCards,
   Section,
 } from '@/blocks';
@@ -71,6 +72,7 @@ const blocks = [
   ImageCallout,
   Metrics,
   OptimizedImage,
+  PageTitle,
   RelatedCards,
   Section.Columns,
   Section.Content,

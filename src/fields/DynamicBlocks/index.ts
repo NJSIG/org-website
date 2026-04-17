@@ -8,10 +8,16 @@ export const templateOptions: TemplateOptions = {
   navOnly: { label: 'Navigation Only', value: 'navOnly' },
 };
 
-const allTopLevelBlocks: BlockSlugs[] = ['heroSpinner', 'hiddenTitle', 'bannerTitle', 'section'];
+const allTopLevelBlocks: BlockSlugs[] = [
+  'bannerTitle',
+  'heroSpinner',
+  'hiddenTitle',
+  'pageTitle',
+  'section',
+];
 
 const defaultBlockFilters: BlockFilters = {
-  default: ['hiddenTitle', 'bannerTitle', 'section'],
+  default: ['bannerTitle', 'hiddenTitle', 'pageTitle', 'section'],
   home: ['heroSpinner', 'hiddenTitle', 'section'],
   navOnly: [],
 };
