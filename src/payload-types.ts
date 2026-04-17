@@ -413,10 +413,11 @@ export interface Page {
     image?: (string | null) | Media;
     description?: string | null;
   };
+  parent?: (string | null) | Page;
   slug?: string | null;
   slugLock?: boolean | null;
-  parent?: (string | null) | Page;
   publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
   /**
    * Breadcrumbs are generated based on the page hierarchy.
    */
@@ -857,6 +858,7 @@ export interface Event {
   slug?: string | null;
   slugLock?: boolean | null;
   publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1066,8 +1068,9 @@ export interface Document {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  publishedAt?: string | null;
   fileType?: string | null;
+  publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -1639,10 +1642,11 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  parent?: T;
   slug?: T;
   slugLock?: T;
-  parent?: T;
   publishedAt?: T;
+  lastUpdatedAt?: T;
   breadcrumbs?:
     | T
     | {
@@ -1771,6 +1775,7 @@ export interface EventsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   publishedAt?: T;
+  lastUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1875,8 +1880,9 @@ export interface MediaSelect<T extends boolean = true> {
 export interface DocumentsSelect<T extends boolean = true> {
   title?: T;
   relatedEvents?: T;
-  publishedAt?: T;
   fileType?: T;
+  publishedAt?: T;
+  lastUpdatedAt?: T;
   prefix?: T;
   folder?: T;
   updatedAt?: T;

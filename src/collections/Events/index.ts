@@ -386,6 +386,15 @@ export const Events: CollectionConfig<'events'> = {
         readOnly: true,
       },
     },
+    {
+      name: 'lastUpdatedAt',
+      type: 'date',
+      virtual: 'updatedAt',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
   ],
   defaultSort: '-startDate',
   hooks: {
