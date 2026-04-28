@@ -1,3 +1,5 @@
+minimumReleaseAge: 7200 # 5 Days, for 7 days use 10080
+trustPolicy: no-downgrade
 trustPolicyExclude:
   - undici-types@6.21.0
   - eslint-import-resolver-typescript@3.10.1
