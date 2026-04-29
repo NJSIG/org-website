@@ -5,3 +5,6 @@ trustPolicyExclude:
   - eslint-import-resolver-typescript@3.10.1
   - pino@9.14.0
   - semver@6.3.1
+  # For Recharts
+  - reselect@5.1.1
+  - react-redux@9.2.0
