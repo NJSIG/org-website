@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+concurrency:
+  # <workflow_name>-<branch_name>-<true || commit_sha if branch is protected>
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref_protected &&
+    github.sha || ''}}
+  cancel-in-progress: true
+
+env:
+  DO_NOT_TRACK: 1 # Disable telemetry for Turbopack
+  NEXT_TELEMETRY_DISABLED: 1 # Disable telemetry for Next.js
+
+jobs:
+  lint:
+    name: Linting & Type Checking
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Fetch all history for accurate linting
+
+      - name: Node Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint TypeScript/JavaScript
+        run: pnpm lint
+
+      - name: Lint Next.js
+        run: pnpm lint:next
+
+      - name: Type Check
+        run: pnpm lint:types
+  # TODO: Add testing suite
+  # TODO: Add all-green check?
+  # TODO: Add bundle analysis?
