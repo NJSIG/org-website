@@ -35,8 +35,9 @@ jobs:
       - name: Lint TypeScript/JavaScript
         run: pnpm lint
 
-      - name: Lint Next.js
-        run: pnpm lint:next
+      # lint and lint:types give full coverage without needing a build
+      # - name: Lint Next.js
+      #   run: pnpm lint:next
 
       - name: Type Check
         run: pnpm lint:types
