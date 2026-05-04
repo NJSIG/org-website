@@ -11,7 +11,7 @@ export const revalidatePageDeleteHook: CollectionAfterDeleteHook<Page> = ({
     const path = getPagePath(doc);
 
     revalidatePath(path || '/');
-    revalidateTag('pages-sitemap');
+    revalidateTag('pages-sitemap', 'max');
   }
 
   return doc;
