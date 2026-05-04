@@ -131,7 +131,7 @@ runs:
             echo "::warning::gh cache list failed, falling back to full build"
             break
           fi
-          if [ "$RESULT" -get 0 ]; then
+          if [ "$RESULT" -gt 0 ]; then
             echo "Cache found after ${ELAPSED}s"
             CACHE_FOUND=true
             break
