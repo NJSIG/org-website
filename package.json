@@ -79,7 +79,7 @@
   },
   "packageManager": "pnpm@10.28.0",
   "engines": {
-    "node": "^18.20.0 || >=20.9.0",
+    "node": ">=20.9.0",
     "pnpm": "^10.28.0"
   },
   "pnpm": {
