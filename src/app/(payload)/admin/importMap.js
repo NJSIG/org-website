@@ -45,6 +45,7 @@ import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc056
 import { AnalyticsView as AnalyticsView_396096adb6d244727f9823c344ea27c8 } from '@/admin/views/PlausibleView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@/fields/UITip/TipComponent#TipComponent": TipComponent_534734ad96b66f5af8ab30490dd6ee98,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
