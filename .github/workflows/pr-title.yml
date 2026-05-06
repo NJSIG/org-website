@@ -50,7 +50,7 @@ jobs:
           # condition the execution can continue with the populated error message.continue-on-error:
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
         with:
-          header: pre-title-lint-error
+          header: pr-title-lint-error
           message: |
             Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.
 
@@ -67,5 +67,5 @@ jobs:
       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
         uses: marocchino/sticky-pull-request-comment@v3
         with:
-          header: pre-title-lint-error
+          header: pr-title-lint-error
           delete: true
