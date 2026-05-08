@@ -1,11 +1,11 @@
 import { withPayload } from '@payloadcms/next/withPayload';
-import type { NextConfig } from 'next'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import type { NextConfig } from 'next';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { redirects } from './redirects';
 
-const __filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(__filename)
-import { redirects } from './redirects'
+const __filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(__filename);
 
 // Next.js configuration
 /** @type {import('next').NextConfig} */
@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './src/utilities/coolifyImageLoader.ts',
-    qualities: [60, 75, 80, 90, 100]
+    qualities: [60, 75, 80, 90, 100],
   },
   reactStrictMode: true,
   redirects,

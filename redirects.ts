@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 export const redirects: NextConfig['redirects'] = async () => {
   const internetExplorerRedirect = {
@@ -12,7 +12,7 @@ export const redirects: NextConfig['redirects'] = async () => {
     ],
     permanent: false,
     source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
-  }
+  };
 
-  return [internetExplorerRedirect]
-}
+  return [internetExplorerRedirect];
+};
