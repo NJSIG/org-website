@@ -21,16 +21,19 @@ export const CustomTextConverter = (
     typeof defaultConverters.text === 'function' ? defaultConverters.text(args) : node.text;
 
   // Apply TextStateFeature styles from the "$" key in the serialized node.
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const nodeState = (node as any)[NODE_STATE_KEY] as Record<string, string> | undefined;
 
   if (nodeState) {
     const styles: React.CSSProperties = {};
 
     for (const [stateKey, stateValue] of Object.entries(nodeState)) {
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       const css = (textStateConfig as any)[stateKey]?.[stateValue]?.css;
 
       if (css) {
         for (const [prop, value] of Object.entries(css)) {
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           (styles as any)[kebabToCamel(prop)] = value;
         }
       }
