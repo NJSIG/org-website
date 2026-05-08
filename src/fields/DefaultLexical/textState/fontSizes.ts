@@ -6,7 +6,7 @@ export type TextStateFontSizeConfig = Record<
   }
 >;
 
-export const defaultFontSizes: TextStateFontSizeConfig = {
+export const fontSizes: TextStateFontSizeConfig = {
   '2xs': {
     label: '2XS',
     css: {
@@ -75,12 +75,12 @@ export const defaultFontSizes: TextStateFontSizeConfig = {
   },
 };
 
-const DEFAULT_SIZES: Array<keyof typeof defaultFontSizes> = ['sm', 'base', 'lg', 'xl'];
+const DEFAULT_SIZES: Array<keyof typeof fontSizes> = ['sm', 'base', 'lg', 'xl'];
 
 export const availableFontSizes = (
-  enabledSizes: Array<keyof typeof defaultFontSizes>,
+  enabledSizes: Array<keyof typeof fontSizes>,
 ): TextStateFontSizeConfig => {
-  if (!Array.isArray(enabledSizes) || !enabledSizes.every((size) => size in defaultFontSizes)) {
+  if (!Array.isArray(enabledSizes) || !enabledSizes.every((size) => size in fontSizes)) {
     console.warn(
       `Invalid font sizes provided: ${enabledSizes}. Falling back to default sizes: ${DEFAULT_SIZES.join(', ')}.`,
     );
@@ -89,8 +89,8 @@ export const availableFontSizes = (
   }
 
   return Object.fromEntries(
-    Object.entries(defaultFontSizes).filter(([size]) =>
-      enabledSizes.includes(size as keyof typeof defaultFontSizes),
+    Object.entries(fontSizes).filter(([size]) =>
+      enabledSizes.includes(size as keyof typeof fontSizes),
     ),
   ) as TextStateFontSizeConfig;
 };

@@ -14,7 +14,7 @@ export const revalidateSubfundHook: CollectionAfterChangeHook<Subfund> = ({
       payload.logger.info(`Revalidating subfund at: ${path}`);
 
       revalidatePath(path);
-      revalidateTag('pages-sitemap');
+      revalidateTag('pages-sitemap', 'max');
     }
   }
 
@@ -25,7 +25,7 @@ export const revalidateSubfundHook: CollectionAfterChangeHook<Subfund> = ({
     payload.logger.info(`Revalidating old subfund at: ${oldPath}`);
 
     revalidatePath(oldPath);
-    revalidateTag('pages-sitemap');
+    revalidateTag('pages-sitemap', 'max');
   }
 
   return doc;

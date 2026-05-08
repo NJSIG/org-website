@@ -1,0 +1,12 @@
+# Order Matters. The last matching pattern takes precedence.
+
+## Root
+
+/.github/ @mambroz27
+/.vscode/ @mambroz27
+/.editorconfig @mambroz27
+/LICENSE.md @mambroz27
+/NOTICE.md @mambroz27
+/README.md @mambroz27
+/package.json @mambroz27
+/pnpm-workspace.yaml @mambroz27

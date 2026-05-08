@@ -1,31 +1,27 @@
 import configPromise from '@payload-config';
 import { draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { CollectionSlug, getPayload, PayloadRequest } from 'payload';
+import { NextRequest } from 'next/server';
+import { getPayload, PayloadRequest } from 'payload';
 
-export async function GET(
-  req: {
-    cookies: {
-      get: (name: string) => {
-        value: string;
-      };
-    };
-  } & Request,
-): Promise<Response> {
+export type PreviewSearchParams = {
+  path: string;
+  previewSecret: string;
+};
+
+export async function GET(req: NextRequest): Promise<Response> {
   const payload = await getPayload({ config: configPromise });
 
   const { searchParams } = new URL(req.url);
 
   const path = searchParams.get('path');
-  const collection = searchParams.get('collection') as CollectionSlug;
-  const slug = searchParams.get('slug');
   const previewSecret = searchParams.get('previewSecret');
 
   if (previewSecret !== process.env.PREVIEW_SECRET) {
     return new Response('You are not allowed to preview this page.', { status: 403 });
   }
 
-  if (!path || !collection || !slug) {
+  if (!path) {
     return new Response('Insufficient search parameters provided.', { status: 400 });
   }
 

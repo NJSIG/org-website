@@ -6,14 +6,13 @@ import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { draftMode } from 'next/headers';
 import React from 'react';
 import './styles.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode();
+  // const { isEnabled } = await draftMode();
 
   return (
     <html lang="en" className={inter.className}>

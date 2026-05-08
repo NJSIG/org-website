@@ -15,7 +15,7 @@ export const revalidateEventHook: CollectionAfterChangeHook<Event> = ({
       payload.logger.info(`Revalidating event at path: ${path}`);
 
       revalidatePath(path);
-      revalidateTag('events-sitemap');
+      revalidateTag('events-sitemap', 'max');
     }
 
     // If the event was previously published, we need to revalidate the previous path
@@ -26,7 +26,7 @@ export const revalidateEventHook: CollectionAfterChangeHook<Event> = ({
       payload.logger.info(`Revalidating old event path: ${oldPath}`);
 
       revalidatePath(oldPath);
-      revalidateTag('events-sitemap');
+      revalidateTag('events-sitemap', 'max');
     }
   }
 

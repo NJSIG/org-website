@@ -1,0 +1,62 @@
+# docs: https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Preview branch for dependabot PRs
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: 'preview'
+    open-pull-requests-limit: 0 # Only allow security updates
+    schedule:
+      interval: 'daily'
+      timezone: 'America/New_York'
+      time: '02:00'
+    commit-message:
+      prefix: 'chore(deps)'
+    labels:
+      - dependencies
+    groups:
+      production-deps:
+        dependency-type: 'production'
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'
+      dev-deps:
+        dependency-type: 'development'
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'
+
+  # Main branch for dependabot PRs
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   target-branch: "main"
+  #   open-pull-requests-limit: 0 # Only allow security updates
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "sunday"
+  #     timezone: "America/New_York"
+  #     time: "02:00"
+  #   commit-message:
+  #     prefix: 'chore(deps)'
+  #   labels:
+  #     - dependencies
+  #   groups:
+  #     production-deps:
+  #       dependency-type: "production"
+  #       update-types:
+  #         - minor
+  #         - patch
+  #       patterns:
+  #         - '*'
+  #     dev-deps:
+  #       dependency-type: "development"
+  #       update-types:
+  #         - minor
+  #         - patch
+  #       patterns:
+  #         - '*'

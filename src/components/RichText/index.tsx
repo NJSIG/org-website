@@ -5,8 +5,8 @@ import {
   JSXConvertersFunction,
   LinkJSXConverter,
 } from '@payloadcms/richtext-lexical/react';
+import { CustomTextConverter } from './converters/customTextConverter';
 import { internalLinkConverter } from './converters/internalLinkConverter';
-import { textConverter } from './converters/textConverter';
 
 type RichTextProps = {
   data: DefaultTypedEditorState;
@@ -24,8 +24,8 @@ type NodeTypes = DefaultNodeTypes;
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   // Add custom converters here
-  ...LinkJSXConverter({ internalDocToHref: internalLinkConverter }), // TODO: Test link converter
-  ...textConverter,
+  ...LinkJSXConverter({ internalDocToHref: internalLinkConverter }),
+  text: (args) => CustomTextConverter(defaultConverters, args),
   // Add Blocks here
   blocks: {},
   inlineBlocks: {},

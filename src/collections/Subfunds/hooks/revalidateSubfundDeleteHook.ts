@@ -10,6 +10,6 @@ export const revalidateSubfundDeleteHook: CollectionAfterDeleteHook<Subfund> = (
     const path = `/subfunds/${doc?.slug}`;
 
     revalidatePath(path);
-    revalidateTag('pages-sitemap');
+    revalidateTag('pages-sitemap', 'max');
   }
 };

@@ -15,7 +15,7 @@ import {
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical';
 import { TextFieldSingleValidation } from 'payload';
-import { availableFontSizes } from './utils/availableFontSizes';
+import { availableFontSizes } from './textState/fontSizes';
 
 export const defaultLexical = lexicalEditor({
   features: [

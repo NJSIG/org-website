@@ -11,7 +11,7 @@ export const revalidateEventDeleteHook: CollectionAfterDeleteHook<Event> = ({
     const path = `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${doc.slug}`;
 
     revalidatePath(path);
-    revalidateTag('events-sitemap');
+    revalidateTag('events-sitemap', 'max');
   }
 
   return doc;
