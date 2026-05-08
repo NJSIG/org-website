@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
+    "@payloadcms/admin-bar": "^3.84.1",
     "@payloadcms/db-mongodb": "^3.84.1",
     "@payloadcms/email-nodemailer": "^3.84.1",
     "@payloadcms/live-preview-react": "^3.84.1",
