@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: amannn/action-semantic-pull-request@v6
         id: lint_pr_title
+        # Keep running so we can post/update a sticky error comment on failures.
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -46,8 +48,7 @@ jobs:
             doesn't match the configured pattern. Please ensure the subject
             doesn't start with an uppercase letter.
       - uses: marocchino/sticky-pull-request-comment@v3
-          # When the previous step fails, the workflow would stop. By adding this
-          # condition the execution can continue with the populated error message.continue-on-error:
+        # Post or update the lint error comment when the title is invalid.
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
         with:
           header: pr-title-lint-error
@@ -69,3 +70,8 @@ jobs:
         with:
           header: pr-title-lint-error
           delete: true
+      - name: fail-on-invalid-title
+        if: ${{ steps.lint_pr_title.outputs.error_message != null }}
+        run: |
+          echo "Invalid pull request title"
+          exit 1
