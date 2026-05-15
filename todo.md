@@ -9,7 +9,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Review how open graph generation functions interact with meta information from the SEO plugin (like the site name appended to the title)
 - [ ] Revisit breakpoints for section padding and column visibility, there is a disconnect between the two
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
-- [ ] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
 - [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block (is this still an issue?)
 
 ### Post MVP Features
@@ -54,3 +53,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Add important event marker
 - [x] Add to calendar functionality for events
 - [x] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
+- [x] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI

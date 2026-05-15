@@ -1,3 +1,4 @@
+import { AdminBar } from '@/components/AdminBar';
 import { Analytics } from '@/components/Analytics';
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
@@ -6,13 +7,14 @@ import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { draftMode } from 'next/headers';
 import React from 'react';
 import './styles.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // const { isEnabled } = await draftMode();
+  const { isEnabled } = await draftMode();
 
   return (
     <html lang="en" className={inter.className}>
@@ -22,6 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="flex flex-col min-h-screen bg-background text-foreground">
         <Providers>
           <Analytics />
+          <AdminBar adminBarProps={{ preview: isEnabled }} />
           <Header />
           <main className="flex flex-col grow">{children}</main>
           <Footer />
