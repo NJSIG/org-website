@@ -3,9 +3,9 @@
 import { cn } from '@/utilities/cn';
 import { getClientSideUrl } from '@/utilities/getClientSideUrl';
 import { PayloadAdminBar, PayloadAdminBarProps, PayloadMeUser } from '@payloadcms/admin-bar';
-import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
+import { PayloadIcon } from '@payloadcms/ui/shared';
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import './index.scss';
 
 const collectionLabels = {
   pages: {
@@ -18,20 +18,16 @@ const collectionLabels = {
   },
 };
 
-const Title: React.FC = () => <span>Dashboard</span>;
-
 export const AdminBar: React.FC<{ adminBarProps?: PayloadAdminBarProps }> = (props) => {
   const { adminBarProps } = props || {};
 
-  const segments = useSelectedLayoutSegment();
+  const segments = useSelectedLayoutSegments();
   const router = useRouter();
 
   const [show, setShow] = useState(false);
 
-  console.log('Segments', segments);
-
   const collection = (
-    collectionLabels[segments?.[1] as keyof typeof collectionLabels] ? segments?.[1] : 'pages'
+    collectionLabels[segments?.[0] as keyof typeof collectionLabels] ? segments?.[0] : 'pages'
   ) as keyof typeof collectionLabels;
 
   const onAuthChange = useCallback((user: PayloadMeUser) => {
@@ -45,10 +41,9 @@ export const AdminBar: React.FC<{ adminBarProps?: PayloadAdminBarProps }> = (pro
         hidden: !show,
       })}
     >
-      <div className="container">
+      <div className="container px-4">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-foreground-inverted"
           classNames={{
             controls: 'font-medium',
             logo: 'text-foreground-inverted',
@@ -60,7 +55,7 @@ export const AdminBar: React.FC<{ adminBarProps?: PayloadAdminBarProps }> = (pro
             plural: collectionLabels[collection]?.plural || 'Pages',
             singular: collectionLabels[collection]?.singular || 'Page',
           }}
-          logo={<Title />}
+          logo={<PayloadIcon fill="var(--color-battleship-gray-50)" />}
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
             fetch('/next/exit-preview').then(() => {
