@@ -1,6 +1,8 @@
 import { IconNames } from '@/fields/LucideIconPicker/types';
+import { Event } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import DynamicIcon from '../DynamicIcon';
+import ResourceItem from '../ResourceItem';
 
 export type BentoProps = {
   className?: string;
@@ -14,6 +16,11 @@ export type BentoItemProps = {
   children: React.ReactNode;
 };
 
+export type BentoResourceProps = {
+  resource: NonNullable<Event['resources']>[number];
+  className?: string;
+};
+
 export type BentoPlaceholderProps = {
   className?: string;
   withPattern?: boolean;
@@ -22,8 +29,12 @@ export type BentoPlaceholderProps = {
 
 const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } & {
   Placeholder: React.FC<BentoPlaceholderProps>;
-} = ({ className, children }) => {
-  return <div className={cn('grid auto-cols-fr auto-rows-fr gap-4', className)}>{children}</div>;
+} & { Resource: React.FC<BentoResourceProps> } = ({ className, children }) => {
+  return (
+    <div className={cn('grid auto-cols-fr auto-rows-fr gap-x-6 gap-y-4', className)}>
+      {children}
+    </div>
+  );
 };
 
 Bento.Item = function Item({ icon, label, className, children }: BentoItemProps) {
@@ -36,6 +47,10 @@ Bento.Item = function Item({ icon, label, className, children }: BentoItemProps)
       {children}
     </div>
   );
+};
+
+Bento.Resource = function Resource({ resource, className }: BentoResourceProps) {
+  return <ResourceItem item={resource} className={className} />;
 };
 
 Bento.Placeholder = function Placeholder({
