@@ -2,6 +2,7 @@ import { FieldHook } from 'payload';
 
 export const formatSlug = (val: string): string =>
   val
+    .replace(/&/g, 'and') // Replace ampersands with "and"
     .replace(/ /g, '-') // Replace spaces with hyphens
     .replace(/\//g, '-') // Replace slashes with hyphens
     .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
