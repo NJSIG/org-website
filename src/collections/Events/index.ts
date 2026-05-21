@@ -1,6 +1,7 @@
 import { editor, editorOrPublished } from '@/access';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { nullEmptyFieldHook } from '@/fields/hooks/nullEmptyFieldHook';
+import { resourceField } from '@/fields/Resource';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { uiMapField } from '@/fields/UIMap';
@@ -245,8 +246,10 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
     },
+    // Location & Attendance Group
     {
       type: 'group',
+      label: 'Location & Attendance',
       admin: {
         hideGutter: true,
         condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
@@ -354,6 +357,30 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
     },
+    // Trustee Meeting Minutes Group - Only Shows for Trustee Meetings
+    {
+      name: 'trusteeMeetingMinutes',
+      type: 'group',
+      admin: {
+        description:
+          'The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.',
+        hideGutter: true,
+        condition: (_, siblingData) => siblingData.eventType === EventTypeValues.TrusteeMeeting,
+      },
+      fields: [
+        {
+          name: 'minutesSummary',
+          type: 'richText',
+          admin: {
+            description: 'A brief summary of the trustee meeting minutes (optional).',
+          },
+        },
+        resourceField({
+          resourceTypes: ['document'],
+        }),
+      ],
+    },
+    // Resources Group
     resourceGroupField({
       overrides: {
         row: {
@@ -361,6 +388,7 @@ export const Events: CollectionConfig<'events'> = {
         },
       },
     }),
+    // Sidebar Fields
     {
       name: 'important',
       type: 'checkbox',

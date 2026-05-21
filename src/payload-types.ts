@@ -832,6 +832,58 @@ export interface Event {
    * If no location is selected it will be displayed as "TBA" on the event page.
    */
   location?: (string | null) | Location;
+  /**
+   * The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.
+   */
+  trusteeMeetingMinutes?: {
+    /**
+     * A brief summary of the trustee meeting minutes (optional).
+     */
+    minutesSummary?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    resource: {
+      type: 'document';
+      /**
+       * The resource icon should be as closely related to the resource as possible.
+       */
+      icon?: string | null;
+      /**
+       * Select or upload a document.
+       */
+      document?: (string | null) | Document;
+      /**
+       * Select or upload a video or audio clip.
+       */
+      audioVideo?: (string | null) | Media;
+      /**
+       * Provide a URL to an external resource or a reference to a CMS item.
+       */
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        allowReferrer?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: string | Page;
+        } | null;
+        url?: string | null;
+        label?: string | null;
+      };
+    };
+  };
   resources?:
     | {
         resource: {
@@ -1766,6 +1818,29 @@ export interface EventsSelect<T extends boolean = true> {
   virtualLink?: T;
   virtualPasscode?: T;
   location?: T;
+  trusteeMeetingMinutes?:
+    | T
+    | {
+        minutesSummary?: T;
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+      };
   resources?:
     | T
     | {
