@@ -34,6 +34,7 @@
     --event-tile-bespoke-light: var(--color-sea-green-700);
     --bento-icon-stroke: var(--color-caip-midtone);
     --bento-placeholder: var(--color-caip-tint);
+    --resource-theme: var(--color-caip-midtone);
   }
 
   [data-event-theme='subfundMeeting'] {
@@ -45,6 +46,7 @@
     --event-tile-bespoke-light: var(--color-trendy-pink-700);
     --bento-icon-stroke: var(--color-ericwest-midtone);
     --bento-placeholder: var(--color-ericwest-tint);
+    --resource-theme: var(--color-ericwest-midtone);
   }
 
   [data-event-theme='otherEvent'] {
@@ -56,6 +58,7 @@
     --event-tile-bespoke-light: var(--color-sushi-700);
     --bento-icon-stroke: var(--color-ericsouth-midtone);
     --bento-placeholder: var(--color-ericsouth-tint);
+    --resource-theme: var(--color-ericsouth-midtone);
   }
 
   [data-event-theme='importantDate'] {
@@ -67,10 +70,14 @@
     --event-tile-bespoke-light: var(--color-tahiti-gold-700);
     --bento-icon-stroke: var(--color-mocssif-midtone);
     --bento-placeholder: var(--color-mocssif-tint);
+    --resource-theme: var(--color-mocssif-midtone);
   }
   [data-event-theme='njsigEvent'] {
     --event-theme-background: var(--color-bacceic-background);
     --event-theme-accent: var(--color-bacceic-midtone);
     --event-theme-shade: var(--color-bacceic-shade);
+    --bento-icon-stroke: var(--color-bacceic-midtone);
+    --bento-placeholder: var(--color-bacceic-tint);
+    --resource-theme: var(--color-bacceic-midtone);
   }
 }
