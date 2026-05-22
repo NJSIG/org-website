@@ -443,11 +443,14 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
         {trusteeMeetingMinutes.minutesSummary && (
           <Bento
             className={cn('w-full', {
+              // Summary Only
               "[grid-template-areas:'summary'] lg:[grid-template-areas:'summary_placeholder']":
                 trusteeMeetingMinutes.minutesSummary && !trusteeMeetingMinutes.resource,
+              // Resource Only
               "[grid-template-areas:'resource'] lg:[grid-template-areas:'resource_placeholder']":
                 !trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
-              "[grid-template-areas:'summary'_'resource'] lg:[grid-template-areas:'summary_placeholder'_'resource_placeholder']":
+              // Summary & Resource
+              "[grid-template-areas:'summary'_'resource'] lg:[grid-template-areas:'summary_resource'_'summary_placeholder']":
                 trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
             })}
           >
