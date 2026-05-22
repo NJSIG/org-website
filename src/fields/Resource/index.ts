@@ -25,6 +25,7 @@ const resourceTypeIcons: IconNames[] = [
 export const resourceField: ResourceField = ({
   resourceTypes,
   linkDestinations,
+  forceIcon,
   overrides = {},
 } = {}) => {
   let resourceTypesToUse = [
@@ -63,6 +64,7 @@ export const resourceField: ResourceField = ({
             admin: {
               width: '50%',
               isClearable: false,
+              hidden: resourceTypesToUse.length === 1,
             },
           },
           lucideIconPickerField({
@@ -70,11 +72,12 @@ export const resourceField: ResourceField = ({
             overrides: {
               name: 'icon',
               label: 'Icon',
-              defaultValue: 'paperclip',
+              defaultValue: forceIcon || 'paperclip',
               admin: {
                 width: '50%',
                 description:
                   'The resource icon should be as closely related to the resource as possible.',
+                hidden: !!forceIcon,
               },
             },
           }),
