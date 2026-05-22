@@ -7,6 +7,7 @@ import { slugField } from '@/fields/Slug';
 import { uiMapField } from '@/fields/UIMap';
 import { CollectionConfig } from 'payload';
 import { nullUnusedFieldsHook } from './hooks/nullUnusedFieldsHook';
+import { populateResourceCountHook } from './hooks/populateResourceCountHook';
 import { revalidateEventDeleteHook } from './hooks/revalidateEventDeleteHook';
 import { revalidateEventHook } from './hooks/revalidateEventHook';
 
@@ -377,6 +378,10 @@ export const Events: CollectionConfig<'events'> = {
         },
         resourceField({
           resourceTypes: ['document'],
+          forceIcon: 'file-text',
+          overrides: {
+            label: '',
+          },
         }),
       ],
     },
@@ -421,6 +426,19 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         position: 'sidebar',
         readOnly: true,
+      },
+    },
+    // Helper Fields
+    {
+      name: 'resourceCount',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        hidden: true,
+      },
+      hooks: {
+        beforeChange: [populateResourceCountHook],
       },
     },
   ],

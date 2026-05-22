@@ -929,6 +929,7 @@ export interface Event {
   slugLock?: boolean | null;
   publishedAt?: string | null;
   lastUpdatedAt?: string | null;
+  resourceCount?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1869,6 +1870,7 @@ export interface EventsSelect<T extends boolean = true> {
   slugLock?: T;
   publishedAt?: T;
   lastUpdatedAt?: T;
+  resourceCount?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
