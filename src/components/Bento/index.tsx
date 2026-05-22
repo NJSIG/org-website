@@ -55,7 +55,7 @@ Bento.Resource = function Resource({ resource, className }: BentoResourceProps) 
 
 Bento.Placeholder = function Placeholder({
   className,
-  withPattern = false,
+  withPattern = true,
   children,
 }: BentoPlaceholderProps) {
   return (

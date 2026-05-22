@@ -250,7 +250,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:credits] min-h-12"
                       data-placeholder-for="presenter"
-                      withPattern
                     />
                   )}
 
@@ -279,7 +278,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:credits] min-h-12"
                       data-placeholder-for="credits"
-                      withPattern
                     />
                   )}
                 </>
@@ -290,7 +288,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:placeholder] min-h-12"
                       data-placeholder-for="details"
-                      withPattern
                     />
                   )}
                 </>
@@ -461,7 +458,7 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
               resource={{ resource: trusteeMeetingMinutes.resource }}
               className="[grid-area:resource]"
             />
-            <Bento.Placeholder withPattern className="[grid-area:placeholder]" />
+            <Bento.Placeholder className="[grid-area:placeholder]" />
           </Bento>
         )}
       </div>
