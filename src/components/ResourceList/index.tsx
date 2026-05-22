@@ -14,8 +14,8 @@ const ResourceList: React.FC<ResourceListProps> = ({ resources, nested = false, 
       <ul className={cn('grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 w-full', className)}>
         {resources.map((item, index) =>
           item ? (
-            <li>
-              <ResourceItem key={item.id || `resource-${index}`} item={item} nested={nested} />
+            <li key={item.id || `resource-${index}`}>
+              <ResourceItem item={item} nested={nested} />
             </li>
           ) : null,
         )}
