@@ -5,10 +5,18 @@ import ResourceItem from '../ResourceItem';
 type ResourceListProps = {
   resources: Event['resources'];
   nested?: boolean;
+  finishOddGrid?: boolean;
+  finisherPattern?: boolean;
   className?: string;
 };
 
-const ResourceList: React.FC<ResourceListProps> = ({ resources, nested = false, className }) => {
+const ResourceList: React.FC<ResourceListProps> = ({
+  resources,
+  nested = false,
+  finishOddGrid = true,
+  finisherPattern = true,
+  className,
+}) => {
   if (resources && resources.length > 0) {
     return (
       <ul className={cn('grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 w-full', className)}>
@@ -18,6 +26,13 @@ const ResourceList: React.FC<ResourceListProps> = ({ resources, nested = false, 
               <ResourceItem item={item} nested={nested} />
             </li>
           ) : null,
+        )}
+        {finishOddGrid && resources.length % 2 !== 0 && (
+          <li className="rounded-3xl bg-(--resource-finisher)/30">
+            {finisherPattern ? (
+              <div className="rounded-3xl fibers fiber-strength-4 h-full w-full" />
+            ) : null}
+          </li>
         )}
       </ul>
     );

@@ -25,6 +25,7 @@
     --event-tile-bespoke-dark: var(--color-glacial-900);
     --event-tile-bespoke-light: var(--color-glacial-700);
     --resource-theme: var(--color-bacceic-midtone);
+    --resource-finisher: var(--color-bacceic-tint);
   }
 
   [data-subfund-theme='caip'] {
@@ -37,6 +38,7 @@
     --event-tile-bespoke-dark: var(--color-sea-green-900);
     --event-tile-bespoke-light: var(--color-sea-green-700);
     --resource-theme: var(--color-caip-midtone);
+    --resource-finisher: var(--color-caip-tint);
   }
 
   [data-subfund-theme='ericnorth'] {
@@ -49,6 +51,7 @@
     --event-tile-bespoke-dark: var(--color-cerulean-900);
     --event-tile-bespoke-light: var(--color-cerulean-700);
     --resource-theme: var(--color-ericnorth-midtone);
+    --resource-finisher: var(--color-ericnorth-tint);
   }
 
   [data-subfund-theme='ericsouth'] {
@@ -61,6 +64,7 @@
     --event-tile-bespoke-dark: var(--color-sushi-900);
     --event-tile-bespoke-light: var(--color-sushi-700);
     --resource-theme: var(--color-ericsouth-midtone);
+    --resource-finisher: var(--color-ericsouth-tint);
   }
 
   [data-subfund-theme='ericwest'] {
@@ -73,6 +77,7 @@
     --event-tile-bespoke-dark: var(--color-trendy-pink-900);
     --event-tile-bespoke-light: var(--color-trendy-pink-700);
     --resource-theme: var(--color-ericwest-midtone);
+    --resource-finisher: var(--color-ericwest-tint);
   }
 
   [data-subfund-theme='mocssif'] {
@@ -85,6 +90,7 @@
     --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
     --event-tile-bespoke-light: var(--color-tahiti-gold-700);
     --resource-theme: var(--color-mocssif-midtone);
+    --resource-finisher: var(--color-mocssif-tint);
   }
 
   [data-subfund-theme='njeif'] {
@@ -97,5 +103,6 @@
     --event-tile-bespoke-dark: var(--color-raspberry-900);
     --event-tile-bespoke-light: var(--color-raspberry-700);
     --resource-theme: var(--color-njeif-midtone);
+    --resource-finisher: var(--color-njeif-tint);
   }
 }

@@ -127,7 +127,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
           <TitleTheme size="responsive" animated={true} className="mr-auto">
             Sub-fund Resources
           </TitleTheme>
-          <ResourceList resources={subfund.content.resources} />
+          <ResourceList finishOddGrid resources={subfund.content.resources} />
         </div>
       </section>
       {/* Sub-fund Meetings */}

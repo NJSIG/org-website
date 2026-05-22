@@ -420,7 +420,7 @@ const EventResources: React.FC<Event> = ({ description, resources }) => {
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
-        <ResourceList resources={resources} />
+        <ResourceList finishOddGrid resources={resources} />
       </div>
     </div>
   );
