@@ -19,7 +19,7 @@ const ResourceList: React.FC<ResourceListProps> = ({
 }) => {
   if (resources && resources.length > 0) {
     return (
-      <ul className={cn('grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 w-full', className)}>
+      <ul className={cn('grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4 w-full', className)}>
         {resources.map((item, index) =>
           item ? (
             <li key={item.id || `resource-${index}`}>
@@ -30,7 +30,7 @@ const ResourceList: React.FC<ResourceListProps> = ({
         {finishOddGrid && resources.length % 2 !== 0 && (
           <li className="rounded-3xl bg-(--resource-finisher)/30">
             {finisherPattern ? (
-              <div className="rounded-3xl fibers fiber-strength-4 h-full w-full" />
+              <div className="rounded-3xl fibers fiber-strength-10 h-full w-full" />
             ) : null}
           </li>
         )}
