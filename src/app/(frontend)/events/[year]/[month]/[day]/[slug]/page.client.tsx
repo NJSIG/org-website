@@ -47,11 +47,14 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
     <>
       <EventHeader {...event} />
       <EventDetails {...event} />
-      {event.resources && Array.isArray(event.resources) && event.resources.length > 0 && (
-        <EventResources {...event} />
+      {event.eventType === 'trusteeMeeting' && hasMeetingAgenda(event.trusteeMeetingAgenda) && (
+        <EventAgenda {...event} />
       )}
       {event.eventType === 'trusteeMeeting' && hasMeetingMinutes(event.trusteeMeetingMinutes) && (
         <EventMinutes {...event} />
+      )}
+      {event.eventType !== 'trusteeMeeting' && hasResources(event.resources) && (
+        <EventResources {...event} />
       )}
       <EventRelated animateSectionTitle={!event.description && !event.resources} events={related} />
     </>
@@ -426,6 +429,35 @@ const EventResources: React.FC<Event> = ({ description, resources }) => {
   );
 };
 
+const EventAgenda: React.FC<Event> = ({ description, trusteeMeetingAgenda }) => {
+  if (trusteeMeetingAgenda === undefined) {
+    return null;
+  }
+
+  return (
+    <div className="px-4 pt-8 pb-5">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
+        <TitleTheme size="responsive" animated={!description}>
+          Meeting Agenda
+        </TitleTheme>
+        {trusteeMeetingAgenda && (
+          <Bento
+            className={cn(
+              "w-full [grid-template-areas:'agenda'] lg:[grid-template-areas:'agenda_placeholder']",
+            )}
+          >
+            <Bento.Resource
+              resource={{ resource: trusteeMeetingAgenda.resource }}
+              className="[grid-area:agenda]"
+            />
+            <Bento.Placeholder className="[grid-area:placeholder]" />
+          </Bento>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) => {
   if (trusteeMeetingMinutes === undefined) {
     return null;
@@ -437,30 +469,32 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
         <TitleTheme size="responsive" animated={!description}>
           Meeting Minutes
         </TitleTheme>
-        {trusteeMeetingMinutes.minutesSummary && (
-          <Bento
-            className={cn('w-full', {
-              // Summary Only
-              "[grid-template-areas:'summary'] lg:[grid-template-areas:'summary_placeholder']":
-                trusteeMeetingMinutes.minutesSummary && !trusteeMeetingMinutes.resource,
-              // Resource Only
-              "[grid-template-areas:'resource'] lg:[grid-template-areas:'resource_placeholder']":
-                !trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
-              // Summary & Resource
-              "[grid-template-areas:'summary'_'resource'] lg:[grid-template-areas:'summary_resource'_'summary_placeholder']":
-                trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
-            })}
-          >
+        <Bento
+          className={cn('w-full', {
+            // Summary Only
+            "[grid-template-areas:'summary'] lg:[grid-template-areas:'summary_placeholder']":
+              trusteeMeetingMinutes.minutesSummary && !trusteeMeetingMinutes.resource,
+            // Resource Only
+            "[grid-template-areas:'resource'] lg:[grid-template-areas:'resource_placeholder']":
+              !trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
+            // Summary & Resource
+            "[grid-template-areas:'summary'_'resource'] lg:[grid-template-areas:'summary_resource'_'summary_placeholder']":
+              trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
+          })}
+        >
+          {trusteeMeetingMinutes.minutesSummary && (
             <Bento.Item icon="notepad-text" label="Summary" className="[grid-area:summary]">
               <RichText data={trusteeMeetingMinutes.minutesSummary} />
             </Bento.Item>
+          )}
+          {trusteeMeetingMinutes.resource?.document && (
             <Bento.Resource
               resource={{ resource: trusteeMeetingMinutes.resource }}
               className="[grid-area:resource]"
             />
-            <Bento.Placeholder className="[grid-area:placeholder]" />
-          </Bento>
-        )}
+          )}
+          <Bento.Placeholder className="[grid-area:placeholder]" />
+        </Bento>
       </div>
     </div>
   );
@@ -516,8 +550,24 @@ function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLi
   return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);
 }
 
+function hasMeetingAgenda(agenda: Event['trusteeMeetingAgenda'] | undefined): boolean {
+  if (agenda?.resource) {
+    return true;
+  }
+
+  return false;
+}
+
 function hasMeetingMinutes(minutes: Event['trusteeMeetingMinutes'] | undefined): boolean {
-  if (minutes?.resource || minutes?.minutesSummary) {
+  if (minutes?.resource?.document || minutes?.minutesSummary) {
+    return true;
+  }
+
+  return false;
+}
+
+function hasResources(resources: Event['resources'] | undefined): boolean {
+  if (resources && Array.isArray(resources) && resources.length > 0) {
     return true;
   }
 
