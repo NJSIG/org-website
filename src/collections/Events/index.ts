@@ -358,6 +358,26 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
     },
+    // Trustee Meeting Agenda Group - Only Shows for Trustee Meetings
+    {
+      name: 'trusteeMeetingAgenda',
+      type: 'group',
+      admin: {
+        description:
+          'The meeting agenda file provided here will be displayed on the event page and the legal notices page.',
+        hideGutter: true,
+        condition: (_, siblingData) => siblingData.eventType === EventTypeValues.TrusteeMeeting,
+      },
+      fields: [
+        resourceField({
+          resourceTypes: ['document'],
+          forceIcon: 'notebook-text',
+          overrides: {
+            label: '',
+          },
+        }),
+      ],
+    },
     // Trustee Meeting Minutes Group - Only Shows for Trustee Meetings
     {
       name: 'trusteeMeetingMinutes',
@@ -385,9 +405,14 @@ export const Events: CollectionConfig<'events'> = {
         }),
       ],
     },
-    // Resources Group
+    // Resources Group - Only shows when not a Trustee Meeting
     resourceGroupField({
       overrides: {
+        group: {
+          admin: {
+            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.TrusteeMeeting,
+          },
+        },
         row: {
           label: '', // Hide the row label
         },
