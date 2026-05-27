@@ -68,7 +68,7 @@ export const resourceField: ResourceField = ({
             },
           },
           lucideIconPickerField({
-            allowedIcons: resourceTypeIcons,
+            allowedIcons: forceIcon ? [forceIcon] : resourceTypeIcons,
             overrides: {
               name: 'icon',
               label: 'Icon',
