@@ -298,7 +298,7 @@ const EventDetails: React.FC<Event> = ({
             </Bento>
           )}
           <Bento
-            className={cn('mt-4', {
+            className={cn('not-first:mt-4', {
               // Important Dates show the date and time
               "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
                 eventType === 'importantDate',
@@ -551,7 +551,7 @@ function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLi
 }
 
 function hasMeetingAgenda(agenda: Event['trusteeMeetingAgenda'] | undefined): boolean {
-  if (agenda?.resource) {
+  if (agenda?.resource?.document) {
     return true;
   }
 
