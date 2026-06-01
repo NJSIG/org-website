@@ -85,22 +85,9 @@ export const Pages: CollectionConfig<'pages'> = {
       filterOptions: ({ id }) => ({
         id: { not_equals: id }, // Prevent self reference
         slug: { not_equals: 'home' }, // Prevent referencing the home page
-        'layout.template': { not_equals: 'navOnly' }, // Prevent referencing navOnly pages
       }),
       admin: {
         position: 'sidebar',
-        condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
-      },
-      hooks: {
-        beforeValidate: [
-          ({ value, siblingData }) => {
-            if (siblingData?.layout?.template === 'navOnly') {
-              return null;
-            }
-
-            return value;
-          },
-        ],
       },
     }),
     ...slugField(),
@@ -126,7 +113,6 @@ export const Pages: CollectionConfig<'pages'> = {
     createBreadcrumbsField('pages', {
       admin: {
         description: 'Breadcrumbs are generated based on the page hierarchy.',
-        condition: (_, siblingData) => siblingData.layout?.template !== 'navOnly',
       },
     }),
     // Hidden Fields
