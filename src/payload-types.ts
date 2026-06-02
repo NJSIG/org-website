@@ -979,17 +979,21 @@ export interface Contact {
    */
   portrait?: (string | null) | ContactPortrait;
   /**
-   * The user type helps differentiate between NJSIG staff and external brokers.
+   * The user type helps differentiate between NJSIG staff, brokers, and trustees.
    */
-  type: 'njsig' | 'broker';
+  type: 'njsig' | 'broker' | 'trustee';
   /**
    * The full name of the contact person.
    */
   name: string;
   /**
-   * The contact person's job title. If not provided, the contact type will be used.
+   * The contact person's job title.
    */
   title?: string | null;
+  /**
+   * The organization the contact person is affiliated with.
+   */
+  organization?: string | null;
   email: string;
   phone?: string | null;
   extension?: string | null;
@@ -1967,6 +1971,7 @@ export interface ContactsSelect<T extends boolean = true> {
   type?: T;
   name?: T;
   title?: T;
+  organization?: T;
   email?: T;
   phone?: T;
   extension?: T;

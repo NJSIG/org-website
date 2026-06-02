@@ -10,6 +10,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields';
 import { CollectionConfig } from 'payload';
+import { ContactTypeValues } from '../Contacts';
 import { revalidateSubfundDeleteHook, revalidateSubfundHook } from './hooks';
 import { SubfundThemeOptions } from './types';
 
@@ -99,7 +100,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   type: 'relationship',
                   relationTo: 'contacts',
                   filterOptions: () => ({
-                    type: { equals: 'broker' },
+                    type: { equals: ContactTypeValues.Broker },
                   }),
                   required: true,
                   hasMany: true,
@@ -111,7 +112,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   type: 'relationship',
                   relationTo: 'contacts',
                   filterOptions: () => ({
-                    type: { equals: 'njsig' },
+                    type: { equals: ContactTypeValues.NJSIG },
                   }),
                   required: true,
                   hasMany: true,

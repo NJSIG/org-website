@@ -2,6 +2,12 @@ import { editor, editorOrPublished } from '@/access';
 import { patternField } from '@/fields/Pattern';
 import { CollectionConfig } from 'payload';
 
+export enum ContactTypeValues {
+  NJSIG = 'njsig',
+  Broker = 'broker',
+  Trustee = 'trustee',
+}
+
 export const Contacts: CollectionConfig<'contacts'> = {
   slug: 'contacts',
   access: {
@@ -46,13 +52,14 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'select',
               required: true,
               options: [
-                { label: 'NJSIG', value: 'njsig' },
-                { label: 'Broker', value: 'broker' },
+                { label: 'NJSIG', value: ContactTypeValues.NJSIG },
+                { label: 'Broker', value: ContactTypeValues.Broker },
+                { label: 'Trustee', value: ContactTypeValues.Trustee },
               ],
               admin: {
                 isClearable: false,
                 description:
-                  'The user type helps differentiate between NJSIG staff and external brokers.',
+                  'The user type helps differentiate between NJSIG staff, brokers, and trustees.',
               },
             },
           ],
@@ -76,8 +83,16 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'text',
               localized: true,
               admin: {
-                description:
-                  "The contact person's job title. If not provided, the contact type will be used.",
+                description: "The contact person's job title.",
+              },
+            },
+            {
+              name: 'organization',
+              type: 'text',
+              localized: true,
+              admin: {
+                description: 'The organization the contact person is affiliated with.',
+                condition: (_, siblingData) => siblingData?.type !== ContactTypeValues.NJSIG, // Only show organization field for non-NJSIG contacts
               },
             },
             {
