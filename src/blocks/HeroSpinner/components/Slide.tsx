@@ -73,7 +73,7 @@ const HeroSlide = memo<{
           src={slideData.url}
           alt={slideData.alt}
           fill
-          sizes="100vw"
+          sizes="(max-width: 2400px) 100vw, 2400px"
           priority={isPriority}
           placeholder="blur"
           blurDataURL={slideData.blurData}
