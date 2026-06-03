@@ -4,7 +4,7 @@ import {
   SectionBlockSlugs,
   SectionWidthOptions,
   SectionWidths,
-} from './blocks/types';
+} from './types';
 
 const widthOptions: SectionWidthOptions = {
   narrow: { label: 'Narrow', value: 'narrow' },
