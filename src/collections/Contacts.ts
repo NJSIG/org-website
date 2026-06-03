@@ -89,7 +89,6 @@ export const Contacts: CollectionConfig<'contacts'> = {
             {
               name: 'organization',
               type: 'text',
-              localized: true,
               admin: {
                 description: 'The organization the contact person is affiliated with.',
                 condition: (_, siblingData) => siblingData?.type !== ContactTypeValues.NJSIG, // Only show organization field for non-NJSIG contacts
