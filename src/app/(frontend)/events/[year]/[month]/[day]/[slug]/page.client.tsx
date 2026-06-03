@@ -13,6 +13,7 @@ import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
 import { PageHeader, PageTitle } from '@/components/PageHeader';
+import ResourceItem from '@/components/ResourceItem';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
@@ -446,10 +447,9 @@ const EventAgenda: React.FC<Event> = ({ description, trusteeMeetingAgenda }) => 
               "w-full [grid-template-areas:'agenda'] lg:[grid-template-areas:'agenda_placeholder']",
             )}
           >
-            <Bento.Resource
-              resource={{ resource: trusteeMeetingAgenda.resource }}
-              className="[grid-area:agenda]"
-            />
+            <Bento.Generic className="[grid-area:agenda]">
+              <ResourceItem item={trusteeMeetingAgenda} />
+            </Bento.Generic>
             <Bento.Placeholder className="[grid-area:placeholder]" />
           </Bento>
         )}
@@ -488,10 +488,9 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
             </Bento.Item>
           )}
           {trusteeMeetingMinutes.resource?.document && (
-            <Bento.Resource
-              resource={{ resource: trusteeMeetingMinutes.resource }}
-              className="[grid-area:resource]"
-            />
+            <Bento.Generic className="[grid-area:resource]">
+              <ResourceItem item={trusteeMeetingMinutes} />
+            </Bento.Generic>
           )}
           <Bento.Placeholder className="[grid-area:placeholder]" />
         </Bento>
