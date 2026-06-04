@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const HiddenTitle: Block = {
   slug: 'hiddenTitle',
   interfaceName: 'HiddenTitleBlock',
-  imageURL: '/blocks/hidden-title.png',
-  imageAltText: 'Hidden Title Block',
+  admin: {
+    group: 'Titles & Headings',
+    images: {
+      thumbnail: {
+        url: '/blocks/hidden-title/thumb.png',
+        alt: 'Hidden Title',
+      },
+      icon: {
+        url: '/blocks/hidden-title/icon.svg',
+        alt: 'Hidden Title',
+      },
+    },
+  },
   fields: [
     {
       name: 'title',

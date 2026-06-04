@@ -8,8 +8,19 @@ export const Metrics: Block = {
     plural: 'Metrics',
   },
   interfaceName: 'MetricsBlock',
-  imageURL: '/blocks/metrics.png',
-  imageAltText: 'Metrics Block',
+  admin: {
+    group: 'Lists',
+    images: {
+      thumbnail: {
+        url: '/blocks/metrics/thumb.png',
+        alt: 'Metrics',
+      },
+      icon: {
+        url: '/blocks/metrics/icon.svg',
+        alt: 'Metrics',
+      },
+    },
+  },
   fields: [
     {
       name: 'columns',

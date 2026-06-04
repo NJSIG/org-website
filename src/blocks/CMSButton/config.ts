@@ -10,6 +10,7 @@ export const CMSButton: Block = {
     plural: 'CMS Buttons',
   },
   admin: {
+    group: 'Buttons & Content',
     images: {
       thumbnail: {
         url: '/blocks/cms-button/thumb.png',

@@ -4,8 +4,19 @@ import { Block } from 'payload';
 export const IconList: Block = {
   slug: 'iconList',
   interfaceName: 'IconListBlock',
-  imageURL: '/blocks/icon-list.png',
-  imageAltText: 'Icon List Block',
+  admin: {
+    group: 'Lists',
+    images: {
+      thumbnail: {
+        url: '/blocks/icon-list/thumb.png',
+        alt: 'Icon List',
+      },
+      icon: {
+        url: '/blocks/icon-list/icon.svg',
+        alt: 'Icon List',
+      },
+    },
+  },
   fields: [
     {
       name: 'columns',

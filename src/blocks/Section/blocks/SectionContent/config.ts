@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const SectionContent: Block = {
   slug: 'sectionContent',
   interfaceName: 'SectionContentBlock',
-  imageURL: '/blocks/section/section-content.png',
-  imageAltText: 'Section Content Block',
+  admin: {
+    group: 'Buttons & Content',
+    images: {
+      thumbnail: {
+        url: '/blocks/section-content/thumb.png',
+        alt: 'Section Content',
+      },
+      icon: {
+        url: '/blocks/section-content/icon.svg',
+        alt: 'Section Content',
+      },
+    },
+  },
   fields: [
     {
       name: 'centerBlock',

@@ -38,8 +38,19 @@ const columnField: Field[] = [
 export const SectionColumns: Block = {
   slug: 'sectionCols',
   interfaceName: 'SectionColumnsBlock',
-  imageURL: '/blocks/section/section-columns.png',
-  imageAltText: 'Section Columns Block',
+  admin: {
+    group: 'Layout',
+    images: {
+      thumbnail: {
+        url: '/blocks/section-columns/thumb.png',
+        alt: 'Section Columns',
+      },
+      icon: {
+        url: '/blocks/section-columns/icon.svg',
+        alt: 'Section Columns',
+      },
+    },
+  },
   labels: {
     singular: 'Section Columns',
     plural: 'Section Columns',

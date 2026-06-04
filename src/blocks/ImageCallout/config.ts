@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const ImageCallout: Block = {
   slug: 'imageCallout',
   interfaceName: 'ImageCalloutBlock',
-  imageURL: '/blocks/image-callout.png',
-  imageAltText: 'Image Callout Block',
+  admin: {
+    group: 'Media',
+    images: {
+      thumbnail: {
+        url: '/blocks/image-callout/thumb.png',
+        alt: 'Image Callout',
+      },
+      icon: {
+        url: '/blocks/image-callout/icon.svg',
+        alt: 'Image Callout',
+      },
+    },
+  },
   fields: [
     {
       type: 'group',

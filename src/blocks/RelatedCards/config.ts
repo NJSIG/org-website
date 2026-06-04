@@ -8,8 +8,19 @@ export const RelatedCards: Block = {
     plural: 'Related Cards',
   },
   interfaceName: 'RelatedCardsBlock',
-  imageURL: '/blocks/related-cards.png',
-  imageAltText: 'Related Cards Block',
+  admin: {
+    group: 'Buttons & Content',
+    images: {
+      thumbnail: {
+        url: '/blocks/related-cards/thumb.png',
+        alt: 'Related Cards',
+      },
+      icon: {
+        url: '/blocks/related-cards/icon.svg',
+        alt: 'Related Cards',
+      },
+    },
+  },
   fields: [
     {
       name: 'cards',
