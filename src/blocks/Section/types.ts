@@ -1,5 +1,6 @@
 import {
   CMSButtonBlock,
+  ContactListBlock,
   EmphasizedListBlock,
   EventTilesBlock,
   IconListBlock,
@@ -20,6 +21,7 @@ export type SectionWidthOptions = Record<SectionWidths, Options>;
 
 type SectionBlocks =
   | CMSButtonBlock
+  | ContactListBlock
   | EmphasizedListBlock
   | EventTilesBlock
   | IconListBlock

@@ -57,7 +57,7 @@ Bento.Placeholder = function Placeholder({
   children,
 }: BentoPlaceholderProps) {
   return (
-    <Bento.Generic className={cn('rounded-3xl bg-(--bento-placeholder)/30', className)}>
+    <Bento.Generic className={cn('bg-transparent p-0', className)}>
       {withPattern ? (
         <div className="rounded-3xl fibers fiber-strength-10 h-full w-full">{children}</div>
       ) : (

@@ -8,7 +8,6 @@ import Image from 'next/image';
 type ContactPersonProps = {
   contact: Contact;
   size?: 'sm' | 'md';
-  title?: string;
   priority?: boolean;
   className?: string;
 };
@@ -22,6 +21,7 @@ const portraitVariants = cva(['rounded-full'], {
     type: {
       njsig: 'border-njsig-primary',
       broker: 'border-(--subfund-contact-ring)',
+      trustee: 'border-njsig-accent-primary',
     },
   },
 });
@@ -29,7 +29,6 @@ const portraitVariants = cva(['rounded-full'], {
 export const ContactPerson: React.FC<ContactPersonProps> = ({
   contact,
   size = 'md',
-  title: titleFromProps,
   priority = false,
   className,
 }) => {
@@ -37,7 +36,25 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
     return null;
   }
 
-  const { portrait, type, name, title } = contact;
+  const { portrait, type, name, title, organization } = contact;
+
+  let resolvedTitle: string | null = null;
+
+  if (title) {
+    resolvedTitle = title;
+  } else {
+    switch (type) {
+      case 'njsig':
+        resolvedTitle = 'NJSIG Representative';
+        break;
+      case 'broker':
+        resolvedTitle = 'Broker';
+        break;
+      case 'trustee':
+        resolvedTitle = 'Trustee';
+        break;
+    }
+  }
 
   return (
     <div
@@ -83,15 +100,8 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
         <span className={cn('font-bold', { 'text-sm': size === 'sm', 'text-base': size === 'md' })}>
           {name}
         </span>
-        <small className="font-medium text-xs">
-          {titleFromProps
-            ? titleFromProps
-            : title
-              ? title
-              : type === 'njsig'
-                ? 'NJSIG Representative'
-                : 'Broker'}
-        </small>
+        {resolvedTitle && <small className="font-medium text-xs">{resolvedTitle}</small>}
+        {type !== 'njsig' && organization && <small className="text-xs">{organization}</small>}
       </div>
     </div>
   );

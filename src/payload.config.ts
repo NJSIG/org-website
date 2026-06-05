@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
 import {
   BannerTitle,
+  ContactList,
   EventTiles,
   HeroSpinner,
   HiddenTitle,
@@ -64,6 +65,7 @@ const collections = [
 const blocks = [
   BannerTitle,
   CMSButton,
+  ContactList,
   EmphasizedList,
   EventTiles,
   HeroSpinner,

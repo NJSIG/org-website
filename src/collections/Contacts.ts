@@ -19,7 +19,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
   trash: true,
   folders: true,
   admin: {
-    defaultColumns: ['portrait', 'type', 'name', 'title'],
+    defaultColumns: ['portrait', 'type', 'name', 'title', 'organization'],
     useAsTitle: 'name',
   },
   // This config controls what's populated by default when a page is referenced
@@ -30,6 +30,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
     type: true,
     name: true,
     title: true,
+    organization: true,
   },
   fields: [
     {

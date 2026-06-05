@@ -68,6 +68,7 @@ export interface Config {
   blocks: {
     bannerTitle: BannerTitleBlock;
     cmsButton: CMSButtonBlock;
+    contactList: ContactListBlock;
     emphasizedList: EmphasizedListBlock;
     eventTiles: EventTilesBlock;
     heroSpinner: HeroSpinnerBlock;
@@ -550,6 +551,7 @@ export interface SectionBlock {
   backgroundStyle: 'default' | 'azureGradient' | 'azureLight';
   sectionBlocks: (
     | CMSButtonBlock
+    | ContactListBlock
     | EmphasizedListBlock
     | EventTilesBlock
     | IconListBlock
@@ -567,118 +569,215 @@ export interface SectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EmphasizedListBlock".
+ * via the `definition` "ContactListBlock".
  */
-export interface EmphasizedListBlock {
+export interface ContactListBlock {
   /**
-   * Select the color of the triangular bullets
+   * Drag contacts to rearrange their order in the list.
    */
-  bullColor?: ('primary' | 'accent') | null;
-  listItems?:
-    | {
-        title: string;
-        content: string;
-        id?: string | null;
-      }[]
-    | null;
+  board?: (string | Contact)[] | null;
+  /**
+   * Choose the number of columns for the contact list. The layout will automatically adjust to the screen width.
+   */
+  columns: '2' | '3';
+  squareGrid?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'emphasizedList';
+  blockType: 'contactList';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventTilesBlock".
+ * via the `definition` "contacts".
  */
-export interface EventTilesBlock {
+export interface Contact {
+  id: string;
   /**
-   * Set the number of tiles to display, including the "View All" tile
+   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if no image is assigned to this contact.
    */
-  tiles: number;
+  portrait?: (string | null) | ContactPortrait;
   /**
-   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   * The user type helps differentiate between NJSIG staff, brokers, and trustees.
    */
-  categoryFilters?: (string | EventCategory)[] | null;
+  type: 'njsig' | 'broker' | 'trustee';
   /**
-   * Toggle to show or hide the "View All" tile at the end of the list.
+   * The full name of the contact person.
    */
-  showViewAll?: boolean | null;
+  name: string;
   /**
-   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   * The contact person's job title.
    */
-  enableSubscribe?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'eventTiles';
+  title?: string | null;
+  /**
+   * The organization the contact person is affiliated with.
+   */
+  organization?: string | null;
+  email: string;
+  phone?: string | null;
+  extension?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories".
+ * via the `definition` "contact-portraits".
  */
-export interface EventCategory {
+export interface ContactPortrait {
+  id: string;
+  /**
+   * The name of the person in the portrait photo.
+   */
+  name: string;
+  /**
+   * Used for image placeholders. Automatically generated from the image.
+   */
+  blurData?: string | null;
+  prefix?: string | null;
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
   id: string;
   name: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
+  folder?: (string | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: string | FolderInterface;
+        }
+      | {
+          relationTo?: 'pages';
+          value: string | Page;
+        }
+      | {
+          relationTo?: 'locations';
+          value: string | Location;
+        }
+      | {
+          relationTo?: 'contacts';
+          value: string | Contact;
+        }
+      | {
+          relationTo?: 'media';
+          value: string | Media;
+        }
+      | {
+          relationTo?: 'documents';
+          value: string | Document;
+        }
+      | {
+          relationTo?: 'contact-portraits';
+          value: string | ContactPortrait;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folderType?: ('pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits')[] | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "IconListBlock".
+ * via the `definition` "locations".
  */
-export interface IconListBlock {
+export interface Location {
+  id: string;
   /**
-   * A two column layout will display odd items in the left column and even items in the right column. Two columns will stack as one column on smaller screens.
+   * The name of the location.
    */
-  columns?: ('one' | 'two') | null;
-  items?:
-    | {
-        icon: string;
-        title?: string | null;
-        text?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'iconList';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ImageCalloutBlock".
- */
-export interface ImageCalloutBlock {
-  calloutContent: {
-    /**
-     * The theme is displayed as a title above the callout text.
-     */
-    theme?: string | null;
-    /**
-     * The content to display in the callout.
-     */
-    content: string;
-    position: 'left' | 'right';
+  name: string;
+  streetAddress: string;
+  /**
+   * Optional second line for street address.
+   */
+  streetAddress2?: string | null;
+  city: string;
+  state:
+    | 'AL'
+    | 'AK'
+    | 'AZ'
+    | 'AR'
+    | 'CA'
+    | 'CO'
+    | 'CT'
+    | 'DE'
+    | 'FL'
+    | 'GA'
+    | 'HI'
+    | 'ID'
+    | 'IL'
+    | 'IN'
+    | 'IA'
+    | 'KS'
+    | 'KY'
+    | 'LA'
+    | 'ME'
+    | 'MD'
+    | 'MA'
+    | 'MI'
+    | 'MN'
+    | 'MS'
+    | 'MO'
+    | 'MT'
+    | 'NE'
+    | 'NV'
+    | 'NH'
+    | 'NJ'
+    | 'NM'
+    | 'NY'
+    | 'NC'
+    | 'ND'
+    | 'OH'
+    | 'OK'
+    | 'OR'
+    | 'PA'
+    | 'RI'
+    | 'SC'
+    | 'SD'
+    | 'TN'
+    | 'TX'
+    | 'UT'
+    | 'VT'
+    | 'VA'
+    | 'WA'
+    | 'WV'
+    | 'WI'
+    | 'WY';
+  zipCode: string;
+  phone?: string | null;
+  website?: {
+    type?: 'custom' | null;
+    newTab?: boolean | null;
+    allowReferrer?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: string | Page;
+    } | null;
+    url?: string | null;
+    label?: string | null;
   };
-  calloutImage: {
-    /**
-     * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
-     */
-    image: string | Media;
-    border: 'none' | 'primaryMidtone';
-    width?: number | null;
-    height?: number | null;
-    /**
-     * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
-     */
-    priority?: boolean | null;
-    /**
-     * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
-     */
-    placeholder?: boolean | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'imageCallout';
+  folder?: (string | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -970,197 +1069,15 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contacts".
+ * via the `definition` "event-categories".
  */
-export interface Contact {
-  id: string;
-  /**
-   * Portraits should be square and at least 250x250 pixels. A placeholder will be used if no image is assigned to this contact.
-   */
-  portrait?: (string | null) | ContactPortrait;
-  /**
-   * The user type helps differentiate between NJSIG staff, brokers, and trustees.
-   */
-  type: 'njsig' | 'broker' | 'trustee';
-  /**
-   * The full name of the contact person.
-   */
-  name: string;
-  /**
-   * The contact person's job title.
-   */
-  title?: string | null;
-  /**
-   * The organization the contact person is affiliated with.
-   */
-  organization?: string | null;
-  email: string;
-  phone?: string | null;
-  extension?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-portraits".
- */
-export interface ContactPortrait {
-  id: string;
-  /**
-   * The name of the person in the portrait photo.
-   */
-  name: string;
-  /**
-   * Used for image placeholders. Automatically generated from the image.
-   */
-  blurData?: string | null;
-  prefix?: string | null;
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-folders".
- */
-export interface FolderInterface {
+export interface EventCategory {
   id: string;
   name: string;
-  folder?: (string | null) | FolderInterface;
-  documentsAndFolders?: {
-    docs?: (
-      | {
-          relationTo?: 'payload-folders';
-          value: string | FolderInterface;
-        }
-      | {
-          relationTo?: 'pages';
-          value: string | Page;
-        }
-      | {
-          relationTo?: 'locations';
-          value: string | Location;
-        }
-      | {
-          relationTo?: 'contacts';
-          value: string | Contact;
-        }
-      | {
-          relationTo?: 'media';
-          value: string | Media;
-        }
-      | {
-          relationTo?: 'documents';
-          value: string | Document;
-        }
-      | {
-          relationTo?: 'contact-portraits';
-          value: string | ContactPortrait;
-        }
-    )[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  folderType?: ('pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits')[] | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations".
- */
-export interface Location {
-  id: string;
-  /**
-   * The name of the location.
-   */
-  name: string;
-  streetAddress: string;
-  /**
-   * Optional second line for street address.
-   */
-  streetAddress2?: string | null;
-  city: string;
-  state:
-    | 'AL'
-    | 'AK'
-    | 'AZ'
-    | 'AR'
-    | 'CA'
-    | 'CO'
-    | 'CT'
-    | 'DE'
-    | 'FL'
-    | 'GA'
-    | 'HI'
-    | 'ID'
-    | 'IL'
-    | 'IN'
-    | 'IA'
-    | 'KS'
-    | 'KY'
-    | 'LA'
-    | 'ME'
-    | 'MD'
-    | 'MA'
-    | 'MI'
-    | 'MN'
-    | 'MS'
-    | 'MO'
-    | 'MT'
-    | 'NE'
-    | 'NV'
-    | 'NH'
-    | 'NJ'
-    | 'NM'
-    | 'NY'
-    | 'NC'
-    | 'ND'
-    | 'OH'
-    | 'OK'
-    | 'OR'
-    | 'PA'
-    | 'RI'
-    | 'SC'
-    | 'SD'
-    | 'TN'
-    | 'TX'
-    | 'UT'
-    | 'VT'
-    | 'VA'
-    | 'WA'
-    | 'WV'
-    | 'WI'
-    | 'WY';
-  zipCode: string;
-  phone?: string | null;
-  website?: {
-    type?: 'custom' | null;
-    newTab?: boolean | null;
-    allowReferrer?: boolean | null;
-    reference?: {
-      relationTo: 'pages';
-      value: string | Page;
-    } | null;
-    url?: string | null;
-    label?: string | null;
-  };
-  folder?: (string | null) | FolderInterface;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1194,6 +1111,109 @@ export interface Document {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmphasizedListBlock".
+ */
+export interface EmphasizedListBlock {
+  /**
+   * Select the color of the triangular bullets
+   */
+  bullColor?: ('primary' | 'accent') | null;
+  listItems?:
+    | {
+        title: string;
+        content: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emphasizedList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventTilesBlock".
+ */
+export interface EventTilesBlock {
+  /**
+   * Set the number of tiles to display, including the "View All" tile
+   */
+  tiles: number;
+  /**
+   * Select categories to filter events by. Leave empty to show all events. NJSIG events flagged as "Important" will always be shown.
+   */
+  categoryFilters?: (string | EventCategory)[] | null;
+  /**
+   * Toggle to show or hide the "View All" tile at the end of the list.
+   */
+  showViewAll?: boolean | null;
+  /**
+   * Enable the "Subscribe" tile when there are no events to display. NOTE: The subscribe functionality is still under development.
+   */
+  enableSubscribe?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventTiles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IconListBlock".
+ */
+export interface IconListBlock {
+  /**
+   * A two column layout will display odd items in the left column and even items in the right column. Two columns will stack as one column on smaller screens.
+   */
+  columns?: ('one' | 'two') | null;
+  items?:
+    | {
+        icon: string;
+        title?: string | null;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'iconList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageCalloutBlock".
+ */
+export interface ImageCalloutBlock {
+  calloutContent: {
+    /**
+     * The theme is displayed as a title above the callout text.
+     */
+    theme?: string | null;
+    /**
+     * The content to display in the callout.
+     */
+    content: string;
+    position: 'left' | 'right';
+  };
+  calloutImage: {
+    /**
+     * You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.
+     */
+    image: string | Media;
+    border: 'none' | 'primaryMidtone';
+    width?: number | null;
+    height?: number | null;
+    /**
+     * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
+     */
+    priority?: boolean | null;
+    /**
+     * Enabling this option will display a low-quality blurred image placeholder while the full image loads.
+     */
+    placeholder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageCallout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
