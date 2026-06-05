@@ -1,4 +1,4 @@
-import { editor, editorOrPublished } from '@/access';
+import { anyone, editor } from '@/access';
 import { patternField } from '@/fields/Pattern';
 import { CollectionConfig } from 'payload';
 
@@ -13,7 +13,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
   access: {
     create: editor,
     delete: editor,
-    read: editorOrPublished,
+    read: anyone,
     update: editor,
   },
   trash: true,

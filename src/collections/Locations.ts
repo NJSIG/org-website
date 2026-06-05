@@ -1,4 +1,4 @@
-import { editor, editorOrPublished } from '@/access';
+import { anyone, editor } from '@/access';
 import { linkField } from '@/fields/Link';
 import { patternField } from '@/fields/Pattern';
 import { uiMapField } from '@/fields/UIMap';
@@ -9,7 +9,7 @@ export const Locations: CollectionConfig<'locations'> = {
   access: {
     create: editor,
     delete: editor,
-    read: editorOrPublished,
+    read: anyone,
     update: editor,
   },
   folders: true,

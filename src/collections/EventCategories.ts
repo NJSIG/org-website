@@ -1,4 +1,4 @@
-import { admin, editorOrPublished } from '@/access';
+import { admin, anyone } from '@/access';
 import { slugField } from '@/fields/Slug';
 import { CollectionConfig } from 'payload';
 
@@ -7,7 +7,7 @@ export const EventCategories: CollectionConfig<'event-categories'> = {
   access: {
     create: admin,
     delete: admin,
-    read: editorOrPublished,
+    read: anyone,
     update: admin,
   },
   fields: [
