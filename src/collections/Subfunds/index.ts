@@ -104,7 +104,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   }),
                   required: true,
                   hasMany: true,
-                  minRows: 1,
                 },
                 {
                   name: 'reps',
@@ -116,7 +115,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   }),
                   required: true,
                   hasMany: true,
-                  minRows: 1,
                 },
               ],
             },
@@ -126,7 +124,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               relationTo: 'event-categories',
               required: true,
               hasMany: true,
-              minRows: 1,
               admin: {
                 description:
                   'Select event categories to filter events related to this sub-fund. If no categories are selected, all events will be shown.',
@@ -138,7 +135,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               relationTo: 'event-categories',
               required: true,
               hasMany: true,
-              minRows: 1,
               admin: {
                 description:
                   'Select event categories to filter past meetings related to this sub-fund. If no categories are selected, the past meetings section will be hidden.',
