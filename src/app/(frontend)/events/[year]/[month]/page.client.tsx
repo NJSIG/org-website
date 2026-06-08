@@ -26,7 +26,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ calendarData, event
       <PageHeader>
         <PageTitle>Events Calendar</PageTitle>
       </PageHeader>
-      <div className="px-4 pt-8 pb-12 flex flex-col gap-8 lg:flex-row lg:gap-16 max-w-7xl mx-auto">
+      <div className="px-4 py-12 flex flex-col gap-8 lg:flex-row lg:gap-16 max-w-7xl mx-auto">
         <EventsCalendar {...calendarData} />
         <div className="flex flex-col gap-4 grow">
           {/* TODO: Add Event Search */}

@@ -196,7 +196,7 @@ const EventDetails: React.FC<Event> = ({
   const location = typeof locationFromProps === 'object' ? locationFromProps : null;
 
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={false}>
           Event Details
@@ -419,7 +419,7 @@ const EventDetails: React.FC<Event> = ({
 
 const EventResources: React.FC<Event> = ({ description, resources }) => {
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
@@ -436,7 +436,7 @@ const EventAgenda: React.FC<Event> = ({ description, trusteeMeetingAgenda }) => 
   }
 
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Agenda
@@ -464,7 +464,7 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
   }
 
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Minutes

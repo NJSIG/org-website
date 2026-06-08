@@ -38,13 +38,10 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
   if (hasBlocks) {
     return (
       <section
-        className={cn(
-          'flex flex-col px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 2xl:pt-16 2xl:pb-20',
-          {
-            'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
-            'bg-azure-100': backgroundStyle === 'azureLight',
-          },
-        )}
+        className={cn('flex flex-col px-4 py-12 lg:px-6', {
+          'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
+          'bg-azure-100': backgroundStyle === 'azureLight',
+        })}
       >
         <div
           className={cn('mx-auto w-full group/section', {

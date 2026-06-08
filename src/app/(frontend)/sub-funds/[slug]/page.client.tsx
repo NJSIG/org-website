@@ -83,7 +83,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
         </div>
       </section>
       {/* Upcoming Events */}
-      <section className="px-4 pt-8 pb-5 lg:px-6 flex items-center justify-center">
+      <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
         <div className="w-full max-w-section flex flex-col gap-8">
           <TitleTheme size="responsive" animated={false} className="mr-auto">
             Upcoming Sub-fund Events
@@ -122,7 +122,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
         </div>
       </section>
       {/* Sub-fund Resources */}
-      <section className="px-4 pt-8 pb-5 lg:px-6 flex items-center justify-center">
+      <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
         <div className="w-full max-w-section flex flex-col gap-8">
           <TitleTheme size="responsive" animated={true} className="mr-auto">
             Sub-fund Resources
@@ -132,7 +132,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
       </section>
       {/* Sub-fund Meetings */}
       {pastMeetings.length > 0 && (
-        <section className="px-4 pt-8 pb-5 lg:px-6 flex items-center justify-center">
+        <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
           <div className="w-full max-w-section flex flex-col gap-8">
             <TitleTheme size="responsive" animated={true} className="mr-auto">
               Sub-fund Meeting Materials
