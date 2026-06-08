@@ -5,6 +5,7 @@ import { resourceField } from '@/fields/Resource';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { uiMapField } from '@/fields/UIMap';
+import { Event } from '@/payload-types';
 import { CollectionConfig } from 'payload';
 import { nullUnusedFieldsHook } from './hooks/nullUnusedFieldsHook';
 import { populateResourceCountHook } from './hooks/populateResourceCountHook';
@@ -45,17 +46,14 @@ export const Events: CollectionConfig<'events'> = {
   fields: [
     {
       name: 'eventType',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'event-types',
       required: true,
-      options: [
-        { label: 'Sub-fund Meeting', value: EventTypeValues.SubfundMeeting },
-        { label: 'Trustee Meeting', value: EventTypeValues.TrusteeMeeting },
-        { label: 'NJSIG Event', value: EventTypeValues.NjsigEvent },
-        { label: 'Important Date', value: EventTypeValues.ImportantDate },
-        { label: 'Other Event', value: EventTypeValues.OtherEvent },
-      ],
+      index: true,
       admin: {
-        isClearable: false,
+        allowCreate: false,
+        allowEdit: false,
+        sortOptions: 'order',
         description:
           'Select the type of event. Important Date is used for non-event dates like the renewal deadline.',
       },
@@ -140,9 +138,15 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
       admin: {
-        condition: (_, siblingData) =>
-          siblingData.eventType !== EventTypeValues.ImportantDate &&
-          siblingData.eventType !== EventTypeValues.TrusteeMeeting,
+        condition: (_, siblingData) => {
+          const eventType = siblingData.eventType as Event['eventType'];
+
+          return (
+            typeof eventType !== 'string' &&
+            eventType.slug !== 'trustee-meeting' &&
+            eventType.slug !== 'important-date'
+          );
+        },
       },
     },
     {
