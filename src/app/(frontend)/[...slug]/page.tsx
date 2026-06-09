@@ -13,22 +13,30 @@ import PageClient from './page.client';
 
 type Args = {
   params: Promise<{ slug?: string[] }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-const getRequestedPath = async (paramsPromise: Args['params']) => {
+const getRequestedPath = async (
+  paramsPromise: Args['params'],
+  searchParamsPromise?: Args['searchParams'],
+) => {
   const { slug = [] } = await paramsPromise;
+  const searchParams = searchParamsPromise ? await searchParamsPromise : undefined;
+
   const decodedSegments = slug.map((segment) => decodeURIComponent(segment)).filter(Boolean);
 
   if (decodedSegments.length === 0) {
     return {
       leafSlug: 'home',
       requestedPath: '/',
+      searchParams,
     };
   }
 
   return {
     leafSlug: decodedSegments[decodedSegments.length - 1],
     requestedPath: `/${decodedSegments.join('/')}`,
+    searchParams,
   };
 };
 
@@ -86,9 +94,15 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return generateMetaGraph({ doc: page });
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function Page({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { isEnabled: draft } = await draftMode();
-  const { leafSlug, requestedPath } = await getRequestedPath(paramsPromise);
+  const { leafSlug, requestedPath, searchParams } = await getRequestedPath(
+    paramsPromise,
+    searchParamsPromise,
+  );
   const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
     slug: leafSlug,
   });
@@ -113,7 +127,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderBlocks blocks={blocks} />
+      <RenderBlocks blocks={blocks} searchParams={searchParams} />
     </article>
   );
 }

@@ -7,11 +7,15 @@ import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { MetricsBlock } from '@/blocks/Metrics/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
 import { RelatedCardsBlock } from '@/blocks/RelatedCards/Component';
-import { SectionBlock as SectionBlockProps } from '@/payload-types';
+import { SectionBlock as BaseSectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
+
+export type SectionBlockProps = BaseSectionBlockProps & {
+  searchParams?: Record<string, string | string[] | undefined>;
+};
 
 const sectionBlockComponents = {
   cmsButton: CMSButtonBlock,
@@ -32,6 +36,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
   contentWidth,
   backgroundStyle,
   sectionBlocks,
+  searchParams,
 }) => {
   const hasBlocks = sectionBlocks && Array.isArray(sectionBlocks) && sectionBlocks.length > 0;
 
@@ -59,7 +64,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
                   sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
                 /* @ts-expect-error There will be mismatches between expected types here */
-                return <SectionBlock {...block} key={block.id} />;
+                return <SectionBlock key={block.id} searchParams={searchParams} {...block} />;
               }
             } catch (error) {
               console.error(`Error rendering section block:`, block, error);
