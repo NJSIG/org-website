@@ -5,26 +5,12 @@ import { resourceField } from '@/fields/Resource';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { uiMapField } from '@/fields/UIMap';
-import { Event } from '@/payload-types';
 import { CollectionConfig } from 'payload';
 import { nullUnusedFieldsHook } from './hooks/nullUnusedFieldsHook';
 import { populateResourceCountHook } from './hooks/populateResourceCountHook';
 import { revalidateEventDeleteHook } from './hooks/revalidateEventDeleteHook';
 import { revalidateEventHook } from './hooks/revalidateEventHook';
-
-export enum EventTypeValues {
-  TrusteeMeeting = 'trusteeMeeting',
-  SubfundMeeting = 'subfundMeeting',
-  ImportantDate = 'importantDate',
-  NjsigEvent = 'njsigEvent',
-  OtherEvent = 'otherEvent',
-}
-
-export enum AttendanceOptionValues {
-  InPerson = 'inPerson',
-  Virtual = 'virtual',
-  Hybrid = 'hybrid',
-}
+import { AttendanceOptions, EventTypes } from './types';
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -46,14 +32,12 @@ export const Events: CollectionConfig<'events'> = {
   fields: [
     {
       name: 'eventType',
-      type: 'relationship',
-      relationTo: 'event-types',
+      type: 'select',
       required: true,
       index: true,
+      options: Object.values(EventTypes),
       admin: {
-        allowCreate: false,
-        allowEdit: false,
-        sortOptions: 'order',
+        isClearable: false,
         description:
           'Select the type of event. Important Date is used for non-event dates like the renewal deadline.',
       },
@@ -138,15 +122,9 @@ export const Events: CollectionConfig<'events'> = {
         },
       ],
       admin: {
-        condition: (_, siblingData) => {
-          const eventType = siblingData.eventType as Event['eventType'];
-
-          return (
-            typeof eventType !== 'string' &&
-            eventType.slug !== 'trustee-meeting' &&
-            eventType.slug !== 'important-date'
-          );
-        },
+        condition: (_, siblingData) =>
+          siblingData.eventType !== EventTypes.TrusteeMeeting.value &&
+          siblingData.eventType !== EventTypes.ImportantDate.value,
       },
     },
     {
@@ -171,7 +149,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'dayOnly',
               displayFormat: 'MMM d, yyy',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
           },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
@@ -190,7 +168,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
           },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
@@ -215,7 +193,7 @@ export const Events: CollectionConfig<'events'> = {
               pickerAppearance: 'timeOnly',
               displayFormat: 'h:mm a',
             },
-            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
           },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
@@ -243,7 +221,7 @@ export const Events: CollectionConfig<'events'> = {
           required: true,
           admin: {
             description: 'The contact person for the event.',
-            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+            condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
           },
           hooks: {
             beforeChange: [nullUnusedFieldsHook],
@@ -257,7 +235,7 @@ export const Events: CollectionConfig<'events'> = {
       label: 'Location & Attendance',
       admin: {
         hideGutter: true,
-        condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+        condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
       },
       fields: [
         {
@@ -268,12 +246,8 @@ export const Events: CollectionConfig<'events'> = {
               label: 'Attendance Options',
               type: 'select',
               required: true,
-              defaultValue: AttendanceOptionValues.InPerson,
-              options: [
-                { label: 'In-Person', value: AttendanceOptionValues.InPerson },
-                { label: 'Virtual', value: AttendanceOptionValues.Virtual },
-                { label: 'Hybrid', value: AttendanceOptionValues.Hybrid },
-              ],
+              defaultValue: AttendanceOptions.InPerson.value,
+              options: Object.values(AttendanceOptions),
               admin: {
                 width: '50%',
                 isClearable: false,
@@ -283,7 +257,7 @@ export const Events: CollectionConfig<'events'> = {
               type: 'row',
               admin: {
                 condition: (_, siblingData) =>
-                  siblingData.attendanceOptions !== AttendanceOptionValues.InPerson,
+                  siblingData.attendanceOptions !== AttendanceOptions.InPerson.value,
               },
               fields: [
                 {
@@ -335,7 +309,7 @@ export const Events: CollectionConfig<'events'> = {
               admin: {
                 hideGutter: true,
                 condition: (_, siblingData) =>
-                  siblingData.attendanceOptions !== AttendanceOptionValues.Virtual,
+                  siblingData.attendanceOptions !== AttendanceOptions.Virtual.value,
               },
               fields: [
                 {
@@ -370,7 +344,7 @@ export const Events: CollectionConfig<'events'> = {
         description:
           'The meeting agenda file provided here will be displayed on the event page and the legal notices page.',
         hideGutter: true,
-        condition: (_, siblingData) => siblingData.eventType === EventTypeValues.TrusteeMeeting,
+        condition: (_, siblingData) => siblingData.eventType === EventTypes.TrusteeMeeting.value,
       },
       fields: [
         resourceField({
@@ -390,7 +364,7 @@ export const Events: CollectionConfig<'events'> = {
         description:
           'The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.',
         hideGutter: true,
-        condition: (_, siblingData) => siblingData.eventType === EventTypeValues.TrusteeMeeting,
+        condition: (_, siblingData) => siblingData.eventType === EventTypes.TrusteeMeeting.value,
       },
       fields: [
         {
@@ -414,7 +388,8 @@ export const Events: CollectionConfig<'events'> = {
       overrides: {
         group: {
           admin: {
-            condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.TrusteeMeeting,
+            condition: (_, siblingData) =>
+              siblingData.eventType !== EventTypes.TrusteeMeeting.value,
           },
         },
         row: {
@@ -429,7 +404,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Mark this event as important to emphasize its significance.',
         position: 'sidebar',
-        condition: (_, siblingData) => siblingData.eventType !== EventTypeValues.ImportantDate,
+        condition: (_, siblingData) => siblingData.eventType !== EventTypes.ImportantDate.value,
       },
     },
     ...slugField('title', {

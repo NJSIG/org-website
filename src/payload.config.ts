@@ -16,7 +16,6 @@ import { CMSButton } from '@/blocks/CMSButton/config';
 import { EmphasizedList } from '@/blocks/EmphasizedList/config';
 import { OptimizedImage } from '@/blocks/OptimizedImage/config';
 import { Events } from '@/collections/Events';
-import { EventTypes } from '@/collections/EventTypes';
 import { Media } from '@/collections/Media';
 import { Pages } from '@/collections/Pages';
 import { Users } from '@/collections/Users';
@@ -29,7 +28,6 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
-import { AttendanceTypes } from './collections/AttendanceTypes';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -57,9 +55,7 @@ const collections = [
   ContactPortraits,
   // Administration Group
   Users,
-  EventTypes,
   EventCategories,
-  AttendanceTypes,
 ];
 
 // Define the blocks to be used in the Payload CMS configuration

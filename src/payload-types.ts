@@ -95,9 +95,7 @@ export interface Config {
     'hero-images': HeroImage;
     'contact-portraits': ContactPortrait;
     users: User;
-    'event-types': EventType;
     'event-categories': EventCategory;
-    'attendance-types': AttendanceType;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -135,9 +133,7 @@ export interface Config {
     'hero-images': HeroImagesSelect<false> | HeroImagesSelect<true>;
     'contact-portraits': ContactPortraitsSelect<false> | ContactPortraitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    'event-types': EventTypesSelect<false> | EventTypesSelect<true>;
     'event-categories': EventCategoriesSelect<false> | EventCategoriesSelect<true>;
-    'attendance-types': AttendanceTypesSelect<false> | AttendanceTypesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -866,7 +862,7 @@ export interface Event {
   /**
    * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
    */
-  eventType: string | EventType;
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent';
   /**
    * The title of the page, used for routing, SEO, tabs, and the admin UI.
    */
@@ -1070,22 +1066,6 @@ export interface Event {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-types".
- */
-export interface EventType {
-  id: string;
-  name: string;
-  /**
-   * Determines the order of event types in dropdowns and lists. Lower numbers appear first.
-   */
-  order: number;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1543,22 +1523,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "attendance-types".
- */
-export interface AttendanceType {
-  id: string;
-  name: string;
-  /**
-   * Determines the order of attendance types in dropdowns and lists. Lower numbers appear first.
-   */
-  order: number;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1735,16 +1699,8 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'event-types';
-        value: string | EventType;
-      } | null)
-    | ({
         relationTo: 'event-categories';
         value: string | EventCategory;
-      } | null)
-    | ({
-        relationTo: 'attendance-types';
-        value: string | AttendanceType;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2286,34 +2242,10 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-types_select".
- */
-export interface EventTypesSelect<T extends boolean = true> {
-  name?: T;
-  order?: T;
-  slug?: T;
-  slugLock?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "event-categories_select".
  */
 export interface EventCategoriesSelect<T extends boolean = true> {
   name?: T;
-  slug?: T;
-  slugLock?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "attendance-types_select".
- */
-export interface AttendanceTypesSelect<T extends boolean = true> {
-  name?: T;
-  order?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
