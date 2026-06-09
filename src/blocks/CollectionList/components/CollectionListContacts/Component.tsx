@@ -1,18 +1,25 @@
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
-import { ContactListBlock as ContactListBlockProps } from '@/payload-types';
+import { CollectionListBlock } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 
-export const ContactListBlock: React.FC<ContactListBlockProps> = ({
-  board,
-  columns,
-  squareGrid,
-}) => {
-  if (!board || board?.length === 0) {
+export type CollectionListContactsProps = {
+  filters: CollectionListBlock['contactFilters'];
+};
+
+export const CollectionListContacts: React.FC<CollectionListContactsProps> = ({ filters }) => {
+  if (!filters) {
     return null;
   }
 
-  const emptySlots = columns === '3' ? (3 - (board.length % 3)) % 3 : (2 - (board.length % 2)) % 2;
+  const { contacts, columns, squareGrid } = filters;
+
+  if (!contacts || contacts.length === 0) {
+    return null;
+  }
+
+  const emptySlots =
+    columns === '3' ? (3 - (contacts.length % 3)) % 3 : (2 - (contacts.length % 2)) % 2;
 
   return (
     <Bento
@@ -20,7 +27,7 @@ export const ContactListBlock: React.FC<ContactListBlockProps> = ({
         'lg:grid-cols-3': columns === '3',
       })}
     >
-      {board.map((contact) => {
+      {contacts.map((contact) => {
         if (typeof contact === 'string') {
           return null; // Skip if the contact is just an ID string
         }

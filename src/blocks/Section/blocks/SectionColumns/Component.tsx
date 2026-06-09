@@ -1,4 +1,5 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
+import { CollectionListBlock } from '@/blocks/CollectionList/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
 import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
@@ -10,6 +11,7 @@ import { SectionTitleBlock } from '../SectionTitle/Component';
 
 const columnBlockComponents = {
   cmsButton: CMSButtonBlock,
+  collectionList: CollectionListBlock,
   emphasizedList: EmphasizedListBlock,
   imageCallout: ImageCalloutBlock,
   optimizedImage: OptimizedImageBlock,

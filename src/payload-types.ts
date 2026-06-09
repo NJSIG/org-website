@@ -68,7 +68,7 @@ export interface Config {
   blocks: {
     bannerTitle: BannerTitleBlock;
     cmsButton: CMSButtonBlock;
-    contactList: ContactListBlock;
+    collectionList: CollectionListBlock;
     emphasizedList: EmphasizedListBlock;
     eventTiles: EventTilesBlock;
     heroSpinner: HeroSpinnerBlock;
@@ -551,7 +551,7 @@ export interface SectionBlock {
   backgroundStyle: 'default' | 'azureGradient' | 'azureLight';
   sectionBlocks: (
     | CMSButtonBlock
-    | ContactListBlock
+    | CollectionListBlock
     | EmphasizedListBlock
     | EventTilesBlock
     | IconListBlock
@@ -569,21 +569,57 @@ export interface SectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactListBlock".
+ * via the `definition` "CollectionListBlock".
  */
-export interface ContactListBlock {
+export interface CollectionListBlock {
   /**
-   * Drag contacts to rearrange their order in the list.
+   * Select the collection to display in this list.
    */
-  board?: (string | Contact)[] | null;
-  /**
-   * Choose the number of columns for the contact list. The layout will automatically adjust to the screen width.
-   */
-  columns: '2' | '3';
-  squareGrid?: boolean | null;
+  listableCollection: 'contacts' | 'events';
+  contactFilters?: {
+    /**
+     * Drag contacts to rearrange their order in the list.
+     */
+    contacts?: (string | Contact)[] | null;
+    /**
+     * Choose the number of columns for the contact list. The layout will automatically adjust to the screen width.
+     */
+    columns: '2' | '3';
+    squareGrid?: boolean | null;
+  };
+  eventFilters?: {
+    /**
+     * Select one or more event types to display in the list, leave empty to show all event types.
+     */
+    types?: ('trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent')[] | null;
+    /**
+     * Select one or more attendance options to display in the list, leave empty to show all attendance options.
+     */
+    attendanceOptions?: ('inPerson' | 'virtual' | 'hybrid')[] | null;
+    /**
+     * Select one or more event categories to display in the list, leave empty to show all categories.
+     */
+    categories?: (string | EventCategory)[] | null;
+    /**
+     * Select the date range for the events to display in the list.
+     */
+    dateRange?: ('all' | 'upcoming' | 'past' | 'custom') | null;
+    /**
+     * Start date for the custom date range.
+     */
+    rangeStart: string;
+    /**
+     * End date for the custom date range. Leave empty to have no end date.
+     */
+    rangeEnd?: string | null;
+    /**
+     * Choose how to paginate the event list. "Paginate by Program Year" will group events based on the NJSIG program year (July 1 - June 30).
+     */
+    pagination?: ('all' | 'paginateCount' | 'paginateYear' | 'paginateProgramYear') | null;
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'contactList';
+  blockType: 'collectionList';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1318,6 +1354,7 @@ export interface SectionColumnsBlock {
     colBlocks?:
       | (
           | CMSButtonBlock
+          | CollectionListBlock
           | EmphasizedListBlock
           | ImageCalloutBlock
           | OptimizedImageBlock
@@ -1331,6 +1368,7 @@ export interface SectionColumnsBlock {
     colBlocks?:
       | (
           | CMSButtonBlock
+          | CollectionListBlock
           | EmphasizedListBlock
           | ImageCalloutBlock
           | OptimizedImageBlock

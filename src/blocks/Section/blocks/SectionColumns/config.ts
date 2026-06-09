@@ -26,6 +26,7 @@ const columnField: Field[] = [
     blocks: [],
     blockReferences: [
       'cmsButton',
+      'collectionList',
       'emphasizedList',
       'imageCallout',
       'optimizedImage',

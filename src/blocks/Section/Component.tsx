@@ -1,5 +1,5 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
-import { ContactListBlock } from '@/blocks/ContactList/Component';
+import { CollectionListBlock } from '@/blocks/CollectionList/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
 import { EventTilesBlock } from '@/blocks/EventTiles/Component';
 import { IconListBlock } from '@/blocks/IconList/Component';
@@ -15,7 +15,7 @@ import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 
 const sectionBlockComponents = {
   cmsButton: CMSButtonBlock,
-  contactList: ContactListBlock,
+  collectionList: CollectionListBlock,
   emphasizedList: EmphasizedListBlock,
   eventTiles: EventTilesBlock,
   iconList: IconListBlock,

@@ -1,20 +1,20 @@
 // storage-adapter-import-placeholder
 import {
   BannerTitle,
-  ContactList,
+  CMSButton,
+  CollectionList,
+  EmphasizedList,
   EventTiles,
   HeroSpinner,
   HiddenTitle,
   IconList,
   ImageCallout,
   Metrics,
+  OptimizedImage,
   PageTitle,
   RelatedCards,
   Section,
 } from '@/blocks';
-import { CMSButton } from '@/blocks/CMSButton/config';
-import { EmphasizedList } from '@/blocks/EmphasizedList/config';
-import { OptimizedImage } from '@/blocks/OptimizedImage/config';
 import { Events } from '@/collections/Events';
 import { Media } from '@/collections/Media';
 import { Pages } from '@/collections/Pages';
@@ -65,7 +65,7 @@ const collections = [
 const blocks = [
   BannerTitle,
   CMSButton,
-  ContactList,
+  CollectionList,
   EmphasizedList,
   EventTiles,
   HeroSpinner,

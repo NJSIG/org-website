@@ -14,7 +14,7 @@ const widthOptions: SectionWidthOptions = {
 
 const allSectionBlocks: SectionBlockSlugs[] = [
   'cmsButton',
-  'contactList',
+  'collectionList',
   'emphasizedList',
   'eventTiles',
   'iconList',
@@ -30,7 +30,7 @@ const allSectionBlocks: SectionBlockSlugs[] = [
 const sectionBlockFilters: SectionBlockFilters = {
   narrow: [
     'cmsButton',
-    'contactList',
+    'collectionList',
     'emphasizedList',
     'eventTiles',
     'iconList',
