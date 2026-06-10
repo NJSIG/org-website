@@ -149,6 +149,18 @@ export const CollectionList: Block = {
                 description: 'Start date for the custom date range.',
                 width: '50%',
               },
+              hooks: {
+                beforeChange: [
+                  ({ value, siblingData }) => {
+                    // Clear out custom range fields if dateRange is not 'custom'
+                    if (value && siblingData.dateRange !== 'custom') {
+                      return null;
+                    }
+
+                    return value;
+                  },
+                ],
+              },
             },
             {
               name: 'rangeEnd',
@@ -156,6 +168,18 @@ export const CollectionList: Block = {
               admin: {
                 description: 'End date for the custom date range. Leave empty to have no end date.',
                 width: '50%',
+              },
+              hooks: {
+                beforeChange: [
+                  ({ value, siblingData }) => {
+                    // Clear out custom range fields if dateRange is not 'custom'
+                    if (value && siblingData.dateRange !== 'custom') {
+                      return null;
+                    }
+
+                    return value;
+                  },
+                ],
               },
             },
           ],
@@ -165,18 +189,11 @@ export const CollectionList: Block = {
         },
         {
           name: 'pagination',
-          type: 'select',
-          options: [
-            { label: 'Show All', value: 'all' },
-            { label: 'Paginate by Count', value: 'paginateCount' },
-            { label: 'Paginate by Calendar Year', value: 'paginateYear' },
-            { label: 'Paginate by Program Year', value: 'paginateProgramYear' },
-          ],
-          defaultValue: 'paginateYear',
+          type: 'checkbox',
+          label: 'Paginate?',
           admin: {
-            isClearable: false,
             description:
-              'Choose how to paginate the event list. "Paginate by Program Year" will group events based on the NJSIG program year (July 1 - June 30).',
+              'If enabled, this list will be broken into multiple pages, pagination will be based on the start date of the events.',
           },
         },
       ],

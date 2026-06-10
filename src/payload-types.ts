@@ -613,9 +613,9 @@ export interface CollectionListBlock {
      */
     rangeEnd?: string | null;
     /**
-     * Choose how to paginate the event list. "Paginate by Program Year" will group events based on the NJSIG program year (July 1 - June 30).
+     * If enabled, this list will be broken into multiple pages, pagination will be based on the start date of the events.
      */
-    pagination?: ('all' | 'paginateCount' | 'paginateYear' | 'paginateProgramYear') | null;
+    pagination?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
