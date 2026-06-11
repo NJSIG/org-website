@@ -1,4 +1,5 @@
 import { AttendanceOptions, EventTypes } from '@/collections/Events/types';
+import { ContactPersonPortraitOptions } from '@/components/ContactPerson';
 import { Block } from 'payload';
 
 const ListableCollections = {
@@ -53,6 +54,24 @@ export const CollectionList: Block = {
           hasMany: true,
           admin: {
             description: 'Drag contacts to rearrange their order in the list.',
+          },
+        },
+        {
+          name: 'showPortraits',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Show Portraits', value: ContactPersonPortraitOptions.Always },
+            { label: 'Hide Portraits', value: ContactPersonPortraitOptions.Never },
+            {
+              label: 'Show if Portrait Available',
+              value: ContactPersonPortraitOptions.IfAvailable,
+            },
+          ],
+          defaultValue: ContactPersonPortraitOptions.IfAvailable,
+          admin: {
+            isClearable: false,
+            description: 'Choose whether to show portraits in the contact list.',
           },
         },
         {

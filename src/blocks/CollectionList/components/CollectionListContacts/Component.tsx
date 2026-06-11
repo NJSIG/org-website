@@ -1,5 +1,5 @@
 import Bento from '@/components/Bento';
-import { ContactPerson } from '@/components/ContactPerson';
+import { ContactPerson, ContactPersonPortraitOptions } from '@/components/ContactPerson';
 import { CollectionListBlock } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 
@@ -34,7 +34,11 @@ export const CollectionListContacts: React.FC<CollectionListContactsProps> = ({ 
 
         return (
           <Bento.Generic key={contact.id} className="flex items-center">
-            <ContactPerson contact={contact} className="items-start" />
+            <ContactPerson
+              contact={contact}
+              showPortrait={filters.showPortraits as ContactPersonPortraitOptions}
+              className="items-start"
+            />
           </Bento.Generic>
         );
       })}

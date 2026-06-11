@@ -582,6 +582,10 @@ export interface CollectionListBlock {
      */
     contacts?: (string | Contact)[] | null;
     /**
+     * Choose whether to show portraits in the contact list.
+     */
+    showPortraits: 'always' | 'never' | 'ifAvailable';
+    /**
      * Choose the number of columns for the contact list. The layout will automatically adjust to the screen width.
      */
     columns: '2' | '3';
