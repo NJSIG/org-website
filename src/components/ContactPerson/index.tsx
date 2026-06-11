@@ -5,9 +5,16 @@ import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 
+export enum ContactPersonPortraitOptions {
+  IfAvailable = 'ifAvailable',
+  Always = 'always',
+  Never = 'never',
+}
+
 type ContactPersonProps = {
   contact: Contact;
   size?: 'sm' | 'md';
+  showPortrait?: ContactPersonPortraitOptions;
   priority?: boolean;
   className?: string;
 };
@@ -30,6 +37,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
   contact,
   size = 'md',
   priority = false,
+  showPortrait = ContactPersonPortraitOptions.Always,
   className,
 }) => {
   if (!contact) {
@@ -64,7 +72,9 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
         className,
       )}
     >
-      {portrait && typeof portrait === 'object' ? (
+      {showPortrait !== ContactPersonPortraitOptions.Never &&
+      portrait &&
+      typeof portrait === 'object' ? (
         <Image
           alt={`${name} Portrait`}
           width={size === 'sm' ? 40 : 56}
@@ -82,7 +92,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           className={portraitVariants({ size, type })}
           loader={coolifyImageLoader}
         />
-      ) : (
+      ) : showPortrait === ContactPersonPortraitOptions.Always ? (
         <Image
           alt={`${name} Placeholder`}
           width={size === 'sm' ? 40 : 56}
@@ -95,7 +105,7 @@ export const ContactPerson: React.FC<ContactPersonProps> = ({
           unoptimized
           loader={coolifyImageLoader}
         />
-      )}
+      ) : null}
       <div className={cn('flex flex-col', { 'gap-0': size === 'sm', 'gap-1': size === 'md' })}>
         <span className={cn('font-bold', { 'text-sm': size === 'sm', 'text-base': size === 'md' })}>
           {name}
