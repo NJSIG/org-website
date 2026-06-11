@@ -134,6 +134,7 @@ export const Events: CollectionConfig<'events'> = {
           name: 'startDate',
           type: 'date',
           required: true,
+          index: true,
           admin: {
             date: {
               pickerAppearance: 'dayOnly',
