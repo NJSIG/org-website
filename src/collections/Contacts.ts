@@ -100,6 +100,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'email',
               required: true,
               unique: true,
+              access: {
+                create: editor,
+                read: editor,
+                update: editor,
+              },
             },
             {
               type: 'row',
@@ -108,6 +113,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'phone',
                     type: 'text',
+                    access: {
+                      create: editor,
+                      read: editor,
+                      update: editor,
+                    },
                     admin: {
                       placeholder: '% 20',
                     },
@@ -123,6 +133,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'extension',
                     type: 'text',
+                    access: {
+                      create: editor,
+                      read: editor,
+                      update: editor,
+                    },
                   },
                   pattern: {
                     format: '####',

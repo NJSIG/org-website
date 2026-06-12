@@ -1,7 +1,7 @@
 import { User } from '@/payload-types';
-import { AccessArgs } from 'payload';
+import { AccessArgs, FieldAccessArgs } from 'payload';
 
-type isEditor = (args: AccessArgs<User>) => boolean;
+type isEditor = (args: AccessArgs<User> | FieldAccessArgs<User>) => boolean;
 
 // Allow access to editor (or more privileged) users only
 // This is useful for collections or global settings that should only be accessible to editor users
