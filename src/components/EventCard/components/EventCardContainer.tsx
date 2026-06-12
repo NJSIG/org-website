@@ -1,5 +1,6 @@
 import { cn } from '@/utilities/cn';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import { EventCardData } from '../types';
 
 type EventCardContainerProps = {
@@ -36,7 +37,9 @@ function EventCardContainer({
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </Comp>
   );
 }
 

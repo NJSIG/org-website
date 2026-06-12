@@ -2,7 +2,7 @@
 
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
-import { EventCardType } from '@/components/EventCard';
+import { EventCardType } from '@/components/EventCard/components/EventCardType';
 import {
   EventTile,
   EventTileDetail,

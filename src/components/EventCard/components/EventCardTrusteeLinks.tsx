@@ -24,7 +24,7 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
       <Button
         asChild
         variant="button"
-        style="ghost"
+        style="outline"
         color="primary"
         size="medium"
         animation="upRight"
@@ -39,7 +39,7 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
         <Button
           asChild
           variant="button"
-          style="ghost"
+          style="outline"
           color="primary"
           size="medium"
           animation="bounceDown"
@@ -54,7 +54,7 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
         <Button
           disabled
           variant="button"
-          style="ghost"
+          style="outline"
           color="primary"
           size="medium"
           animation="bounceDown"
@@ -68,7 +68,7 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
         <Button
           asChild
           variant="button"
-          style="ghost"
+          style="outline"
           color="primary"
           size="medium"
           animation="bounceDown"
@@ -83,7 +83,7 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
         <Button
           disabled
           variant="button"
-          style="ghost"
+          style="outline"
           color="primary"
           size="medium"
           animation="bounceDown"

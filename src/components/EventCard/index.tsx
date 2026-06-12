@@ -8,21 +8,16 @@ import { EventCardLabel } from './components/EventCardLabel';
 import { EventCardTags } from './components/EventCardTags';
 import { EventCardTitle } from './components/EventCardTitle';
 import { EventCardTrusteeLinks } from './components/EventCardTrusteeLinks';
-import { EventCardData } from './types';
-
-export enum EventCardTemplate {
-  Default = 'default',
-  TrusteeMeeting = 'trusteeMeeting',
-}
+import { EventCardData, EventCardTemplates } from './types';
 
 const EventCard: React.FC<{
   event: EventCardData;
-  template?: EventCardTemplate;
-}> = ({ event, template = EventCardTemplate.Default }) => {
+  template?: EventCardTemplates;
+}> = ({ event, template = EventCardTemplates.Default }) => {
   switch (template) {
-    case EventCardTemplate.TrusteeMeeting:
+    case EventCardTemplates.TrusteeMeeting:
       return <TrusteeMeetingTemplate event={event} />;
-    case EventCardTemplate.Default:
+    case EventCardTemplates.Default:
     default:
       return <DefaultTemplate event={event} />;
   }
@@ -55,9 +50,9 @@ const TrusteeMeetingTemplate: React.FC<{ event: EventCardData }> = ({ event }) =
 
   return (
     <EventCardContainer eventType={eventType} important={important}>
+      <EventCardTags eventType={eventType} important={important} categories={categories} />
       <EventCardTitle title={title} />
       <EventCardTrusteeLinks event={event} />
-      <EventCardTags eventType={eventType} important={important} categories={categories} />
     </EventCardContainer>
   );
 };

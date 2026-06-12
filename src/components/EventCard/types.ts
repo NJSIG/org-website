@@ -1,5 +1,10 @@
 import { RequiredDataFromCollectionSlug } from 'payload';
 
+export enum EventCardTemplates {
+  Default = 'default',
+  TrusteeMeeting = 'trusteeMeeting',
+}
+
 export type EventCardData = Pick<
   RequiredDataFromCollectionSlug<'events'>,
   | 'id'
