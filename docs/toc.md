@@ -1,4 +1,4 @@
 # Development Documentation
 
 ## Table of Contents
-- [Adding New Blocks](./adding-new-blocks.md)
+- [Adding Blocks](./adding-blocks.md)
