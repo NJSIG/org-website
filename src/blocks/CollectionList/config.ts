@@ -179,7 +179,12 @@ export const CollectionList: Block = {
             {
               name: 'rangeStart',
               type: 'date',
-              required: true,
+              validate: (value, { siblingData }) => {
+                if ((siblingData as { dateRange: string }).dateRange === 'custom' && !value) {
+                  return 'Start date is required when using a custom date range.';
+                }
+                return true;
+              },
               admin: {
                 description: 'Start date for the custom date range.',
                 width: '50%',

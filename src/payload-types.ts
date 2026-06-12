@@ -615,7 +615,7 @@ export interface CollectionListBlock {
     /**
      * Start date for the custom date range.
      */
-    rangeStart: string;
+    rangeStart?: string | null;
     /**
      * End date for the custom date range. Leave empty to have no end date.
      */
