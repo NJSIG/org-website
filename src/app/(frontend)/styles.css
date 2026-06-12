@@ -4,17 +4,17 @@
 @plugin "@tailwindcss/typography";
 
 /* Tokens */
-@import './styles/tokens.palettes.css';
-@import './styles/tokens.tailwind.css';
-@import './styles/tokens.shadcn.css';
-@import './styles/tokens.semantic.css';
+@import './_styles/tokens.palettes.css';
+@import './_styles/tokens.tailwind.css';
+@import './_styles/tokens.shadcn.css';
+@import './_styles/tokens.semantic.css';
 
 /* Utilities */
-@import './styles/utilities.core.css';
-@import './styles/utilities.animations.css';
-@import './styles/utilities.prose.css';
+@import './_styles/utilities.core.css';
+@import './_styles/utilities.animations.css';
+@import './_styles/utilities.prose.css';
 
 /* Theme */
-@import './styles/themes.base.css';
-@import './styles/themes.event.css';
-@import './styles/themes.subfund.css';
+@import './_styles/themes.base.css';
+@import './_styles/themes.event.css';
+@import './_styles/themes.subfund.css';

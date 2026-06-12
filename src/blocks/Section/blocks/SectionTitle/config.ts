@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const SectionTitle: Block = {
   slug: 'sectionTitle',
   interfaceName: 'SectionTitleBlock',
-  imageURL: '/blocks/section/section-title.png',
-  imageAltText: 'Section Title Block',
+  admin: {
+    group: 'Titles & Headings',
+    images: {
+      thumbnail: {
+        url: '/blocks/section-title/thumb.png',
+        alt: 'Section Title',
+      },
+      icon: {
+        url: '/blocks/section-title/icon.svg',
+        alt: 'Section Title',
+      },
+    },
+  },
   fields: [
     {
       name: 'theme',

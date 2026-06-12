@@ -1,11 +1,11 @@
 import { FieldHook } from 'payload';
-import { AttendanceOptionValues, EventTypeValues } from '..';
+import { AttendanceOptions, EventTypes } from '../types';
 
 export const nullUnusedFieldsHook: FieldHook = ({ siblingData, field, value }) => {
   if (field.name !== undefined) {
     // Clear fields based on event type
     switch (siblingData.eventType) {
-      case EventTypeValues.ImportantDate:
+      case EventTypes.ImportantDate.value:
         if (
           [
             'presenters',
@@ -27,7 +27,7 @@ export const nullUnusedFieldsHook: FieldHook = ({ siblingData, field, value }) =
           return false;
         }
         break;
-      case EventTypeValues.TrusteeMeeting:
+      case EventTypes.TrusteeMeeting.value:
         if (['presenters', 'credits'].includes(field.name)) {
           return null;
         }
@@ -35,14 +35,14 @@ export const nullUnusedFieldsHook: FieldHook = ({ siblingData, field, value }) =
     }
 
     // Clear fields based on attendance type
-    if (siblingData.eventType !== EventTypeValues.ImportantDate) {
+    if (siblingData.eventType !== EventTypes.ImportantDate.value) {
       switch (siblingData.attendanceOptions) {
-        case AttendanceOptionValues.InPerson:
+        case AttendanceOptions.InPerson.value:
           if (['virtualProvider', 'virtualLink', 'virtualPasscode'].includes(field.name)) {
             return null;
           }
           break;
-        case AttendanceOptionValues.Virtual:
+        case AttendanceOptions.Virtual.value:
           if (['location'].includes(field.name)) {
             return null;
           }

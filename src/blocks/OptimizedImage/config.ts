@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const OptimizedImage: Block = {
   slug: 'optimizedImage',
   interfaceName: 'OptimizedImageBlock',
-  imageURL: '/blocks/optimized-image.png',
-  imageAltText: 'Optimized Image Block',
+  admin: {
+    group: 'Media',
+    images: {
+      thumbnail: {
+        url: '/blocks/optimized-image/thumb.png',
+        alt: 'Optimized Image',
+      },
+      icon: {
+        url: '/blocks/optimized-image/icon.svg',
+        alt: 'Optimized Image',
+      },
+    },
+  },
   fields: [
     {
       name: 'image',

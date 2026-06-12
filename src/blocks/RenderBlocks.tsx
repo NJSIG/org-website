@@ -8,6 +8,7 @@ import { SectionBlock } from './Section/Component';
 
 type RenderBlocksProps = {
   blocks: Page['layout']['blocks'];
+  searchParams?: Record<string, string | string[] | undefined>;
 };
 
 const blockComponents = {
@@ -18,7 +19,7 @@ const blockComponents = {
   section: SectionBlock,
 };
 
-export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
+export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks, searchParams }) => {
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0;
 
   if (hasBlocks) {
@@ -32,7 +33,7 @@ export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
               const Block = blockComponents[blockType as keyof typeof blockComponents];
 
               /* @ts-expect-error There will be mismatches between expected types here */
-              return <Block {...block} key={block.id} />;
+              return <Block key={block.id} searchParams={searchParams} {...block} />;
             }
           } catch (error) {
             console.error(`Error rendering block:`, block, error);

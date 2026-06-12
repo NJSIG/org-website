@@ -1,15 +1,21 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
+import { CollectionListBlock } from '@/blocks/CollectionList/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
 import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
-import { SectionColumnsBlock as SectionColumnsBlockProps } from '@/payload-types';
+import { SectionColumnsBlock as BaseSectionColumnsBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { cva } from 'class-variance-authority';
 import { SectionContentBlock } from '../SectionContent/Component';
 import { SectionTitleBlock } from '../SectionTitle/Component';
 
+export type SectionColumnsBlockProps = BaseSectionColumnsBlockProps & {
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
 const columnBlockComponents = {
   cmsButton: CMSButtonBlock,
+  collectionList: CollectionListBlock,
   emphasizedList: EmphasizedListBlock,
   imageCallout: ImageCalloutBlock,
   optimizedImage: OptimizedImageBlock,
@@ -35,6 +41,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   vertAlign,
   colOne,
   colTwo,
+  searchParams,
 }) => {
   const colOneHasBlocks =
     colOne?.colBlocks && Array.isArray(colOne.colBlocks) && colOne.colBlocks.length > 0;
@@ -64,7 +71,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
                   columnBlockComponents[blockType as keyof typeof columnBlockComponents];
 
                 /* @ts-expect-error There will be mismatches between expected types here */
-                return <Block {...block} key={block.id} />;
+                return <Block key={block.id} searchParams={searchParams} {...block} />;
               }
 
               return null;
@@ -81,7 +88,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
                   columnBlockComponents[blockType as keyof typeof columnBlockComponents];
 
                 /* @ts-expect-error There will be mismatches between expected types here */
-                return <Block {...block} key={block.id} />;
+                return <Block key={block.id} searchParams={searchParams} {...block} />;
               }
 
               return null;

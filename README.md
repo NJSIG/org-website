@@ -55,7 +55,9 @@ This repository contains the source code for the NJSIG (New Jersey Schools Insur
 
 ## Contributing
 
-TODO
+NJSIG does not currently accept external contributions to this repository. If you have suggestions or feedback, please contact us through our official channels. Development and maintenance of the website are handled internally by the NJSIG team.
+
+Development documentation is available in the [docs](docs/toc.md) directory for internal use.
 
 ## License
 

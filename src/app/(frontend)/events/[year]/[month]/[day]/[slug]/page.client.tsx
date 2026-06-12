@@ -2,7 +2,7 @@
 
 import Bento from '@/components/Bento';
 import { ContactPerson } from '@/components/ContactPerson';
-import { EventCardType } from '@/components/EventCard';
+import { EventCardType } from '@/components/EventCard/components/EventCardType';
 import {
   EventTile,
   EventTileDetail,
@@ -13,6 +13,7 @@ import { EventTileData } from '@/components/EventTile/types';
 import { GoogleMap } from '@/components/GoogleMap';
 import { Hyperlink } from '@/components/Hyperlink';
 import { PageHeader, PageTitle } from '@/components/PageHeader';
+import ResourceItem from '@/components/ResourceItem';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
@@ -47,7 +48,13 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
     <>
       <EventHeader {...event} />
       <EventDetails {...event} />
-      {event.resources && Array.isArray(event.resources) && event.resources.length > 0 && (
+      {event.eventType === 'trusteeMeeting' && hasMeetingAgenda(event.trusteeMeetingAgenda) && (
+        <EventAgenda {...event} />
+      )}
+      {event.eventType === 'trusteeMeeting' && hasMeetingMinutes(event.trusteeMeetingMinutes) && (
+        <EventMinutes {...event} />
+      )}
+      {event.eventType !== 'trusteeMeeting' && hasResources(event.resources) && (
         <EventResources {...event} />
       )}
       <EventRelated animateSectionTitle={!event.description && !event.resources} events={related} />
@@ -189,7 +196,7 @@ const EventDetails: React.FC<Event> = ({
   const location = typeof locationFromProps === 'object' ? locationFromProps : null;
 
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={false}>
           Event Details
@@ -247,7 +254,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:credits] min-h-12"
                       data-placeholder-for="presenter"
-                      withPattern
                     />
                   )}
 
@@ -276,7 +282,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:credits] min-h-12"
                       data-placeholder-for="credits"
-                      withPattern
                     />
                   )}
                 </>
@@ -287,7 +292,6 @@ const EventDetails: React.FC<Event> = ({
                     <Bento.Placeholder
                       className="[grid-area:placeholder] min-h-12"
                       data-placeholder-for="details"
-                      withPattern
                     />
                   )}
                 </>
@@ -295,7 +299,7 @@ const EventDetails: React.FC<Event> = ({
             </Bento>
           )}
           <Bento
-            className={cn('mt-4', {
+            className={cn('not-first:mt-4', {
               // Important Dates show the date and time
               "[grid-template-areas:'date'_'time'] lg:[grid-template-areas:'date_time']":
                 eventType === 'importantDate',
@@ -415,12 +419,81 @@ const EventDetails: React.FC<Event> = ({
 
 const EventResources: React.FC<Event> = ({ description, resources }) => {
   return (
-    <div className="px-4 pt-8 pb-5">
+    <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
-        <ResourceList resources={resources} />
+        <ResourceList finishOddGrid resources={resources} />
+      </div>
+    </div>
+  );
+};
+
+const EventAgenda: React.FC<Event> = ({ description, trusteeMeetingAgenda }) => {
+  if (trusteeMeetingAgenda === undefined) {
+    return null;
+  }
+
+  return (
+    <div className="px-4 py-12">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
+        <TitleTheme size="responsive" animated={!description}>
+          Meeting Agenda
+        </TitleTheme>
+        {trusteeMeetingAgenda && (
+          <Bento
+            className={cn(
+              "w-full [grid-template-areas:'agenda'] lg:[grid-template-areas:'agenda_placeholder']",
+            )}
+          >
+            <Bento.Generic className="[grid-area:agenda]">
+              <ResourceItem item={trusteeMeetingAgenda} />
+            </Bento.Generic>
+            <Bento.Placeholder className="[grid-area:placeholder]" />
+          </Bento>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) => {
+  if (trusteeMeetingMinutes === undefined) {
+    return null;
+  }
+
+  return (
+    <div className="px-4 py-12">
+      <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
+        <TitleTheme size="responsive" animated={!description}>
+          Meeting Minutes
+        </TitleTheme>
+        <Bento
+          className={cn('w-full', {
+            // Summary Only
+            "[grid-template-areas:'summary'] lg:[grid-template-areas:'summary_placeholder']":
+              trusteeMeetingMinutes.minutesSummary && !trusteeMeetingMinutes.resource,
+            // Resource Only
+            "[grid-template-areas:'resource'] lg:[grid-template-areas:'resource_placeholder']":
+              !trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
+            // Summary & Resource
+            "[grid-template-areas:'summary'_'resource'] lg:[grid-template-areas:'summary_resource'_'summary_placeholder']":
+              trusteeMeetingMinutes.minutesSummary && trusteeMeetingMinutes.resource,
+          })}
+        >
+          {trusteeMeetingMinutes.minutesSummary && (
+            <Bento.Item icon="notepad-text" label="Summary" className="[grid-area:summary]">
+              <RichText data={trusteeMeetingMinutes.minutesSummary} />
+            </Bento.Item>
+          )}
+          {trusteeMeetingMinutes.resource?.document && (
+            <Bento.Generic className="[grid-area:resource]">
+              <ResourceItem item={trusteeMeetingMinutes} />
+            </Bento.Generic>
+          )}
+          <Bento.Placeholder className="[grid-area:placeholder]" />
+        </Bento>
       </div>
     </div>
   );
@@ -436,7 +509,7 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
         <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-y-4 gap-x-6 lg:grid-cols-12">
           {events && events.length > 0 ? (
             events.map((event) => (
               <EventTile
@@ -474,6 +547,30 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
 
 function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLinkText {
   return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);
+}
+
+function hasMeetingAgenda(agenda: Event['trusteeMeetingAgenda'] | undefined): boolean {
+  if (agenda?.resource?.document) {
+    return true;
+  }
+
+  return false;
+}
+
+function hasMeetingMinutes(minutes: Event['trusteeMeetingMinutes'] | undefined): boolean {
+  if (minutes?.resource?.document || minutes?.minutesSummary) {
+    return true;
+  }
+
+  return false;
+}
+
+function hasResources(resources: Event['resources'] | undefined): boolean {
+  if (resources && Array.isArray(resources) && resources.length > 0) {
+    return true;
+  }
+
+  return false;
 }
 
 export default EventPageClient;

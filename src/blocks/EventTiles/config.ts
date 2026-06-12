@@ -7,8 +7,19 @@ export const EventTiles: Block = {
     singular: 'Event Tiles',
     plural: 'Event Tiles',
   },
-  imageURL: '/blocks/event-tiles.png',
-  imageAltText: 'Event Tiles Block',
+  admin: {
+    group: 'Lists',
+    images: {
+      thumbnail: {
+        url: '/blocks/event-tiles/thumb.png',
+        alt: 'Event Tiles',
+      },
+      icon: {
+        url: '/blocks/event-tiles/icon.svg',
+        alt: 'Event Tiles',
+      },
+    },
+  },
   fields: [
     {
       type: 'row',

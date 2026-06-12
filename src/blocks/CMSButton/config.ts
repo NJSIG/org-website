@@ -9,8 +9,19 @@ export const CMSButton: Block = {
     singular: 'CMS Button',
     plural: 'CMS Buttons',
   },
-  imageURL: '/blocks/cms-button.png',
-  imageAltText: 'CMS Button Block',
+  admin: {
+    group: 'Buttons & Content',
+    images: {
+      thumbnail: {
+        url: '/blocks/cms-button/thumb.png',
+        alt: 'CMS Button',
+      },
+      icon: {
+        url: '/blocks/cms-button/icon.svg',
+        alt: 'CMS Button',
+      },
+    },
+  },
   fields: [
     linkField({
       appearances: ['button'],

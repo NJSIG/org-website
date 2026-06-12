@@ -10,6 +10,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields';
 import { CollectionConfig } from 'payload';
+import { ContactTypeValues } from '../Contacts';
 import { revalidateSubfundDeleteHook, revalidateSubfundHook } from './hooks';
 import { SubfundThemeOptions } from './types';
 
@@ -99,11 +100,10 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   type: 'relationship',
                   relationTo: 'contacts',
                   filterOptions: () => ({
-                    type: { equals: 'broker' },
+                    type: { equals: ContactTypeValues.Broker },
                   }),
                   required: true,
                   hasMany: true,
-                  minRows: 1,
                 },
                 {
                   name: 'reps',
@@ -111,11 +111,10 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   type: 'relationship',
                   relationTo: 'contacts',
                   filterOptions: () => ({
-                    type: { equals: 'njsig' },
+                    type: { equals: ContactTypeValues.NJSIG },
                   }),
                   required: true,
                   hasMany: true,
-                  minRows: 1,
                 },
               ],
             },
@@ -125,7 +124,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               relationTo: 'event-categories',
               required: true,
               hasMany: true,
-              minRows: 1,
               admin: {
                 description:
                   'Select event categories to filter events related to this sub-fund. If no categories are selected, all events will be shown.',
@@ -137,7 +135,6 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               relationTo: 'event-categories',
               required: true,
               hasMany: true,
-              minRows: 1,
               admin: {
                 description:
                   'Select event categories to filter past meetings related to this sub-fund. If no categories are selected, the past meetings section will be hidden.',

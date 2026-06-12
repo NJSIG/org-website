@@ -1,19 +1,25 @@
-import { editor, editorOrPublished } from '@/access';
+import { anyone, editor } from '@/access';
 import { patternField } from '@/fields/Pattern';
 import { CollectionConfig } from 'payload';
+
+export enum ContactTypeValues {
+  NJSIG = 'njsig',
+  Broker = 'broker',
+  Trustee = 'trustee',
+}
 
 export const Contacts: CollectionConfig<'contacts'> = {
   slug: 'contacts',
   access: {
     create: editor,
     delete: editor,
-    read: editorOrPublished,
+    read: anyone,
     update: editor,
   },
   trash: true,
   folders: true,
   admin: {
-    defaultColumns: ['portrait', 'type', 'name', 'title'],
+    defaultColumns: ['portrait', 'type', 'name', 'title', 'organization'],
     useAsTitle: 'name',
   },
   // This config controls what's populated by default when a page is referenced
@@ -24,6 +30,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
     type: true,
     name: true,
     title: true,
+    organization: true,
   },
   fields: [
     {
@@ -46,13 +53,14 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'select',
               required: true,
               options: [
-                { label: 'NJSIG', value: 'njsig' },
-                { label: 'Broker', value: 'broker' },
+                { label: 'NJSIG', value: ContactTypeValues.NJSIG },
+                { label: 'Broker', value: ContactTypeValues.Broker },
+                { label: 'Trustee', value: ContactTypeValues.Trustee },
               ],
               admin: {
                 isClearable: false,
                 description:
-                  'The user type helps differentiate between NJSIG staff and external brokers.',
+                  'The user type helps differentiate between NJSIG staff, brokers, and trustees.',
               },
             },
           ],
@@ -76,8 +84,15 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'text',
               localized: true,
               admin: {
-                description:
-                  "The contact person's job title. If not provided, the contact type will be used.",
+                description: "The contact person's job title.",
+              },
+            },
+            {
+              name: 'organization',
+              type: 'text',
+              admin: {
+                description: 'The organization the contact person is affiliated with.',
+                condition: (_, siblingData) => siblingData?.type !== ContactTypeValues.NJSIG, // Only show organization field for non-NJSIG contacts
               },
             },
             {
@@ -85,6 +100,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
               type: 'email',
               required: true,
               unique: true,
+              access: {
+                create: editor,
+                read: editor,
+                update: editor,
+              },
             },
             {
               type: 'row',
@@ -93,6 +113,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'phone',
                     type: 'text',
+                    access: {
+                      create: editor,
+                      read: editor,
+                      update: editor,
+                    },
                     admin: {
                       placeholder: '% 20',
                     },
@@ -108,6 +133,11 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   overrides: {
                     name: 'extension',
                     type: 'text',
+                    access: {
+                      create: editor,
+                      read: editor,
+                      update: editor,
+                    },
                   },
                   pattern: {
                     format: '####',

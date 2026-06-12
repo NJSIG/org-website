@@ -4,8 +4,19 @@ import { Block } from 'payload';
 export const BannerTitle: Block = {
   slug: 'bannerTitle',
   interfaceName: 'BannerTitleBlock',
-  imageURL: '/blocks/banner-title.png',
-  imageAltText: 'Banner Title Block',
+  admin: {
+    group: 'Titles & Headings',
+    images: {
+      thumbnail: {
+        url: '/blocks/banner-title/thumb.png',
+        alt: 'Banner Title',
+      },
+      icon: {
+        url: '/blocks/banner-title/icon.svg',
+        alt: 'Banner Title',
+      },
+    },
+  },
   fields: [
     uiTipField([
       'Banner Title is a special display heading. A Hidden Title should be used for accessibility.',

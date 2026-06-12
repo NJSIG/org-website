@@ -1,5 +1,6 @@
 import { BannerTitle } from './BannerTitle/config';
 import { CMSButton } from './CMSButton/config';
+import { CollectionList } from './CollectionList/config';
 import { EmphasizedList } from './EmphasizedList/config';
 import { EventTiles } from './EventTiles/config';
 import { HeroSpinner } from './HeroSpinner/config';
@@ -16,6 +17,7 @@ import { SectionColumns, SectionTitle } from './Section/blocks';
 export {
   BannerTitle,
   CMSButton,
+  CollectionList,
   EmphasizedList,
   EventTiles,
   HeroSpinner,

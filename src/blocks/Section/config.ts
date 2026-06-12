@@ -4,7 +4,7 @@ import {
   SectionBlockSlugs,
   SectionWidthOptions,
   SectionWidths,
-} from './blocks/types';
+} from './types';
 
 const widthOptions: SectionWidthOptions = {
   narrow: { label: 'Narrow', value: 'narrow' },
@@ -14,6 +14,7 @@ const widthOptions: SectionWidthOptions = {
 
 const allSectionBlocks: SectionBlockSlugs[] = [
   'cmsButton',
+  'collectionList',
   'emphasizedList',
   'eventTiles',
   'iconList',
@@ -29,6 +30,7 @@ const allSectionBlocks: SectionBlockSlugs[] = [
 const sectionBlockFilters: SectionBlockFilters = {
   narrow: [
     'cmsButton',
+    'collectionList',
     'emphasizedList',
     'eventTiles',
     'iconList',
@@ -45,8 +47,19 @@ const sectionBlockFilters: SectionBlockFilters = {
 export const Section: Block = {
   slug: 'section',
   interfaceName: 'SectionBlock',
-  imageURL: '/blocks/section.png',
-  imageAltText: 'Section Block',
+  admin: {
+    group: 'Layout',
+    images: {
+      thumbnail: {
+        url: '/blocks/section/thumb.png',
+        alt: 'Section',
+      },
+      icon: {
+        url: '/blocks/section/icon.svg',
+        alt: 'Section',
+      },
+    },
+  },
   fields: [
     {
       type: 'row',

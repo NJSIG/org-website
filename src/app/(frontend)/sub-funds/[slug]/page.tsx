@@ -58,11 +58,6 @@ const queryEventsByCategory = cache(
             greater_than_equal: today,
           },
         },
-        {
-          _status: {
-            equals: 'published',
-          },
-        },
         categoryFilter,
       ],
     };
@@ -121,8 +116,8 @@ const queryPastMeetingsByCategory = cache(
           },
         },
         {
-          _status: {
-            equals: 'published',
+          resourceCount: {
+            greater_than: 0,
           },
         },
         categoryFilter,
@@ -132,7 +127,7 @@ const queryPastMeetingsByCategory = cache(
     const result = await payload.find({
       collection: 'events',
       draft,
-      limit: 3,
+      limit: 5,
       pagination: false,
       where,
       depth: 1,

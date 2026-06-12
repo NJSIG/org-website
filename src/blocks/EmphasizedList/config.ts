@@ -3,8 +3,19 @@ import { Block } from 'payload';
 export const EmphasizedList: Block = {
   slug: 'emphasizedList',
   interfaceName: 'EmphasizedListBlock',
-  imageURL: '/blocks/emphasized-list.png',
-  imageAltText: 'Emphasized List Block',
+  admin: {
+    group: 'Lists',
+    images: {
+      thumbnail: {
+        url: '/blocks/emphasized-list/thumb.png',
+        alt: 'Emphasized List',
+      },
+      icon: {
+        url: '/blocks/emphasized-list/icon.svg',
+        alt: 'Emphasized List',
+      },
+    },
+  },
   fields: [
     {
       name: 'bullColor',

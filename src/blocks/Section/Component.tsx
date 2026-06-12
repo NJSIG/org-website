@@ -1,19 +1,25 @@
 import { CMSButtonBlock } from '@/blocks/CMSButton/Component';
+import { CollectionListBlock } from '@/blocks/CollectionList/Component';
 import { EmphasizedListBlock } from '@/blocks/EmphasizedList/Component';
 import { EventTilesBlock } from '@/blocks/EventTiles/Component';
 import { IconListBlock } from '@/blocks/IconList/Component';
 import { ImageCalloutBlock } from '@/blocks/ImageCallout/Component';
 import { MetricsBlock } from '@/blocks/Metrics/Component';
 import { OptimizedImageBlock } from '@/blocks/OptimizedImage/Component';
-import { SectionBlock as SectionBlockProps } from '@/payload-types';
+import { RelatedCardsBlock } from '@/blocks/RelatedCards/Component';
+import { SectionBlock as BaseSectionBlockProps } from '@/payload-types';
 import { cn } from '@/utilities/cn';
-import { RelatedCardsBlock } from '../RelatedCards/Component';
 import { SectionColumnsBlock } from './blocks/SectionColumns/Component';
 import { SectionContentBlock } from './blocks/SectionContent/Component';
 import { SectionTitleBlock } from './blocks/SectionTitle/Component';
 
+export type SectionBlockProps = BaseSectionBlockProps & {
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
 const sectionBlockComponents = {
   cmsButton: CMSButtonBlock,
+  collectionList: CollectionListBlock,
   emphasizedList: EmphasizedListBlock,
   eventTiles: EventTilesBlock,
   iconList: IconListBlock,
@@ -30,19 +36,17 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
   contentWidth,
   backgroundStyle,
   sectionBlocks,
+  searchParams,
 }) => {
   const hasBlocks = sectionBlocks && Array.isArray(sectionBlocks) && sectionBlocks.length > 0;
 
   if (hasBlocks) {
     return (
       <section
-        className={cn(
-          'flex flex-col px-4 pt-8 pb-12 lg:px-6 lg:pt-9 lg:pb-16 2xl:pt-16 2xl:pb-20',
-          {
-            'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
-            'bg-azure-100': backgroundStyle === 'azureLight',
-          },
-        )}
+        className={cn('flex flex-col px-4 py-12 lg:px-6', {
+          'bg-azure-to-r dark': backgroundStyle === 'azureGradient',
+          'bg-azure-100': backgroundStyle === 'azureLight',
+        })}
       >
         <div
           className={cn('mx-auto w-full group/section', {
@@ -60,7 +64,7 @@ export const SectionBlock: React.FC<SectionBlockProps> = ({
                   sectionBlockComponents[blockType as keyof typeof sectionBlockComponents];
 
                 /* @ts-expect-error There will be mismatches between expected types here */
-                return <SectionBlock {...block} key={block.id} />;
+                return <SectionBlock key={block.id} searchParams={searchParams} {...block} />;
               }
             } catch (error) {
               console.error(`Error rendering section block:`, block, error);

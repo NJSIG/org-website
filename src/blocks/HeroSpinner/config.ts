@@ -6,8 +6,19 @@ import { Block } from 'payload';
 export const HeroSpinner: Block = {
   slug: 'heroSpinner',
   interfaceName: 'HeroSpinnerBlock',
-  imageURL: '/blocks/hero-spinner.png',
-  imageAltText: 'Hero Spinner Block',
+  admin: {
+    group: 'Titles & Headings',
+    images: {
+      thumbnail: {
+        url: '/blocks/hero-spinner/thumb.png',
+        alt: 'Hero Spinner',
+      },
+      icon: {
+        url: '/blocks/hero-spinner/icon.svg',
+        alt: 'Hero Spinner',
+      },
+    },
+  },
   fields: [
     uiTipField([
       'Hero Spinner is a special display heading. A Hidden Title should be used for accessibility.',

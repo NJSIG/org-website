@@ -4,8 +4,19 @@ import { Block } from 'payload';
 export const PageTitle: Block = {
   slug: 'pageTitle',
   interfaceName: 'PageTitleBlock',
-  imageURL: '/blocks/page-title.png',
-  imageAltText: 'Page Title Block',
+  admin: {
+    group: 'Titles & Headings',
+    images: {
+      thumbnail: {
+        url: '/blocks/page-title/thumb.png',
+        alt: 'Page Title',
+      },
+      icon: {
+        url: '/blocks/page-title/icon.svg',
+        alt: 'Page Title',
+      },
+    },
+  },
   fields: [
     uiTipField([
       'Page Title is a basic heading block. For more complex display headings, consider using the Banner Title block.',

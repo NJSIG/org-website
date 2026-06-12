@@ -40,6 +40,7 @@ jobs:
             collection
             page
             api
+            style
             config
           # Disallow uppercase letters at the beginning of the subject
           subjectPattern: ^(?![A-Z]).+$
