@@ -58,11 +58,6 @@ const queryEventsByCategory = cache(
             greater_than_equal: today,
           },
         },
-        {
-          _status: {
-            equals: 'published',
-          },
-        },
         categoryFilter,
       ],
     };
@@ -113,11 +108,6 @@ const queryPastMeetingsByCategory = cache(
         {
           startDate: {
             less_than: today,
-          },
-        },
-        {
-          _status: {
-            equals: 'published',
           },
         },
         {
