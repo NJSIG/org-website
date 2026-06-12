@@ -43,7 +43,12 @@ export const CollectionListContacts: React.FC<CollectionListContactsProps> = ({ 
         );
       })}
       {squareGrid && emptySlots > 0 && (
-        <Bento.Placeholder className={cn({ 'col-span-2': emptySlots === 2 })} />
+        <Bento.Placeholder
+          className={cn('hidden', {
+            'md:block': emptySlots === 1,
+            'lg:block lg:col-span-2': emptySlots === 2,
+          })}
+        />
       )}
     </Bento>
   );
