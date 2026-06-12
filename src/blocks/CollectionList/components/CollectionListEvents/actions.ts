@@ -98,6 +98,20 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
     }
   }
 
+  // Apply Sorting
+  let sort = '-startDate';
+
+  if (filters.sortBy) {
+    switch (filters.sortBy) {
+      case 'startDateAsc':
+        sort = 'startDate';
+        break;
+      case 'startDateDesc':
+        sort = '-startDate';
+        break;
+    }
+  }
+
   // Pagination
   if (filters.pagination) {
     const limit = searchParams?.limit ? Number(searchParams.limit) : 10;
@@ -111,7 +125,7 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
       page,
       depth: 1,
       where,
-      sort: 'startDate',
+      sort,
     });
 
     return result || null;
@@ -123,7 +137,7 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
     pagination: false,
     depth: 1,
     where,
-    sort: 'startDate',
+    sort,
   });
 
   return result || null;

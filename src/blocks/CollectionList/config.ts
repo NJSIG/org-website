@@ -1,5 +1,6 @@
 import { AttendanceOptions, EventTypes } from '@/collections/Events/types';
 import { ContactPersonPortraitOptions } from '@/components/ContactPerson';
+import { EventCardTemplates } from '@/components/EventCard/types';
 import { Block } from 'payload';
 
 const ListableCollections = {
@@ -113,6 +114,19 @@ export const CollectionList: Block = {
       name: 'eventFilters',
       fields: [
         {
+          name: 'displayTemplate',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Default', value: EventCardTemplates.Default },
+            { label: 'Trustee Meeting Summary', value: EventCardTemplates.TrusteeMeeting },
+          ],
+          defaultValue: EventCardTemplates.Default,
+          admin: {
+            description: 'Select the display template for the events in the list.',
+          },
+        },
+        {
           name: 'types',
           type: 'select',
           hasMany: true,
@@ -147,6 +161,7 @@ export const CollectionList: Block = {
         {
           name: 'dateRange',
           type: 'select',
+          required: true,
           options: [
             { label: 'All Events', value: 'all' },
             { label: 'Upcoming Events', value: 'upcoming' },
@@ -154,6 +169,7 @@ export const CollectionList: Block = {
             { label: 'Custom Range', value: 'custom' },
           ],
           admin: {
+            isClearable: false,
             description: 'Select the date range for the events to display in the list.',
           },
         },
@@ -204,6 +220,20 @@ export const CollectionList: Block = {
           ],
           admin: {
             condition: (_, siblingData) => siblingData.dateRange === 'custom',
+          },
+        },
+        {
+          name: 'sortBy',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Start Date Ascending (oldest first)', value: 'startDateAsc' },
+            { label: 'Start Date Descending (newest first)', value: 'startDateDesc' },
+          ],
+          defaultValue: 'startDateAsc',
+          admin: {
+            isClearable: false,
+            description: 'Select the sorting order for the events in the list.',
           },
         },
         {

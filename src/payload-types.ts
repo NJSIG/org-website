@@ -593,6 +593,10 @@ export interface CollectionListBlock {
   };
   eventFilters?: {
     /**
+     * Select the display template for the events in the list.
+     */
+    displayTemplate: 'default' | 'trusteeMeeting';
+    /**
      * Select one or more event types to display in the list, leave empty to show all event types.
      */
     types?: ('trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent')[] | null;
@@ -607,7 +611,7 @@ export interface CollectionListBlock {
     /**
      * Select the date range for the events to display in the list.
      */
-    dateRange?: ('all' | 'upcoming' | 'past' | 'custom') | null;
+    dateRange: 'all' | 'upcoming' | 'past' | 'custom';
     /**
      * Start date for the custom date range.
      */
@@ -616,6 +620,10 @@ export interface CollectionListBlock {
      * End date for the custom date range. Leave empty to have no end date.
      */
     rangeEnd?: string | null;
+    /**
+     * Select the sorting order for the events in the list.
+     */
+    sortBy: 'startDateAsc' | 'startDateDesc';
     /**
      * If enabled, this list will be broken into multiple pages, pagination will be based on the start date of the events.
      */

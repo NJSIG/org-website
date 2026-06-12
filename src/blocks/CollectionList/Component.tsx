@@ -11,8 +11,6 @@ export const CollectionListBlock: React.FC<CollectionListBlockProps> = ({
   searchParams,
   ...filters
 }) => {
-  console.log('CollectionListBlock searchParams:', searchParams);
-
   switch (listableCollection) {
     case 'contacts':
       return <CollectionListContacts filters={filters.contactFilters} />;

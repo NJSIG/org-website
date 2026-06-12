@@ -13,9 +13,6 @@ export const CollectionListEvents: React.FC<CollectionListEventsProps> = async (
 }) => {
   const events = await queryEvents({ filters, searchParams });
 
-  console.log('CollectionListEvents filters:', filters);
-  console.log('CollectionListEvents searchParams:', searchParams);
-
   return (
     <CollectionListEventsClient filters={filters} searchParams={searchParams} events={events} />
   );
