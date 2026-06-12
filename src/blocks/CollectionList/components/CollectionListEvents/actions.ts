@@ -17,13 +17,7 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
   const payload = await getPayload({ config: configPromise });
 
   const where: Where = {
-    and: [
-      {
-        _status: {
-          equals: 'published',
-        },
-      },
-    ],
+    and: [],
   };
 
   // Apply Event Type Filter
@@ -77,7 +71,7 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
       });
     }
 
-    if (filters.dateRange === 'custom') {
+    if (filters.dateRange === 'custom' && filters.rangeStart) {
       const rangeStart = Temporal.PlainDate.from(filters.rangeStart.slice(0, 10)).toString();
 
       where.and?.push({
