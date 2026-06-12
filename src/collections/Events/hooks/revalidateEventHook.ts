@@ -9,7 +9,7 @@ export const revalidateEventHook: CollectionAfterChangeHook<Event> = ({
 }) => {
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {
-      const date = new Date(doc.startDate);
+      const date = new Date(doc.startDate.slice(0, 10));
       const path = `/events/${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${doc.slug}`;
 
       payload.logger.info(`Revalidating event at path: ${path}`);
@@ -21,7 +21,7 @@ export const revalidateEventHook: CollectionAfterChangeHook<Event> = ({
 
     // If the event was previously published, we need to revalidate the previous path
     if (previousDoc._status === 'published' && doc._status !== 'published') {
-      const oldDate = new Date(previousDoc.startDate);
+      const oldDate = new Date(previousDoc.startDate.slice(0, 10));
       const oldPath = `/events/${oldDate.getFullYear()}/${(oldDate.getMonth() + 1).toString().padStart(2, '0')}/${oldDate.getDate().toString().padStart(2, '0')}/${previousDoc.slug}`;
 
       payload.logger.info(`Revalidating old event path: ${oldPath}`);
