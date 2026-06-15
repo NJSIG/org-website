@@ -58,6 +58,46 @@ export const SectionColumns: Block = {
   },
   fields: [
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'widths',
+          label: 'Column Widths',
+          type: 'select',
+          required: true,
+          defaultValue: 'fifty-fifty',
+          options: [
+            { label: '30 / 70', value: 'thirty-seventy' },
+            { label: '40 / 60', value: 'forty-sixty' },
+            { label: '50 / 50', value: 'fifty-fifty' },
+            { label: '60 / 40', value: 'sixty-forty' },
+            { label: '70 / 30', value: 'seventy-thirty' },
+          ],
+          admin: {
+            isClearable: false,
+            description:
+              'Columns will take the full width of the page when stacked on small screens.',
+          },
+        },
+        {
+          name: 'stackAt',
+          label: 'Stack Columns On',
+          type: 'select',
+          required: true,
+          defaultValue: 'mobile',
+          options: [
+            { label: 'Mobile', value: 'mobile' },
+            { label: 'Tablet', value: 'tablet' },
+            { label: 'Desktop', value: 'desktop' },
+          ],
+          admin: {
+            isClearable: false,
+            description: 'Columns will stack on the selected breakpoint and smaller.',
+          },
+        },
+      ],
+    },
+    {
       name: 'vertAlign',
       label: 'Vertical Alignment',
       type: 'select',
@@ -84,6 +124,7 @@ export const SectionColumns: Block = {
           fields: [...columnField],
           admin: {
             width: '50%',
+            hideGutter: true,
           },
         },
         {
@@ -93,6 +134,7 @@ export const SectionColumns: Block = {
           fields: [...columnField],
           admin: {
             width: '50%',
+            hideGutter: true,
           },
         },
       ],

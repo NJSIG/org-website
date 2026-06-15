@@ -1358,6 +1358,14 @@ export interface RelatedCardsBlock {
  */
 export interface SectionColumnsBlock {
   /**
+   * Columns will take the full width of the page when stacked on small screens.
+   */
+  widths: 'thirty-seventy' | 'forty-sixty' | 'fifty-fifty' | 'sixty-forty' | 'seventy-thirty';
+  /**
+   * Columns will stack on the selected breakpoint and smaller.
+   */
+  stackAt: 'mobile' | 'tablet' | 'desktop';
+  /**
    * This setting determines how columns with different heights are aligned vertically.
    */
   vertAlign: 'top' | 'center' | 'bottom';
