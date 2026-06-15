@@ -1314,6 +1314,10 @@ export interface OptimizedImageBlock {
   width?: number | null;
   height?: number | null;
   /**
+   * Enabling this option will add automatic margins to center the image within its container.
+   */
+  centerImage?: boolean | null;
+  /**
    * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
    */
   priority?: boolean | null;

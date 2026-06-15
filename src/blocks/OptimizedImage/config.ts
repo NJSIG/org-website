@@ -46,28 +46,33 @@ export const OptimizedImage: Block = {
       ],
     },
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'priority',
-          type: 'checkbox',
-          label: 'Enable Priority',
-          admin: {
-            description:
-              'Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.',
-          },
-        },
-        {
-          name: 'placeholder',
-          type: 'checkbox',
-          label: 'Enable Placeholder',
-          defaultValue: true,
-          admin: {
-            description:
-              'Enabling this option will display a low-quality blurred image placeholder while the full image loads.',
-          },
-        },
-      ],
+      name: 'centerImage',
+      type: 'checkbox',
+      label: 'Center Image',
+      defaultValue: false,
+      admin: {
+        description:
+          'Enabling this option will add automatic margins to center the image within its container.',
+      },
+    },
+    {
+      name: 'priority',
+      type: 'checkbox',
+      label: 'Enable Priority',
+      admin: {
+        description:
+          'Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.',
+      },
+    },
+    {
+      name: 'placeholder',
+      type: 'checkbox',
+      label: 'Enable Placeholder',
+      defaultValue: true,
+      admin: {
+        description:
+          'Enabling this option will display a low-quality blurred image placeholder while the full image loads.',
+      },
     },
   ],
 };

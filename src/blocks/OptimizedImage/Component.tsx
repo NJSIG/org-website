@@ -5,6 +5,7 @@ export const OptimizedImageBlock: React.FC<OptimizedImageBlockProps> = ({
   image,
   height,
   width,
+  centerImage,
   priority,
   placeholder,
 }) => {
@@ -15,6 +16,7 @@ export const OptimizedImageBlock: React.FC<OptimizedImageBlockProps> = ({
       width={width}
       priority={priority}
       placeholder={placeholder ? 'blur' : 'empty'}
+      className={centerImage ? '[&>picture>img]:mx-auto' : undefined}
     />
   );
 };
