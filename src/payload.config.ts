@@ -33,6 +33,7 @@ import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
 import { EventCategories } from './collections/EventCategories';
 import { HeroImages } from './collections/HeroImages';
+import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
@@ -46,6 +47,7 @@ const collections = [
   Pages,
   Subfunds,
   Events,
+  LegalNotices,
   Locations,
   Contacts,
   // Media Group

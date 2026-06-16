@@ -88,6 +88,7 @@ export interface Config {
     pages: Page;
     subfunds: Subfund;
     events: Event;
+    'legal-notices': LegalNotice;
     locations: Location;
     contacts: Contact;
     media: Media;
@@ -126,6 +127,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     subfunds: SubfundsSelect<false> | SubfundsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    'legal-notices': LegalNoticesSelect<false> | LegalNoticesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -1559,6 +1561,97 @@ export interface Subfund {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-notices".
+ */
+export interface LegalNotice {
+  id: string;
+  /**
+   * The type of legal notice will determine how it is displayed.
+   */
+  noticeType: 'legalNotice' | 'rfp' | 'rfpAward';
+  /**
+   * The title of the legal notice.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * The date the legal notice is posted. Future dates will not be visible to the public until the posting date is reached.
+   */
+  postingDate: string;
+  /**
+   * RFPs will be marked as closed on this date.
+   */
+  closeDate?: string | null;
+  /**
+   * Tracking ID for RFPs. e.g. "NJSIG-2024-001"
+   */
+  rfpTracking?: string | null;
+  /**
+   * Attach files related to this legal notice, such as RFP documents or award details.
+   */
+  resources?:
+    | {
+        resource: {
+          type: 'document';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this legal notice as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1731,6 +1824,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'legal-notices';
+        value: string | LegalNotice;
       } | null)
     | ({
         relationTo: 'locations';
@@ -2013,6 +2110,47 @@ export interface EventsSelect<T extends boolean = true> {
   publishedAt?: T;
   lastUpdatedAt?: T;
   resourceCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-notices_select".
+ */
+export interface LegalNoticesSelect<T extends boolean = true> {
+  noticeType?: T;
+  title?: T;
+  content?: T;
+  postingDate?: T;
+  closeDate?: T;
+  rfpTracking?: T;
+  resources?:
+    | T
+    | {
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        id?: T;
+      };
+  important?: T;
+  publishedAt?: T;
+  lastUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2750,6 +2888,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'events';
           value: string | Event;
+        } | null)
+      | ({
+          relationTo: 'legal-notices';
+          value: string | LegalNotice;
         } | null);
     global?: string | null;
     user?: (string | null) | User;
