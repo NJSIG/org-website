@@ -12,12 +12,10 @@ import {
   SectionContentBlock,
   SectionTitleBlock,
 } from '@/payload-types';
-
-// Helper type for options
-type Options = { label: string; value: string };
+import { OptionObject } from 'payload';
 
 export type SectionWidths = 'narrow' | 'normal' | 'wide';
-export type SectionWidthOptions = Record<SectionWidths, Options>;
+export type SectionWidthOptions = Record<SectionWidths, OptionObject>;
 
 type SectionBlocks =
   | CMSButtonBlock
