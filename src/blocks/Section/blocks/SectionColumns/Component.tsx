@@ -28,7 +28,7 @@ const columnBlockComponents = {
 };
 
 const columnStyleVariants = cva(
-  'flex flex-col items-center mx-auto md:w-full md:mx-0 md:basis-0 md:min-w-0 md:items-start gap-8 group is-columns',
+  'flex flex-col items-center mx-auto md:mx-0 md:basis-0 md:min-w-0 md:items-start gap-8 group is-columns',
   {
     variants: {
       visibility: {
@@ -86,7 +86,7 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
           'items-center': vertAlign === 'center',
           'items-end': vertAlign === 'bottom',
           'flex-col md:flex-row': stackAt === 'mobile',
-          'flex-col lg:flex-row': stackAt === 'tablet',
+          'flex-col xl:flex-row': stackAt === 'tablet',
           'flex-col': stackAt === 'desktop',
         })}
       >

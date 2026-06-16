@@ -1,4 +1,31 @@
-import { Block, Field } from 'payload';
+import { SectionBlock } from '@/payload-types';
+import { Block, Field, OptionObject } from 'payload';
+import { SectionWidths } from '../../types';
+
+// We're creating a placeholder for the page layout type
+// in case we allow the section block to be used in other
+// parent types.
+type LayoutBlocks = {
+  layout?: {
+    blocks?: SectionBlock[] | null;
+  };
+};
+
+const columnWidthOptions: OptionObject[] = [
+  { label: '30 / 70', value: 'thirty-seventy' },
+  { label: '40 / 60', value: 'forty-sixty' },
+  { label: '50 / 50', value: 'fifty-fifty' },
+  { label: '60 / 40', value: 'sixty-forty' },
+  { label: '70 / 30', value: 'seventy-thirty' },
+];
+
+const columnWidthFiltersBySectionWidth: Record<SectionWidths, string[]> = {
+  // We don't allow columns on narrow sections, but if we did,
+  // this would be the only option that works well in a narrow content area.
+  narrow: ['fifty-fifty'],
+  normal: ['forty-sixty', 'fifty-fifty', 'sixty-forty'],
+  wide: columnWidthOptions.map(({ value }) => value),
+};
 
 const columnField: Field[] = [
   {
@@ -66,13 +93,39 @@ export const SectionColumns: Block = {
           type: 'select',
           required: true,
           defaultValue: 'fifty-fifty',
-          options: [
-            { label: '30 / 70', value: 'thirty-seventy' },
-            { label: '40 / 60', value: 'forty-sixty' },
-            { label: '50 / 50', value: 'fifty-fifty' },
-            { label: '60 / 40', value: 'sixty-forty' },
-            { label: '70 / 30', value: 'seventy-thirty' },
-          ],
+          options: columnWidthOptions,
+          filterOptions: ({ siblingData, data }) => {
+            const currentBlockId = (siblingData as { id?: string | null } | undefined)?.id;
+            const layoutBlocks = (data as LayoutBlocks | undefined)?.layout?.blocks ?? [];
+
+            if (!currentBlockId || !layoutBlocks.length) {
+              return columnWidthOptions;
+            }
+
+            const parentSection = layoutBlocks.find(
+              (layoutBlock) =>
+                layoutBlock.blockType === 'section' &&
+                layoutBlock.sectionBlocks?.some(
+                  (sectionBlock) => sectionBlock.id === currentBlockId,
+                ),
+            );
+
+            const parentContentWidth = parentSection?.contentWidth;
+
+            if (!parentContentWidth) {
+              return columnWidthOptions;
+            }
+
+            const allowedOptionValues = columnWidthFiltersBySectionWidth[parentContentWidth];
+
+            if (!allowedOptionValues?.length) {
+              return columnWidthOptions;
+            }
+
+            return columnWidthOptions.filter((option) =>
+              allowedOptionValues.includes(option.value),
+            );
+          },
           admin: {
             isClearable: false,
             description:
