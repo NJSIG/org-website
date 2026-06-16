@@ -13,6 +13,10 @@ export type SectionColumnsBlockProps = BaseSectionColumnsBlockProps & {
   searchParams?: Record<string, string | string[] | undefined>;
 };
 
+type ColumnWidthOption = 'thirty' | 'forty' | 'fifty' | 'sixty' | 'seventy';
+
+const widthOptions: ColumnWidthOption[] = ['thirty', 'forty', 'fifty', 'sixty', 'seventy'];
+
 const columnBlockComponents = {
   cmsButton: CMSButtonBlock,
   collectionList: CollectionListBlock,
@@ -23,9 +27,8 @@ const columnBlockComponents = {
   sectionTitle: SectionTitleBlock,
 };
 
-// TODO: Does the breakpoint for desktop need to be 2xl instead of xl?
 const columnStyleVariants = cva(
-  'group-[.content-width-normal]/section:max-w-section-content group-[.content-width-wide]/section:max-w-section-wide-content flex flex-col items-center md:items-start gap-8 group is-columns',
+  'flex flex-col items-center mx-auto md:w-full md:mx-0 md:basis-0 md:min-w-0 md:items-start gap-8 group is-columns',
   {
     variants: {
       visibility: {
@@ -33,11 +36,36 @@ const columnStyleVariants = cva(
         tablet: 'hidden lg:block',
         desktop: 'hidden xl:block',
       },
+      width: {
+        thirty: 'md:flex-3', // 30 => 3 / (7 + 3) = 30%
+        forty: 'md:flex-2', // 40 => 2 / (3 + 2) = 40%
+        fifty: 'md:flex-1', // 50 => 1 / (1 + 1) = 50%
+        sixty: 'md:flex-3', // 60 => 3 / (2 + 3) = 60%
+        seventy: 'md:flex-7', // 70 => 7 / (7 + 3) = 70%
+      },
     },
   },
 );
 
+const breakoutWidths = (
+  widths: SectionColumnsBlockProps['widths'],
+): { first: ColumnWidthOption; second: ColumnWidthOption } => {
+  let [first, second] = (widths || '').split('-');
+
+  if (
+    !widthOptions.includes(first as ColumnWidthOption) ||
+    !widthOptions.includes(second as ColumnWidthOption)
+  ) {
+    first = 'fifty';
+    second = 'fifty';
+  }
+
+  return { first, second } as { first: ColumnWidthOption; second: ColumnWidthOption };
+};
+
 export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
+  widths,
+  stackAt,
   vertAlign,
   colOne,
   colTwo,
@@ -48,21 +76,27 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
   const colTwoHasBlocks =
     colTwo?.colBlocks && Array.isArray(colTwo.colBlocks) && colTwo.colBlocks.length > 0;
   const hasColumns = colOneHasBlocks || colTwoHasBlocks;
+  const columnWidths = breakoutWidths(widths);
 
   if (hasColumns) {
     return (
       <div
-        className={cn(
-          'flex flex-wrap justify-between group-[.content-width-wide]/section:gap-8 xl:group-[.content-width-wide]/section:gap-32',
-          {
-            'items-start': vertAlign === 'top',
-            'items-center': vertAlign === 'center',
-            'items-end': vertAlign === 'bottom',
-          },
-        )}
+        className={cn('flex flex-wrap group-[.content-width-wide]/section:gap-8', {
+          'items-start': vertAlign === 'top',
+          'items-center': vertAlign === 'center',
+          'items-end': vertAlign === 'bottom',
+          'flex-col md:flex-row': stackAt === 'mobile',
+          'flex-col lg:flex-row': stackAt === 'tablet',
+          'flex-col': stackAt === 'desktop',
+        })}
       >
         {colOneHasBlocks && (
-          <div className={columnStyleVariants({ visibility: colOne.visibility })}>
+          <div
+            className={columnStyleVariants({
+              visibility: colOne.visibility,
+              width: columnWidths.first,
+            })}
+          >
             {colOne.colBlocks?.map((block) => {
               const { blockType } = block;
 
@@ -79,7 +113,12 @@ export const SectionColumnsBlock: React.FC<SectionColumnsBlockProps> = ({
           </div>
         )}
         {colTwoHasBlocks && (
-          <div className={columnStyleVariants({ visibility: colTwo.visibility })}>
+          <div
+            className={columnStyleVariants({
+              visibility: colTwo.visibility,
+              width: columnWidths.second,
+            })}
+          >
             {colTwo.colBlocks?.map((block) => {
               const { blockType } = block;
 

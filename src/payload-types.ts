@@ -1314,6 +1314,10 @@ export interface OptimizedImageBlock {
   width?: number | null;
   height?: number | null;
   /**
+   * Enabling this option will add automatic margins to center the image within its container.
+   */
+  centerImage?: boolean | null;
+  /**
    * Enabling this option will prioritize the loading of this image. This should only be used for "above the fold" images.
    */
   priority?: boolean | null;
@@ -1357,6 +1361,14 @@ export interface RelatedCardsBlock {
  * via the `definition` "SectionColumnsBlock".
  */
 export interface SectionColumnsBlock {
+  /**
+   * Columns will take the full width of the page when stacked on small screens.
+   */
+  widths: 'thirty-seventy' | 'forty-sixty' | 'fifty-fifty' | 'sixty-forty' | 'seventy-thirty';
+  /**
+   * Columns will stack on the selected breakpoint and smaller.
+   */
+  stackAt: 'mobile' | 'tablet' | 'desktop';
   /**
    * This setting determines how columns with different heights are aligned vertically.
    */

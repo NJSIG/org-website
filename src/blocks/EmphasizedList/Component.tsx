@@ -21,7 +21,7 @@ export const EmphasizedListBlock: React.FC<EmphasizedListBlockProps> = ({
               <Triangle />
               <h3 className="text-xl lg:text-2xl font-medium">{item.title}</h3>
             </div>
-            <p className="my-4 pl-7 lg:pl-10 lg:text-lg">{item.content}</p>
+            <p className="my-4 pl-7 prose lg:pl-10 lg:prose-lg dark:prose-invert">{item.content}</p>
           </li>
         ))}
       </ul>
