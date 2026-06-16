@@ -20,8 +20,10 @@ const columnWidthOptions: OptionObject[] = [
 ];
 
 const columnWidthFiltersBySectionWidth: Record<SectionWidths, string[]> = {
-  narrow: ['fifty-fifty', 'sixty-forty', 'forty-sixty'],
-  normal: columnWidthOptions.map(({ value }) => value),
+  // We don't allow columns on narrow sections, but if we did,
+  // this would be the only option that works well in a narrow content area.
+  narrow: ['fifty-fifty'],
+  normal: ['forty-sixty', 'fifty-fifty', 'sixty-forty'],
   wide: columnWidthOptions.map(({ value }) => value),
 };
 
