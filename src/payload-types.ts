@@ -7,6 +7,24 @@
  */
 
 /**
+ * A document consuming a media file
+ */
+export type Consumers = {
+  /**
+   * The unique identifier of the consumer
+   */
+  id: string;
+  /**
+   * The nice name of the consumer
+   */
+  name: string;
+  /**
+   * The slug of the collection
+   */
+  collectionSlug: string;
+  [k: string]: unknown;
+}[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -107,9 +125,6 @@ export interface Config {
   };
   collectionsJoins: {
     media: {
-      relatedEvents: 'events';
-    };
-    documents: {
       relatedEvents: 'events';
     };
     'payload-folders': {
@@ -1139,11 +1154,7 @@ export interface Document {
    * If left blank the title will be generated from the file name.
    */
   title?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  consumers?: Consumers;
   fileType?: string | null;
   publishedAt?: string | null;
   lastUpdatedAt?: string | null;
@@ -2255,7 +2266,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface DocumentsSelect<T extends boolean = true> {
   title?: T;
-  relatedEvents?: T;
+  consumers?: T;
   fileType?: T;
   publishedAt?: T;
   lastUpdatedAt?: T;

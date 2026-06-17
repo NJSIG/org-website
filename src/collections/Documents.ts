@@ -3,6 +3,7 @@ import { populateFileTypeHook } from '@/collections/hooks/populateFileTypeHook';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { mediaTrackingField } from '@/fields/MediaTracking';
 import { CollectionConfig } from 'payload';
 
 const supportedMimeTypes = [
@@ -35,12 +36,8 @@ export const Documents: CollectionConfig = {
         description: 'If left blank the title will be generated from the file name.',
       },
     },
-    {
-      name: 'relatedEvents',
-      type: 'join',
-      collection: 'events',
-      on: 'resources.resource.document',
-    },
+    // Usage Tracking
+    mediaTrackingField(),
     // Sidebar Fields
     {
       name: 'fileType',
