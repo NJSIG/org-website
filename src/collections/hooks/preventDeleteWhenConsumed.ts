@@ -1,7 +1,11 @@
 import { MediaTrackingConsumer } from '@/fields/MediaTracking/types';
 import { APIError, BasePayload, CollectionBeforeDeleteHook, CollectionSlug } from 'payload';
 
-export const checkUsageHook: CollectionBeforeDeleteHook = async ({ id, collection, req }) => {
+export const preventDeleteWhenConsumed: CollectionBeforeDeleteHook = async ({
+  id,
+  collection,
+  req,
+}) => {
   const { payload } = req;
   const collectionSlug = collection.slug;
 
@@ -15,7 +19,9 @@ export const checkUsageHook: CollectionBeforeDeleteHook = async ({ id, collectio
       );
     }
   } catch (error) {
-    req.payload.logger.error(`Prevented deletion of ${collectionSlug} with ID ${id}.`);
+    req.payload.logger.error(
+      `Prevented deletion of ${collectionSlug} with ID ${id}: ${(error as APIError).message}`,
+    );
     throw error;
   }
 };
@@ -39,7 +45,6 @@ async function getUsageData(
 
     return doc.consumers ?? [];
   } catch (error) {
-    payload.logger.error(`Error getting usage data for ${collectionSlug} with ID ${id}.`);
     throw error;
   }
 }

@@ -15,13 +15,13 @@ export type Consumers = {
    */
   id: string;
   /**
-   * The nice name of the consumer
-   */
-  name: string;
-  /**
    * The slug of the collection
    */
   collectionSlug: string;
+  /**
+   * The path to the field in the consumer document that is consuming the media
+   */
+  instances: string[];
   [k: string]: unknown;
 }[];
 /**

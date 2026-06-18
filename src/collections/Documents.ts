@@ -5,6 +5,7 @@ import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFrom
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
 import { mediaTrackingField } from '@/fields/MediaTracking';
 import { CollectionConfig } from 'payload';
+import { preventDeleteWhenConsumed } from './hooks/preventDeleteWhenConsumed';
 
 const supportedMimeTypes = [
   'application/pdf', // .pdf
@@ -76,5 +77,6 @@ export const Documents: CollectionConfig = {
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('documents')],
     beforeChange: [populatePublishedAtHook, populateTitleFromFileHook, populateFileTypeHook],
+    beforeDelete: [preventDeleteWhenConsumed],
   },
 };
