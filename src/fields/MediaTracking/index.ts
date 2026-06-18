@@ -15,7 +15,12 @@ export const mediaTrackingField: MediaTrackingField = (label = 'Media Usage Trac
     },
     defaultValue: [],
     admin: {
-      // TODO: Add a custom component to display the usage data in a more user-friendly way
+      readOnly: true,
+      components: {
+        Field: {
+          path: '@/fields/MediaTracking/Component#MediaTrackingFieldComponent',
+        },
+      },
     },
   };
 
