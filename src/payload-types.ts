@@ -594,7 +594,7 @@ export interface CollectionListBlock {
   /**
    * Select the collection to display in this list.
    */
-  listableCollection: 'contacts' | 'events';
+  listableCollection: 'contacts' | 'events' | 'legal-notices';
   contactFilters?: {
     /**
      * Drag contacts to rearrange their order in the list.
@@ -645,6 +645,32 @@ export interface CollectionListBlock {
     sortBy: 'startDateAsc' | 'startDateDesc';
     /**
      * If enabled, this list will be broken into multiple pages, pagination will be based on the start date of the events.
+     */
+    pagination?: boolean | null;
+  };
+  legalNoticeFilters: {
+    /**
+     * Select one or more legal notice types to display in the list, leave empty to show all legal notice types.
+     */
+    types?: ('legalNotice' | 'rfp' | 'rfpAward')[] | null;
+    /**
+     * Select the date range for the legal notices to display in the list.
+     */
+    dateRange: 'all' | 'upcoming' | 'past' | 'custom';
+    /**
+     * Start date for the custom date range.
+     */
+    rangeStart?: string | null;
+    /**
+     * End date for the custom date range. Leave empty to have no end date.
+     */
+    rangeEnd?: string | null;
+    /**
+     * Select the sorting order for the legal notices in the list.
+     */
+    sortBy: 'startDateAsc' | 'startDateDesc';
+    /**
+     * If enabled, this list will be broken into multiple pages, pagination will be based on the posting date of the legal notices.
      */
     pagination?: boolean | null;
   };

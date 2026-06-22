@@ -1,7 +1,8 @@
 import { editor, editorOrPublished } from '@/access';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { CollectionConfig } from 'payload';
-import { populatePublishedAtHook } from './hooks/populatePublishedAtHook';
+import { populatePublishedAtHook } from '../hooks/populatePublishedAtHook';
+import { LegalNoticeTypes } from './types';
 
 export const LegalNotices: CollectionConfig<'legal-notices'> = {
   slug: 'legal-notices',
@@ -25,11 +26,7 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
       type: 'select',
       required: true,
       index: true,
-      options: [
-        { label: 'Legal Notice', value: 'legalNotice' },
-        { label: 'RFP', value: 'rfp' },
-        { label: 'RFP Award', value: 'rfpAward' },
-      ],
+      options: Object.values(LegalNoticeTypes),
       admin: {
         isClearable: false,
         description: 'The type of legal notice will determine how it is displayed.',
@@ -69,12 +66,12 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
           type: 'date',
           admin: {
             description: 'RFPs will be marked as closed on this date.',
-            condition: ({ siblingData }) => siblingData?.noticeType === 'rfp',
+            condition: ({ siblingData }) => siblingData?.noticeType === LegalNoticeTypes.RFP.value,
           },
           hooks: {
             beforeChange: [
               ({ value, siblingData }) =>
-                siblingData?.noticeType !== 'rfp' && value ? null : value,
+                siblingData?.noticeType !== LegalNoticeTypes.RFP.value && value ? null : value,
             ],
           },
         },
@@ -87,12 +84,15 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
       admin: {
         description: 'Tracking ID for RFPs. e.g. "NJSIG-2024-001"',
         condition: ({ siblingData }) =>
-          siblingData?.noticeType === 'rfp' || siblingData?.noticeType === 'rfpAward',
+          siblingData?.noticeType === LegalNoticeTypes.RFP.value ||
+          siblingData?.noticeType === LegalNoticeTypes.RFPAward.value,
       },
       hooks: {
         beforeChange: [
           ({ value, siblingData }) =>
-            siblingData?.noticeType !== 'rfp' && siblingData?.noticeType !== 'rfpAward' && value
+            siblingData?.noticeType !== LegalNoticeTypes.RFP.value &&
+            siblingData?.noticeType !== LegalNoticeTypes.RFPAward.value &&
+            value
               ? null
               : value,
         ],
