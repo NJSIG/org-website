@@ -1,7 +1,7 @@
-import { MediaTrackingConsumer } from '@/fields/MediaTracking/types';
+import { RecordTrackingConsumer } from '@/fields/RecordUsageTracking/types';
 import { APIError, BasePayload, CollectionBeforeDeleteHook, CollectionSlug } from 'payload';
 
-export const preventDeleteWhenConsumed: CollectionBeforeDeleteHook = async ({
+export const preventDeleteWhenConsumedHook: CollectionBeforeDeleteHook = async ({
   id,
   collection,
   req,
@@ -13,10 +13,7 @@ export const preventDeleteWhenConsumed: CollectionBeforeDeleteHook = async ({
     const [usage] = await Promise.all([getUsageData(payload, collectionSlug, id)]);
 
     if (usage && usage.length > 0) {
-      throw new APIError(
-        `Cannot delete ${collectionSlug} with ID ${id} because it is currently in use.`,
-        409,
-      );
+      throw new APIError(`Cannot delete an item currently in use.`, 409);
     }
   } catch (error) {
     req.payload.logger.error(
@@ -35,13 +32,15 @@ async function getUsageData(
     const result = await payload.findByID({
       collection: collectionSlug,
       id,
+      overrideAccess: true,
+      trash: true,
     });
 
     if (!result) {
       throw new APIError(`No ${collectionSlug} found with ID ${id}.`, 404);
     }
 
-    const doc = result as { consumers?: MediaTrackingConsumer[] };
+    const doc = result as { consumers?: RecordTrackingConsumer[] };
 
     return doc.consumers ?? [];
   } catch (error) {
