@@ -1,3 +1,4 @@
+import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
 import { Block } from 'payload';
 
 export const OptimizedImage: Block = {
@@ -28,6 +29,9 @@ export const OptimizedImage: Block = {
       admin: {
         description:
           'You may specify a height and/or width to force a specific image size. Only set one or the other to maintain the image aspect ratio.',
+      },
+      hooks: {
+        afterChange: [createUpdateConsumedRecordHook('title')],
       },
     },
     {

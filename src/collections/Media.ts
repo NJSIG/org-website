@@ -2,6 +2,7 @@ import { anyone, editor } from '@/access';
 import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import {
   FixedToolbarFeature,
@@ -9,6 +10,8 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 import type { CollectionConfig, ImageUploadFormatOptions } from 'payload';
+import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
+import { preventSoftDeleteWhenConsumedHook } from './hooks/preventSoftDeleteWhenConsumedHook';
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
@@ -74,16 +77,8 @@ export const Media: CollectionConfig = {
         description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
-    {
-      name: 'relatedEvents',
-      type: 'join',
-      collection: 'events',
-      on: 'resources.resource.audioVideo',
-      admin: {
-        condition: (_, siblingData) =>
-          siblingData?.mimeType?.includes('audio') || siblingData?.mimeType?.includes('video'),
-      },
-    },
+    // Usage Tracking
+    recordUsageTrackingField(),
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt', 'folder'],
@@ -134,6 +129,11 @@ export const Media: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('media')],
-    beforeChange: [computeBlurDataHook, populateTitleFromFileHook],
+    beforeChange: [
+      computeBlurDataHook,
+      populateTitleFromFileHook,
+      preventSoftDeleteWhenConsumedHook,
+    ],
+    beforeDelete: [preventDeleteWhenConsumedHook],
   },
 };

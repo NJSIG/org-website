@@ -2,8 +2,11 @@ import { anyone, editor } from '@/access';
 import { checkSquareHook } from '@/collections/hooks/checkSquareHook';
 import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
 import { uiTipField } from '@/fields/UITip';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
+import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
+import { preventSoftDeleteWhenConsumedHook } from './hooks/preventSoftDeleteWhenConsumedHook';
 
 const webp: ImageUploadFormatOptions = {
   format: 'webp',
@@ -41,6 +44,8 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
         description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
+    // Usage Tracking
+    recordUsageTrackingField(),
   ],
   folders: true,
   admin: {
@@ -71,6 +76,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
   },
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('contact-portraits')],
-    beforeChange: [checkSquareHook, computeBlurDataHook],
+    beforeChange: [checkSquareHook, computeBlurDataHook, preventSoftDeleteWhenConsumedHook],
+    beforeDelete: [preventDeleteWhenConsumedHook],
   },
 };

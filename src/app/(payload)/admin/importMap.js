@@ -27,7 +27,7 @@ import { default as default_e69dd0f8ea53230d004a9a778cfc6860 } from '@/fields/Re
 import { default as default_ff78a844b71cbd43995d5a2ff2fd039e } from '@/collections/Events/EventDynamicLabels'
 import { MapComponent as MapComponent_99b7a550d131dad82d3ef497009b98fa } from '@/fields/UIMap/MapComponent'
 import { PatternComponent as PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a } from '@/fields/Pattern/PatternComponent'
-import { MediaTrackingFieldComponent as MediaTrackingFieldComponent_5d5fa2936cc5e13630909bc61bba04ae } from '@/fields/MediaTracking/Component'
+import { RecordUsageTrackingFieldComponent as RecordUsageTrackingFieldComponent_3ddfa4c9875472552e57bbc2ccf52c83 } from '@/fields/RecordUsageTracking/Component'
 import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { default as default_d8d4f8b836facc01bc30ce3da60643b8 } from '@/globals/Header/admin/NavLinkLabel'
 import { default as default_36da8d5ac52e64cc186c4e90bd0be630 } from '@/globals/Header/admin/NavGroupLabel'
@@ -77,7 +77,7 @@ export const importMap = {
   "@/collections/Events/EventDynamicLabels#default": default_ff78a844b71cbd43995d5a2ff2fd039e,
   "@/fields/UIMap/MapComponent#MapComponent": MapComponent_99b7a550d131dad82d3ef497009b98fa,
   "@/fields/Pattern/PatternComponent#PatternComponent": PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a,
-  "@/fields/MediaTracking/Component#MediaTrackingFieldComponent": MediaTrackingFieldComponent_5d5fa2936cc5e13630909bc61bba04ae,
+  "@/fields/RecordUsageTracking/Component#RecordUsageTrackingFieldComponent": RecordUsageTrackingFieldComponent_3ddfa4c9875472552e57bbc2ccf52c83,
   "@payloadcms/next/client#FolderTypeField": FolderTypeField_2b8867833a34864a02ddf429b0728a40,
   "@/globals/Header/admin/NavLinkLabel#default": default_d8d4f8b836facc01bc30ce3da60643b8,
   "@/globals/Header/admin/NavGroupLabel#default": default_36da8d5ac52e64cc186c4e90bd0be630,

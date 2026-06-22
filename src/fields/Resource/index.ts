@@ -1,5 +1,5 @@
 import { deepMerge, GroupField } from 'payload';
-import { updateConsumedMedia } from '../hooks/updateConsumedMedia';
+import { createUpdateConsumedRecordHook } from '../hooks/updateConsumedRecordHook';
 import { linkField } from '../Link';
 import { LinkDestinations } from '../Link/types';
 import { lucideIconPickerField } from '../LucideIconPicker';
@@ -27,6 +27,7 @@ export const resourceField: ResourceField = ({
   resourceTypes,
   linkDestinations,
   forceIcon,
+  useAsTitle = 'title',
   overrides = {},
 } = {}) => {
   let resourceTypesToUse = [
@@ -93,7 +94,7 @@ export const resourceField: ResourceField = ({
           description: 'Select or upload a document.',
         },
         hooks: {
-          afterChange: [updateConsumedMedia],
+          afterChange: [createUpdateConsumedRecordHook(useAsTitle)],
         },
       },
       {
@@ -109,7 +110,7 @@ export const resourceField: ResourceField = ({
           description: 'Select or upload a video or audio clip.',
         },
         hooks: {
-          afterChange: [updateConsumedMedia],
+          afterChange: [createUpdateConsumedRecordHook(useAsTitle)],
         },
       },
       linkField({

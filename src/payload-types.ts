@@ -7,7 +7,7 @@
  */
 
 /**
- * A document consuming a media file
+ * A document consuming a record
  */
 export type Consumers = {
   /**
@@ -15,11 +15,15 @@ export type Consumers = {
    */
   id: string;
   /**
+   * The title of the consumer document
+   */
+  title: string;
+  /**
    * The slug of the collection
    */
   collectionSlug: string;
   /**
-   * The path to the field in the consumer document that is consuming the media
+   * The path to the field in the consumer document that is consuming the record
    */
   instances: string[];
   [k: string]: unknown;
@@ -124,9 +128,6 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    media: {
-      relatedEvents: 'events';
-    };
     'payload-folders': {
       documentsAndFolders:
         | 'payload-folders'
@@ -282,6 +283,7 @@ export interface HeroImage {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  consumers?: Consumers;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -698,6 +700,7 @@ export interface ContactPortrait {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  consumers?: Consumers;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -880,11 +883,7 @@ export interface Media {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  consumers?: Consumers;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -920,232 +919,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: string;
-  /**
-   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
-   */
-  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent';
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  /**
-   * Formatting options are limited to maintain consistency across the site.
-   */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Persons or organizations presenting the main topic
-   */
-  presenters?:
-    | {
-        name: string;
-        /**
-         * Title or Affiliation
-         */
-        title?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * QPA or other credits
-   */
-  credits?:
-    | {
-        credit: string;
-        id?: string | null;
-      }[]
-    | null;
-  startDate: string;
-  endDate?: string | null;
-  registrationTime?: string | null;
-  startTime: string;
-  endTime?: string | null;
-  /**
-   * Select all the categories that apply to this event.
-   */
-  categories: (string | EventCategory)[];
-  /**
-   * The contact person for the event.
-   */
-  contact?: (string | null) | Contact;
-  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
-  virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
-  /**
-   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
-   */
-  virtualLink?: string | null;
-  virtualPasscode?: string | null;
-  /**
-   * If no location is selected it will be displayed as "TBA" on the event page.
-   */
-  location?: (string | null) | Location;
-  /**
-   * The meeting agenda file provided here will be displayed on the event page and the legal notices page.
-   */
-  trusteeMeetingAgenda?: {
-    resource: {
-      type: 'document';
-      /**
-       * The resource icon should be as closely related to the resource as possible.
-       */
-      icon?: string | null;
-      /**
-       * Select or upload a document.
-       */
-      document?: (string | null) | Document;
-      /**
-       * Select or upload a video or audio clip.
-       */
-      audioVideo?: (string | null) | Media;
-      /**
-       * Provide a URL to an external resource or a reference to a CMS item.
-       */
-      link?: {
-        type?: ('reference' | 'custom') | null;
-        newTab?: boolean | null;
-        allowReferrer?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: string | Page;
-        } | null;
-        url?: string | null;
-        label?: string | null;
-      };
-    };
-  };
-  /**
-   * The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.
-   */
-  trusteeMeetingMinutes?: {
-    /**
-     * A brief summary of the trustee meeting minutes (optional).
-     */
-    minutesSummary?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    resource: {
-      type: 'document';
-      /**
-       * The resource icon should be as closely related to the resource as possible.
-       */
-      icon?: string | null;
-      /**
-       * Select or upload a document.
-       */
-      document?: (string | null) | Document;
-      /**
-       * Select or upload a video or audio clip.
-       */
-      audioVideo?: (string | null) | Media;
-      /**
-       * Provide a URL to an external resource or a reference to a CMS item.
-       */
-      link?: {
-        type?: ('reference' | 'custom') | null;
-        newTab?: boolean | null;
-        allowReferrer?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: string | Page;
-        } | null;
-        url?: string | null;
-        label?: string | null;
-      };
-    };
-  };
-  resources?:
-    | {
-        resource: {
-          type: 'document' | 'audioVideo' | 'link';
-          /**
-           * The resource icon should be as closely related to the resource as possible.
-           */
-          icon?: string | null;
-          /**
-           * Select or upload a document.
-           */
-          document?: (string | null) | Document;
-          /**
-           * Select or upload a video or audio clip.
-           */
-          audioVideo?: (string | null) | Media;
-          /**
-           * Provide a URL to an external resource or a reference to a CMS item.
-           */
-          link?: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            allowReferrer?: boolean | null;
-            reference?: {
-              relationTo: 'pages';
-              value: string | Page;
-            } | null;
-            url?: string | null;
-            label?: string | null;
-          };
-        };
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Mark this event as important to emphasize its significance.
-   */
-  important?: boolean | null;
-  /**
-   * Event slugs are not unique, as even URLs include the event date.
-   */
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  lastUpdatedAt?: string | null;
-  resourceCount?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories".
- */
-export interface EventCategory {
-  id: string;
-  name: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "documents".
  */
 export interface Document {
@@ -1172,6 +945,18 @@ export interface Document {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1566,6 +1351,220 @@ export interface Subfund {
   };
   slug?: string | null;
   slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  /**
+   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
+   */
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent';
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Persons or organizations presenting the main topic
+   */
+  presenters?:
+    | {
+        name: string;
+        /**
+         * Title or Affiliation
+         */
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * QPA or other credits
+   */
+  credits?:
+    | {
+        credit: string;
+        id?: string | null;
+      }[]
+    | null;
+  startDate: string;
+  endDate?: string | null;
+  registrationTime?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  /**
+   * Select all the categories that apply to this event.
+   */
+  categories: (string | EventCategory)[];
+  /**
+   * The contact person for the event.
+   */
+  contact?: (string | null) | Contact;
+  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
+  virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
+  /**
+   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
+   */
+  virtualLink?: string | null;
+  virtualPasscode?: string | null;
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  /**
+   * The meeting agenda file provided here will be displayed on the event page and the legal notices page.
+   */
+  trusteeMeetingAgenda?: {
+    resource: {
+      type: 'document';
+      /**
+       * The resource icon should be as closely related to the resource as possible.
+       */
+      icon?: string | null;
+      /**
+       * Select or upload a document.
+       */
+      document?: (string | null) | Document;
+      /**
+       * Select or upload a video or audio clip.
+       */
+      audioVideo?: (string | null) | Media;
+      /**
+       * Provide a URL to an external resource or a reference to a CMS item.
+       */
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        allowReferrer?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: string | Page;
+        } | null;
+        url?: string | null;
+        label?: string | null;
+      };
+    };
+  };
+  /**
+   * The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.
+   */
+  trusteeMeetingMinutes?: {
+    /**
+     * A brief summary of the trustee meeting minutes (optional).
+     */
+    minutesSummary?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    resource: {
+      type: 'document';
+      /**
+       * The resource icon should be as closely related to the resource as possible.
+       */
+      icon?: string | null;
+      /**
+       * Select or upload a document.
+       */
+      document?: (string | null) | Document;
+      /**
+       * Select or upload a video or audio clip.
+       */
+      audioVideo?: (string | null) | Media;
+      /**
+       * Provide a URL to an external resource or a reference to a CMS item.
+       */
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        allowReferrer?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: string | Page;
+        } | null;
+        url?: string | null;
+        label?: string | null;
+      };
+    };
+  };
+  resources?:
+    | {
+        resource: {
+          type: 'document' | 'audioVideo' | 'link';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this event as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  resourceCount?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2220,7 +2219,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
   blurData?: T;
-  relatedEvents?: T;
+  consumers?: T;
   prefix?: T;
   folder?: T;
   updatedAt?: T;
@@ -2318,6 +2317,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
             };
       };
   blurData?: T;
+  consumers?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2413,6 +2413,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
 export interface ContactPortraitsSelect<T extends boolean = true> {
   name?: T;
   blurData?: T;
+  consumers?: T;
   prefix?: T;
   folder?: T;
   updatedAt?: T;

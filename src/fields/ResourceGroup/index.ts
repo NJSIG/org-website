@@ -6,6 +6,7 @@ import { ResourceTypes } from '../Resource/types';
 export type ResourceGroupType = (options?: {
   resourceTypes?: ResourceTypes[];
   linkDestinations?: LinkDestinations[];
+  useAsTitle?: string;
   overrides?: {
     group?: Partial<ArrayField>;
     row?: Partial<GroupField>;
@@ -15,6 +16,7 @@ export type ResourceGroupType = (options?: {
 export const resourceGroupField: ResourceGroupType = ({
   resourceTypes,
   linkDestinations,
+  useAsTitle = 'title',
   overrides = {},
 } = {}) => {
   const generatedResourceGroup: ArrayField = {
@@ -24,6 +26,7 @@ export const resourceGroupField: ResourceGroupType = ({
       resourceField({
         resourceTypes,
         linkDestinations,
+        useAsTitle,
         overrides: overrides.row || {},
       }),
     ],

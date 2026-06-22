@@ -3,9 +3,10 @@ import { populateFileTypeHook } from '@/collections/hooks/populateFileTypeHook';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
-import { mediaTrackingField } from '@/fields/MediaTracking';
+import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
 import { CollectionConfig } from 'payload';
-import { preventDeleteWhenConsumed } from './hooks/preventDeleteWhenConsumed';
+import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
+import { preventSoftDeleteWhenConsumedHook } from './hooks/preventSoftDeleteWhenConsumedHook';
 
 const supportedMimeTypes = [
   'application/pdf', // .pdf
@@ -38,7 +39,7 @@ export const Documents: CollectionConfig = {
       },
     },
     // Usage Tracking
-    mediaTrackingField(),
+    recordUsageTrackingField(),
     // Sidebar Fields
     {
       name: 'fileType',
@@ -76,7 +77,12 @@ export const Documents: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('documents')],
-    beforeChange: [populatePublishedAtHook, populateTitleFromFileHook, populateFileTypeHook],
-    beforeDelete: [preventDeleteWhenConsumed],
+    beforeChange: [
+      populatePublishedAtHook,
+      populateTitleFromFileHook,
+      populateFileTypeHook,
+      preventSoftDeleteWhenConsumedHook,
+    ],
+    beforeDelete: [preventDeleteWhenConsumedHook],
   },
 };
