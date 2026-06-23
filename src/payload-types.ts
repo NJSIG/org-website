@@ -553,7 +553,21 @@ export interface PageTitleBlock {
   /**
    * The subtitle is displayed below the main title in a smaller font size.
    */
-  subtitle?: string | null;
+  subtitle?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'pageTitle';
@@ -648,7 +662,7 @@ export interface CollectionListBlock {
      */
     pagination?: boolean | null;
   };
-  legalNoticeFilters: {
+  legalNoticeFilters?: {
     /**
      * Select one or more legal notice types to display in the list, leave empty to show all legal notice types.
      */

@@ -1,4 +1,11 @@
 import { uiTipField } from '@/fields/UITip';
+import {
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+  LinkFeature,
+  ParagraphFeature,
+} from '@payloadcms/richtext-lexical';
 import { Block } from 'payload';
 
 export const PageTitle: Block = {
@@ -24,11 +31,33 @@ export const PageTitle: Block = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
       name: 'subtitle',
-      type: 'text',
+      type: 'richText',
+      localized: true,
+      editor: lexicalEditor({
+        features: [
+          ParagraphFeature(),
+          LinkFeature({
+            enabledCollections: ['pages'],
+            fields: ({ defaultFields }) => {
+              const defaultFieldsWithoutExternal = defaultFields.filter((field) => {
+                if ('name' in field && field.name === 'url') return false;
+                if ('name' in field && field.name === 'linkType') return false;
+
+                return true;
+              });
+
+              return [...defaultFieldsWithoutExternal];
+            },
+          }),
+          InlineToolbarFeature(),
+          FixedToolbarFeature(),
+        ],
+      }),
       admin: {
         description: 'The subtitle is displayed below the main title in a smaller font size.',
       },
