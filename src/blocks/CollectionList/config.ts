@@ -363,6 +363,10 @@ export const CollectionList: Block = {
           },
         },
       ],
+      admin: {
+        condition: (_, siblingData) =>
+          siblingData.listableCollection === ListableCollections.LegalNotices.value,
+      },
     },
   ],
 };
