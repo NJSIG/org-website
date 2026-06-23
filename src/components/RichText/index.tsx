@@ -33,6 +33,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
 
 export const RichText = (props: RichTextProps) => {
   const { data, className, enableProse = true, enableGutter = true, ...rest } = props;
+  const hasExplicitProseSize = /\bprose-(sm|base|lg|xl|2xl)\b/.test(className ?? '');
 
   return (
     <ConvertRichText
@@ -42,7 +43,8 @@ export const RichText = (props: RichTextProps) => {
         'payload-richtext',
         {
           container: enableGutter,
-          'prose prose-battleship prose-lg dark:prose-invert': enableProse,
+          'prose prose-battleship dark:prose-invert': enableProse,
+          'prose-lg': enableProse && !hasExplicitProseSize,
         },
         className,
       )}
