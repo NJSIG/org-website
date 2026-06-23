@@ -668,7 +668,7 @@ export interface CollectionListBlock {
     /**
      * Select the sorting order for the legal notices in the list.
      */
-    sortBy: 'startDateAsc' | 'startDateDesc';
+    sortBy: 'postingDateAsc' | 'postingDateDesc';
     /**
      * If enabled, this list will be broken into multiple pages, pagination will be based on the posting date of the legal notices.
      */

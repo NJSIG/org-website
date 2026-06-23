@@ -344,10 +344,10 @@ export const CollectionList: Block = {
           type: 'select',
           required: true,
           options: [
-            { label: 'Start Date Ascending (oldest first)', value: 'startDateAsc' },
-            { label: 'Start Date Descending (newest first)', value: 'startDateDesc' },
+            { label: 'Posting Date Ascending (oldest first)', value: 'postingDateAsc' },
+            { label: 'Posting Date Descending (newest first)', value: 'postingDateDesc' },
           ],
-          defaultValue: 'startDateAsc',
+          defaultValue: 'postingDateAsc',
           admin: {
             isClearable: false,
             description: 'Select the sorting order for the legal notices in the list.',
