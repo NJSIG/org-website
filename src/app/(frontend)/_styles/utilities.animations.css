@@ -142,8 +142,8 @@
 
 /* Utility Helpers */
 @utility animate-icon-download {
-  & > polyline,
-  & > line {
+  & > path:nth-child(1),
+  & > path:nth-child(3) {
     animation: var(--animate-micro-bounce);
   }
 }
