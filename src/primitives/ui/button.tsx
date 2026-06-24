@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost: 'bg-transparent',
       },
       color: {
-        default: '',
+        neutral: '',
         primary: '',
         accent: '',
       },
@@ -43,7 +43,7 @@ const buttonVariants = cva(
       {
         variant: ['button', 'cta', 'icon'],
         style: 'flat',
-        color: ['primary', 'accent'],
+        color: ['primary', 'accent', 'neutral'],
         class:
           'disabled:text-battleship-gray-800 disabled:bg-battleship-gray-400 dark:disabled:text-battleship-gray-400 dark:disabled:bg-battleship-gray-800',
       },
@@ -67,38 +67,61 @@ const buttonVariants = cva(
       {
         variant: ['button', 'cta'],
         style: 'outline',
-        color: ['primary', 'accent'],
+        color: ['primary', 'accent', 'neutral'],
         class:
           'disabled:text-battleship-gray-600 disabled:border-battleship-gray-400 dark:disabled:text-battleship-gray-400 dark:disabled:border-battleship-gray-600',
       },
-      // [Button, CTA] Outline | Primary
+      // [Button, CTA, Icon] Outline | Primary
       {
-        variant: ['button', 'cta'],
+        variant: ['button', 'cta', 'icon'],
         style: 'outline',
         color: 'primary',
         class:
           'text-foreground hover:bg-njsig-tint border-njsig-shade focus-visible:ring-njsig-shade/40 dark:text-foreground-inverted dark:hover:bg-njsig-shade dark:border-njsig-midtone dark:focus-visible:ring-njsig-midtone/40',
       },
-      // [Button, CTA] Outline | Accent
+      // [Button, CTA, Icon] Outline | Accent
       {
-        variant: ['button', 'cta'],
+        variant: ['button', 'cta', 'icon'],
         style: 'outline',
         color: 'accent',
         class:
           'text-foreground hover:bg-njsig-accent-tint border-njsig-accent-primary focus-visible:ring-njsig-accent-primary/40 dark:text-foreground-inverted dark:hover:bg-dandelion-700 dark:border-njsig-accent-midtone dark:focus-visible:ring-njsig-accent-midtone/40',
       },
+      // [Button, CTA, Icon] Outline | Neutral
+      {
+        variant: ['button', 'cta', 'icon'],
+        style: 'outline',
+        color: 'neutral',
+        class:
+          'text-foreground hover:bg-njsig-neutral-tint border-njsig-neutral-primary focus-visible:ring-njsig-neutral-primary/40 dark:text-foreground-inverted dark:hover:bg-battleship-gray-900 dark:border-njsig-neutral-midtone dark:focus-visible:ring-njsig-neutral-midtone/40',
+      },
+      // [Icon] Outline | Disabled
+      {
+        variant: ['icon'],
+        style: 'outline',
+        color: ['primary', 'accent', 'neutral'],
+        class:
+          'disabled:text-battleship-gray-600 disabled:border-battleship-gray-400 dark:disabled:text-battleship-gray-400 dark:disabled:border-battleship-gray-600 disabled:bg-transparent',
+      },
+      // [Button, CTA, Icon] Outline | Small
+      {
+        variant: ['button', 'cta', 'icon'],
+        style: 'outline',
+        size: 'small',
+        class: 'border',
+      },
       // [Button, Icon] Ghost | Disabled
       {
         variant: ['button', 'icon'],
         style: 'ghost',
-        color: ['default', 'primary', 'accent'],
+        color: ['neutral', 'primary', 'accent'],
         class: 'disabled:text-battleship-gray-600 dark:disabled:text-battleship-gray-400',
       },
-      // [Icon] Ghost | Default
+      // [Icon] Ghost | Neutral
       {
         variant: 'icon',
         style: 'ghost',
-        color: 'default',
+        color: 'neutral',
         class:
           'text-foreground hover:bg-battleship-gray-600/10 focus-visible:ring-battleship-gray-600 dark:text-foreground-inverted dark:hover:bg-battleship-gray-400/10 dark:focus-visible::ring-battleship-gray-400',
       },
