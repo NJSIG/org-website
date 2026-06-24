@@ -7,3 +7,6 @@ export const LegalNoticeTypes = {
 } as const;
 
 export type LegalNoticeTypes = keyof typeof LegalNoticeTypes;
+
+export type LegalNoticeTypeValue =
+  (typeof LegalNoticeTypes)[keyof typeof LegalNoticeTypes]['value'];

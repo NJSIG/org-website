@@ -1620,7 +1620,7 @@ export interface LegalNotice {
    */
   noticeType: 'legalNotice' | 'rfp' | 'rfpAward';
   /**
-   * The title of the legal notice.
+   * This title is only used for the admin panel and will not be displayed to the public.
    */
   title: string;
   /**

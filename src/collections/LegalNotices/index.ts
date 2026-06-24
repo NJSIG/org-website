@@ -37,7 +37,8 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
       type: 'text',
       required: true,
       admin: {
-        description: 'The title of the legal notice.',
+        description:
+          'This title is only used for the admin panel and will not be displayed to the public.',
       },
     },
     {
