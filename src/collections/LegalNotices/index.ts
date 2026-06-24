@@ -57,6 +57,9 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
           required: true,
           index: true,
           admin: {
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
             description:
               'The date the legal notice is posted. Future dates will not be visible to the public until the posting date is reached.',
           },
@@ -66,7 +69,7 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
           type: 'date',
           admin: {
             description: 'RFPs will be marked as closed on this date.',
-            condition: ({ siblingData }) => siblingData?.noticeType === LegalNoticeTypes.RFP.value,
+            condition: (_, siblingData) => siblingData?.noticeType === LegalNoticeTypes.RFP.value,
           },
           hooks: {
             beforeChange: [
@@ -79,11 +82,13 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
     },
     {
       name: 'rfpTracking',
+      label: 'RFP Tracking Number(s)',
       type: 'text',
-      index: true,
+      required: true,
       admin: {
-        description: 'Tracking ID for RFPs. e.g. "NJSIG-2024-001"',
-        condition: ({ siblingData }) =>
+        description:
+          'Tracking ID for RFPs. e.g. "NJSIG-2024-001" or "NJSIG-2024-001, NJSIG-2024-002"',
+        condition: (_, siblingData) =>
           siblingData?.noticeType === LegalNoticeTypes.RFP.value ||
           siblingData?.noticeType === LegalNoticeTypes.RFPAward.value,
       },

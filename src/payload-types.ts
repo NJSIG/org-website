@@ -1650,7 +1650,7 @@ export interface LegalNotice {
    */
   closeDate?: string | null;
   /**
-   * Tracking ID for RFPs. e.g. "NJSIG-2024-001"
+   * Tracking ID for RFPs. e.g. "NJSIG-2024-001" or "NJSIG-2024-001, NJSIG-2024-002"
    */
   rfpTracking?: string | null;
   /**
