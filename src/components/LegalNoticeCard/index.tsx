@@ -17,7 +17,6 @@ const noticeColors: Record<LegalNoticeTypeValue, PillVariantProps['color']> = {
 
 export const LegalNoticeCard: React.FC<LegalNotice> = ({
   noticeType: noticeTypeFromProps,
-  title,
   content,
   postingDate: postingDateFromProps,
   closeDate: closeDateFromProps,
