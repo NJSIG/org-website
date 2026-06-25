@@ -108,10 +108,13 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
 
   // Pagination
   if (filters.pagination) {
-    const limitParam = searchParams?.limit;
+    const perPageParam = searchParams?.perPage;
     const pageParam = searchParams?.page;
 
-    const limit = Math.max(1, Number(Array.isArray(limitParam) ? limitParam[0] : limitParam) || 10);
+    const limit = Math.max(
+      1,
+      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 10,
+    );
     const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
 
     const result = await payload.find({
