@@ -80,7 +80,7 @@ const LegalNoticeCardMeta: React.FC<{
       : datesString;
   }
 
-  let noticeColor: PillVariantProps['color'] = noticeColors[type?.value || 'legalNotice'];
+  const noticeColor: PillVariantProps['color'] = noticeColors[type?.value || 'legalNotice'];
 
   return (
     <small className="text-njsig-neutral-muted text-sm flex items-center gap-2">
