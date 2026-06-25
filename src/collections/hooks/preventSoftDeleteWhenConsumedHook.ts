@@ -39,7 +39,6 @@ async function getUsageData(
   collectionSlug: CollectionSlug,
   id: string | number,
 ) {
-  console.log(`Checking usage for ${collectionSlug} with ID ${id}...`);
   try {
     const result = await payload.findByID({
       collection: collectionSlug,
