@@ -23,7 +23,7 @@ export const queryLegalNotices = cache(
     // Apply Legal Notice Type Filter
     if (filters.types?.length) {
       where.and?.push({
-        types: {
+        noticeType: {
           in: filters.types,
         },
       });
