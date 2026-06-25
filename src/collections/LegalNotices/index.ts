@@ -1,6 +1,6 @@
 import { editor, editorOrPublished } from '@/access';
 import { resourceGroupField } from '@/fields/ResourceGroup';
-import { CollectionConfig } from 'payload';
+import { CollectionConfig, TextFieldSingleValidation } from 'payload';
 import { populatePublishedAtHook } from '../hooks/populatePublishedAtHook';
 import { LegalNoticeTypes } from './types';
 
@@ -85,7 +85,20 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
       name: 'rfpTracking',
       label: 'RFP Tracking Number(s)',
       type: 'text',
-      required: true,
+      validate: ((value: string, { siblingData }) => {
+        const noticeType = (siblingData as { noticeType?: string })?.noticeType;
+
+        if (
+          noticeType === LegalNoticeTypes.RFP.value ||
+          noticeType === LegalNoticeTypes.RFPAward.value
+        ) {
+          if (!value || value.trim() === '') {
+            return 'RFP Tracking Number(s) is required for RFPs and RFP Awards.';
+          }
+        }
+
+        return true;
+      }) as TextFieldSingleValidation,
       admin: {
         description:
           'Tracking ID for RFPs. e.g. "NJSIG-2024-001" or "NJSIG-2024-001, NJSIG-2024-002"',
