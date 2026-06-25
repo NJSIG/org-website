@@ -1,10 +1,12 @@
+'use client';
+
 import EventCard from '@/components/EventCard';
 import { EventCardTemplates } from '@/components/EventCard/types';
 import { Event } from '@/payload-types';
 import { PaginatedDocs } from 'payload';
+import { useRef } from 'react';
+import { CollectionListPageControl } from '../CollectionListPageControl';
 import { CollectionListEventsProps } from './Component';
-
-// TODO: Implement Pagination
 
 type CollectionListEventsClientProps = CollectionListEventsProps & {
   events: PaginatedDocs<Event> | null;
@@ -12,18 +14,34 @@ type CollectionListEventsClientProps = CollectionListEventsProps & {
 
 export const CollectionListEventsClient: React.FC<CollectionListEventsClientProps> = ({
   filters,
-  searchParams,
   events,
 }) => {
+  const blockTopRef = useRef<HTMLDivElement>(null);
+
   return events && events.docs.length ? (
-    <div className="space-y-4">
-      {events.docs.map((event) => (
-        <EventCard
-          key={event.id}
-          event={event}
-          template={(filters?.displayTemplate || EventCardTemplates.Default) as EventCardTemplates}
+    <div ref={blockTopRef}>
+      {filters?.pagination && (
+        <CollectionListPageControl totalDocs={events.totalDocs} className="mb-4" />
+      )}
+      <div className="space-y-4">
+        {events.docs.map((event) => (
+          <EventCard
+            key={event.id}
+            event={event}
+            template={
+              (filters?.displayTemplate || EventCardTemplates.Default) as EventCardTemplates
+            }
+          />
+        ))}
+      </div>
+      {filters?.pagination && (
+        <CollectionListPageControl
+          totalDocs={events.totalDocs}
+          className="mt-4"
+          scrollToTopTargetRef={blockTopRef}
+          scrollToTopOffset={48}
         />
-      ))}
+      )}
     </div>
   ) : (
     <div className="rounded-3xl bg-njsig-neutral-tint p-4">

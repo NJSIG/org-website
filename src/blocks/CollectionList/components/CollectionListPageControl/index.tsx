@@ -11,9 +11,9 @@ import {
   ChevronsRightIcon,
 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 
-const PAGE_SIZES = [1, 10, 25, 50];
+const PAGE_SIZES = [10, 25, 50];
 const DEFAULT_PAGE_SIZE = 10;
 
 const BUTTON_VARIANT = buttonVariants({
@@ -47,11 +47,15 @@ const parsePositiveInt = (value: string | null) => {
 export type CollectionListPageControlProps = {
   totalDocs: number;
   className?: string;
+  scrollToTopTargetRef?: RefObject<HTMLElement | null>;
+  scrollToTopOffset?: number;
 };
 
 export const CollectionListPageControl: React.FC<CollectionListPageControlProps> = ({
   totalDocs,
   className,
+  scrollToTopTargetRef,
+  scrollToTopOffset = 0,
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -79,13 +83,26 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
     [searchParams],
   );
 
+  const scrollToTopTarget = useCallback(() => {
+    const target = scrollToTopTargetRef?.current;
+
+    if (!target || typeof window === 'undefined') {
+      return;
+    }
+
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - scrollToTopOffset;
+
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' });
+  }, [scrollToTopOffset, scrollToTopTargetRef]);
+
   // Handle the selection of a new page size and update the router accordingly
   const handlePageSizePick = (size: number) => {
     const queryString = createQueryString({
       page: '1',
       perPage: size.toString(),
     });
-    router.push(`${pathname}?${queryString}`);
+    scrollToTopTarget();
+    router.push(`${pathname}?${queryString}`, { scroll: false });
   };
 
   const [userPageInput, setUserPageInput] = useState<string | null>(null);
@@ -110,7 +127,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
       perPage: nextPerPageParam,
     });
 
-    router.replace(`${pathname}?${queryString}`);
+    router.replace(`${pathname}?${queryString}`, { scroll: false });
   }, [createQueryString, page, pathname, perPage, router, searchParams]);
 
   // Build page button set based on the current page and total pages, ensuring that the buttons are centered around the current page
@@ -198,11 +215,20 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
 
     if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages && pageNumber !== page) {
       const queryString = createQueryString({ page: pageNumber.toString() });
-      router.push(`${pathname}?${queryString}`);
+      scrollToTopTarget();
+      router.push(`${pathname}?${queryString}`, { scroll: false });
     }
 
     setDebouncedUserPageInput(null);
-  }, [debouncedUserPageInput, totalPages, page, createQueryString, pathname, router]);
+  }, [
+    debouncedUserPageInput,
+    totalPages,
+    page,
+    createQueryString,
+    pathname,
+    router,
+    scrollToTopTarget,
+  ]);
 
   return (
     <div className={cn('flex items-center justify-center gap-2', className)}>
