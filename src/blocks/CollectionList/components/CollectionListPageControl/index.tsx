@@ -13,7 +13,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RefObject, useCallback, useEffect, useState } from 'react';
 
-const PAGE_SIZES = [10, 25, 50];
+const PAGE_SIZES = [1, 10, 25, 50];
 const DEFAULT_PAGE_SIZE = 10;
 
 const BUTTON_VARIANT = buttonVariants({
@@ -145,10 +145,15 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
 
     // Keep first/last pages visible and center a sliding window between them.
     const middleWindowSize = maxButtons - 2;
-    let startPage = Math.max(2, page - Math.floor(middleWindowSize / 2));
-    let endPage = Math.min(totalPages - 1, startPage + middleWindowSize - 1);
+    const half = Math.floor(middleWindowSize / 2);
 
-    startPage = Math.max(2, endPage - middleWindowSize + 1);
+    // Allowed start range for middle pages is [2 .. totalPages -1]
+    const minStart = 2;
+    const maxStart = totalPages - middleWindowSize;
+
+    // Calculate the start and end page of the middle window, ensuring that it stays within the allowed range
+    const startPage = Math.max(minStart, Math.min(page - half, maxStart));
+    const endPage = Math.min(totalPages - 1, startPage + middleWindowSize - 1);
 
     buttons.push(1);
 
