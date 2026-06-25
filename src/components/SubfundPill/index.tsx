@@ -6,7 +6,7 @@ type SubfundPillProps = {
 };
 
 export const SubfundPill: React.FC<SubfundPillProps> = ({ theme, label }) => {
-  let color: PillVariantProps['color'] | null;
+  let color: PillVariantProps['color'] | undefined;
 
   switch (theme) {
     case 'bacceic':
@@ -34,7 +34,7 @@ export const SubfundPill: React.FC<SubfundPillProps> = ({ theme, label }) => {
       color = 'primary';
       break;
     default:
-      color = null;
+      color = undefined;
   }
 
   return <Pill color={color} label={label} />;
