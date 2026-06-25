@@ -29,46 +29,35 @@ export const queryLegalNotices = cache(
       });
     }
 
-    // Apply Date Range Filter
-    if (filters.dateRange && filters.dateRange !== 'all') {
-      const now = Temporal.Now.plainDateISO().toString();
+    // Apply custom date range filter if provided, notices will additionally be filtered to only show those that have been posted (postingDate <= now)
+    if (filters.dateRange && filters.dateRange === 'custom' && filters.rangeStart) {
+      const rangeStart = Temporal.PlainDate.from(filters.rangeStart.slice(0, 10)).toString();
 
-      if (filters.dateRange === 'upcoming') {
-        where.and?.push({
-          startDate: {
-            greater_than_equal: now,
-          },
-        });
-      }
+      where.and?.push({
+        postingDate: {
+          greater_than_equal: rangeStart,
+        },
+      });
 
-      if (filters.dateRange === 'past') {
-        where.and?.push({
-          startDate: {
-            less_than: now,
-          },
-        });
-      }
-
-      if (filters.dateRange === 'custom' && filters.rangeStart) {
-        const rangeStart = Temporal.PlainDate.from(filters.rangeStart.slice(0, 10)).toString();
+      if (filters.rangeEnd) {
+        const rangeEnd = Temporal.PlainDate.from(filters.rangeEnd.slice(0, 10)).toString();
 
         where.and?.push({
-          startDate: {
-            greater_than_equal: rangeStart,
+          postingDate: {
+            less_than_equal: rangeEnd,
           },
         });
-
-        if (filters.rangeEnd) {
-          const rangeEnd = Temporal.PlainDate.from(filters.rangeEnd.slice(0, 10)).toString();
-
-          where.and?.push({
-            startDate: {
-              less_than_equal: rangeEnd,
-            },
-          });
-        }
       }
     }
+
+    // Apply Posting Date filter to only show legal notices that have been posted (postingDate <= now)
+    const now = Temporal.Now.plainDateTimeISO().toString();
+
+    where.and?.push({
+      postingDate: {
+        less_than_equal: now,
+      },
+    });
 
     // Apply Sorting
     let sort = '-postingDate';

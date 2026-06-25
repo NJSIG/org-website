@@ -276,13 +276,12 @@ export const CollectionList: Block = {
           required: true,
           options: [
             { label: 'All Legal Notices', value: 'all' },
-            { label: 'Upcoming Legal Notices', value: 'upcoming' },
-            { label: 'Past Legal Notices', value: 'past' },
             { label: 'Custom Range', value: 'custom' },
           ],
           admin: {
             isClearable: false,
-            description: 'Select the date range for the legal notices to display in the list.',
+            description:
+              'Select the date range for the legal notices to display in the list. Legal notices are never shown before their posting date.',
           },
         },
         {

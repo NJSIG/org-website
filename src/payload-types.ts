@@ -668,9 +668,9 @@ export interface CollectionListBlock {
      */
     types?: ('legalNotice' | 'rfp' | 'rfpAward')[] | null;
     /**
-     * Select the date range for the legal notices to display in the list.
+     * Select the date range for the legal notices to display in the list. Legal notices are never shown before their posting date.
      */
-    dateRange: 'all' | 'upcoming' | 'past' | 'custom';
+    dateRange: 'all' | 'custom';
     /**
      * Start date for the custom date range.
      */
