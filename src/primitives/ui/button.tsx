@@ -117,15 +117,15 @@ const buttonVariants = cva(
         color: ['neutral', 'primary', 'accent'],
         class: 'disabled:text-battleship-gray-600 dark:disabled:text-battleship-gray-400',
       },
-      // [Icon] Ghost | Neutral
+      // [Button, Icon] Ghost | Neutral
       {
-        variant: 'icon',
+        variant: ['button', 'icon'],
         style: 'ghost',
         color: 'neutral',
         class:
           'text-foreground hover:bg-battleship-gray-600/10 focus-visible:ring-battleship-gray-600 dark:text-foreground-inverted dark:hover:bg-battleship-gray-400/10 dark:focus-visible::ring-battleship-gray-400',
       },
-      // [Button] Ghost | Primary
+      // [Button, Icon] Ghost | Primary
       {
         variant: ['button', 'icon'],
         style: 'ghost',
@@ -133,7 +133,7 @@ const buttonVariants = cva(
         class:
           'text-foreground hover:bg-njsig-midtone/10 focus-visible:ring-njsig-midtone/40 dark:text-foreground-inverted',
       },
-      // [Button] Ghost | Accent
+      // [Button, Icon] Ghost | Accent
       {
         variant: ['button', 'icon'],
         style: 'ghost',
