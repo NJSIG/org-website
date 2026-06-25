@@ -34,7 +34,7 @@ export const RecordUsageTrackingFieldClientComponent: React.FC<{
     setIsClientSorted(true);
   };
 
-  let sortedData = useMemo(() => {
+  const sortedData = useMemo(() => {
     if (!isClientSorted) {
       return data;
     }
