@@ -18,7 +18,7 @@ import {
 } from './types';
 
 const styleVariantsEnum: StyleVariants[] = ['flat', 'outline', 'ghost'];
-const colorVariantsEnum: ColorVariants[] = ['default', 'primary', 'accent'];
+const colorVariantsEnum: ColorVariants[] = ['neutral', 'primary', 'accent'];
 const sizeVariantsEnum: SizeVariants[] = ['small', 'medium', 'large'];
 const iconPositionVariantsEnum: IconPositionVariants[] = ['none', 'before', 'after'];
 const microInteractionVariantsEnum: MicroInteractionVariants[] = ['none', 'wiggle', 'upRight'];
@@ -65,9 +65,9 @@ export const linkStyleVariantOptions: StyleVariantOptions = {
 };
 
 export const linkColorVariantOptions: ColorVariantOptions = {
-  default: {
-    label: 'Default',
-    value: 'default',
+  neutral: {
+    label: 'Neutral',
+    value: 'neutral',
   },
   primary: {
     label: 'Primary',

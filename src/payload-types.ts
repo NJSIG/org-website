@@ -379,7 +379,7 @@ export interface CMSButtonBlock {
      */
     appearance?: 'button' | null;
     styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-    colorVariant?: ('default' | 'primary' | 'accent') | false;
+    colorVariant?: ('neutral' | 'primary' | 'accent') | false;
     sizeVariant?: ('small' | 'medium' | 'large') | false;
     microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
     iconPosition?: ('none' | 'before' | 'after') | false;
@@ -495,7 +495,7 @@ export interface HeroSpinnerBlock {
            */
           appearance?: 'cta' | null;
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          colorVariant?: ('neutral' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
           microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
@@ -2707,7 +2707,7 @@ export interface Header {
            */
           appearance?: 'cta' | null;
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          colorVariant?: ('neutral' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
           microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;

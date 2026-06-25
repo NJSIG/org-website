@@ -59,13 +59,13 @@ export type AllowedStyleVariantsForAppearances<T extends LinkAppearances[] | fal
     : StyleVariants;
 
 // Color Variants
-export type ColorVariants = 'default' | 'primary' | 'accent';
+export type ColorVariants = 'neutral' | 'primary' | 'accent';
 export type ColorVariantOptions = Record<ColorVariants, Options>;
 
 type AppearanceColorMap = {
   button: Extract<ColorVariants, 'primary' | 'accent'>;
   cta: Extract<ColorVariants, 'primary' | 'accent'>;
-  icon: Extract<ColorVariants, 'default'>;
+  icon: Extract<ColorVariants, 'neutral'>;
 };
 
 export type AllowedColorVariantsForAppearances<T extends LinkAppearances[] | false | undefined> =
