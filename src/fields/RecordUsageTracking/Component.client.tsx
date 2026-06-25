@@ -12,12 +12,6 @@ type RecordUsageColumns = {
   accessor: SortableKeys;
 };
 
-type SortedData = {
-  sortedBy: SortableKeys;
-  sortedDirection: 'asc' | 'desc';
-  isClientSort: boolean;
-};
-
 const COLUMNS: RecordUsageColumns[] = [
   { label: 'Consuming Document', accessor: 'title' },
   { label: 'Collection', accessor: 'collection' },
