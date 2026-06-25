@@ -13,7 +13,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-const PAGE_SIZES = [1, 5, 10, 25, 50];
+const PAGE_SIZES = [10, 25, 50];
 
 const BUTTON_VARIANT = buttonVariants({
   variant: 'button',
@@ -55,7 +55,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
   // insert null values to represent ellipses when there are more pages than can be displayed in the button set
   const buildPageButtons = useCallback(() => {
     const buttons: (number | null)[] = [];
-    const maxButtons = 6;
+    const maxButtons = 5;
     if (totalPages <= maxButtons) {
       for (let i = 1; i <= totalPages; i++) {
         buttons.push(i);
@@ -89,9 +89,6 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
 
     return buttons;
   }, [page, totalPages]);
-
-  const pageButtons = buildPageButtons();
-  console.log('pageButtons:', pageButtons, 'page:', page, 'totalPages:', totalPages);
 
   // Handle the creation of query strings for updating the router with new page or perPage values
   const createQueryString = useCallback(
@@ -190,7 +187,8 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
                 size="small"
                 key={`pagesize-${size}`}
                 className={cn('border border-transparent', {
-                  'border-njsig-neutral-midtone bg-njsig-neutral-tint': size === perPage,
+                  'border-njsig-neutral-midtone bg-njsig-neutral-tint pointer-events-none':
+                    size === perPage,
                 })}
                 onClick={() => handlePageSizePick(size)}
                 aria-label={`${size} per page`}
@@ -218,7 +216,50 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
         >
           <ChevronLeftIcon size={16} />
         </Button>
+        <div className="flex items-center gap-1">
+          {buildPageButtons().map((button, index) => {
+            if (button === null) {
+              return (
+                <span
+                  key={`page-button-${index}`}
+                  className={cn(
+                    buttonVariants({
+                      variant: 'button',
+                      style: 'ghost',
+                      color: 'neutral',
+                      size: 'small',
+                    }),
+                    'pointer-events-none',
+                  )}
+                >
+                  &hellip;
+                </span>
+              );
+            }
 
+            return (
+              <Button
+                key={`page-button-${index}`}
+                className={cn(
+                  buttonVariants({
+                    variant: 'button',
+                    style: 'ghost',
+                    color: 'neutral',
+                    size: 'small',
+                  }),
+                  {
+                    'bg-njsig-neutral-tint border-njsig-neutral-midtone pointer-events-none':
+                      button === page && button !== null,
+                  },
+                )}
+                onClick={() => setDebouncedUserPageInput(button)}
+                aria-label={`Page ${button}`}
+              >
+                {button}
+              </Button>
+            );
+          })}
+        </div>
         <Button
           className={cn(buttonVariants({ animation: 'bounceRight' }), ICON_BUTTON_VARIANT)}
           disabled={page >= totalPages}
