@@ -2,7 +2,9 @@
 
 import { LegalNoticeCard } from '@/components/LegalNoticeCard';
 import { LegalNotice } from '@/payload-types';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PaginatedDocs } from 'payload';
+import { useEffect } from 'react';
 import { CollectionListPageControl } from '../CollectionListPageControl';
 import { CollectionListLegalNoticesProps } from './Component';
 
@@ -14,6 +16,23 @@ export const CollectionListLegalNoticesClient: React.FC<CollectionListLegalNotic
   filters,
   notices,
 }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    const currentPageParam = searchParams?.get('page');
+    const currentPerPageParam = searchParams?.get('perPage');
+    const hasPaginationParams = currentPageParam !== null || currentPerPageParam !== null;
+    const hasNoResults = notices?.docs.length === 0;
+
+    if (!hasPaginationParams || !hasNoResults) {
+      return;
+    }
+
+    router.replace(`${pathname}`);
+  }, [notices?.docs.length, pathname, router, searchParams]);
+
   return notices && notices.docs.length ? (
     <>
       {filters?.pagination && (
