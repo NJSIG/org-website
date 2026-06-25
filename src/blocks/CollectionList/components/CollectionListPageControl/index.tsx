@@ -13,8 +13,6 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-const PAGE_SIZES = [10, 25, 50];
-
 const BUTTON_VARIANT = buttonVariants({
   variant: 'button',
   style: 'outline',
@@ -31,11 +29,13 @@ const ICON_BUTTON_VARIANT = buttonVariants({
 
 export type CollectionListPageControlProps = {
   totalDocs: number;
+  pageSizes?: number[];
   className?: string;
 };
 
 export const CollectionListPageControl: React.FC<CollectionListPageControlProps> = ({
   totalDocs,
+  pageSizes = [10, 25, 50],
   className,
 }) => {
   const searchParams = useSearchParams();
@@ -179,7 +179,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
         </PopoverTrigger>
         <PopoverContent collisionPadding={16} className="w-14 p-1">
           <div className="flex flex-col gap-2">
-            {PAGE_SIZES.map((size) => (
+            {pageSizes.map((size) => (
               <Button
                 type="button"
                 style="ghost"
