@@ -13,6 +13,9 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+const PAGE_SIZES = [1, 10, 25, 50];
+const DEFAULT_PAGE_SIZE = 10;
+
 const BUTTON_VARIANT = buttonVariants({
   variant: 'button',
   style: 'outline',
@@ -27,29 +30,88 @@ const ICON_BUTTON_VARIANT = buttonVariants({
   size: 'small',
 });
 
+const parsePositiveInt = (value: string | null) => {
+  if (!value || !/^\d+$/.test(value)) {
+    return null;
+  }
+
+  const parsed = Number(value);
+
+  if (!Number.isSafeInteger(parsed) || parsed < 1) {
+    return null;
+  }
+
+  return parsed;
+};
+
 export type CollectionListPageControlProps = {
   totalDocs: number;
-  pageSizes?: number[];
   className?: string;
 };
 
 export const CollectionListPageControl: React.FC<CollectionListPageControlProps> = ({
   totalDocs,
-  pageSizes = [10, 25, 50],
   className,
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const page = searchParams?.get('page') ? parseInt(searchParams?.get('page') as string, 10) : 1;
-  const perPage = searchParams?.get('perPage')
-    ? parseInt(searchParams?.get('perPage') as string, 10)
-    : 10;
+  const reqPage = parsePositiveInt(searchParams?.get('page') || null);
+  const reqPerPage = parsePositiveInt(searchParams?.get('perPage') || null);
 
-  const totalPages = Math.ceil(totalDocs / perPage);
+  const perPage =
+    reqPerPage !== null && PAGE_SIZES.includes(reqPerPage) ? reqPerPage : DEFAULT_PAGE_SIZE;
+  const totalPages = Math.max(1, Math.ceil(totalDocs / perPage));
+  const page = reqPage !== null ? Math.min(Math.max(reqPage, 1), totalPages) : 1;
+
+  // Handle the creation of query strings for updating the router with new page or perPage values
+  const createQueryString = useCallback(
+    (updates: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams?.toString() || '');
+
+      Object.entries(updates).forEach(([name, value]) => {
+        params.set(name, value);
+      });
+
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  // Handle the selection of a new page size and update the router accordingly
+  const handlePageSizePick = (size: number) => {
+    const queryString = createQueryString({
+      page: '1',
+      perPage: size.toString(),
+    });
+    router.push(`${pathname}?${queryString}`);
+  };
+
   const [userPageInput, setUserPageInput] = useState<string | null>(null);
   const [debouncedUserPageInput, setDebouncedUserPageInput] = useState<number | null>(null);
+
+  // Normalize invalid/missing params after render to avoid router updates during render.
+  useEffect(() => {
+    const currentPageParam = searchParams?.get('page');
+    const currentPerPageParam = searchParams?.get('perPage');
+    const nextPageParam = page.toString();
+    const nextPerPageParam = perPage.toString();
+
+    if (
+      (currentPageParam === null && currentPerPageParam === null) ||
+      (currentPageParam === nextPageParam && currentPerPageParam === nextPerPageParam)
+    ) {
+      return;
+    }
+
+    const queryString = createQueryString({
+      page: nextPageParam,
+      perPage: nextPerPageParam,
+    });
+
+    router.replace(`${pathname}?${queryString}`);
+  }, [createQueryString, page, pathname, perPage, router, searchParams]);
 
   // Build page button set based on the current page and total pages, ensuring that the buttons are centered around the current page
   // insert null values to represent ellipses when there are more pages than can be displayed in the button set
@@ -90,22 +152,6 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
     return buttons;
   }, [page, totalPages]);
 
-  // Handle the creation of query strings for updating the router with new page or perPage values
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams?.toString() || '');
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  // Handle the selection of a new page size and update the router accordingly
-  const handlePageSizePick = (size: number) => {
-    const queryString = createQueryString('perPage', size.toString());
-    router.push(`${pathname}?${queryString}`);
-  };
-
   // Reset the user input when the page changes in the router
   useEffect(() => {
     setUserPageInput(null);
@@ -140,7 +186,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [userPageInput]);
+  }, [totalPages, userPageInput]);
 
   // Process the debounced input and update the router if it's valid and different from the current page
   useEffect(() => {
@@ -151,7 +197,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
     const pageNumber = debouncedUserPageInput;
 
     if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages && pageNumber !== page) {
-      const queryString = createQueryString('page', pageNumber.toString());
+      const queryString = createQueryString({ page: pageNumber.toString() });
       router.push(`${pathname}?${queryString}`);
     }
 
@@ -165,7 +211,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
         <input
           type="text"
           pattern="[0-9]+"
-          value={userPageInput || page.toString()}
+          value={userPageInput ?? page.toString()}
           onChange={(e) => setUserPageInput(e.target.value)}
           className="transition-all focus-visible:ring-4 outline-offset-4 rounded-lg bg-transparent text-sm h-7 px-1 py-1 text-foreground border border-njsig-neutral-primary focus-visible:ring-njsig-neutral-primary/40 w-7 text-center"
         />
@@ -179,7 +225,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
         </PopoverTrigger>
         <PopoverContent collisionPadding={16} className="w-14 p-1">
           <div className="flex flex-col gap-2">
-            {pageSizes.map((size) => (
+            {PAGE_SIZES.map((size) => (
               <Button
                 type="button"
                 style="ghost"
