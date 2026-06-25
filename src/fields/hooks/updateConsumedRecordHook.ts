@@ -303,7 +303,9 @@ async function addTrackingReference(
           instances: [...existingConsumer.instances, schemaPath],
         };
 
-        updatedConsumers = [...doc.consumers!.splice(existingConsumerIndex, 1), updatedConsumer];
+        updatedConsumers = doc.consumers!.map((consumer, idx) =>
+          idx === existingConsumerIndex ? updatedConsumer : consumer,
+        );
       } else {
         // Instance already tracked, no update needed
         return;
