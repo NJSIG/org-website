@@ -12,5 +12,6 @@ export type ResourceField = (options?: {
   resourceTypes?: ResourceTypes[];
   linkDestinations?: LinkDestinations[];
   forceIcon?: IconNames;
+  useAsTitle?: string;
   overrides?: Partial<GroupField>;
 }) => Field;

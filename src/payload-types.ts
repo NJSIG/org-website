@@ -7,6 +7,28 @@
  */
 
 /**
+ * A document consuming a record
+ */
+export type Consumers = {
+  /**
+   * The unique identifier of the consumer
+   */
+  id: string;
+  /**
+   * The title of the consumer document
+   */
+  title: string;
+  /**
+   * The slug of the collection
+   */
+  collectionSlug: string;
+  /**
+   * The path to the field in the consumer document that is consuming the record
+   */
+  instances: string[];
+  [k: string]: unknown;
+}[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -88,6 +110,7 @@ export interface Config {
     pages: Page;
     subfunds: Subfund;
     events: Event;
+    'legal-notices': LegalNotice;
     locations: Location;
     contacts: Contact;
     media: Media;
@@ -105,12 +128,6 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    media: {
-      relatedEvents: 'events';
-    };
-    documents: {
-      relatedEvents: 'events';
-    };
     'payload-folders': {
       documentsAndFolders:
         | 'payload-folders'
@@ -126,6 +143,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     subfunds: SubfundsSelect<false> | SubfundsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    'legal-notices': LegalNoticesSelect<false> | LegalNoticesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -265,6 +283,7 @@ export interface HeroImage {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  consumers?: Consumers;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -360,7 +379,7 @@ export interface CMSButtonBlock {
      */
     appearance?: 'button' | null;
     styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-    colorVariant?: ('default' | 'primary' | 'accent') | false;
+    colorVariant?: ('neutral' | 'primary' | 'accent') | false;
     sizeVariant?: ('small' | 'medium' | 'large') | false;
     microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
     iconPosition?: ('none' | 'before' | 'after') | false;
@@ -476,7 +495,7 @@ export interface HeroSpinnerBlock {
            */
           appearance?: 'cta' | null;
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          colorVariant?: ('neutral' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
           microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
@@ -534,7 +553,21 @@ export interface PageTitleBlock {
   /**
    * The subtitle is displayed below the main title in a smaller font size.
    */
-  subtitle?: string | null;
+  subtitle?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'pageTitle';
@@ -575,7 +608,7 @@ export interface CollectionListBlock {
   /**
    * Select the collection to display in this list.
    */
-  listableCollection: 'contacts' | 'events';
+  listableCollection: 'contacts' | 'events' | 'legal-notices';
   contactFilters?: {
     /**
      * Drag contacts to rearrange their order in the list.
@@ -626,6 +659,32 @@ export interface CollectionListBlock {
     sortBy: 'startDateAsc' | 'startDateDesc';
     /**
      * If enabled, this list will be broken into multiple pages, pagination will be based on the start date of the events.
+     */
+    pagination?: boolean | null;
+  };
+  legalNoticeFilters?: {
+    /**
+     * Select one or more legal notice types to display in the list, leave empty to show all legal notice types.
+     */
+    types?: ('legalNotice' | 'rfp' | 'rfpAward')[] | null;
+    /**
+     * Select the date range for the legal notices to display in the list. Legal notices are never shown before their posting date.
+     */
+    dateRange: 'all' | 'custom';
+    /**
+     * Start date for the custom date range.
+     */
+    rangeStart?: string | null;
+    /**
+     * End date for the custom date range. Leave empty to have no end date.
+     */
+    rangeEnd?: string | null;
+    /**
+     * Select the sorting order for the legal notices in the list.
+     */
+    sortBy: 'postingDateAsc' | 'postingDateDesc';
+    /**
+     * If enabled, this list will be broken into multiple pages, pagination will be based on the posting date of the legal notices.
      */
     pagination?: boolean | null;
   };
@@ -681,6 +740,7 @@ export interface ContactPortrait {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
+  consumers?: Consumers;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -863,11 +923,7 @@ export interface Media {
    * Used for image placeholders. Automatically generated from the image.
    */
   blurData?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  consumers?: Consumers;
   prefix?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
@@ -903,232 +959,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: string;
-  /**
-   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
-   */
-  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent';
-  /**
-   * The title of the page, used for routing, SEO, tabs, and the admin UI.
-   */
-  title: string;
-  /**
-   * Formatting options are limited to maintain consistency across the site.
-   */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Persons or organizations presenting the main topic
-   */
-  presenters?:
-    | {
-        name: string;
-        /**
-         * Title or Affiliation
-         */
-        title?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * QPA or other credits
-   */
-  credits?:
-    | {
-        credit: string;
-        id?: string | null;
-      }[]
-    | null;
-  startDate: string;
-  endDate?: string | null;
-  registrationTime?: string | null;
-  startTime: string;
-  endTime?: string | null;
-  /**
-   * Select all the categories that apply to this event.
-   */
-  categories: (string | EventCategory)[];
-  /**
-   * The contact person for the event.
-   */
-  contact?: (string | null) | Contact;
-  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
-  virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
-  /**
-   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
-   */
-  virtualLink?: string | null;
-  virtualPasscode?: string | null;
-  /**
-   * If no location is selected it will be displayed as "TBA" on the event page.
-   */
-  location?: (string | null) | Location;
-  /**
-   * The meeting agenda file provided here will be displayed on the event page and the legal notices page.
-   */
-  trusteeMeetingAgenda?: {
-    resource: {
-      type: 'document';
-      /**
-       * The resource icon should be as closely related to the resource as possible.
-       */
-      icon?: string | null;
-      /**
-       * Select or upload a document.
-       */
-      document?: (string | null) | Document;
-      /**
-       * Select or upload a video or audio clip.
-       */
-      audioVideo?: (string | null) | Media;
-      /**
-       * Provide a URL to an external resource or a reference to a CMS item.
-       */
-      link?: {
-        type?: ('reference' | 'custom') | null;
-        newTab?: boolean | null;
-        allowReferrer?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: string | Page;
-        } | null;
-        url?: string | null;
-        label?: string | null;
-      };
-    };
-  };
-  /**
-   * The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.
-   */
-  trusteeMeetingMinutes?: {
-    /**
-     * A brief summary of the trustee meeting minutes (optional).
-     */
-    minutesSummary?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    resource: {
-      type: 'document';
-      /**
-       * The resource icon should be as closely related to the resource as possible.
-       */
-      icon?: string | null;
-      /**
-       * Select or upload a document.
-       */
-      document?: (string | null) | Document;
-      /**
-       * Select or upload a video or audio clip.
-       */
-      audioVideo?: (string | null) | Media;
-      /**
-       * Provide a URL to an external resource or a reference to a CMS item.
-       */
-      link?: {
-        type?: ('reference' | 'custom') | null;
-        newTab?: boolean | null;
-        allowReferrer?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: string | Page;
-        } | null;
-        url?: string | null;
-        label?: string | null;
-      };
-    };
-  };
-  resources?:
-    | {
-        resource: {
-          type: 'document' | 'audioVideo' | 'link';
-          /**
-           * The resource icon should be as closely related to the resource as possible.
-           */
-          icon?: string | null;
-          /**
-           * Select or upload a document.
-           */
-          document?: (string | null) | Document;
-          /**
-           * Select or upload a video or audio clip.
-           */
-          audioVideo?: (string | null) | Media;
-          /**
-           * Provide a URL to an external resource or a reference to a CMS item.
-           */
-          link?: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            allowReferrer?: boolean | null;
-            reference?: {
-              relationTo: 'pages';
-              value: string | Page;
-            } | null;
-            url?: string | null;
-            label?: string | null;
-          };
-        };
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Mark this event as important to emphasize its significance.
-   */
-  important?: boolean | null;
-  /**
-   * Event slugs are not unique, as even URLs include the event date.
-   */
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  lastUpdatedAt?: string | null;
-  resourceCount?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event-categories".
- */
-export interface EventCategory {
-  id: string;
-  name: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "documents".
  */
 export interface Document {
@@ -1137,11 +967,7 @@ export interface Document {
    * If left blank the title will be generated from the file name.
    */
   title?: string | null;
-  relatedEvents?: {
-    docs?: (string | Event)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  consumers?: Consumers;
   fileType?: string | null;
   publishedAt?: string | null;
   lastUpdatedAt?: string | null;
@@ -1159,6 +985,18 @@ export interface Document {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-categories".
+ */
+export interface EventCategory {
+  id: string;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1559,6 +1397,311 @@ export interface Subfund {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  /**
+   * Select the type of event. Important Date is used for non-event dates like the renewal deadline.
+   */
+  eventType: 'trusteeMeeting' | 'subfundMeeting' | 'importantDate' | 'njsigEvent' | 'otherEvent';
+  /**
+   * The title of the page, used for routing, SEO, tabs, and the admin UI.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Persons or organizations presenting the main topic
+   */
+  presenters?:
+    | {
+        name: string;
+        /**
+         * Title or Affiliation
+         */
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * QPA or other credits
+   */
+  credits?:
+    | {
+        credit: string;
+        id?: string | null;
+      }[]
+    | null;
+  startDate: string;
+  endDate?: string | null;
+  registrationTime?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  /**
+   * Select all the categories that apply to this event.
+   */
+  categories: (string | EventCategory)[];
+  /**
+   * The contact person for the event.
+   */
+  contact?: (string | null) | Contact;
+  attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
+  virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
+  /**
+   * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
+   */
+  virtualLink?: string | null;
+  virtualPasscode?: string | null;
+  /**
+   * If no location is selected it will be displayed as "TBA" on the event page.
+   */
+  location?: (string | null) | Location;
+  /**
+   * The meeting agenda file provided here will be displayed on the event page and the legal notices page.
+   */
+  trusteeMeetingAgenda?: {
+    resource: {
+      type: 'document';
+      /**
+       * The resource icon should be as closely related to the resource as possible.
+       */
+      icon?: string | null;
+      /**
+       * Select or upload a document.
+       */
+      document?: (string | null) | Document;
+      /**
+       * Select or upload a video or audio clip.
+       */
+      audioVideo?: (string | null) | Media;
+      /**
+       * Provide a URL to an external resource or a reference to a CMS item.
+       */
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        allowReferrer?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: string | Page;
+        } | null;
+        url?: string | null;
+        label?: string | null;
+      };
+    };
+  };
+  /**
+   * The meeting minutes summary and file provided here will be displayed on the event page and the legal notices page.
+   */
+  trusteeMeetingMinutes?: {
+    /**
+     * A brief summary of the trustee meeting minutes (optional).
+     */
+    minutesSummary?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    resource: {
+      type: 'document';
+      /**
+       * The resource icon should be as closely related to the resource as possible.
+       */
+      icon?: string | null;
+      /**
+       * Select or upload a document.
+       */
+      document?: (string | null) | Document;
+      /**
+       * Select or upload a video or audio clip.
+       */
+      audioVideo?: (string | null) | Media;
+      /**
+       * Provide a URL to an external resource or a reference to a CMS item.
+       */
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        allowReferrer?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: string | Page;
+        } | null;
+        url?: string | null;
+        label?: string | null;
+      };
+    };
+  };
+  resources?:
+    | {
+        resource: {
+          type: 'document' | 'audioVideo' | 'link';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this event as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  /**
+   * Event slugs are not unique, as even URLs include the event date.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  resourceCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-notices".
+ */
+export interface LegalNotice {
+  id: string;
+  /**
+   * The type of legal notice will determine how it is displayed.
+   */
+  noticeType: 'legalNotice' | 'rfp' | 'rfpAward';
+  /**
+   * This title is only used for the admin panel and will not be displayed to the public.
+   */
+  title: string;
+  /**
+   * Formatting options are limited to maintain consistency across the site.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * The date the legal notice is posted. Future dates will not be visible to the public until the posting date is reached.
+   */
+  postingDate: string;
+  /**
+   * RFPs will be marked as closed on this date.
+   */
+  closeDate?: string | null;
+  /**
+   * Tracking ID for RFPs. e.g. "NJSIG-2024-001" or "NJSIG-2024-001, NJSIG-2024-002"
+   */
+  rfpTracking?: string | null;
+  /**
+   * Attach files related to this legal notice, such as RFP documents or award details.
+   */
+  resources?:
+    | {
+        resource: {
+          type: 'document';
+          /**
+           * The resource icon should be as closely related to the resource as possible.
+           */
+          icon?: string | null;
+          /**
+           * Select or upload a document.
+           */
+          document?: (string | null) | Document;
+          /**
+           * Select or upload a video or audio clip.
+           */
+          audioVideo?: (string | null) | Media;
+          /**
+           * Provide a URL to an external resource or a reference to a CMS item.
+           */
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            allowReferrer?: boolean | null;
+            reference?: {
+              relationTo: 'pages';
+              value: string | Page;
+            } | null;
+            url?: string | null;
+            label?: string | null;
+          };
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mark this legal notice as important to emphasize its significance.
+   */
+  important?: boolean | null;
+  publishedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1731,6 +1874,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'legal-notices';
+        value: string | LegalNotice;
       } | null)
     | ({
         relationTo: 'locations';
@@ -2019,6 +2166,47 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-notices_select".
+ */
+export interface LegalNoticesSelect<T extends boolean = true> {
+  noticeType?: T;
+  title?: T;
+  content?: T;
+  postingDate?: T;
+  closeDate?: T;
+  rfpTracking?: T;
+  resources?:
+    | T
+    | {
+        resource?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              document?: T;
+              audioVideo?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    allowReferrer?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        id?: T;
+      };
+  important?: T;
+  publishedAt?: T;
+  lastUpdatedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations_select".
  */
 export interface LocationsSelect<T extends boolean = true> {
@@ -2071,7 +2259,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
   blurData?: T;
-  relatedEvents?: T;
+  consumers?: T;
   prefix?: T;
   folder?: T;
   updatedAt?: T;
@@ -2117,7 +2305,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface DocumentsSelect<T extends boolean = true> {
   title?: T;
-  relatedEvents?: T;
+  consumers?: T;
   fileType?: T;
   publishedAt?: T;
   lastUpdatedAt?: T;
@@ -2169,6 +2357,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
             };
       };
   blurData?: T;
+  consumers?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2264,6 +2453,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
 export interface ContactPortraitsSelect<T extends boolean = true> {
   name?: T;
   blurData?: T;
+  consumers?: T;
   prefix?: T;
   folder?: T;
   updatedAt?: T;
@@ -2517,7 +2707,7 @@ export interface Header {
            */
           appearance?: 'cta' | null;
           styleVariant?: ('flat' | 'outline' | 'ghost') | false;
-          colorVariant?: ('default' | 'primary' | 'accent') | false;
+          colorVariant?: ('neutral' | 'primary' | 'accent') | false;
           sizeVariant?: ('small' | 'medium' | 'large') | false;
           microInteraction?: ('none' | 'wiggle' | 'upRight') | false;
           iconPosition?: ('none' | 'before' | 'after') | false;
@@ -2750,6 +2940,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'events';
           value: string | Event;
+        } | null)
+      | ({
+          relationTo: 'legal-notices';
+          value: string | LegalNotice;
         } | null);
     global?: string | null;
     user?: (string | null) | User;

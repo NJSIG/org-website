@@ -9,6 +9,7 @@
 
   /* Resource List */
   --resource-theme: var(--color-njsig-primary);
+  --resource-finisher: var(--bento-placeholder);
 
   /* Hero Image Positioning Defaults */
   --hero-h-pos: center;

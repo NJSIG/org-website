@@ -6,7 +6,7 @@ export const PageHeader: React.FC<{
   inner?: { className?: string };
 }> = ({ children, className, inner }) => {
   return (
-    <div className={cn('bg-njsig-background text-njsig-shade px-6 py-10', className)}>
+    <div className={cn('bg-azure-100 text-njsig-shade px-6 py-10', className)}>
       <div className={cn('max-w-7xl mx-auto flex flex-col gap-4', inner?.className)}>
         {children}
       </div>

@@ -1,0 +1,112 @@
+'use server';
+
+import { Temporal } from '@js-temporal/polyfill';
+import configPromise from '@payload-config';
+import { draftMode } from 'next/headers';
+import { getPayload, Where } from 'payload';
+import { cache } from 'react';
+import { CollectionListLegalNoticesProps } from './Component';
+
+export const queryLegalNotices = cache(
+  async ({ filters, searchParams }: CollectionListLegalNoticesProps) => {
+    if (!filters) {
+      return null;
+    }
+
+    const payload = await getPayload({ config: configPromise });
+    const { isEnabled: draft } = await draftMode();
+
+    const where: Where = {
+      and: [],
+    };
+
+    // Apply Legal Notice Type Filter
+    if (filters.types?.length) {
+      where.and?.push({
+        noticeType: {
+          in: filters.types,
+        },
+      });
+    }
+
+    // Apply custom date range filter if provided, notices will additionally be filtered to only show those that have been posted (postingDate <= now)
+    if (filters.dateRange && filters.dateRange === 'custom' && filters.rangeStart) {
+      const rangeStart = Temporal.PlainDate.from(filters.rangeStart.slice(0, 10)).toString();
+
+      where.and?.push({
+        postingDate: {
+          greater_than_equal: rangeStart,
+        },
+      });
+
+      if (filters.rangeEnd) {
+        const rangeEnd = Temporal.PlainDate.from(filters.rangeEnd.slice(0, 10)).toString();
+
+        where.and?.push({
+          postingDate: {
+            less_than_equal: rangeEnd,
+          },
+        });
+      }
+    }
+
+    // Apply Posting Date filter to only show legal notices that have been posted (postingDate <= now)
+    const now = Temporal.Now.plainDateTimeISO().toString();
+
+    where.and?.push({
+      postingDate: {
+        less_than_equal: now,
+      },
+    });
+
+    // Apply Sorting
+    let sort = '-postingDate';
+
+    if (filters.sortBy) {
+      switch (filters.sortBy) {
+        case 'postingDateAsc':
+          sort = 'postingDate';
+          break;
+        case 'postingDateDesc':
+          sort = '-postingDate';
+          break;
+      }
+    }
+
+    // Pagination
+    if (filters.pagination) {
+      const perPageParam = searchParams?.perPage;
+      const pageParam = searchParams?.page;
+
+      const limit = Math.max(
+        1,
+        Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 10,
+      );
+      const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
+
+      const result = await payload.find({
+        collection: 'legal-notices',
+        draft,
+        pagination: true,
+        limit,
+        page,
+        depth: 1,
+        where,
+        sort,
+      });
+
+      return result || null;
+    }
+
+    const result = await payload.find({
+      collection: 'legal-notices',
+      draft,
+      pagination: false,
+      depth: 1,
+      where,
+      sort,
+    });
+
+    return result || null;
+  },
+);

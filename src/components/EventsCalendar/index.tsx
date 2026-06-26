@@ -26,7 +26,7 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
   allowFiltering = true,
 }) => {
   return (
-    <div className="flex flex-col gap-6 w-full max-w-[480px] mx-auto">
+    <div className="flex flex-col gap-6 w-full max-w-120 mx-auto">
       <div className="flex flex-col gap-4">
         <CalendarHeader
           currentMonth={currentMonth}
@@ -38,8 +38,8 @@ const EventsCalendar: React.FC<EventsCalendarData> = ({
         />
         <div
           className={cn('grid grid-cols-7 gap-1', {
-            'grid-rows-6 h-[464px]': days.length <= 35,
-            'grid-rows-7 h-[544px]': days.length > 35,
+            'grid-rows-6 h-116': days.length <= 35,
+            'grid-rows-7 h-136': days.length > 35,
           })}
         >
           {dayLabels.map((label) => (

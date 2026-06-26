@@ -1,3 +1,4 @@
+import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
 import { uiTipField } from '@/fields/UITip';
 import { Block } from 'payload';
 
@@ -44,6 +45,9 @@ export const BannerTitle: Block = {
       admin: {
         description:
           'Banner Title uses Hero Images for greater control over the final result across screen sizes.',
+      },
+      hooks: {
+        afterChange: [createUpdateConsumedRecordHook('title')],
       },
     },
   ],

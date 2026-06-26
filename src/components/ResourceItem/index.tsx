@@ -111,11 +111,11 @@ const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'
   }
 
   return (
-    <div className="grow overflow-hidden flex flex-col">
+    <div className="grow flex overflow-hidden flex-col">
       <Tooltip>
         <TooltipTrigger asChild>
           <p
-            className="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis"
+            className="font-bold text-foreground overflow-hidden whitespace-nowrap text-ellipsis"
             ref={docTitleRef}
           >
             {resourceName}

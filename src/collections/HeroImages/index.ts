@@ -2,8 +2,11 @@ import { anyone, editor } from '@/access';
 import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
+import { preventDeleteWhenConsumedHook } from '../hooks/preventDeleteWhenConsumedHook';
+import { preventSoftDeleteWhenConsumedHook } from '../hooks/preventSoftDeleteWhenConsumedHook';
 import { resetPositionData } from './hooks/resetPositionData';
 import { validateHorizontalValues } from './hooks/validateHorizontalValues';
 import { validateVerticalValues } from './hooks/validateVerticalValues';
@@ -208,6 +211,8 @@ export const HeroImages: CollectionConfig = {
         description: 'Used for image placeholders. Automatically generated from the image.',
       },
     },
+    // Usage Tracking
+    recordUsageTrackingField(),
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt'],
@@ -294,6 +299,11 @@ export const HeroImages: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('hero-images')],
-    beforeChange: [computeBlurDataHook, populateTitleFromFileHook],
+    beforeChange: [
+      computeBlurDataHook,
+      populateTitleFromFileHook,
+      preventSoftDeleteWhenConsumedHook,
+    ],
+    beforeDelete: [preventDeleteWhenConsumedHook],
   },
 };

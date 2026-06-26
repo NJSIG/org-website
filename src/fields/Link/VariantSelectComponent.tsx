@@ -93,7 +93,7 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
           optionsToUse = [variantOptions.primary, variantOptions.accent];
           break;
         case 'icon':
-          optionsToUse = [variantOptions.default];
+          optionsToUse = [variantOptions.neutral];
           break;
       }
     } else if (variant === 'size') {

@@ -3,7 +3,10 @@ import { populateFileTypeHook } from '@/collections/hooks/populateFileTypeHook';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
+import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
 import { CollectionConfig } from 'payload';
+import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
+import { preventSoftDeleteWhenConsumedHook } from './hooks/preventSoftDeleteWhenConsumedHook';
 
 const supportedMimeTypes = [
   'application/pdf', // .pdf
@@ -35,12 +38,8 @@ export const Documents: CollectionConfig = {
         description: 'If left blank the title will be generated from the file name.',
       },
     },
-    {
-      name: 'relatedEvents',
-      type: 'join',
-      collection: 'events',
-      on: 'resources.resource.document',
-    },
+    // Usage Tracking
+    recordUsageTrackingField(),
     // Sidebar Fields
     {
       name: 'fileType',
@@ -78,6 +77,12 @@ export const Documents: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [createSnakeCaseUploadsHook('documents')],
-    beforeChange: [populatePublishedAtHook, populateTitleFromFileHook, populateFileTypeHook],
+    beforeChange: [
+      populatePublishedAtHook,
+      populateTitleFromFileHook,
+      populateFileTypeHook,
+      preventSoftDeleteWhenConsumedHook,
+    ],
+    beforeDelete: [preventDeleteWhenConsumedHook],
   },
 };

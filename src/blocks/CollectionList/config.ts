@@ -1,16 +1,16 @@
 import { AttendanceOptions, EventTypes } from '@/collections/Events/types';
+import { LegalNoticeTypes } from '@/collections/LegalNotices/types';
 import { ContactPersonPortraitOptions } from '@/components/ContactPerson';
 import { EventCardTemplates } from '@/components/EventCard/types';
 import { Block } from 'payload';
 
-const ListableCollections = {
+export const ListableCollections = {
   Contacts: { label: 'Contacts', value: 'contacts' },
-  // Contracting: { label: 'RFPs', value: 'rfps' },
   Events: { label: 'Events', value: 'events' },
-  // LegalNotices: { label: 'Legal Notices', value: 'legal-notices' },
+  LegalNotices: { label: 'Legal Notices', value: 'legal-notices' },
 } as const;
 
-type ListableCollections = keyof typeof ListableCollections;
+export type ListableCollections = keyof typeof ListableCollections;
 
 export const CollectionList: Block = {
   slug: 'collectionList',
@@ -101,10 +101,6 @@ export const CollectionList: Block = {
           siblingData.listableCollection === ListableCollections.Contacts.value,
       },
     },
-
-    // ---
-    // Contracting Specific Fields
-    // ---
 
     // ---
     // Event Specific Fields
@@ -260,5 +256,116 @@ export const CollectionList: Block = {
     // ---
     // Legal Notice Specific Fields
     // ---
+    {
+      type: 'group',
+      name: 'legalNoticeFilters',
+      fields: [
+        {
+          name: 'types',
+          type: 'select',
+          hasMany: true,
+          options: Object.values(LegalNoticeTypes),
+          admin: {
+            description:
+              'Select one or more legal notice types to display in the list, leave empty to show all legal notice types.',
+          },
+        },
+        {
+          name: 'dateRange',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'All Legal Notices', value: 'all' },
+            { label: 'Custom Range', value: 'custom' },
+          ],
+          admin: {
+            isClearable: false,
+            description:
+              'Select the date range for the legal notices to display in the list. Legal notices are never shown before their posting date.',
+          },
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'rangeStart',
+              type: 'date',
+              validate: (value, { siblingData }) => {
+                if ((siblingData as { dateRange: string }).dateRange === 'custom' && !value) {
+                  return 'Start date is required when using a custom date range.';
+                }
+                return true;
+              },
+              admin: {
+                description: 'Start date for the custom date range.',
+                width: '50%',
+              },
+              hooks: {
+                beforeChange: [
+                  ({ value, siblingData }) => {
+                    // Clear out custom range fields if dateRange is not 'custom'
+                    if (value && siblingData.dateRange !== 'custom') {
+                      return null;
+                    }
+
+                    return value;
+                  },
+                ],
+              },
+            },
+            {
+              name: 'rangeEnd',
+              type: 'date',
+              admin: {
+                description: 'End date for the custom date range. Leave empty to have no end date.',
+                width: '50%',
+              },
+              hooks: {
+                beforeChange: [
+                  ({ value, siblingData }) => {
+                    // Clear out custom range fields if dateRange is not 'custom'
+                    if (value && siblingData.dateRange !== 'custom') {
+                      return null;
+                    }
+
+                    return value;
+                  },
+                ],
+              },
+            },
+          ],
+          admin: {
+            condition: (_, siblingData) => siblingData.dateRange === 'custom',
+          },
+        },
+        {
+          name: 'sortBy',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Posting Date Ascending (oldest first)', value: 'postingDateAsc' },
+            { label: 'Posting Date Descending (newest first)', value: 'postingDateDesc' },
+          ],
+          defaultValue: 'postingDateAsc',
+          admin: {
+            isClearable: false,
+            description: 'Select the sorting order for the legal notices in the list.',
+          },
+        },
+        {
+          name: 'pagination',
+          type: 'checkbox',
+          label: 'Paginate?',
+          admin: {
+            description:
+              'If enabled, this list will be broken into multiple pages, pagination will be based on the posting date of the legal notices.',
+          },
+        },
+      ],
+      admin: {
+        condition: (_, siblingData) =>
+          siblingData.listableCollection === ListableCollections.LegalNotices.value,
+      },
+    },
   ],
 };

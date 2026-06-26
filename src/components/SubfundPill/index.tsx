@@ -1,28 +1,41 @@
-import { cn } from '@/utilities/cn';
+import { Pill, PillVariantProps } from '@/primitives/ui/pill';
 
 type SubfundPillProps = {
   theme?: string | null;
   label: string;
 };
 
-export const SubfundPill: React.FC<SubfundPillProps> = ({ theme = 'other', label }) => {
-  return (
-    <span
-      className={cn(
-        'px-2 py-0.5 rounded-lg text-xs font-medium bg-njsig-neutral-midtone text-foreground text-nowrap',
-        {
-          'bg-bacceic-tint': theme === 'bacceic',
-          'bg-caip-tint': theme === 'caip',
-          'bg-ericnorth-tint': theme === 'eric-north',
-          'bg-ericsouth-tint': theme === 'eric-south',
-          'bg-ericwest-tint': theme === 'eric-west',
-          'bg-mocssif-tint': theme === 'mocssif',
-          'bg-njeif-tint': theme === 'njeif',
-          'bg-njsig-tint': theme === 'njsig',
-        },
-      )}
-    >
-      {label}
-    </span>
-  );
+export const SubfundPill: React.FC<SubfundPillProps> = ({ theme, label }) => {
+  let color: PillVariantProps['color'] | undefined;
+
+  switch (theme) {
+    case 'bacceic':
+      color = 'glacial';
+      break;
+    case 'caip':
+      color = 'sea-green';
+      break;
+    case 'eric-north':
+      color = 'cerulean';
+      break;
+    case 'eric-south':
+      color = 'sushi';
+      break;
+    case 'eric-west':
+      color = 'trendy-pink';
+      break;
+    case 'mocssif':
+      color = 'tahiti-gold';
+      break;
+    case 'njeif':
+      color = 'raspberry';
+      break;
+    case 'njsig':
+      color = 'primary';
+      break;
+    default:
+      color = undefined;
+  }
+
+  return <Pill color={color} label={label} />;
 };
