@@ -13,7 +13,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RefObject, useCallback, useEffect, useState } from 'react';
 
-const PAGE_SIZES = [1, 10, 25, 50];
+const PAGE_SIZES = [10, 25, 50];
 const DEFAULT_PAGE_SIZE = 10;
 
 const BUTTON_VARIANT = buttonVariants({
