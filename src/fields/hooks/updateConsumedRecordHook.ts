@@ -32,16 +32,7 @@ function isNotFoundError(error: unknown): boolean {
 export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook => {
   const titleField = useAsTitle || 'title';
 
-  return async ({
-    req,
-    operation,
-    collection,
-    originalDoc,
-    field,
-    schemaPath,
-    value,
-    previousValue,
-  }) => {
+  return async ({ req, operation, collection, originalDoc, field, path, value, previousValue }) => {
     if (operation === 'read') {
       return value;
     }
@@ -51,7 +42,7 @@ export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook =>
     const docId = originalDoc.id;
     const docTitle = originalDoc[titleField] || `Document ${docId}`;
     const relatedCollectionSlug = (field as UploadField).relationTo;
-    const schemaPathString = schemaPath.join('.');
+    const pathString = path.join('.');
 
     try {
       if (!collectionSlug) {
@@ -75,7 +66,7 @@ export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook =>
         docTitle,
         value,
         previousValue,
-        schemaPathString,
+        pathString,
       );
     } catch (error) {
       payload.logger.error(
@@ -98,7 +89,7 @@ async function updateTrackedRecord(
   consumerTitle: string,
   newRecordId: string | null | undefined,
   oldRecordId: string | null | undefined,
-  schemaPath: string,
+  path: string,
 ) {
   try {
     // If the collectionSlug is an array, we need to check each collection for the media to update
@@ -114,7 +105,7 @@ async function updateTrackedRecord(
             consumerTitle,
             newRecordId,
             oldRecordId,
-            schemaPath,
+            path,
           ),
         ),
       );
@@ -133,7 +124,7 @@ async function updateTrackedRecord(
           collectionSlug,
           String(consumerId),
           String(oldRecordId),
-          schemaPath,
+          path,
         ),
       );
     }
@@ -146,7 +137,7 @@ async function updateTrackedRecord(
           collectionSlug,
           String(consumerId),
           String(oldRecordId),
-          schemaPath,
+          path,
         ),
       );
     }
@@ -165,7 +156,7 @@ async function updateTrackedRecord(
           String(consumerId),
           consumerTitle,
           String(newRecordId),
-          schemaPath,
+          path,
         ),
       );
     }
@@ -182,7 +173,7 @@ async function removeTrackingReference(
   collectionSlug: CollectionSlug,
   consumerId: string,
   recordId: string,
-  schemaPath: string,
+  path: string,
 ) {
   try {
     payload.logger.info(
@@ -223,13 +214,11 @@ async function removeTrackingReference(
       return;
     }
 
-    // Filter out matching schemaPath on matching consumerId, if there are no more instances for the consumer, remove the consumer entry entirely
+    // Filter out matching path on matching consumerId, if there are no more instances for the consumer, remove the consumer entry entirely
     const updatedConsumers = doc.consumers
       .map((consumer) => {
-        if (consumer.id === consumerId && consumer.instances.includes(schemaPath)) {
-          const remainingInstances = consumer.instances.filter(
-            (instance) => instance !== schemaPath,
-          );
+        if (consumer.id === consumerId && consumer.instances.includes(path)) {
+          const remainingInstances = consumer.instances.filter((instance) => instance !== path);
 
           if (remainingInstances.length > 0) {
             return { ...consumer, instances: remainingInstances };
@@ -264,7 +253,7 @@ async function addTrackingReference(
   consumerId: string,
   consumerTitle: string,
   recordId: string,
-  schemaPath: string,
+  path: string,
 ) {
   try {
     payload.logger.info(
@@ -296,11 +285,11 @@ async function addTrackingReference(
       // Consumer already exists, add new instance if it's not already there
       const existingConsumer = doc.consumers![existingConsumerIndex];
 
-      if (!existingConsumer.instances.includes(schemaPath)) {
+      if (!existingConsumer.instances.includes(path)) {
         const updatedConsumer = {
           ...existingConsumer,
           title: consumerTitle, // Update title in case it has changed
-          instances: [...existingConsumer.instances, schemaPath],
+          instances: [...existingConsumer.instances, path],
         };
 
         updatedConsumers = doc.consumers!.map((consumer, idx) =>
@@ -316,7 +305,7 @@ async function addTrackingReference(
         id: consumerId,
         title: consumerTitle,
         collectionSlug: consumerCollectionSlug,
-        instances: [schemaPath],
+        instances: [path],
       };
 
       updatedConsumers = doc.consumers ? [...doc.consumers, newConsumer] : [newConsumer];
