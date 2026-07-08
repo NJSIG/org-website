@@ -141,6 +141,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               },
             },
             resourceGroupField({
+              useAsTitle: 'shortName',
               overrides: {
                 row: {
                   label: '', // Hide the row label
