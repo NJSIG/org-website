@@ -1,4 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
+import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -164,6 +165,11 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
             }),
             MetaImageField({
               relationTo: 'media',
+              overrides: {
+                hooks: {
+                  afterChange: [createUpdateConsumedRecordHook('title')],
+                },
+              },
             }),
             MetaDescriptionField({}),
             PreviewField({
