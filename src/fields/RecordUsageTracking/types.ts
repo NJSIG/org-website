@@ -1,5 +1,6 @@
 export type RecordTrackingConsumer = {
   id: string;
+  titleField: string;
   title: string;
   collectionSlug: string;
   instances: string[];

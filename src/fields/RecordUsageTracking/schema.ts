@@ -12,6 +12,10 @@ export const schema: NonNullable<JSONField['jsonSchema']>['schema'] = {
         type: 'string',
         description: 'The unique identifier of the consumer',
       },
+      titleField: {
+        type: 'string',
+        description: 'The field in the consumer document that is used as the title',
+      },
       title: {
         type: 'string',
         description: 'The title of the consumer document',

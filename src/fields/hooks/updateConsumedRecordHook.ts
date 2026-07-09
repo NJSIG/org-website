@@ -8,27 +8,14 @@ import {
 } from 'payload';
 import { RecordTrackingConsumer } from '../RecordUsageTracking/types';
 
-function isNotFoundError(error: unknown): boolean {
-  if (!error || typeof error !== 'object') {
-    return false;
-  }
-
-  const typedError = error as {
-    status?: number;
-    statusCode?: number;
-    data?: { status?: number };
-    message?: string;
-  };
-
-  const status = typedError.status ?? typedError.statusCode ?? typedError.data?.status;
-  if (status === 404) {
-    return true;
-  }
-
-  const message = typedError.message?.toLowerCase() ?? '';
-  return message.includes('not found') || message.includes('no document');
-}
-
+/**
+ * Factory function to create a field hook for updating consumed records in a Payload CMS collection.
+ * This hook will update the tracking information for records that are consumed by other documents.
+ * It handles create, update, and delete operations, ensuring that the tracking information is kept up to date.
+ *
+ * @param useAsTitle The field name to use as the title for the consumer document. Defaults to 'title' if not provided.
+ * @returns A field hook function to be used in a Payload CMS collection.
+ */
 export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook => {
   const titleField = useAsTitle || 'title';
 
@@ -63,6 +50,7 @@ export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook =>
         relatedCollectionSlug,
         collectionSlug,
         String(docId),
+        titleField,
         docTitle,
         value,
         previousValue,
@@ -80,12 +68,28 @@ export const createUpdateConsumedRecordHook = (useAsTitle: string): FieldHook =>
   };
 };
 
+/**
+ * Handle nested collection slugs and perform the appropriate operations to update the tracking information for consumed records.
+ *
+ * @param payload The Payload CMS instance.
+ * @param operation The operation being performed ('create', 'update', 'delete').
+ * @param collectionSlug The slug of the collection or an array of collection slugs.
+ * @param consumerCollectionSlug The slug of the consumer collection.
+ * @param consumerId The ID of the consumer document.
+ * @param consumerTitleField The field name to use as the title for the consumer document.
+ * @param consumerTitle The title of the consumer document.
+ * @param newRecordId The ID of the new record being consumed.
+ * @param oldRecordId The ID of the old record being replaced or removed.
+ * @param path The path to the field in the consumer document that is consuming the record.
+ * @returns A promise that resolves when the tracking information has been updated.
+ */
 async function updateTrackedRecord(
   payload: BasePayload,
   operation: FieldHookArgs['operation'],
   collectionSlug: CollectionSlug | CollectionSlug[],
   consumerCollectionSlug: CollectionSlug,
   consumerId: string,
+  consumerTitleField: string,
   consumerTitle: string,
   newRecordId: string | null | undefined,
   oldRecordId: string | null | undefined,
@@ -102,6 +106,7 @@ async function updateTrackedRecord(
             slug,
             consumerCollectionSlug,
             consumerId,
+            consumerTitleField,
             consumerTitle,
             newRecordId,
             oldRecordId,
@@ -154,6 +159,7 @@ async function updateTrackedRecord(
           collectionSlug,
           consumerCollectionSlug,
           String(consumerId),
+          consumerTitleField,
           consumerTitle,
           String(newRecordId),
           path,
@@ -168,6 +174,16 @@ async function updateTrackedRecord(
   }
 }
 
+/**
+ * Remove a tracking reference for a consumer from a record in a collection.
+ *
+ * @param payload The Payload CMS instance.
+ * @param collectionSlug The slug of the collection.
+ * @param consumerId The ID of the consumer document.
+ * @param recordId The ID of the record being consumed.
+ * @param path The path to the field in the consumer document that is consuming the record.
+ * @returns A promise that resolves when the tracking reference has been removed.
+ */
 async function removeTrackingReference(
   payload: BasePayload,
   collectionSlug: CollectionSlug,
@@ -246,11 +262,25 @@ async function removeTrackingReference(
   }
 }
 
+/**
+ * Add a tracking reference for a consumer to a record in a collection.
+ *
+ * @param payload The Payload CMS instance.
+ * @param collectionSlug The slug of the collection.
+ * @param consumerCollectionSlug The slug of the consumer collection.
+ * @param consumerId The ID of the consumer document.
+ * @param consumerTitleField The field name to use as the title for the consumer document.
+ * @param consumerTitle The title of the consumer document.
+ * @param recordId The ID of the record being consumed.
+ * @param path The path to the field in the consumer document that is consuming the record.
+ * @returns A promise that resolves when the tracking reference has been added.
+ */
 async function addTrackingReference(
   payload: BasePayload,
   collectionSlug: CollectionSlug,
   consumerCollectionSlug: CollectionSlug,
   consumerId: string,
+  consumerTitleField: string,
   consumerTitle: string,
   recordId: string,
   path: string,
@@ -303,6 +333,7 @@ async function addTrackingReference(
       // Consumer does not exist, add new consumer entry
       const newConsumer: RecordTrackingConsumer = {
         id: consumerId,
+        titleField: consumerTitleField,
         title: consumerTitle,
         collectionSlug: consumerCollectionSlug,
         instances: [path],
@@ -327,4 +358,34 @@ async function addTrackingReference(
     );
     throw error;
   }
+}
+
+/**
+ * A utility function to determine if an error is a "not found" error based on its properties.
+ * This function checks for common patterns in error objects that indicate a resource was not found.
+ * It looks for status codes, status properties, and specific message content to make this determination.
+ *
+ * @param error The error object to check.
+ * @returns True if the error indicates a "not found" condition, false otherwise.
+ */
+function isNotFoundError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+
+  const typedError = error as {
+    status?: number;
+    statusCode?: number;
+    data?: { status?: number };
+    message?: string;
+  };
+
+  const status = typedError.status ?? typedError.statusCode ?? typedError.data?.status;
+  if (status === 404) {
+    return true;
+  }
+
+  const message = typedError.message?.toLowerCase() ?? '';
+
+  return message.includes('not found') || message.includes('no document');
 }

@@ -15,6 +15,10 @@ export type Consumers = {
    */
   id: string;
   /**
+   * The field in the consumer document that is used as the title
+   */
+  titleField?: string;
+  /**
    * The title of the consumer document
    */
   title: string;
