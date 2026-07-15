@@ -165,10 +165,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'payload-jobs-stats': PayloadJobsStat;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
   locale: 'en';
   widgets: {
@@ -177,6 +179,11 @@ export interface Config {
   user: User;
   jobs: {
     tasks: {
+      'test-task': TaskTestTask;
+      'sync-hero-image-usage-titles': TaskSyncHeroImageUsageTitles;
+      'sync-contact-portrait-usage-titles': TaskSyncContactPortraitUsageTitles;
+      'sync-document-usage-titles': TaskSyncDocumentUsageTitles;
+      'sync-media-usage-titles': TaskSyncMediaUsageTitles;
       schedulePublish: TaskSchedulePublish;
       inline: {
         input: unknown;
@@ -1814,7 +1821,14 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'schedulePublish';
+        taskSlug:
+          | 'inline'
+          | 'test-task'
+          | 'sync-hero-image-usage-titles'
+          | 'sync-contact-portrait-usage-titles'
+          | 'sync-document-usage-titles'
+          | 'sync-media-usage-titles'
+          | 'schedulePublish';
         taskID: string;
         input?:
           | {
@@ -1847,10 +1861,29 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ('inline' | 'schedulePublish') | null;
+  taskSlug?:
+    | (
+        | 'inline'
+        | 'test-task'
+        | 'sync-hero-image-usage-titles'
+        | 'sync-contact-portrait-usage-titles'
+        | 'sync-document-usage-titles'
+        | 'sync-media-usage-titles'
+        | 'schedulePublish'
+      )
+    | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
+  meta?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2553,6 +2586,7 @@ export interface PayloadJobsSelect<T extends boolean = true> {
   queue?: T;
   waitUntil?: T;
   processing?: T;
+  meta?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2772,6 +2806,24 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs-stats".
+ */
+export interface PayloadJobsStat {
+  id: string;
+  stats?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2910,6 +2962,16 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs-stats_select".
+ */
+export interface PayloadJobsStatsSelect<T extends boolean = true> {
+  stats?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -2917,6 +2979,90 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskTest-task".
+ */
+export interface TaskTestTask {
+  input?: unknown;
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSync-hero-image-usage-titles".
+ */
+export interface TaskSyncHeroImageUsageTitles {
+  input?: unknown;
+  output: {
+    checkedRecords?: number | null;
+    removedConsumers?: number | null;
+    updatedConsumers?: number | null;
+    errors?:
+      | {
+          recordId?: string | null;
+          consumerId?: string | null;
+          error?: string | null;
+        }[]
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSync-contact-portrait-usage-titles".
+ */
+export interface TaskSyncContactPortraitUsageTitles {
+  input?: unknown;
+  output: {
+    checkedRecords?: number | null;
+    removedConsumers?: number | null;
+    updatedConsumers?: number | null;
+    errors?:
+      | {
+          recordId?: string | null;
+          consumerId?: string | null;
+          error?: string | null;
+        }[]
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSync-document-usage-titles".
+ */
+export interface TaskSyncDocumentUsageTitles {
+  input?: unknown;
+  output: {
+    checkedRecords?: number | null;
+    removedConsumers?: number | null;
+    updatedConsumers?: number | null;
+    errors?:
+      | {
+          recordId?: string | null;
+          consumerId?: string | null;
+          error?: string | null;
+        }[]
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSync-media-usage-titles".
+ */
+export interface TaskSyncMediaUsageTitles {
+  input?: unknown;
+  output: {
+    checkedRecords?: number | null;
+    removedConsumers?: number | null;
+    updatedConsumers?: number | null;
+    errors?:
+      | {
+          recordId?: string | null;
+          consumerId?: string | null;
+          error?: string | null;
+        }[]
+      | null;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

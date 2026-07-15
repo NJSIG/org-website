@@ -40,6 +40,14 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "material-icon-theme.folders.associations": {
+    "access": "secure",
+    "collections": "database",
+    "blocks": "layout",
+    "fields": "form",
+    "globals": "global",
+    "primitives": "molecule"
+  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#1a1a1a",
     "activityBar.background": "#1a1a1a",

@@ -28,6 +28,7 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import { admin } from './access';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -37,6 +38,8 @@ import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
+import { createSyncRecordUsageTitles } from './fields/RecordUsageTracking/tasks/createSyncRecordUsageTitles';
+import { User } from './payload-types';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -162,6 +165,119 @@ export default buildConfig({
       },
     },
   }),
+  jobs: {
+    access: {
+      cancel: admin,
+      queue: admin,
+      run: admin,
+    },
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
+      if (!defaultJobsCollection.admin) {
+        defaultJobsCollection.admin = {};
+      }
+
+      defaultJobsCollection.admin.group = 'Administration';
+      defaultJobsCollection.admin.hidden = ({ user }) => {
+        if (!user) {
+          return true;
+        }
+
+        return (user as User).role !== 'admin';
+      };
+
+      if (!defaultJobsCollection.access) {
+        defaultJobsCollection.access = {};
+      }
+
+      defaultJobsCollection.access.read = admin;
+      defaultJobsCollection.access.create = admin;
+      defaultJobsCollection.access.update = admin;
+      defaultJobsCollection.access.delete = admin;
+
+      return defaultJobsCollection;
+    },
+    tasks: [
+      {
+        slug: 'test-task',
+        schedule: [
+          {
+            cron: '12 15 * * *', // 3:12 PM every day
+            queue: 'maintenance', // Use the "maintenance" queue for this task
+          },
+        ],
+        handler: async ({ req }) => {
+          const { payload } = req;
+
+          // Example task logic
+          const result = await payload.find({
+            collection: 'pages',
+            limit: 10,
+          });
+
+          return {
+            state: 'succeeded',
+            output: {
+              message: `Found ${result.totalDocs} pages.`,
+            },
+          };
+        },
+      },
+      createSyncRecordUsageTitles({
+        taskSlug: 'sync-hero-image-usage-titles',
+        collectionSlug: 'hero-images',
+        schedule: [
+          {
+            cron: '45 14 * * *', // 2:45 PM every day
+            queue: 'maintenance', // Use the "maintenance" queue for this task
+          },
+        ],
+      }),
+      createSyncRecordUsageTitles({
+        taskSlug: 'sync-contact-portrait-usage-titles',
+        collectionSlug: 'contact-portraits',
+        schedule: [
+          {
+            cron: '45 14 * * *', // 2:45 PM every day
+            queue: 'maintenance', // Use the "maintenance" queue for this task
+          },
+        ],
+      }),
+      createSyncRecordUsageTitles({
+        taskSlug: 'sync-document-usage-titles',
+        collectionSlug: 'documents',
+        schedule: [
+          {
+            cron: '45 14 * * *', // 2:45 PM every day
+            queue: 'maintenance', // Use the "maintenance" queue for this task
+          },
+        ],
+      }),
+      createSyncRecordUsageTitles({
+        taskSlug: 'sync-media-usage-titles',
+        collectionSlug: 'media',
+        schedule: [
+          {
+            cron: '45 14 * * *', // 2:45 PM every day
+            queue: 'maintenance', // Use the "maintenance" queue for this task
+          },
+        ],
+      }),
+    ],
+    autoRun: [
+      // {
+      //   cron: '* 22-23 * * *', // Run every hour from 10:00 PM to 11:59 PM
+      //   queue: 'maintenance', // Process "maintenance" queue
+      // },
+      // {
+      //   cron: '* 0-5 * * *', // Run every hour from 12:00 AM to 5:59 AM
+      //   queue: 'maintenance', // Process "maintenance" queue
+      // },
+      {
+        cron: '* * * * *', // Run every minute
+        queue: 'maintenance', // Process "maintenance" queue
+      },
+    ],
+  },
   sharp,
   plugins: [...plugins],
 });
