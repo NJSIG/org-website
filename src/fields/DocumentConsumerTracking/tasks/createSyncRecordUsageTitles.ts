@@ -78,6 +78,7 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
       try {
         const tracked = (await payload.find({
           collection: settings.collectionSlug,
+          overrideAccess: true,
           limit: 0, // Fetch all records
           select: {
             consumers: true,
@@ -101,6 +102,7 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
                 // Consumer document not found, remove the consumer from the tracked document
                 await payload.update({
                   collection: settings.collectionSlug,
+                  overrideAccess: true,
                   id: doc.id,
                   data: {
                     consumers: consumers.filter((c) => c.id !== consumer.id),
@@ -112,12 +114,13 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
               }
 
               const consumerDocument = consumerDoc as unknown as ConsumerDocument;
-              const consumerTitle = String(consumerDocument[consumer.titleField] ?? '');
+              const consumerTitle = String(consumerDocument[consumer.titleField] ?? consumerDoc.id);
 
               if (consumerTitle !== consumer.title) {
                 // Update the consumer title in the tracked document
                 await payload.update({
                   collection: settings.collectionSlug,
+                  overrideAccess: true,
                   id: doc.id,
                   data: {
                     consumers: consumers.map((c) =>
