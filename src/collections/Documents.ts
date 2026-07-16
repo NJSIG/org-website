@@ -3,7 +3,7 @@ import { populateFileTypeHook } from '@/collections/hooks/populateFileTypeHook';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
-import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
+import { documentConsumerTrackingField } from '@/fields/DocumentConsumerTracking';
 import { CollectionConfig } from 'payload';
 import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
 import { preventSoftDeleteWhenConsumedHook } from './hooks/preventSoftDeleteWhenConsumedHook';
@@ -39,7 +39,7 @@ export const Documents: CollectionConfig = {
       },
     },
     // Usage Tracking
-    recordUsageTrackingField(),
+    documentConsumerTrackingField(),
     // Sidebar Fields
     {
       name: 'fileType',

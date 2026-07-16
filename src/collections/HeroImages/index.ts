@@ -2,7 +2,7 @@ import { anyone, editor } from '@/access';
 import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
 import { populateTitleFromFileHook } from '@/collections/hooks/populateTitleFromFileHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
-import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
+import { documentConsumerTrackingField } from '@/fields/DocumentConsumerTracking';
 import { imageNameGenerators } from '@/utilities/imageNameGenerator';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { preventDeleteWhenConsumedHook } from '../hooks/preventDeleteWhenConsumedHook';
@@ -212,7 +212,7 @@ export const HeroImages: CollectionConfig = {
       },
     },
     // Usage Tracking
-    recordUsageTrackingField(),
+    documentConsumerTrackingField(),
   ],
   admin: {
     defaultColumns: ['filename', 'title', 'alt'],

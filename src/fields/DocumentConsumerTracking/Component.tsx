@@ -1,18 +1,18 @@
 import { JSONFieldServerComponent } from 'payload';
-import { RecordUsageTrackingFieldClientComponent } from './Component.client';
-import { RecordTrackingConsumer, RecordUsageData, RecordUsageTotals } from './types';
+import { DocumentConsumerTrackingFieldClientComponent } from './Component.client';
+import { DocumentConsumer, DocumentUsageData, DocumentUsageTotals } from './types';
 
-export const RecordUsageTrackingFieldComponent: JSONFieldServerComponent = ({ value }) => {
-  const transformedData: RecordUsageData[] = transformRecordUsageData(
-    value as RecordTrackingConsumer[],
+export const DocumentConsumerTrackingFieldComponent: JSONFieldServerComponent = ({ value }) => {
+  const transformedData: DocumentUsageData[] = transformDocumentUsageData(
+    value as DocumentConsumer[],
   );
 
-  const totals: RecordUsageTotals = getTotalUses(transformedData);
+  const totals: DocumentUsageTotals = getTotalUses(transformedData);
 
-  return <RecordUsageTrackingFieldClientComponent data={transformedData} totals={totals} />;
+  return <DocumentConsumerTrackingFieldClientComponent data={transformedData} totals={totals} />;
 };
 
-const transformRecordUsageData = (data: RecordTrackingConsumer[]): RecordUsageData[] => {
+const transformDocumentUsageData = (data: DocumentConsumer[]): DocumentUsageData[] => {
   return (
     data
       // Transform the data with href, readable collection name, and use count
@@ -36,7 +36,7 @@ const humanReadableCollectionName = (slug: string): string => {
     .join(' ');
 };
 
-const getTotalUses = (data: RecordUsageData[]): RecordUsageTotals => {
+const getTotalUses = (data: DocumentUsageData[]): DocumentUsageTotals => {
   const totalUses = data.reduce((acc, item) => acc + item.useCount, 0);
   const totalConsumers = data.length;
   const totalCollections = new Set(data.map((item) => item.collection)).size;

@@ -7,7 +7,7 @@
  */
 
 /**
- * A document consuming a record
+ * A document consuming a tracked document
  */
 export type Consumers = {
   /**
@@ -134,7 +134,13 @@ export interface Config {
   collectionsJoins: {
     'payload-folders': {
       documentsAndFolders:
-        'payload-folders' | 'pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits';
+        | 'payload-folders'
+        | 'pages'
+        | 'locations'
+        | 'contacts'
+        | 'media'
+        | 'documents'
+        | 'contact-portraits';
     };
   };
   collectionsSelect: {
@@ -179,11 +185,10 @@ export interface Config {
   user: User;
   jobs: {
     tasks: {
-      'test-task': TaskTestTask;
-      'sync-hero-image-usage-titles': TaskSyncHeroImageUsageTitles;
-      'sync-contact-portrait-usage-titles': TaskSyncContactPortraitUsageTitles;
-      'sync-document-usage-titles': TaskSyncDocumentUsageTitles;
-      'sync-media-usage-titles': TaskSyncMediaUsageTitles;
+      'sync-hero-image-usage': TaskSyncHeroImageUsage;
+      'sync-contact-portrait-usage': TaskSyncContactPortraitUsage;
+      'sync-document-usage': TaskSyncDocumentUsage;
+      'sync-media-usage': TaskSyncMediaUsage;
       schedulePublish: TaskSchedulePublish;
       inline: {
         input: unknown;
@@ -1823,11 +1828,10 @@ export interface PayloadJob {
         completedAt: string;
         taskSlug:
           | 'inline'
-          | 'test-task'
-          | 'sync-hero-image-usage-titles'
-          | 'sync-contact-portrait-usage-titles'
-          | 'sync-document-usage-titles'
-          | 'sync-media-usage-titles'
+          | 'sync-hero-image-usage'
+          | 'sync-contact-portrait-usage'
+          | 'sync-document-usage'
+          | 'sync-media-usage'
           | 'schedulePublish';
         taskID: string;
         input?:
@@ -1864,11 +1868,10 @@ export interface PayloadJob {
   taskSlug?:
     | (
         | 'inline'
-        | 'test-task'
-        | 'sync-hero-image-usage-titles'
-        | 'sync-contact-portrait-usage-titles'
-        | 'sync-document-usage-titles'
-        | 'sync-media-usage-titles'
+        | 'sync-hero-image-usage'
+        | 'sync-contact-portrait-usage'
+        | 'sync-document-usage'
+        | 'sync-media-usage'
         | 'schedulePublish'
       )
     | null;
@@ -2982,17 +2985,9 @@ export interface CollectionsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskTest-task".
+ * via the `definition` "TaskSync-hero-image-usage".
  */
-export interface TaskTestTask {
-  input?: unknown;
-  output?: unknown;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-hero-image-usage-titles".
- */
-export interface TaskSyncHeroImageUsageTitles {
+export interface TaskSyncHeroImageUsage {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3009,9 +3004,9 @@ export interface TaskSyncHeroImageUsageTitles {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-contact-portrait-usage-titles".
+ * via the `definition` "TaskSync-contact-portrait-usage".
  */
-export interface TaskSyncContactPortraitUsageTitles {
+export interface TaskSyncContactPortraitUsage {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3028,9 +3023,9 @@ export interface TaskSyncContactPortraitUsageTitles {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-document-usage-titles".
+ * via the `definition` "TaskSync-document-usage".
  */
-export interface TaskSyncDocumentUsageTitles {
+export interface TaskSyncDocumentUsage {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3047,9 +3042,9 @@ export interface TaskSyncDocumentUsageTitles {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-media-usage-titles".
+ * via the `definition` "TaskSync-media-usage".
  */
-export interface TaskSyncMediaUsageTitles {
+export interface TaskSyncMediaUsage {
   input?: unknown;
   output: {
     checkedRecords?: number | null;

@@ -1,7 +1,8 @@
-import { removeTrackingReference } from '@/fields/RecordUsageTracking/utils/removeTrackingReference';
+import { removeTrackingReference } from '@/fields/DocumentConsumerTracking/utils/removeTrackingReference';
 import type { Config } from '@/payload-types';
 import type { TaskConfig } from 'payload';
-import { RecordTrackingConsumer } from '../types';
+import { Merge } from 'ts-essentials';
+import { ConsumerDocument, TrackedDocument } from '../types';
 
 type TaskSettings<TSlug extends string> = {
   taskSlug: TSlug;
@@ -9,24 +10,19 @@ type TaskSettings<TSlug extends string> = {
   schedule?: TaskConfig['schedule'];
 };
 
-type SyncRecordUsageTask<TSlug extends string> = Omit<TaskConfig, 'slug'> & {
-  slug: TSlug;
-  schedule?: TaskConfig['schedule'];
-};
-
-type MediaRecord = {
-  id: string;
-  consumers?: RecordTrackingConsumer[];
-};
-
-type ConsumerDocument = Record<string, unknown>;
-
-type Output = {
+type TaskOutput = {
   checkedRecords: number;
   removedConsumers: number;
   updatedConsumers: number;
   errors: Array<{ recordId: string; consumerId: string; error: string }>;
 };
+
+type SyncRecordUsageTask<TSlug extends string> = Merge<
+  TaskConfig,
+  {
+    slug: TSlug;
+  }
+>;
 
 export const createSyncRecordUsageTitles = <TSlug extends string>(
   settings: TaskSettings<TSlug>,
@@ -35,8 +31,8 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
     slug: settings.taskSlug,
     schedule: settings.schedule || [
       {
-        cron: '0 1 * * *', // 1:00 AM every day
-        queue: 'maintenance', // Use the "maintenance" queue for this task
+        cron: '0 0 * * *', // 12:00 AM every day
+        queue: 'sync-record-usage', // Use the "sync-record-usage" queue for this task
       },
     ],
     outputSchema: [
@@ -73,7 +69,7 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
     ],
     handler: async ({ req }) => {
       const { payload } = req;
-      const output: Output = {
+      const output: TaskOutput = {
         checkedRecords: 0,
         removedConsumers: 0,
         updatedConsumers: 0,
@@ -81,7 +77,7 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
       };
 
       try {
-        const media = (await payload.find({
+        const tracked = (await payload.find({
           collection: settings.collectionSlug,
           limit: 0, // Fetch all records
           select: {
@@ -89,8 +85,8 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
           },
         })) || { docs: [] };
 
-        for (const mediaItem of media.docs as MediaRecord[]) {
-          const consumers = mediaItem.consumers || [];
+        for (const doc of tracked.docs as TrackedDocument[]) {
+          const consumers = doc.consumers || [];
 
           for (const consumer of consumers) {
             output.checkedRecords += 1;
@@ -103,12 +99,12 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
                 })) || null;
 
               if (!consumerDoc) {
-                // Consumer document not found, remove the consumer from the media item
+                // Consumer document not found, remove the consumer from the tracked document
                 await removeTrackingReference(
                   payload,
                   settings.collectionSlug,
                   consumer.id,
-                  mediaItem.id,
+                  doc.id,
                   consumer.titleField || 'title',
                 );
 
@@ -120,10 +116,10 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
               const consumerTitle = String(consumerDocument[consumer.titleField] ?? '');
 
               if (consumerTitle !== consumer.title) {
-                // Update the consumer title in the media item
+                // Update the consumer title in the tracked document
                 await payload.update({
                   collection: settings.collectionSlug,
-                  id: mediaItem.id,
+                  id: doc.id,
                   data: {
                     consumers: consumers.map((c) =>
                       c.id === consumer.id ? { ...c, title: consumerTitle } : c,
@@ -135,7 +131,7 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
               }
             } catch (error) {
               output.errors.push({
-                recordId: mediaItem.id,
+                recordId: doc.id,
                 consumerId: consumer.id,
                 error: (error as Error).message,
               });

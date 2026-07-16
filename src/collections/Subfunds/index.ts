@@ -1,5 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
-import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -167,7 +167,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               relationTo: 'media',
               overrides: {
                 hooks: {
-                  afterChange: [createUpdateConsumedRecordHook('title')],
+                  afterChange: [createUpdateConsumedDocumentHook('title')],
                 },
               },
             }),

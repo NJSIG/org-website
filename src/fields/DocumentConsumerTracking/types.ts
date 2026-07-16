@@ -1,4 +1,4 @@
-export type RecordTrackingConsumer = {
+export type DocumentConsumer = {
   id: string;
   titleField: string;
   title: string;
@@ -6,7 +6,7 @@ export type RecordTrackingConsumer = {
   instances: string[];
 };
 
-export type RecordUsageData = {
+export type DocumentUsageData = {
   id: string;
   href: string;
   title: string;
@@ -14,8 +14,15 @@ export type RecordUsageData = {
   useCount: number;
 };
 
-export type RecordUsageTotals = {
+export type DocumentUsageTotals = {
   totalUses: number;
   totalConsumers: number;
   totalCollections: number;
 };
+
+export type TrackedDocument = {
+  id: string;
+  consumers?: DocumentConsumer[];
+};
+
+export type ConsumerDocument = Record<string, unknown>;

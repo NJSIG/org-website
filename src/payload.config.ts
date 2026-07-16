@@ -38,8 +38,8 @@ import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
-import { createSyncRecordUsageTitles } from './fields/RecordUsageTracking/tasks/createSyncRecordUsageTitles';
 import { User } from './payload-types';
+import { tasks } from './tasks';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -177,6 +177,14 @@ export default buildConfig({
       }
 
       defaultJobsCollection.admin.group = 'Administration';
+      defaultJobsCollection.admin.defaultColumns = [
+        'taskSlug',
+        'queue',
+        'waitUntil',
+        'processing',
+        'completedAt',
+        'hasError',
+      ];
       defaultJobsCollection.admin.hidden = ({ user }) => {
         if (!user) {
           return true;
@@ -196,87 +204,11 @@ export default buildConfig({
 
       return defaultJobsCollection;
     },
-    tasks: [
-      {
-        slug: 'test-task',
-        schedule: [
-          {
-            cron: '12 15 * * *', // 3:12 PM every day
-            queue: 'maintenance', // Use the "maintenance" queue for this task
-          },
-        ],
-        handler: async ({ req }) => {
-          const { payload } = req;
-
-          // Example task logic
-          const result = await payload.find({
-            collection: 'pages',
-            limit: 10,
-          });
-
-          return {
-            state: 'succeeded',
-            output: {
-              message: `Found ${result.totalDocs} pages.`,
-            },
-          };
-        },
-      },
-      createSyncRecordUsageTitles({
-        taskSlug: 'sync-hero-image-usage-titles',
-        collectionSlug: 'hero-images',
-        schedule: [
-          {
-            cron: '45 14 * * *', // 2:45 PM every day
-            queue: 'maintenance', // Use the "maintenance" queue for this task
-          },
-        ],
-      }),
-      createSyncRecordUsageTitles({
-        taskSlug: 'sync-contact-portrait-usage-titles',
-        collectionSlug: 'contact-portraits',
-        schedule: [
-          {
-            cron: '45 14 * * *', // 2:45 PM every day
-            queue: 'maintenance', // Use the "maintenance" queue for this task
-          },
-        ],
-      }),
-      createSyncRecordUsageTitles({
-        taskSlug: 'sync-document-usage-titles',
-        collectionSlug: 'documents',
-        schedule: [
-          {
-            cron: '45 14 * * *', // 2:45 PM every day
-            queue: 'maintenance', // Use the "maintenance" queue for this task
-          },
-        ],
-      }),
-      createSyncRecordUsageTitles({
-        taskSlug: 'sync-media-usage-titles',
-        collectionSlug: 'media',
-        schedule: [
-          {
-            cron: '45 14 * * *', // 2:45 PM every day
-            queue: 'maintenance', // Use the "maintenance" queue for this task
-          },
-        ],
-      }),
-    ],
-    autoRun: [
-      // {
-      //   cron: '* 22-23 * * *', // Run every hour from 10:00 PM to 11:59 PM
-      //   queue: 'maintenance', // Process "maintenance" queue
-      // },
-      // {
-      //   cron: '* 0-5 * * *', // Run every hour from 12:00 AM to 5:59 AM
-      //   queue: 'maintenance', // Process "maintenance" queue
-      // },
-      {
-        cron: '* * * * *', // Run every minute
-        queue: 'maintenance', // Process "maintenance" queue
-      },
-    ],
+    tasks: [...tasks],
+    // Prefer running jobs using a bin script instead of the autoRun.
+    // Use schedules jobs in the host environment to trigger the bin script.
+    // Using cron on the host: `payload jobs:run --all-queues --handle-schedules`
+    // Or starting in a container: `payload jobs:run --cron "* * * * *" --all-queues --handle-schedules`
   },
   sharp,
   plugins: [...plugins],

@@ -3,24 +3,24 @@
 import { cn } from '@/utilities/cn';
 import { ChevronIcon } from '@payloadcms/ui';
 import { useMemo, useState } from 'react';
-import { RecordUsageData, RecordUsageTotals } from './types';
+import { DocumentUsageData, DocumentUsageTotals } from './types';
 
-type SortableKeys = keyof Omit<RecordUsageData, 'href' | 'id'>;
+type SortableKeys = keyof Omit<DocumentUsageData, 'href' | 'id'>;
 
-type RecordUsageColumns = {
+type DocumentUsageColumns = {
   label: string;
   accessor: SortableKeys;
 };
 
-const COLUMNS: RecordUsageColumns[] = [
+const COLUMNS: DocumentUsageColumns[] = [
   { label: 'Consuming Document', accessor: 'title' },
   { label: 'Collection', accessor: 'collection' },
   { label: 'Usage Count', accessor: 'useCount' },
 ];
 
-export const RecordUsageTrackingFieldClientComponent: React.FC<{
-  data: RecordUsageData[];
-  totals: RecordUsageTotals;
+export const DocumentConsumerTrackingFieldClientComponent: React.FC<{
+  data: DocumentUsageData[];
+  totals: DocumentUsageTotals;
   defaultSortedBy?: SortableKeys;
   defaultSortedDirection?: 'asc' | 'desc';
 }> = ({ data, totals, defaultSortedBy = 'title', defaultSortedDirection = 'asc' }) => {
@@ -71,11 +71,11 @@ export const RecordUsageTrackingFieldClientComponent: React.FC<{
   return (
     <div>
       <h3>
-        <span className="field-label">Record Usage Tracking</span>
+        <span className="field-label">Document Usage Tracking</span>
       </h3>
       <div className="field-description field-description-consumers">
-        This record is consumed {totals.totalUses} times across {totals.totalConsumers} consumers in{' '}
-        {totals.totalCollections} collections.
+        This document is consumed {totals.totalUses} times across {totals.totalConsumers} consumers
+        in {totals.totalCollections} collections.
       </div>
       <div className="collection-list__tables">
         <div className="table-wrap">

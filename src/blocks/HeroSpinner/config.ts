@@ -1,5 +1,5 @@
 import { plausibleCustomEventField } from '@/fields/Analytics/plausibleCustomEvent';
-import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { linkField } from '@/fields/Link';
 import { uiTipField } from '@/fields/UITip';
 import { Block } from 'payload';
@@ -52,7 +52,7 @@ export const HeroSpinner: Block = {
           relationTo: 'hero-images',
           required: true,
           hooks: {
-            afterChange: [createUpdateConsumedRecordHook('title')],
+            afterChange: [createUpdateConsumedDocumentHook('title')],
           },
         },
         {

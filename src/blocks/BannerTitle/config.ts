@@ -1,4 +1,4 @@
-import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { uiTipField } from '@/fields/UITip';
 import { Block } from 'payload';
 
@@ -47,7 +47,7 @@ export const BannerTitle: Block = {
           'Banner Title uses Hero Images for greater control over the final result across screen sizes.',
       },
       hooks: {
-        afterChange: [createUpdateConsumedRecordHook('title')],
+        afterChange: [createUpdateConsumedDocumentHook('title')],
       },
     },
   ],

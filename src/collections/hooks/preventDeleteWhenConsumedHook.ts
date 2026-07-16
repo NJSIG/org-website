@@ -1,4 +1,4 @@
-import { RecordTrackingConsumer } from '@/fields/RecordUsageTracking/types';
+import { DocumentConsumer } from '@/fields/DocumentConsumerTracking/types';
 import { APIError, BasePayload, CollectionBeforeDeleteHook, CollectionSlug } from 'payload';
 
 export const preventDeleteWhenConsumedHook: CollectionBeforeDeleteHook = async ({
@@ -40,7 +40,7 @@ async function getUsageData(
       throw new APIError(`No ${collectionSlug} found with ID ${id}.`, 404);
     }
 
-    const doc = result as { consumers?: RecordTrackingConsumer[] };
+    const doc = result as { consumers?: DocumentConsumer[] };
 
     return doc.consumers ?? [];
   } catch (error) {

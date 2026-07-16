@@ -1,9 +1,9 @@
 import { JSONField } from 'payload';
 
 export const schema: NonNullable<JSONField['jsonSchema']>['schema'] = {
-  $id: 'urn:njsig:schemas:record-usage:v1',
+  $id: 'urn:njsig:schemas:document-usage:v1',
   title: 'Consumers',
-  description: 'A document consuming a record',
+  description: 'A document consuming a tracked document',
   type: 'array',
   items: {
     type: 'object',
