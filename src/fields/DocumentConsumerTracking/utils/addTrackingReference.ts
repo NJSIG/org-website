@@ -57,6 +57,7 @@ export async function addTrackingReference(
       if (!existingConsumer.instances.includes(path)) {
         const updatedConsumer = {
           ...existingConsumer,
+          titleField: consumerTitleField, // Update titleField in case it has changed
           title: consumerTitle, // Update title in case it has changed
           instances: [...existingConsumer.instances, path],
         };
