@@ -1,4 +1,3 @@
-import { removeTrackingReference } from '@/fields/DocumentConsumerTracking/utils/removeTrackingReference';
 import type { Config } from '@/payload-types';
 import type { TaskConfig } from 'payload';
 import { Merge } from 'ts-essentials';
@@ -100,13 +99,13 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
 
               if (!consumerDoc) {
                 // Consumer document not found, remove the consumer from the tracked document
-                await removeTrackingReference(
-                  payload,
-                  settings.collectionSlug,
-                  consumer.id,
-                  doc.id,
-                  consumer.titleField || 'title',
-                );
+                await payload.update({
+                  collection: settings.collectionSlug,
+                  id: doc.id,
+                  data: {
+                    consumers: consumers.filter((c) => c.id !== consumer.id),
+                  },
+                });
 
                 output.removedConsumers += 1;
                 continue;
