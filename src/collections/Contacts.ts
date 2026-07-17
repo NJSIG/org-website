@@ -1,5 +1,5 @@
 import { anyone, editor } from '@/access';
-import { createUpdateConsumedRecordHook } from '@/fields/hooks/updateConsumedRecordHook';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { patternField } from '@/fields/Pattern';
 import { CollectionConfig } from 'payload';
 
@@ -49,7 +49,7 @@ export const Contacts: CollectionConfig<'contacts'> = {
                   'Portraits should be square and at least 250x250 pixels. A placeholder will be used if no image is assigned to this contact.',
               },
               hooks: {
-                afterChange: [createUpdateConsumedRecordHook('name')],
+                afterChange: [createUpdateConsumedDocumentHook('name')],
               },
             },
             {

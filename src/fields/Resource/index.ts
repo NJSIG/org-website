@@ -1,5 +1,5 @@
 import { deepMerge, GroupField } from 'payload';
-import { createUpdateConsumedRecordHook } from '../hooks/updateConsumedRecordHook';
+import { createUpdateConsumedDocumentHook } from '../hooks/createUpdateConsumedDocumentHook';
 import { linkField } from '../Link';
 import { LinkDestinations } from '../Link/types';
 import { lucideIconPickerField } from '../LucideIconPicker';
@@ -94,7 +94,7 @@ export const resourceField: ResourceField = ({
           description: 'Select or upload a document.',
         },
         hooks: {
-          afterChange: [createUpdateConsumedRecordHook(useAsTitle)],
+          afterChange: [createUpdateConsumedDocumentHook(useAsTitle)],
         },
       },
       {
@@ -110,7 +110,7 @@ export const resourceField: ResourceField = ({
           description: 'Select or upload a video or audio clip.',
         },
         hooks: {
-          afterChange: [createUpdateConsumedRecordHook(useAsTitle)],
+          afterChange: [createUpdateConsumedDocumentHook(useAsTitle)],
         },
       },
       linkField({

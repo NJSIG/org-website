@@ -1,4 +1,5 @@
 import { admin, editor } from '@/access';
+import { User } from '@/payload-types';
 import type { CollectionConfig } from 'payload';
 
 export const Users: CollectionConfig = {
@@ -13,6 +14,13 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     group: 'Administration',
+    hidden: ({ user }) => {
+      if (!user) {
+        return true;
+      }
+
+      return (user as User).role !== 'admin';
+    },
   },
   fields: [
     {

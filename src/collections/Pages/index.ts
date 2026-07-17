@@ -2,6 +2,7 @@ import { editor, editorOrPublished } from '@/access';
 import { populatePublishedAtHook } from '@/collections/hooks/populatePublishedAtHook';
 import { revalidatePageDeleteHook, revalidatePageHook } from '@/collections/Pages/hooks';
 import { dynamicBlocksField, templateOptions } from '@/fields/DynamicBlocks';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { slugField } from '@/fields/Slug';
 import { Page } from '@/payload-types';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -67,6 +68,11 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
             MetaImageField({
               relationTo: 'media',
+              overrides: {
+                hooks: {
+                  afterChange: [createUpdateConsumedDocumentHook('title')],
+                },
+              },
             }),
             MetaDescriptionField({}),
             PreviewField({

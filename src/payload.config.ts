@@ -28,6 +28,7 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import { admin } from './access';
 import { ContactPortraits } from './collections/ContactPortraits';
 import { Contacts } from './collections/Contacts';
 import { Documents } from './collections/Documents';
@@ -37,6 +38,8 @@ import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
+import { User } from './payload-types';
+import { tasks } from './tasks';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -162,6 +165,51 @@ export default buildConfig({
       },
     },
   }),
+  jobs: {
+    access: {
+      cancel: admin,
+      queue: admin,
+      run: admin,
+    },
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
+      if (!defaultJobsCollection.admin) {
+        defaultJobsCollection.admin = {};
+      }
+
+      defaultJobsCollection.admin.group = 'Administration';
+      defaultJobsCollection.admin.defaultColumns = [
+        'taskSlug',
+        'queue',
+        'waitUntil',
+        'processing',
+        'completedAt',
+        'hasError',
+      ];
+      defaultJobsCollection.admin.hidden = ({ user }) => {
+        if (!user) {
+          return true;
+        }
+
+        return (user as User).role !== 'admin';
+      };
+
+      if (!defaultJobsCollection.access) {
+        defaultJobsCollection.access = {};
+      }
+
+      defaultJobsCollection.access.read = admin;
+      defaultJobsCollection.access.create = admin;
+      defaultJobsCollection.access.update = admin;
+      defaultJobsCollection.access.delete = admin;
+
+      return defaultJobsCollection;
+    },
+    tasks: [...tasks],
+    // Prefer running jobs using a bin script instead of the autoRun.
+    // Use schedules jobs in the host environment to trigger the bin script.
+    // Using cron on the host: `payload jobs:run --all-queues --handle-schedules`
+    // Or starting in a container: `payload jobs:run --cron "* * * * *" --all-queues --handle-schedules`
+  },
   sharp,
   plugins: [...plugins],
 });

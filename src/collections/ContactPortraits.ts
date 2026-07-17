@@ -2,7 +2,7 @@ import { anyone, editor } from '@/access';
 import { checkSquareHook } from '@/collections/hooks/checkSquareHook';
 import { computeBlurDataHook } from '@/collections/hooks/computeBlurDataHook';
 import { createSnakeCaseUploadsHook } from '@/collections/hooks/snakeCaseUploadsHook';
-import { recordUsageTrackingField } from '@/fields/RecordUsageTracking';
+import { documentConsumerTrackingField } from '@/fields/DocumentConsumerTracking';
 import { uiTipField } from '@/fields/UITip';
 import { CollectionConfig, ImageUploadFormatOptions } from 'payload';
 import { preventDeleteWhenConsumedHook } from './hooks/preventDeleteWhenConsumedHook';
@@ -45,7 +45,7 @@ export const ContactPortraits: CollectionConfig<'contact-portraits'> = {
       },
     },
     // Usage Tracking
-    recordUsageTrackingField(),
+    documentConsumerTrackingField(),
   ],
   folders: true,
   admin: {

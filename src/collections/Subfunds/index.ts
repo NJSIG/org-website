@@ -1,4 +1,5 @@
 import { editor, editorOrPublished } from '@/access';
+import { createUpdateConsumedDocumentHook } from '@/fields/hooks/createUpdateConsumedDocumentHook';
 import { resourceGroupField } from '@/fields/ResourceGroup';
 import { slugField } from '@/fields/Slug';
 import { generatePreviewPath } from '@/utilities/generatePreviewPath';
@@ -141,6 +142,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               },
             },
             resourceGroupField({
+              useAsTitle: 'shortName',
               overrides: {
                 row: {
                   label: '', // Hide the row label
@@ -163,6 +165,11 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
             }),
             MetaImageField({
               relationTo: 'media',
+              overrides: {
+                hooks: {
+                  afterChange: [createUpdateConsumedDocumentHook('title')],
+                },
+              },
             }),
             MetaDescriptionField({}),
             PreviewField({
