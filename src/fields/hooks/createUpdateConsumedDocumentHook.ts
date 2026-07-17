@@ -2,9 +2,11 @@ import { APIError, FieldHook, UploadField } from 'payload';
 import { updateTrackedRecord } from '../DocumentConsumerTracking/utils/updateTrackingReference';
 
 /**
- * Factory function to create a field hook for updating consumed records in a Payload CMS collection.
- * This hook will update the tracking information for records that are consumed by other documents.
+ * Factory function to create a field hook for updating consumed documents in a Payload CMS collection.
+ * This hook will update the tracking information for child documents that are consumed by other documents.
  * It handles create, update, and delete operations, ensuring that the tracking information is kept up to date.
+ * Limitation: This hook will not run when sibling data, like a page title, is updated. Use the
+ * `createSyncDocumentConsumerTitles` task to synchronize consumer titles in such cases.
  *
  * @param useAsTitle The field name to use as the title for the consumer document. Defaults to 'title' if not provided.
  * @returns A field hook function to be used in a Payload CMS collection.

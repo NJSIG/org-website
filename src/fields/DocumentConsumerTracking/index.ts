@@ -11,8 +11,8 @@ export const documentConsumerTrackingField: DocumentConsumerTrackingField = (
     label,
     type: 'json',
     jsonSchema: {
-      uri: 'urn:njsig:schemas:document-usage:v1',
-      fileMatch: ['urn:njsig:schemas:document-usage:v1'],
+      uri: 'urn:njsig:schemas:document-consumers:v1',
+      fileMatch: ['urn:njsig:schemas:document-consumers:v1'],
       schema,
     },
     defaultValue: [],

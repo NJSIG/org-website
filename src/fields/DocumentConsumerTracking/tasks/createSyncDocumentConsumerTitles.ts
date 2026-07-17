@@ -16,22 +16,22 @@ type TaskOutput = {
   errors: Array<{ recordId: string; consumerId: string; error: string }>;
 };
 
-type SyncRecordUsageTask<TSlug extends string> = Merge<
+type SyncDocumentConsumerTitlesTask<TSlug extends string> = Merge<
   TaskConfig,
   {
     slug: TSlug;
   }
 >;
 
-export const createSyncRecordUsageTitles = <TSlug extends string>(
+export const createSyncDocumentConsumerTitles = <TSlug extends string>(
   settings: TaskSettings<TSlug>,
-): SyncRecordUsageTask<TSlug> => {
+): SyncDocumentConsumerTitlesTask<TSlug> => {
   return {
     slug: settings.taskSlug,
     schedule: settings.schedule || [
       {
         cron: '0 0 * * *', // 12:00 AM every day
-        queue: 'sync-record-usage', // Use the "sync-record-usage" queue for this task
+        queue: 'sync-document-consumer-titles', // Use the "sync-document-consumer-titles" queue for this task
       },
     ],
     outputSchema: [
@@ -80,15 +80,16 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
           collection: settings.collectionSlug,
           overrideAccess: true,
           limit: 0, // Fetch all records
+          pagination: false,
           select: {
             consumers: true,
           },
         })) || { docs: [] };
 
         for (const doc of tracked.docs as TrackedDocument[]) {
-          const consumers = doc.consumers || [];
+          let consumers = [...(doc.consumers || [])];
 
-          for (const consumer of consumers) {
+          for (const consumer of [...consumers]) {
             output.checkedRecords += 1;
 
             try {
@@ -100,13 +101,13 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
 
               if (!consumerDoc) {
                 // Consumer document not found, remove the consumer from the tracked document
+                consumers = consumers.filter((c) => c.id !== consumer.id);
+
                 await payload.update({
                   collection: settings.collectionSlug,
                   overrideAccess: true,
                   id: doc.id,
-                  data: {
-                    consumers: consumers.filter((c) => c.id !== consumer.id),
-                  },
+                  data: { consumers },
                 });
 
                 output.removedConsumers += 1;
@@ -146,6 +147,12 @@ export const createSyncRecordUsageTitles = <TSlug extends string>(
           consumerId: 'N/A',
           error: (error as Error).message,
         });
+      }
+
+      if (output.errors.length > 0) {
+        throw new Error(
+          `SyncDocumentConsumerTitles task completed with errors: ${JSON.stringify(output.errors)}`,
+        );
       }
 
       return { state: 'succeeded', output };
