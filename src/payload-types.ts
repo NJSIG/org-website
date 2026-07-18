@@ -185,10 +185,10 @@ export interface Config {
   user: User;
   jobs: {
     tasks: {
-      'sync-hero-image-usage': TaskSyncHeroImageUsage;
-      'sync-contact-portrait-usage': TaskSyncContactPortraitUsage;
-      'sync-document-usage': TaskSyncDocumentUsage;
-      'sync-media-usage': TaskSyncMediaUsage;
+      'sync-hero-image-consumers': TaskSyncHeroImageConsumers;
+      'sync-contact-portrait-consumers': TaskSyncContactPortraitConsumers;
+      'sync-document-consumers': TaskSyncDocumentConsumers;
+      'sync-media-consumers': TaskSyncMediaConsumers;
       schedulePublish: TaskSchedulePublish;
       inline: {
         input: unknown;
@@ -1828,10 +1828,10 @@ export interface PayloadJob {
         completedAt: string;
         taskSlug:
           | 'inline'
-          | 'sync-hero-image-usage'
-          | 'sync-contact-portrait-usage'
-          | 'sync-document-usage'
-          | 'sync-media-usage'
+          | 'sync-hero-image-consumers'
+          | 'sync-contact-portrait-consumers'
+          | 'sync-document-consumers'
+          | 'sync-media-consumers'
           | 'schedulePublish';
         taskID: string;
         input?:
@@ -1868,10 +1868,10 @@ export interface PayloadJob {
   taskSlug?:
     | (
         | 'inline'
-        | 'sync-hero-image-usage'
-        | 'sync-contact-portrait-usage'
-        | 'sync-document-usage'
-        | 'sync-media-usage'
+        | 'sync-hero-image-consumers'
+        | 'sync-contact-portrait-consumers'
+        | 'sync-document-consumers'
+        | 'sync-media-consumers'
         | 'schedulePublish'
       )
     | null;
@@ -2985,9 +2985,9 @@ export interface CollectionsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-hero-image-usage".
+ * via the `definition` "TaskSync-hero-image-consumers".
  */
-export interface TaskSyncHeroImageUsage {
+export interface TaskSyncHeroImageConsumers {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3004,9 +3004,9 @@ export interface TaskSyncHeroImageUsage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-contact-portrait-usage".
+ * via the `definition` "TaskSync-contact-portrait-consumers".
  */
-export interface TaskSyncContactPortraitUsage {
+export interface TaskSyncContactPortraitConsumers {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3023,9 +3023,9 @@ export interface TaskSyncContactPortraitUsage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-document-usage".
+ * via the `definition` "TaskSync-document-consumers".
  */
-export interface TaskSyncDocumentUsage {
+export interface TaskSyncDocumentConsumers {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
@@ -3042,9 +3042,9 @@ export interface TaskSyncDocumentUsage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSync-media-usage".
+ * via the `definition` "TaskSync-media-consumers".
  */
-export interface TaskSyncMediaUsage {
+export interface TaskSyncMediaConsumers {
   input?: unknown;
   output: {
     checkedRecords?: number | null;
