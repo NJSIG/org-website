@@ -48,8 +48,8 @@
     --subfund-accent: var(--color-ericnorth-midtone);
     --subfund-contact-ring: var(--color-ericnorth-primary);
     --title-theme-accent: var(--color-ericnorth-midtone);
-    --event-tile-bespoke-dark: var(--color-cerulean-900);
-    --event-tile-bespoke-light: var(--color-cerulean-700);
+    --event-tile-bespoke-dark: var(--color-cerulean-950);
+    --event-tile-bespoke-light: var(--color-cerulean-800);
     --resource-theme: var(--color-ericnorth-midtone);
     --resource-finisher: var(--color-ericnorth-tint);
   }
