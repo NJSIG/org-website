@@ -16,7 +16,7 @@
 @utility fibers {
   background-image: repeating-linear-gradient(
     var(--fiber-angle, 135deg),
-    color-mix(in oklch, currentColor var(--fiber-strength, 8%), transparent) 0 1px,
+    color-mix(in oklab, currentColor var(--fiber-strength, 8%), transparent) 0 1px,
     transparent 1px var(--fiber-gap, 6px)
   );
 }
@@ -66,17 +66,17 @@
  */
 /* Text */
 @utility text-mix-tint-* {
-  color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
+  color: color-mix(in oklab, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
 
 @utility text-mix-shade-* {
-  color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
+  color: color-mix(in oklab, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
 }
 
 /* Background */
 @utility bg-mix-tint-* {
   background-color: color-mix(
-    in oklch,
+    in oklab,
     --value(--color-*, [*]),
     white calc(--modifier(integer) * 1%)
   );
@@ -84,7 +84,7 @@
 
 @utility bg-mix-shade-* {
   background-color: color-mix(
-    in oklch,
+    in oklab,
     --value(--color-*, [*]),
     black calc(--modifier(integer) * 1%)
   );
@@ -92,11 +92,11 @@
 
 /* Border */
 @utility border-mix-tint-* {
-  border-color: color-mix(in oklch, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
+  border-color: color-mix(in oklab, --value(--color-*, [*]), white calc(--modifier(integer) * 1%));
 }
 
 @utility border-mix-shade-* {
-  border-color: color-mix(in oklch, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
+  border-color: color-mix(in oklab, --value(--color-*, [*]), black calc(--modifier(integer) * 1%));
 }
 
 /**
