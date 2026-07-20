@@ -122,14 +122,16 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
         </div>
       </section>
       {/* Sub-fund Resources */}
-      <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
-        <div className="w-full max-w-section flex flex-col gap-8">
-          <TitleTheme size="responsive" animated={true} className="mr-auto">
-            Sub-fund Resources
-          </TitleTheme>
-          <ResourceList finishOddGrid resources={subfund.content.resources} />
-        </div>
-      </section>
+      {subfund.content.resources && subfund.content.resources.length > 0 && (
+        <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
+          <div className="w-full max-w-section flex flex-col gap-8">
+            <TitleTheme size="responsive" animated={true} className="mr-auto">
+              Sub-fund Resources
+            </TitleTheme>
+            <ResourceList finishOddGrid resources={subfund.content.resources} />
+          </div>
+        </section>
+      )}
       {/* Sub-fund Meetings */}
       {pastMeetings.length > 0 && (
         <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
