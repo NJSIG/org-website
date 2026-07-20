@@ -140,7 +140,7 @@ const queryPastMeetingsByCategory = cache(
         categories: true,
         resources: true,
       },
-      sort: 'startDate',
+      sort: '-startDate',
     });
 
     return result.docs || [];
