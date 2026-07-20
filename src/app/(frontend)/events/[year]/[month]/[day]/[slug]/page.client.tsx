@@ -447,8 +447,8 @@ const EventAgenda: React.FC<Event> = ({ description, trusteeMeetingAgenda }) => 
               "w-full [grid-template-areas:'agenda'] lg:[grid-template-areas:'agenda_placeholder']",
             )}
           >
-            <Bento.Generic className="[grid-area:agenda]">
-              <ResourceItem item={trusteeMeetingAgenda} />
+            <Bento.Generic className="[grid-area:agenda] p-0 flex items-stretch">
+              <ResourceItem item={trusteeMeetingAgenda} className="w-full" />
             </Bento.Generic>
             <Bento.Placeholder className="[grid-area:placeholder]" />
           </Bento>
@@ -488,8 +488,8 @@ const EventMinutes: React.FC<Event> = ({ description, trusteeMeetingMinutes }) =
             </Bento.Item>
           )}
           {trusteeMeetingMinutes.resource?.document && (
-            <Bento.Generic className="[grid-area:resource]">
-              <ResourceItem item={trusteeMeetingMinutes} />
+            <Bento.Generic className="[grid-area:resource] p-0 flex items-stretch">
+              <ResourceItem item={trusteeMeetingMinutes} className="w-full" />
             </Bento.Generic>
           )}
           <Bento.Placeholder className="[grid-area:placeholder]" />

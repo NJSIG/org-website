@@ -57,7 +57,6 @@
     "activityBarBadge.foreground": "#e7e7e7",
     "sideBar.border": "#1a1a1a"
   },
-  "peacock.color": "#000000",
   "cSpell.words": [
     "bacceic",
     "Bento",
@@ -110,6 +109,5 @@
     "wordmark",
     "wordprocessingml",
     "xlarge"
-  ],
-  "tailwindCSS.classFunctions": ["cva", "cn"]
+  ]
 }
