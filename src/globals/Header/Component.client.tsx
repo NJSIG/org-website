@@ -111,7 +111,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4 xl:px-0">
         <Link href="/">
-          <Logo style="wordmark" theme={theme} width={150} />
+          <Logo style="wordmark" theme={theme} width={150} loading="eager" />
         </Link>
 
         {/* Full Navigation */}
