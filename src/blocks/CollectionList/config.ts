@@ -41,9 +41,9 @@ export const CollectionList: Block = {
       },
     },
 
-    // ---
-    // Contact Specific Fields
-    // ---
+    /**
+     * Contact Specific Fields
+     */
     {
       type: 'group',
       name: 'contactFilters',
@@ -102,9 +102,9 @@ export const CollectionList: Block = {
       },
     },
 
-    // ---
-    // Event Specific Fields
-    // ---
+    /**
+     * Event Specific Fields
+     */
     {
       type: 'group',
       name: 'eventFilters',
@@ -120,6 +120,7 @@ export const CollectionList: Block = {
           defaultValue: EventCardTemplates.Default,
           admin: {
             description: 'Select the display template for the events in the list.',
+            isClearable: false,
           },
         },
         {
