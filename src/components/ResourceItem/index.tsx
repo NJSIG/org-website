@@ -123,7 +123,11 @@ const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'
         </TooltipTrigger>
         {isTruncated && <TooltipContent>{resourceName}</TooltipContent>}
       </Tooltip>
-      {resourceMeta && <small className="text-sm text-foreground-muted">{resourceMeta}</small>}
+      {resourceMeta && (
+        <small className="text-sm text-foreground-muted overflow-hidden whitespace-nowrap text-ellipsis">
+          {resourceMeta}
+        </small>
+      )}
     </div>
   );
 };
