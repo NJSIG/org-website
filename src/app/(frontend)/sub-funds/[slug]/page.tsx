@@ -1,20 +1,26 @@
-import { EventTileData } from '@/components/EventTile/types';
+import type { EventTileData } from '@/components/EventTile/types';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
-import { MeetingMaterialsData } from '@/components/MeetingMaterialsList/types';
-import { Event, EventCategory } from '@/payload-types';
+import type { Event, EventCategory } from '@/payload-types';
 import { generateSubfundMetaGraph } from '@/utilities/generateSubfundMetaGraph';
 import configPromise from '@payload-config';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getPayload, Where } from 'payload';
+import { getPayload, PaginatedDocs, Where } from 'payload';
 import { cache } from 'react';
 import SubfundPageClient from './page.client';
 
 type Args = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
+/**
+ * Query the subfund by its slug from the Payload CMS.
+ *
+ * @param slug - The slug of the subfund to query.
+ * @returns The subfund document if found, otherwise null.
+ */
 const querySubfundBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode();
   const payload = await getPayload({ config: configPromise });
@@ -33,6 +39,12 @@ const querySubfundBySlug = cache(async ({ slug }: { slug: string }) => {
   return result.docs?.[0] || null;
 });
 
+/**
+ * Query upcoming events by their categories from the Payload CMS.
+ *
+ * @param categories - The categories to filter events by.
+ * @returns An array of upcoming event data.
+ */
 const queryEventsByCategory = cache(
   async ({ categories }: { categories: Event['categories'] }): Promise<EventTileData[]> => {
     if (!categories || !Array.isArray(categories) || categories.length === 0) {
@@ -85,10 +97,22 @@ const queryEventsByCategory = cache(
   },
 );
 
+/**
+ * Query past meetings by their categories from the Payload CMS.
+ *
+ * @param categories - The categories to filter past meetings by.
+ * @returns An array of past meeting data.
+ */
 const queryPastMeetingsByCategory = cache(
-  async ({ categories }: { categories: Event['categories'] }): Promise<MeetingMaterialsData[]> => {
+  async ({
+    categories,
+    searchParams,
+  }: {
+    categories: Event['categories'];
+    searchParams?: Record<string, string | string[] | undefined>;
+  }): Promise<PaginatedDocs<Event> | null> => {
     if (!categories || !Array.isArray(categories) || categories.length === 0) {
-      return [];
+      return null;
     }
 
     const { isEnabled: draft } = await draftMode();
@@ -124,12 +148,22 @@ const queryPastMeetingsByCategory = cache(
       ],
     };
 
+    const perPageParam = searchParams?.perPage;
+    const pageParam = searchParams?.page;
+
+    const limit = Math.max(
+      1,
+      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 5,
+    );
+    const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
+
     const result = await payload.find({
       collection: 'events',
       draft,
-      limit: 5,
-      pagination: false,
+      pagination: true,
       where,
+      limit: limit,
+      page: page,
       depth: 1,
       select: {
         id: true,
@@ -143,7 +177,7 @@ const queryPastMeetingsByCategory = cache(
       sort: '-startDate',
     });
 
-    return result.docs || [];
+    return result;
   },
 );
 
@@ -163,9 +197,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
  * If the subfund does not exist, it redirects to the subfunds page.
  * If the subfund exists, it renders the subfund page with the subfund data.
  */
-export default async function SubfundPage({ params: paramsPromise }: Args) {
+export default async function SubfundPage({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { isEnabled: draft } = await draftMode();
   const { slug } = await paramsPromise;
+  const searchParams = await searchParamsPromise;
   const subfund = await querySubfundBySlug({ slug });
 
   if (!subfund) {
@@ -178,6 +216,7 @@ export default async function SubfundPage({ params: paramsPromise }: Args) {
 
   const pastMeetings = await queryPastMeetingsByCategory({
     categories: subfund.content.pastMeetingsFilters,
+    searchParams,
   });
 
   return (

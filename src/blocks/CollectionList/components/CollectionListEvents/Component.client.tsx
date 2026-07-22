@@ -2,10 +2,10 @@
 
 import EventCard from '@/components/EventCard';
 import { EventCardTemplates } from '@/components/EventCard/types';
+import { Pagination } from '@/components/Pagination';
 import { Event } from '@/payload-types';
 import { PaginatedDocs } from 'payload';
 import { useRef } from 'react';
-import { CollectionListPageControl } from '../CollectionListPageControl';
 import { CollectionListEventsProps } from './Component';
 
 type CollectionListEventsClientProps = CollectionListEventsProps & {
@@ -20,9 +20,7 @@ export const CollectionListEventsClient: React.FC<CollectionListEventsClientProp
 
   return events && events.docs.length ? (
     <div ref={blockTopRef}>
-      {filters?.pagination && (
-        <CollectionListPageControl totalDocs={events.totalDocs} className="mb-4" />
-      )}
+      {filters?.pagination && <Pagination totalDocs={events.totalDocs} className="mb-4" />}
       <div className="space-y-4">
         {events.docs.map((event) => (
           <EventCard
@@ -35,7 +33,7 @@ export const CollectionListEventsClient: React.FC<CollectionListEventsClientProp
         ))}
       </div>
       {filters?.pagination && (
-        <CollectionListPageControl
+        <Pagination
           totalDocs={events.totalDocs}
           className="mt-4"
           scrollToTopTargetRef={blockTopRef}

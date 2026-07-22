@@ -44,19 +44,35 @@ const parsePositiveInt = (value: string | null) => {
   return parsed;
 };
 
-export type CollectionListPageControlProps = {
+export type PaginationProps = {
   totalDocs: number;
+  pageSizes?: number[];
+  defaultPageSize?: number;
   className?: string;
   scrollToTopTargetRef?: RefObject<HTMLElement | null>;
   scrollToTopOffset?: number;
 };
 
-export const CollectionListPageControl: React.FC<CollectionListPageControlProps> = ({
+export const Pagination: React.FC<PaginationProps> = ({
   totalDocs,
+  pageSizes = PAGE_SIZES,
+  defaultPageSize = DEFAULT_PAGE_SIZE,
   className,
   scrollToTopTargetRef,
   scrollToTopOffset = 0,
 }) => {
+  // Validate the provided page sizes and default page size
+  if (pageSizes.length === 0 || !pageSizes.includes(defaultPageSize)) {
+    throw new Error(
+      'Pagination component requires at least one page size and the default page size must be included in the page sizes array.',
+    );
+  }
+
+  // If there are no documents, do not render the pagination component
+  if (totalDocs <= 0) {
+    return null;
+  }
+
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -65,7 +81,7 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
   const reqPerPage = parsePositiveInt(searchParams?.get('perPage') || null);
 
   const perPage =
-    reqPerPage !== null && PAGE_SIZES.includes(reqPerPage) ? reqPerPage : DEFAULT_PAGE_SIZE;
+    reqPerPage !== null && pageSizes.includes(reqPerPage) ? reqPerPage : defaultPageSize;
   const totalPages = Math.max(1, Math.ceil(totalDocs / perPage));
   const page = reqPage !== null ? Math.min(Math.max(reqPage, 1), totalPages) : 1;
 
@@ -248,34 +264,40 @@ export const CollectionListPageControl: React.FC<CollectionListPageControlProps>
         />
         <span className="text-sm">of {totalPages}</span>
       </div>
-      <span className="text-sm text-foreground-muted"> | </span>
-      <Popover>
-        <PopoverTrigger className={cn(buttonVariants({ animation: 'bounceDown' }), BUTTON_VARIANT)}>
-          <span>{perPage} per page</span>
-          <ChevronDownIcon size={16} />
-        </PopoverTrigger>
-        <PopoverContent collisionPadding={16} className="w-14 p-1">
-          <div className="flex flex-col gap-2">
-            {PAGE_SIZES.map((size) => (
-              <Button
-                type="button"
-                style="ghost"
-                color="neutral"
-                size="small"
-                key={`pagesize-${size}`}
-                className={cn('border border-transparent', {
-                  'border-njsig-neutral-midtone bg-njsig-neutral-tint pointer-events-none':
-                    size === perPage,
-                })}
-                onClick={() => handlePageSizePick(size)}
-                aria-label={`${size} per page`}
-              >
-                {size}
-              </Button>
-            ))}
-          </div>
-        </PopoverContent>
-      </Popover>
+      {pageSizes.length > 1 && (
+        <>
+          <span className="text-sm text-foreground-muted"> | </span>
+          <Popover>
+            <PopoverTrigger
+              className={cn(buttonVariants({ animation: 'bounceDown' }), BUTTON_VARIANT)}
+            >
+              <span>{perPage} per page</span>
+              <ChevronDownIcon size={16} />
+            </PopoverTrigger>
+            <PopoverContent collisionPadding={16} className="w-14 p-1">
+              <div className="flex flex-col gap-2">
+                {pageSizes.map((size) => (
+                  <Button
+                    type="button"
+                    style="ghost"
+                    color="neutral"
+                    size="small"
+                    key={`pagesize-${size}`}
+                    className={cn('border border-transparent', {
+                      'border-njsig-neutral-midtone bg-njsig-neutral-tint pointer-events-none':
+                        size === perPage,
+                    })}
+                    onClick={() => handlePageSizePick(size)}
+                    aria-label={`${size} per page`}
+                  >
+                    {size}
+                  </Button>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </>
+      )}
       <div className="flex items-center ml-auto gap-1.5">
         <Button
           className={cn(buttonVariants({ animation: 'bounceLeft' }), ICON_BUTTON_VARIANT)}
