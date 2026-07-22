@@ -374,7 +374,7 @@ const EventDetails: React.FC<Event> = ({
             {eventType !== 'importantDate' && contact && typeof contact === 'object' && (
               <Bento.Item
                 icon="contact"
-                label="Organizer"
+                label="NJSIG Organizer"
                 className="[grid-area:contact] flex flex-col"
               >
                 <div className="flex grow items-center">
