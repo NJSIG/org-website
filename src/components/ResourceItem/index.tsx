@@ -27,7 +27,30 @@ type ResourceItemProps = {
 };
 
 const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false, className }) => {
+  const { type, document, audioVideo, link } = item.resource;
   const { href, target, rel, referrerPolicy } = getLinkProps(item.resource);
+
+  let resourceName: string = 'Unknown Resource';
+  let resourceMeta: string | null = null;
+
+  switch (type) {
+    case 'document':
+      if (document && typeof document === 'object') {
+        resourceName = document.title || 'Untitled Document';
+        resourceMeta = convertBytesToHumanReadable(document.filesize) || 'Unknown Size';
+      }
+      break;
+    case 'audioVideo':
+      if (audioVideo && typeof audioVideo === 'object') {
+        resourceName = audioVideo.title || 'Untitled Audio/Video';
+        resourceMeta = convertBytesToHumanReadable(audioVideo.filesize) || 'Unknown Size';
+      }
+      break;
+    case 'link':
+      resourceName = link?.label || 'Untitled Link';
+      resourceMeta = link?.url || null;
+      break;
+  }
 
   return (
     <Link
@@ -38,6 +61,7 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false, class
       onClick={(e) => {
         e.stopPropagation();
       }}
+      aria-label={`${resourceName}${resourceMeta ? ` (${resourceMeta})` : ''}`}
       className={cn(
         'group/resource-item flex items-center p-4 gap-4 transition-colors',
         {
@@ -49,7 +73,7 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ item, nested = false, class
       )}
     >
       <ResourceIcon icon={item.resource.icon} />
-      <ResourceDetails resource={item.resource} />
+      <ResourceDetails resourceName={resourceName} resourceMeta={resourceMeta} />
       <ResourceAction resource={item.resource} />
     </Link>
   );
@@ -80,35 +104,12 @@ const ResourceIcon: React.FC<{ icon: ResourceItemProps['item']['resource']['icon
   }
 };
 
-const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'] }> = ({
-  resource,
+const ResourceDetails: React.FC<{ resourceName: string; resourceMeta: string | null }> = ({
+  resourceName,
+  resourceMeta,
 }) => {
-  const { type, document, audioVideo, link } = resource;
-
-  let resourceName = 'Unknown Resource';
-  let resourceMeta = null;
-
   const docTitleRef = useRef(null);
   const { isTruncated } = useIsTruncated({ elementRef: docTitleRef });
-
-  switch (type) {
-    case 'document':
-      if (document && typeof document === 'object') {
-        resourceName = document.title || 'Untitled Document';
-        resourceMeta = convertBytesToHumanReadable(document.filesize) || 'Unknown Size';
-      }
-      break;
-    case 'audioVideo':
-      if (audioVideo && typeof audioVideo === 'object') {
-        resourceName = audioVideo.title || 'Untitled Audio/Video';
-        resourceMeta = convertBytesToHumanReadable(audioVideo.filesize) || 'Unknown Size';
-      }
-      break;
-    case 'link':
-      resourceName = link?.label || 'Untitled Link';
-      resourceMeta = link?.url || null;
-      break;
-  }
 
   return (
     <div className="grow flex overflow-hidden flex-col">
@@ -123,7 +124,11 @@ const ResourceDetails: React.FC<{ resource: ResourceItemProps['item']['resource'
         </TooltipTrigger>
         {isTruncated && <TooltipContent>{resourceName}</TooltipContent>}
       </Tooltip>
-      {resourceMeta && <small className="text-sm text-foreground-muted">{resourceMeta}</small>}
+      {resourceMeta && (
+        <small className="inline-block text-sm text-foreground-muted overflow-hidden whitespace-nowrap text-ellipsis">
+          {resourceMeta}
+        </small>
+      )}
     </div>
   );
 };
