@@ -219,6 +219,7 @@ export const Events: CollectionConfig<'events'> = {
           name: 'contact',
           type: 'relationship',
           relationTo: 'contacts',
+          label: 'NJSIG Organizer',
           required: true,
           admin: {
             description: 'The contact person for the event.',
