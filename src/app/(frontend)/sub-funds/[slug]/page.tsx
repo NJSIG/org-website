@@ -151,10 +151,9 @@ const queryPastMeetingsByCategory = cache(
     const perPageParam = searchParams?.perPage;
     const pageParam = searchParams?.page;
 
-    const limit = Math.max(
-      1,
-      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 5,
-    );
+    const requestedLimit =
+      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 5;
+    const limit = Math.max(1, Math.max(requestedLimit, 5));
     const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
 
     const result = await payload.find({
