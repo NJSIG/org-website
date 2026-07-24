@@ -35,7 +35,7 @@ export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
 
   return (
     <div className={className} ref={blockTopRef}>
-      <Accordion type="multiple">
+      <Accordion type="single" collapsible>
         {meetings.docs.map((meeting) => (
           <AccordionItem key={meeting.id} value={meeting.title}>
             <AccordionTrigger>
@@ -53,7 +53,7 @@ export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
         defaultPageSize={5}
         className="mt-4"
         scrollToTopTargetRef={blockTopRef}
-        scrollToTopOffset={48}
+        scrollToTopOffset={94}
       />
     </div>
   );
