@@ -34,7 +34,7 @@ export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
   }, [meetings?.docs.length, pathname, router, searchParams]);
 
   return (
-    <div className={className}>
+    <div className={className} ref={blockTopRef}>
       <Accordion type="multiple">
         {meetings.docs.map((meeting) => (
           <AccordionItem key={meeting.id} value={meeting.title}>
