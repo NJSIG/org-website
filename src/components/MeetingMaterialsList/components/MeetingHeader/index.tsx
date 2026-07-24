@@ -19,7 +19,7 @@ export const MeetingHeader: React.FC<{ meeting: MeetingMaterialsData }> = ({ mee
   const resourceCountLabel =
     resourceCount <= 0 ? 'No Items' : resourceCount > 1 ? `${resourceCount} Items` : '1 Item';
 
-  const meetingTitleRef = useRef(null);
+  const meetingTitleRef = useRef<HTMLHeadingElement | null>(null);
   const { isTruncated } = useIsTruncated({ elementRef: meetingTitleRef });
 
   return (
