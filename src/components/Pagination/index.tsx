@@ -68,11 +68,6 @@ export const Pagination: React.FC<PaginationProps> = ({
     );
   }
 
-  // If there are no documents, do not render the pagination component
-  if (totalDocs <= 0) {
-    return null;
-  }
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -250,6 +245,12 @@ export const Pagination: React.FC<PaginationProps> = ({
     router,
     scrollToTopTarget,
   ]);
+
+  // If there are no documents, do not render the pagination component
+  // TODO: Can we bail out earlier in the render process to avoid unnecessary calculations and state updates?
+  if (totalDocs <= 0) {
+    return null;
+  }
 
   return (
     <div className={cn('flex items-center justify-center gap-2', className)}>
