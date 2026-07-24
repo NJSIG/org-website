@@ -1,4 +1,5 @@
-import { RequiredDataFromCollectionSlug } from 'payload';
+import type { Event } from '@/payload-types';
+import { PaginatedDocs, RequiredDataFromCollectionSlug } from 'payload';
 
 export type MeetingMaterialsData = Pick<
   RequiredDataFromCollectionSlug<'events'>,
@@ -6,7 +7,7 @@ export type MeetingMaterialsData = Pick<
 >;
 
 export type MeetingMaterialsListProps = {
-  meetings?: MeetingMaterialsData[];
+  meetings: PaginatedDocs<Event>;
   className?: string;
 };
 

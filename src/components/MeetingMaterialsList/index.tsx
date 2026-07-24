@@ -1,80 +1,60 @@
+import ResourceList from '@/components/ResourceList';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/primitives/ui/accordion';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
-import { useRef } from 'react';
-import { useHasHydrated } from '../hooks/useHasHydrated';
-import { useIsTruncated } from '../hooks/useIsTruncated';
-import ResourceList from '../ResourceList';
-import { MeetingMaterialsData, MeetingMaterialsListProps } from './types';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import { Pagination } from '../Pagination';
+import { MeetingHeader } from './components/MeetingHeader';
+import { MeetingMaterialsListProps } from './types';
 
-const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({ meetings, className }) => {
-  return (
-    <Accordion type="multiple" className={className}>
-      {meetings?.map((meeting) => (
-        <AccordionItem key={meeting.id} value={meeting.title}>
-          <AccordionTrigger>
-            <MeetingHeader meeting={meeting} />
-          </AccordionTrigger>
-          <AccordionContent>
-            <ResourceList resources={meeting.resources} nested />
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  );
-};
+export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
+  meetings,
+  className,
+}) => {
+  const blockTopRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-const MeetingHeader: React.FC<{ meeting: MeetingMaterialsData }> = ({ meeting }) => {
-  const hydrated = useHasHydrated();
+  useEffect(() => {
+    const currentPageParam = searchParams?.get('page');
+    const currentPerPageParam = searchParams?.get('perPage');
+    const hasPaginationParams = currentPageParam !== null || currentPerPageParam !== null;
+    const hasNoResults = meetings?.docs.length === 0;
 
-  const startDate = hydrated && typeof meeting === 'object' ? new Date(meeting.startDate) : null;
+    if (!hasPaginationParams || !hasNoResults) {
+      return;
+    }
 
-  const formattedDate = startDate
-    ? new Intl.DateTimeFormat('en-US', { month: 'long', day: '2-digit', year: 'numeric' }).format(
-        startDate,
-      )
-    : undefined;
-
-  const resourceCount = meeting.resources?.length || 0;
-  const resourceCountLabel =
-    resourceCount <= 0 ? 'No Items' : resourceCount > 1 ? `${resourceCount} Items` : '1 Item';
-
-  const meetingTitleRef = useRef(null);
-  const { isTruncated } = useIsTruncated({ elementRef: meetingTitleRef });
+    router.replace(`${pathname}`);
+  }, [meetings?.docs.length, pathname, router, searchParams]);
 
   return (
-    <div className="flex items-center gap-4 w-full">
-      <Tooltip>
-        <TooltipTrigger asChild disabled={resourceCount === 0}>
-          <div className="grow overflow-hidden">
-            {formattedDate ? (
-              <small className="text-sm text-foreground-muted">{formattedDate}</small>
-            ) : (
-              <small className="text-sm text-foreground-muted">
-                <span className="inline-block h-4 w-36 rounded bg-foreground/10 align-middle animate-pulse" />
-              </small>
-            )}
-            <h4
-              className="text-lg font-bold whitespace-nowrap overflow-hidden text-ellipsis"
-              ref={meetingTitleRef}
-            >
-              {meeting.title}
-            </h4>
-          </div>
-        </TooltipTrigger>
-        {isTruncated && <TooltipContent>{meeting.title}</TooltipContent>}
-      </Tooltip>
-      <div className="flex items-center gap-4">
-        <small className="text-sm font-medium text-(--subfund-foreground)">
-          {resourceCountLabel}
-        </small>
-      </div>
+    <div className={className} ref={blockTopRef}>
+      <Accordion type="single" collapsible>
+        {meetings.docs.map((meeting) => (
+          <AccordionItem key={meeting.id} value={meeting.title}>
+            <AccordionTrigger>
+              <MeetingHeader meeting={meeting} />
+            </AccordionTrigger>
+            <AccordionContent>
+              <ResourceList resources={meeting.resources} nested />
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+      <Pagination
+        totalDocs={meetings.totalDocs}
+        pageSizes={[5]}
+        defaultPageSize={5}
+        className="mt-4"
+        scrollToTopTargetRef={blockTopRef}
+        scrollToTopOffset={94}
+      />
     </div>
   );
 };
-
-export default MeetingMaterialsList;

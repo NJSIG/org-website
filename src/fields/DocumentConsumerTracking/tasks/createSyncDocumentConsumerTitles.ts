@@ -115,7 +115,9 @@ export const createSyncDocumentConsumerTitles = <TSlug extends string>(
               }
 
               const consumerDocument = consumerDoc as unknown as ConsumerDocument;
-              const consumerTitle = String(consumerDocument[consumer.titleField] ?? consumerDoc.id);
+              const consumerTitle = String(
+                consumerDocument[consumer.titleField || 'title'] ?? consumerDoc.id,
+              );
 
               if (consumerTitle !== consumer.title) {
                 // Update the consumer title in the tracked document

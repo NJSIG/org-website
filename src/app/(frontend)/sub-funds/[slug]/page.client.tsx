@@ -7,23 +7,23 @@ import {
   EventTileHeader,
   EventTileNoEvents,
 } from '@/components/EventTile';
-import { EventTileData } from '@/components/EventTile/types';
-import MeetingMaterialsList from '@/components/MeetingMaterialsList';
-import { MeetingMaterialsData } from '@/components/MeetingMaterialsList/types';
+import type { EventTileData } from '@/components/EventTile/types';
+import { MeetingMaterialsList } from '@/components/MeetingMaterialsList';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
-import { Subfund } from '@/payload-types';
+import type { Event, Subfund } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import coolifyImageLoader from '@/utilities/coolifyImageLoader';
 import Image from 'next/image';
+import type { PaginatedDocs } from 'payload';
 import { useEffect } from 'react';
 
 type SubfundPageClientProps = {
   subfund: Subfund;
   upcomingEvents: EventTileData[];
-  pastMeetings: MeetingMaterialsData[];
+  pastMeetings: PaginatedDocs<Event> | null;
 };
 
 const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
@@ -133,7 +133,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
         </section>
       )}
       {/* Sub-fund Meetings */}
-      {pastMeetings.length > 0 && (
+      {pastMeetings?.totalDocs && pastMeetings.totalDocs > 0 && (
         <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
           <div className="w-full max-w-section flex flex-col gap-8">
             <TitleTheme size="responsive" animated={true} className="mr-auto">

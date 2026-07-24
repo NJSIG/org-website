@@ -32,6 +32,6 @@ export const schema: NonNullable<JSONField['jsonSchema']>['schema'] = {
         },
       },
     },
-    required: ['id', 'titleField', 'title', 'collectionSlug', 'instances'],
+    required: ['id', 'title', 'collectionSlug', 'instances'],
   },
 };

@@ -1,6 +1,6 @@
 export type DocumentConsumer = {
   id: string;
-  titleField: string;
+  titleField?: string;
   title: string;
   collectionSlug: string;
   instances: string[];

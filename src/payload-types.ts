@@ -17,7 +17,7 @@ export type Consumers = {
   /**
    * The field in the consumer document that is used as the title
    */
-  titleField: string;
+  titleField?: string;
   /**
    * The title of the consumer document
    */
