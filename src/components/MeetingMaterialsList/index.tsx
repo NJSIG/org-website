@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/primitives/ui/accordion';
-import { usePathname, useRouter, useSearchParams } from 'next/dist/client/components/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Pagination } from '../Pagination';
 import { MeetingHeader } from './components/MeetingHeader';
