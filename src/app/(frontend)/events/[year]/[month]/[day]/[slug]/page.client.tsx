@@ -18,9 +18,10 @@ import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
 import TitleTheme from '@/components/TitleTheme';
-import { Event } from '@/payload-types';
+import { Event, EventCategory } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
+import { getClientSideUrl } from '@/utilities/getClientSideUrl';
 import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
@@ -124,13 +125,7 @@ const EventHeader: React.FC<Event> = ({
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
-              if (
-                typeof category !== 'object' ||
-                !category ||
-                !category.id ||
-                !category.slug ||
-                !category.name
-              ) {
+              if (typeof category !== 'object' || !category) {
                 return null;
               }
 
@@ -417,14 +412,34 @@ const EventDetails: React.FC<Event> = ({
   );
 };
 
-const EventResources: React.FC<Event> = ({ description, resources }) => {
+const EventResources: React.FC<Event> = ({ description, resources, categories }) => {
+  const subfundPageResources: Event['resources'] = typeof Array.isArray(categories)
+    ? (categories
+        .filter((category) => typeof category === 'object' && category.linkToSubfund)
+        .map((category) => ({
+          resource: {
+            type: 'link',
+            icon: 'link',
+            link: {
+              type: 'route',
+              newTab: false,
+              allowReferrer: true,
+              url: `${getClientSideUrl()}/sub-funds/${(category as EventCategory).subfundSlug}`,
+              label: `Visit the ${(category as EventCategory).name} Sub-Fund Page`,
+            },
+          },
+        })) as Event['resources'])
+    : [];
+
+  const combinedResources = [...(subfundPageResources || []), ...(resources || [])];
+
   return (
     <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
-        <ResourceList finishOddGrid resources={resources} />
+        <ResourceList finishOddGrid resources={combinedResources} />
       </div>
     </div>
   );
