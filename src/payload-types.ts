@@ -134,13 +134,7 @@ export interface Config {
   collectionsJoins: {
     'payload-folders': {
       documentsAndFolders:
-        | 'payload-folders'
-        | 'pages'
-        | 'locations'
-        | 'contacts'
-        | 'media'
-        | 'documents'
-        | 'contact-portraits';
+        'payload-folders' | 'pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits';
     };
   };
   collectionsSelect: {
