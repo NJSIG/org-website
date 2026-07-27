@@ -85,7 +85,7 @@ export const LegalNotices: CollectionConfig<'legal-notices'> = {
       name: 'rfpTracking',
       label: 'RFP Tracking Number(s)',
       type: 'text',
-      validate: ((value: string, { siblingData }) => {
+      validate: ((value, { siblingData }) => {
         const noticeType = (siblingData as { noticeType?: string })?.noticeType;
 
         if (
