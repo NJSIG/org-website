@@ -134,7 +134,13 @@ export interface Config {
   collectionsJoins: {
     'payload-folders': {
       documentsAndFolders:
-        'payload-folders' | 'pages' | 'locations' | 'contacts' | 'media' | 'documents' | 'contact-portraits';
+        | 'payload-folders'
+        | 'pages'
+        | 'locations'
+        | 'contacts'
+        | 'media'
+        | 'documents'
+        | 'contact-portraits';
     };
   };
   collectionsSelect: {
@@ -999,6 +1005,14 @@ export interface EventCategory {
   name: string;
   slug?: string | null;
   slugLock?: boolean | null;
+  /**
+   * If checked, events in this category will display a link to the defined sub-fund.
+   */
+  linkToSubfund?: boolean | null;
+  /**
+   * The slug defined in the sub-fund collection.
+   */
+  subfundSlug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2528,6 +2542,8 @@ export interface EventCategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   slugLock?: T;
+  linkToSubfund?: T;
+  subfundSlug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
