@@ -1,6 +1,6 @@
 import CustomTags from '@/icons/tags.json';
 import LucideTags from 'lucide-static/tags.json';
-import { deepMerge, Field } from 'payload';
+import { deepMerge, Field, TextFieldSingleValidation } from 'payload';
 import { IconNames, LucideIconPickerField } from './types';
 
 type LucideIconPickerType = (options?: {
@@ -28,13 +28,13 @@ export const lucideIconPickerField: LucideIconPickerType = ({
     name: 'lucideIcon',
     label: 'Icon Picker',
     defaultValue: 'squirrel',
-    validate: (value: string | null | undefined) => {
+    validate: ((value) => {
       if (typeof value === 'string' && allIcons.includes(value as IconNames)) {
         return true;
       }
 
       return 'Please select a valid icon';
-    },
+    }) as TextFieldSingleValidation,
     admin: {
       components: {
         Field: {
