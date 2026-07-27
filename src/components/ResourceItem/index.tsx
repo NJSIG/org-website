@@ -149,7 +149,7 @@ const ResourceAction: React.FC<{ resource: ResourceItemProps['item']['resource']
         />
       );
     case 'link':
-      if (link?.type === 'reference') {
+      if (link?.type === 'reference' || link?.type === 'route') {
         return (
           <ArrowUpRightIcon
             size={24}

@@ -1384,7 +1384,7 @@ export interface Subfund {
              * Provide a URL to an external resource or a reference to a CMS item.
              */
             link?: {
-              type?: ('reference' | 'custom') | null;
+              type?: ('reference' | 'custom' | 'route') | null;
               newTab?: boolean | null;
               allowReferrer?: boolean | null;
               reference?: {
@@ -1513,7 +1513,7 @@ export interface Event {
        * Provide a URL to an external resource or a reference to a CMS item.
        */
       link?: {
-        type?: ('reference' | 'custom') | null;
+        type?: ('reference' | 'custom' | 'route') | null;
         newTab?: boolean | null;
         allowReferrer?: boolean | null;
         reference?: {
@@ -1565,7 +1565,7 @@ export interface Event {
        * Provide a URL to an external resource or a reference to a CMS item.
        */
       link?: {
-        type?: ('reference' | 'custom') | null;
+        type?: ('reference' | 'custom' | 'route') | null;
         newTab?: boolean | null;
         allowReferrer?: boolean | null;
         reference?: {
@@ -1597,7 +1597,7 @@ export interface Event {
            * Provide a URL to an external resource or a reference to a CMS item.
            */
           link?: {
-            type?: ('reference' | 'custom') | null;
+            type?: ('reference' | 'custom' | 'route') | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
             reference?: {
@@ -1694,7 +1694,7 @@ export interface LegalNotice {
            * Provide a URL to an external resource or a reference to a CMS item.
            */
           link?: {
-            type?: ('reference' | 'custom') | null;
+            type?: ('reference' | 'custom' | 'route') | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
             reference?: {
@@ -2779,7 +2779,7 @@ export interface Footer {
         links?:
           | {
               link: {
-                type?: ('reference' | 'custom') | null;
+                type?: ('reference' | 'custom' | 'route') | null;
                 newTab?: boolean | null;
                 allowReferrer?: boolean | null;
                 reference?: {
@@ -2801,7 +2801,7 @@ export interface Footer {
   policyLinks?:
     | {
         link: {
-          type?: ('reference' | 'custom') | null;
+          type?: ('reference' | 'custom' | 'route') | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
           reference?: {

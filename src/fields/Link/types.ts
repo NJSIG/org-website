@@ -32,7 +32,7 @@ type Options = { label: string; value: string };
 export type RelationTypes = 'pages' | 'events' | 'subfunds';
 
 // Link Destinations
-export type LinkDestinations = 'reference' | 'custom';
+export type LinkDestinations = 'reference' | 'custom' | 'route';
 export type LinkDestinationOptions = Record<LinkDestinations, Options>;
 
 // Link Appearances
