@@ -1,4 +1,4 @@
-import { deepMerge, Field, GroupField, OptionObject } from 'payload';
+import { deepMerge, Field, GroupField, OptionObject, TextFieldSingleValidation } from 'payload';
 import { lucideIconPickerField } from '../LucideIconPicker';
 import { clearIconHook } from './hooks/clearIconHook';
 import {
@@ -8,6 +8,7 @@ import {
   IconPositionVariants,
   LinkAppearanceOptions,
   LinkDestinationOptions,
+  LinkDestinations,
   LinkType,
   MicroInteractionVariantOptions,
   MicroInteractionVariants,
@@ -225,7 +226,14 @@ export const linkField: LinkType = ({
             name: 'url',
             label: 'Custom URL',
             type: 'text',
-            required,
+            validate: ((value, { siblingData }) => {
+              const linkType = (siblingData as { type?: LinkDestinations })?.type;
+
+              if (linkType === 'custom' && !value) {
+                return 'Custom URL is required when Link Type is set to Custom.';
+              }
+              return true;
+            }) as TextFieldSingleValidation,
             admin: {
               style: {
                 flexGrow: 1,
