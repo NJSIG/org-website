@@ -1,3 +1,5 @@
+'use client';
+
 import { useIsTruncated } from '@/components/hooks/useIsTruncated';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
 import { ExternalLinkIcon } from 'lucide-react';
