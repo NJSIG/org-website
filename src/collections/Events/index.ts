@@ -426,7 +426,7 @@ export const Events: CollectionConfig<'events'> = {
       slugOverrides: {
         unique: false,
         admin: {
-          description: 'Event slugs are not unique, as even URLs include the event date.',
+          description: 'Event slugs are not unique, as event URLs include the event date.',
         },
       },
     }),
