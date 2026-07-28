@@ -875,6 +875,7 @@ export interface Location {
     | 'WY';
   zipCode: string;
   phone?: string | null;
+  includeWebsite?: boolean | null;
   website?: {
     type?: 'custom' | null;
     newTab?: boolean | null;
@@ -2258,6 +2259,7 @@ export interface LocationsSelect<T extends boolean = true> {
   state?: T;
   zipCode?: T;
   phone?: T;
+  includeWebsite?: T;
   website?:
     | T
     | {
