@@ -997,7 +997,7 @@ export interface Document {
 export interface EventCategory {
   id: string;
   name: string;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   /**
    * If checked, events in this category will display a link to the defined sub-fund.

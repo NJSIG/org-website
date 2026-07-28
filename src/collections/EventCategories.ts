@@ -18,6 +18,7 @@ export const EventCategories: CollectionConfig<'event-categories'> = {
     },
     ...slugField('name', {
       slugOverrides: {
+        required: true,
         admin: {
           position: undefined,
         },
