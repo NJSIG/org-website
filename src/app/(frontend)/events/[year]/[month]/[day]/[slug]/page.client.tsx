@@ -23,7 +23,7 @@ import { Event, EventCategory } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import { getClientSideUrl } from '@/utilities/getClientSideUrl';
-import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
+import { MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 import z from 'zod';
 
@@ -367,12 +367,12 @@ const EventDetails: React.FC<Event> = ({
                     <>
                       <Hyperlink
                         link={{ url: virtualLink, newTab: true, allowReferrer: false }}
+                        newTabIndicator
                         className="text-[clamp(18px,6vw,24px)] font-medium"
                       >
                         {virtualProvider && hasMeetingLinkText(virtualProvider)
                           ? `${VirtualProviderLinkText[virtualProvider]}`
-                          : 'Virtual Meeting Link'}{' '}
-                        <ArrowUpRightIcon size={16} className="inline-block" />
+                          : 'Virtual Meeting Link'}
                       </Hyperlink>
                       {virtualPasscode && (
                         <span className="text-[clamp(16px,4vw,20px)] text-foreground-muted">
@@ -407,9 +407,15 @@ const EventDetails: React.FC<Event> = ({
               <Bento.Item icon="map-pin" label="Location" className="[grid-area:map] flex flex-col">
                 {location ? (
                   <div className="flex flex-col gap-1">
-                    {location.website ? (
-                      <Hyperlink link={location.website} className="text-lg font-medium">
-                        {location.name} <ArrowUpRightIcon size={16} className="inline-block" />
+                    {location.website &&
+                    location.website.url &&
+                    location.website.url.trim() !== '' ? (
+                      <Hyperlink
+                        link={location.website}
+                        newTabIndicator
+                        className="text-lg font-medium"
+                      >
+                        {location.name}
                       </Hyperlink>
                     ) : (
                       <span className="text-lg font-medium">{location.name}</span>
