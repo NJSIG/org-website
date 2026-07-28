@@ -243,7 +243,11 @@ const EventDetails: React.FC<Event> = ({
                   label="Description"
                   className="[grid-area:description]"
                 >
-                  {presentationTitle && <h3 className="font-bold text-lg">{presentationTitle}</h3>}
+                  {presentationTitle && (
+                    <h3 className="font-medium text-[clamp(16px,6vw,20px)] mb-2">
+                      {presentationTitle}
+                    </h3>
+                  )}
                   {description && <RichText data={description} className="mx-0" />}
                 </Bento.Item>
               )}
