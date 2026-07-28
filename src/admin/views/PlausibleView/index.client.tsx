@@ -61,8 +61,8 @@ function formatAxisDate(dateStr: string, period: string, _index?: number, _total
   }
 }
 
-function formatTooltipDate(dateStr: string, period: string): string {
-  const date = new Date(dateStr);
+function formatTooltipDate(dateStr: React.ReactNode, period: string): string {
+  const date = new Date(dateStr as string);
 
   if (period === 'day') {
     return (

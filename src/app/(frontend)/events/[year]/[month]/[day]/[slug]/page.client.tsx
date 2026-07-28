@@ -17,12 +17,15 @@ import ResourceItem from '@/components/ResourceItem';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import { SubfundPill } from '@/components/SubfundPill';
+import { SubfundPillSchema } from '@/components/SubfundPill/schema';
 import TitleTheme from '@/components/TitleTheme';
-import { Event } from '@/payload-types';
+import { Event, EventCategory } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
+import { getClientSideUrl } from '@/utilities/getClientSideUrl';
 import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
+import z from 'zod';
 
 type EventPageClientProps = {
   event: Event;
@@ -36,6 +39,16 @@ enum VirtualProviderLinkText {
   goToMeeting = 'GoTo Meeting Link',
   other = 'Meeting Link',
 }
+
+const SubfundPageLinkSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  slug: z.string().min(1),
+  linkToSubfund: z.boolean().refine((val) => val === true, {
+    error: 'linkToSubfund must be true for generated subfund page links',
+  }),
+  subfundSlug: z.string().min(1),
+});
 
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
@@ -124,17 +137,19 @@ const EventHeader: React.FC<Event> = ({
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
-              if (
-                typeof category !== 'object' ||
-                !category ||
-                !category.id ||
-                !category.slug ||
-                !category.name
-              ) {
+              const parsedCategory = SubfundPillSchema.safeParse(category);
+
+              if (!parsedCategory.success) {
                 return null;
               }
 
-              return <SubfundPill key={category.id} theme={category.slug} label={category.name} />;
+              return (
+                <SubfundPill
+                  key={parsedCategory.data.id}
+                  theme={parsedCategory.data.slug}
+                  label={parsedCategory.data.name}
+                />
+              );
             })}
           </div>
         )}
@@ -417,14 +432,34 @@ const EventDetails: React.FC<Event> = ({
   );
 };
 
-const EventResources: React.FC<Event> = ({ description, resources }) => {
+const EventResources: React.FC<Event> = ({ description, resources, categories }) => {
+  const subfundPageResources: Event['resources'] = typeof Array.isArray(categories)
+    ? (categories
+        .filter((category) => SubfundPageLinkSchema.safeParse(category).success)
+        .map((category) => ({
+          resource: {
+            type: 'link',
+            icon: 'link',
+            link: {
+              type: 'route',
+              newTab: false,
+              allowReferrer: true,
+              url: `${getClientSideUrl()}/sub-funds/${(category as EventCategory).subfundSlug}`,
+              label: `Visit the ${(category as EventCategory).name} Sub-Fund Page`,
+            },
+          },
+        })) as Event['resources'])
+    : [];
+
+  const combinedResources = [...(subfundPageResources || []), ...(resources || [])];
+
   return (
     <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
-        <ResourceList finishOddGrid resources={resources} />
+        <ResourceList finishOddGrid resources={combinedResources} />
       </div>
     </div>
   );

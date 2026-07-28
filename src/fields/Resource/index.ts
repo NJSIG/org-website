@@ -40,7 +40,7 @@ export const resourceField: ResourceField = ({
     resourceTypesToUse = resourceTypes.map((type) => resourceTypeOptions[type]);
   }
 
-  let linkDestinationsToUse: LinkDestinations[] = ['reference', 'custom'];
+  let linkDestinationsToUse: LinkDestinations[] = ['reference', 'custom', 'route'];
 
   if (linkDestinations) {
     linkDestinationsToUse = linkDestinations;

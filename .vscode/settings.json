@@ -46,8 +46,25 @@
     "blocks": "layout",
     "fields": "form",
     "globals": "global",
-    "primitives": "molecule"
+    "primitives": "atom",
+    "(payload)": "admin",
+    "(frontend)": "client",
+    // Resets
+    "(frontend)/events": "",
+    "collections/Events": "",
+    "collections/Pages": "",
+    "components/Media": "",
+    "fields/Link": "",
+    "fields/Resource": ""
   },
+  "material-icon-theme.folders.customClones": [
+    {
+      "name": "admin-views",
+      "base": "admin",
+      "color": "deep-purple-400",
+      "folderNames": ["src/admin"]
+    }
+  ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#1a1a1a",
     "activityBar.background": "#1a1a1a",

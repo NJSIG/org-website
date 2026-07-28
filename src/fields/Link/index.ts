@@ -1,4 +1,4 @@
-import { deepMerge, Field, GroupField } from 'payload';
+import { deepMerge, Field, GroupField, OptionObject } from 'payload';
 import { lucideIconPickerField } from '../LucideIconPicker';
 import { clearIconHook } from './hooks/clearIconHook';
 import {
@@ -31,6 +31,10 @@ export const linkDestinationOptions: LinkDestinationOptions = {
   custom: {
     label: 'Custom URL',
     value: 'custom',
+  },
+  route: {
+    label: 'Custom Route',
+    value: 'route',
   },
 };
 
@@ -137,6 +141,7 @@ export const linkField: LinkType = ({
   let linkDestinationOptionsToUse = [
     linkDestinationOptions.reference,
     linkDestinationOptions.custom,
+    linkDestinationOptions.route,
   ];
 
   if (destinations) {
@@ -160,15 +165,17 @@ export const linkField: LinkType = ({
           {
             name: 'type',
             label: 'Link Type',
-            type: 'radio',
+            type: 'select',
             options: [...linkDestinationOptionsToUse],
+            filterOptions: ({ options }) =>
+              options.filter((option) => (option as OptionObject).value !== 'route'),
             defaultValue:
               linkDestinationOptionsToUse.length === 1
                 ? linkDestinationOptionsToUse[0].value
                 : 'reference',
             admin: {
-              layout: 'horizontal',
               width: '50%',
+              isClearable: false,
               hidden: linkDestinationOptionsToUse.length === 1,
             },
           },
@@ -223,7 +230,8 @@ export const linkField: LinkType = ({
               style: {
                 flexGrow: 1,
               },
-              condition: (_, siblingData) => siblingData?.type === 'custom',
+              condition: (_, siblingData) =>
+                siblingData?.type === 'custom' || siblingData?.type === 'route',
             },
           },
           {

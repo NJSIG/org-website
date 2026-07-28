@@ -997,8 +997,16 @@ export interface Document {
 export interface EventCategory {
   id: string;
   name: string;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
+  /**
+   * If checked, events in this category will display a link to the defined sub-fund.
+   */
+  linkToSubfund?: boolean | null;
+  /**
+   * The slug defined in the sub-fund collection.
+   */
+  subfundSlug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1370,7 +1378,7 @@ export interface Subfund {
              * Provide a URL to an external resource or a reference to a CMS item.
              */
             link?: {
-              type?: ('reference' | 'custom') | null;
+              type?: ('reference' | 'custom' | 'route') | null;
               newTab?: boolean | null;
               allowReferrer?: boolean | null;
               reference?: {
@@ -1499,7 +1507,7 @@ export interface Event {
        * Provide a URL to an external resource or a reference to a CMS item.
        */
       link?: {
-        type?: ('reference' | 'custom') | null;
+        type?: ('reference' | 'custom' | 'route') | null;
         newTab?: boolean | null;
         allowReferrer?: boolean | null;
         reference?: {
@@ -1551,7 +1559,7 @@ export interface Event {
        * Provide a URL to an external resource or a reference to a CMS item.
        */
       link?: {
-        type?: ('reference' | 'custom') | null;
+        type?: ('reference' | 'custom' | 'route') | null;
         newTab?: boolean | null;
         allowReferrer?: boolean | null;
         reference?: {
@@ -1583,7 +1591,7 @@ export interface Event {
            * Provide a URL to an external resource or a reference to a CMS item.
            */
           link?: {
-            type?: ('reference' | 'custom') | null;
+            type?: ('reference' | 'custom' | 'route') | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
             reference?: {
@@ -1680,7 +1688,7 @@ export interface LegalNotice {
            * Provide a URL to an external resource or a reference to a CMS item.
            */
           link?: {
-            type?: ('reference' | 'custom') | null;
+            type?: ('reference' | 'custom' | 'route') | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
             reference?: {
@@ -2528,6 +2536,8 @@ export interface EventCategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   slugLock?: T;
+  linkToSubfund?: T;
+  subfundSlug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2763,7 +2773,7 @@ export interface Footer {
         links?:
           | {
               link: {
-                type?: ('reference' | 'custom') | null;
+                type?: ('reference' | 'custom' | 'route') | null;
                 newTab?: boolean | null;
                 allowReferrer?: boolean | null;
                 reference?: {
@@ -2785,7 +2795,7 @@ export interface Footer {
   policyLinks?:
     | {
         link: {
-          type?: ('reference' | 'custom') | null;
+          type?: ('reference' | 'custom' | 'route') | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
           reference?: {

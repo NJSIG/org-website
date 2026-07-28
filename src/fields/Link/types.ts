@@ -3,7 +3,7 @@ import { Event, Page, Subfund } from '@/payload-types';
 import { CollectionSlug, Field, GroupField } from 'payload';
 
 export type LinkField = {
-  type?: 'reference' | 'custom' | null | undefined;
+  type?: 'reference' | 'custom' | 'route' | null | undefined;
   newTab?: boolean | null | undefined;
   allowReferrer?: boolean | null | undefined;
   reference?:
@@ -32,7 +32,7 @@ type Options = { label: string; value: string };
 export type RelationTypes = 'pages' | 'events' | 'subfunds';
 
 // Link Destinations
-export type LinkDestinations = 'reference' | 'custom';
+export type LinkDestinations = 'reference' | 'custom' | 'route';
 export type LinkDestinationOptions = Record<LinkDestinations, Options>;
 
 // Link Appearances
