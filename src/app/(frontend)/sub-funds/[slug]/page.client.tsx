@@ -8,7 +8,7 @@ import {
   EventTileNoEvents,
 } from '@/components/EventTile';
 import type { EventTileData } from '@/components/EventTile/types';
-import { MeetingMaterialsList } from '@/components/MeetingMaterialsList';
+import { PastMeetingsList } from '@/components/PastMeetingsList';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
@@ -137,9 +137,9 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
         <section className="px-4 py-12 lg:px-6 flex items-center justify-center">
           <div className="w-full max-w-section flex flex-col gap-8">
             <TitleTheme size="responsive" animated={true} className="mr-auto">
-              Sub-fund Meeting Materials
+              Past Sub-fund Meetings
             </TitleTheme>
-            <MeetingMaterialsList meetings={pastMeetings} />
+            <PastMeetingsList meetings={pastMeetings} />
           </div>
         </section>
       )}

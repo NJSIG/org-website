@@ -139,11 +139,6 @@ const queryPastMeetingsByCategory = cache(
             equals: 'subfundMeeting',
           },
         },
-        {
-          resourceCount: {
-            greater_than: 0,
-          },
-        },
         categoryFilter,
       ],
     };
@@ -168,10 +163,8 @@ const queryPastMeetingsByCategory = cache(
         id: true,
         slug: true,
         startDate: true,
-        eventType: true,
         title: true,
-        categories: true,
-        resources: true,
+        presentationTitle: true,
       },
       sort: '-startDate',
     });
