@@ -230,7 +230,8 @@ export const linkField: LinkType = ({
               style: {
                 flexGrow: 1,
               },
-              condition: (_, siblingData) => siblingData?.type === 'custom',
+              condition: (_, siblingData) =>
+                siblingData?.type === 'custom' || siblingData?.type === 'route',
             },
           },
           {

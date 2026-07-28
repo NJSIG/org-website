@@ -3,7 +3,7 @@ import { Event, Page, Subfund } from '@/payload-types';
 import { CollectionSlug, Field, GroupField } from 'payload';
 
 export type LinkField = {
-  type?: 'reference' | 'custom' | null | undefined;
+  type?: 'reference' | 'custom' | 'route' | null | undefined;
   newTab?: boolean | null | undefined;
   allowReferrer?: boolean | null | undefined;
   reference?:
