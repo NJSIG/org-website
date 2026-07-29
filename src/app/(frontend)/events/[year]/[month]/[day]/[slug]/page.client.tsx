@@ -23,7 +23,7 @@ import { Event, EventCategory } from '@/payload-types';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import { getClientSideUrl } from '@/utilities/getClientSideUrl';
-import { ArrowUpRightIcon, MapPinXIcon } from 'lucide-react';
+import { MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 import z from 'zod';
 
@@ -52,6 +52,7 @@ const SubfundPageLinkSchema = z.object({
 
 const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }) => {
   const { setHeaderTheme } = useHeaderTheme();
+  const resources = injectSubfundPageResources(event.resources, event.categories);
 
   useEffect(() => {
     setHeaderTheme('dark'); // Set header theme for event pages
@@ -67,8 +68,8 @@ const EventPageClient: React.FC<EventPageClientProps> = ({ event, related = [] }
       {event.eventType === 'trusteeMeeting' && hasMeetingMinutes(event.trusteeMeetingMinutes) && (
         <EventMinutes {...event} />
       )}
-      {event.eventType !== 'trusteeMeeting' && hasResources(event.resources) && (
-        <EventResources {...event} />
+      {event.eventType !== 'trusteeMeeting' && hasResources(resources) && (
+        <EventResources {...event} resources={resources} />
       )}
       <EventRelated animateSectionTitle={!event.description && !event.resources} events={related} />
     </>
@@ -166,6 +167,7 @@ const EventHeader: React.FC<Event> = ({
  */
 const EventDetails: React.FC<Event> = ({
   eventType,
+  presentationTitle,
   description,
   presenters,
   credits,
@@ -217,30 +219,36 @@ const EventDetails: React.FC<Event> = ({
           Event Details
         </TitleTheme>
         <div className="w-full">
-          {(description ||
+          {(presentationTitle ||
+            description ||
             (presenters && presenters.length > 0) ||
             (credits && credits.length > 0)) && (
             <Bento
               className={cn('auto-rows-min', {
                 // With Description
                 "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_presenters_presenters'_'description_description_description_credits_credits']":
-                  description,
+                  presentationTitle || description,
                 // Without Description
                 "[grid-template-areas:'presenters'_'credits'] lg:[grid-template-areas:'presenters_credits']":
-                  !description,
+                  !presentationTitle && !description,
                 // With Description and no Presenters or Credits
                 "[grid-template-areas:'description'] lg:[grid-template-areas:'description_description_description_placeholder_placeholder']":
                   (!presenters || presenters.length <= 0) && (!credits || credits.length <= 0),
               })}
             >
               {/* Description */}
-              {description && (
+              {(presentationTitle || description) && (
                 <Bento.Item
                   icon="book-open-text"
                   label="Description"
                   className="[grid-area:description]"
                 >
-                  <RichText data={description} className="mx-0" />
+                  {presentationTitle && (
+                    <h3 className="font-medium text-[clamp(16px,6vw,20px)] mb-2">
+                      {presentationTitle}
+                    </h3>
+                  )}
+                  {description && <RichText data={description} className="mx-0" />}
                 </Bento.Item>
               )}
 
@@ -363,12 +371,12 @@ const EventDetails: React.FC<Event> = ({
                     <>
                       <Hyperlink
                         link={{ url: virtualLink, newTab: true, allowReferrer: false }}
+                        newTabIndicator
                         className="text-[clamp(18px,6vw,24px)] font-medium"
                       >
                         {virtualProvider && hasMeetingLinkText(virtualProvider)
                           ? `${VirtualProviderLinkText[virtualProvider]}`
-                          : 'Virtual Meeting Link'}{' '}
-                        <ArrowUpRightIcon size={16} className="inline-block" />
+                          : 'Virtual Meeting Link'}
                       </Hyperlink>
                       {virtualPasscode && (
                         <span className="text-[clamp(16px,4vw,20px)] text-foreground-muted">
@@ -403,9 +411,13 @@ const EventDetails: React.FC<Event> = ({
               <Bento.Item icon="map-pin" label="Location" className="[grid-area:map] flex flex-col">
                 {location ? (
                   <div className="flex flex-col gap-1">
-                    {location.website ? (
-                      <Hyperlink link={location.website} className="text-lg font-medium">
-                        {location.name} <ArrowUpRightIcon size={16} className="inline-block" />
+                    {location.website?.url && location.website.url.trim() !== '' ? (
+                      <Hyperlink
+                        link={location.website}
+                        newTabIndicator
+                        className="text-lg font-medium"
+                      >
+                        {location.name}
                       </Hyperlink>
                     ) : (
                       <span className="text-lg font-medium">{location.name}</span>
@@ -432,34 +444,14 @@ const EventDetails: React.FC<Event> = ({
   );
 };
 
-const EventResources: React.FC<Event> = ({ description, resources, categories }) => {
-  const subfundPageResources: Event['resources'] = typeof Array.isArray(categories)
-    ? (categories
-        .filter((category) => SubfundPageLinkSchema.safeParse(category).success)
-        .map((category) => ({
-          resource: {
-            type: 'link',
-            icon: 'link',
-            link: {
-              type: 'route',
-              newTab: false,
-              allowReferrer: true,
-              url: `${getClientSideUrl()}/sub-funds/${(category as EventCategory).subfundSlug}`,
-              label: `Visit the ${(category as EventCategory).name} Sub-Fund Page`,
-            },
-          },
-        })) as Event['resources'])
-    : [];
-
-  const combinedResources = [...(subfundPageResources || []), ...(resources || [])];
-
+const EventResources: React.FC<Event> = ({ description, resources }) => {
   return (
     <div className="px-4 py-12">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         <TitleTheme size="responsive" animated={!description}>
           Meeting Resources
         </TitleTheme>
-        <ResourceList finishOddGrid resources={combinedResources} />
+        <ResourceList finishOddGrid resources={resources} />
       </div>
     </div>
   );
@@ -579,6 +571,29 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
     </div>
   );
 };
+
+function injectSubfundPageResources(
+  resources: Event['resources'],
+  categories: Event['categories'],
+): Event['resources'] {
+  const subfundPageResources: Event['resources'] = categories
+    .filter((category) => SubfundPageLinkSchema.safeParse(category).success)
+    .map((category) => ({
+      resource: {
+        type: 'link',
+        icon: 'link',
+        link: {
+          type: 'custom',
+          newTab: true,
+          allowReferrer: true,
+          url: `${getClientSideUrl()}/sub-funds/${(category as EventCategory).subfundSlug}`,
+          label: `Visit the ${(category as EventCategory).name} Sub-Fund Page`,
+        },
+      },
+    })) as Event['resources'];
+
+  return [...(subfundPageResources || []), ...(resources || [])];
+}
 
 function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLinkText {
   return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);

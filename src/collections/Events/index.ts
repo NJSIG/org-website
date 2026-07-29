@@ -25,6 +25,7 @@ export const Events: CollectionConfig<'events'> = {
   // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
+    eventType: true,
     slug: true,
     startDate: true,
     startTime: true,
@@ -49,6 +50,18 @@ export const Events: CollectionConfig<'events'> = {
       localized: true,
       admin: {
         description: 'The title of the page, used for routing, SEO, tabs, and the admin UI.',
+      },
+    },
+    {
+      name: 'presentationTitle',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'The title of the presentation, falls back to the event title if not provided.',
+        condition: (_, siblingData) =>
+          siblingData.eventType !== EventTypes.TrusteeMeeting.value &&
+          siblingData.eventType !== EventTypes.ImportantDate.value,
       },
     },
     {
@@ -413,7 +426,7 @@ export const Events: CollectionConfig<'events'> = {
       slugOverrides: {
         unique: false,
         admin: {
-          description: 'Event slugs are not unique, as even URLs include the event date.',
+          description: 'Event slugs are not unique, as event URLs include the event date.',
         },
       },
     }),

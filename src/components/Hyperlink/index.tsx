@@ -1,23 +1,42 @@
 import { LinkField } from '@/fields/Link/types';
 import { cn } from '@/utilities/cn';
 import { getPagePath } from '@/utilities/getPagePath';
+import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 
 // TODO: default url to not found page
 
 interface Props {
-  link: Partial<LinkField>;
+  link: Partial<LinkField> | undefined;
+  newTabIndicator?: boolean;
+  newTabIndicatorSize?: number;
   className?: string;
   children?: React.ReactNode;
 }
 
 const errorPageUrl = '/404';
 
-export const Hyperlink = (props: Props) => {
-  const { link, className, children } = props;
-  const defaultStyle = 'text-foreground-link hover:underline underline-offset-2 transition-all';
+export const Hyperlink = ({ link, ...props }: Props) => {
+  if (!link) {
+    console.error(
+      'Hyperlink component received undefined link prop. Rendering fallback link to error page.',
+    );
 
-  const classes = cn(defaultStyle, className);
+    return (
+      <Link href={errorPageUrl} className={cn('text-foreground-link', props.className)}>
+        {props.children}
+      </Link>
+    );
+  }
+
+  const { newTabIndicator, newTabIndicatorSize, className, children } = props;
+  const classes = cn(
+    'text-foreground-link inline-flex gap-1 items-center hover:underline underline-offset-2 transition-all',
+    {
+      'hover:motion-safe:[&_svg]:animate-icon-external-link': newTabIndicator && link.newTab,
+    },
+    className,
+  );
 
   if (link.type === 'reference') {
     return (
@@ -31,9 +50,11 @@ export const Hyperlink = (props: Props) => {
               : errorPageUrl
             : link.url || errorPageUrl
         }
+        target={link.newTab ? '_blank' : undefined}
         className={classes}
       >
-        {children}
+        <span>{children}</span>
+        {newTabIndicator && link.newTab && <ExternalLinkIcon size={newTabIndicatorSize || 16} />}
       </Link>
     );
   }
@@ -46,7 +67,8 @@ export const Hyperlink = (props: Props) => {
       referrerPolicy={link.allowReferrer ? 'strict-origin-when-cross-origin' : 'no-referrer'}
       className={classes}
     >
-      {children}
+      <span>{children}</span>
+      {newTabIndicator && link.newTab && <ExternalLinkIcon size={newTabIndicatorSize || 16} />}
     </a>
   );
 };

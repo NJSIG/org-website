@@ -1422,6 +1422,10 @@ export interface Event {
    */
   title: string;
   /**
+   * The title of the presentation, falls back to the event title if not provided.
+   */
+  presentationTitle?: string | null;
+  /**
    * Formatting options are limited to maintain consistency across the site.
    */
   description?: {
@@ -1610,7 +1614,7 @@ export interface Event {
    */
   important?: boolean | null;
   /**
-   * Event slugs are not unique, as even URLs include the event date.
+   * Event slugs are not unique, as event URLs include the event date.
    */
   slug?: string | null;
   slugLock?: boolean | null;
@@ -2096,6 +2100,7 @@ export interface SubfundsSelect<T extends boolean = true> {
 export interface EventsSelect<T extends boolean = true> {
   eventType?: T;
   title?: T;
+  presentationTitle?: T;
   description?: T;
   presenters?:
     | T

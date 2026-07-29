@@ -152,9 +152,6 @@ export const Locations: CollectionConfig<'locations'> = {
       overrides: {
         name: 'website',
         label: 'Venue Website',
-        admin: {
-          width: '50%',
-        },
       },
     }),
     uiMapField(),

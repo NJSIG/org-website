@@ -1,20 +1,10 @@
-import ResourceList from '@/components/ResourceList';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/primitives/ui/accordion';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Pagination } from '../Pagination';
-import { MeetingHeader } from './components/MeetingHeader';
-import { MeetingMaterialsListProps } from './types';
+import { MeetingLink } from './components/MeetingLink';
+import { PastMeetingsListProps } from './types';
 
-export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
-  meetings,
-  className,
-}) => {
+export const PastMeetingsList: React.FC<PastMeetingsListProps> = ({ meetings, className }) => {
   const blockTopRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -35,18 +25,11 @@ export const MeetingMaterialsList: React.FC<MeetingMaterialsListProps> = ({
 
   return (
     <div className={className} ref={blockTopRef}>
-      <Accordion type="single" collapsible>
+      <div className="flex flex-col gap-4">
         {meetings.docs.map((meeting) => (
-          <AccordionItem key={meeting.id} value={meeting.title}>
-            <AccordionTrigger>
-              <MeetingHeader meeting={meeting} />
-            </AccordionTrigger>
-            <AccordionContent>
-              <ResourceList resources={meeting.resources} nested />
-            </AccordionContent>
-          </AccordionItem>
+          <MeetingLink key={meeting.id} meeting={meeting} />
         ))}
-      </Accordion>
+      </div>
       <Pagination
         totalDocs={meetings.totalDocs}
         pageSizes={[5]}
