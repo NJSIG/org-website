@@ -228,10 +228,12 @@ export const linkField: LinkType = ({
             type: 'text',
             validate: ((value, { siblingData }) => {
               const linkType = (siblingData as { type?: LinkDestinations })?.type;
+              const url = typeof value === 'string' ? value.trim() : '';
 
-              if (linkType === 'custom' && !value) {
+              if (linkType === 'custom' && url.length === 0) {
                 return 'Custom URL is required when Link Type is set to Custom.';
               }
+
               return true;
             }) as TextFieldSingleValidation,
             admin: {
