@@ -368,7 +368,7 @@ export interface CMSButtonBlock {
   /**
    * Link to a CMS page or collection item. The button will render with an arrow-up-right icon after the label.
    */
-  cmsButtonLink?: {
+  cmsButtonLink: {
     type?: 'reference' | null;
     newTab?: boolean | null;
     allowReferrer?: boolean | null;
@@ -484,7 +484,7 @@ export interface HeroSpinnerBlock {
          * The main title of the slide.
          */
         headline: string;
-        heroLink?: {
+        heroLink: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -1188,7 +1188,7 @@ export interface RelatedCardsBlock {
     | {
         title: string;
         description: string;
-        link?: {
+        link: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -2664,7 +2664,7 @@ export interface Header {
         callout: {
           title: string;
           text: string;
-          calloutLink?: {
+          calloutLink: {
             type?: 'reference' | null;
             newTab?: boolean | null;
             allowReferrer?: boolean | null;
@@ -2736,7 +2736,7 @@ export interface Header {
     | null;
   ctaButtons?:
     | {
-        link?: {
+        link: {
           type?: 'reference' | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;
@@ -2777,7 +2777,7 @@ export interface Footer {
         label: string;
         links?:
           | {
-              link?: {
+              link: {
                 type?: ('reference' | 'custom' | 'route') | null;
                 newTab?: boolean | null;
                 allowReferrer?: boolean | null;
@@ -2799,7 +2799,7 @@ export interface Footer {
    */
   policyLinks?:
     | {
-        link?: {
+        link: {
           type?: ('reference' | 'custom' | 'route') | null;
           newTab?: boolean | null;
           allowReferrer?: boolean | null;

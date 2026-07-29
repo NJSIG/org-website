@@ -154,6 +154,7 @@ export const linkField: LinkType = ({
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
+    required,
     admin: {
       hideGutter: true,
     },
