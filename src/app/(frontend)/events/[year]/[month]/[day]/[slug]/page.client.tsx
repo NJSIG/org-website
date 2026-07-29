@@ -594,9 +594,6 @@ function injectSubfundPageResources(
       },
     })) as Event['resources'];
 
-  console.log('subfundPageResources:', subfundPageResources);
-  console.log('resources:', resources);
-
   return [...(subfundPageResources || []), ...(resources || [])];
 }
 
