@@ -1,4 +1,4 @@
-import { deepMerge, Field, GroupField, OptionObject, TextFieldSingleValidation } from 'payload';
+import { deepMerge, Field, GroupField, OptionObject } from 'payload';
 import { lucideIconPickerField } from '../LucideIconPicker';
 import { clearIconHook } from './hooks/clearIconHook';
 import {
@@ -8,7 +8,6 @@ import {
   IconPositionVariants,
   LinkAppearanceOptions,
   LinkDestinationOptions,
-  LinkDestinations,
   LinkType,
   MicroInteractionVariantOptions,
   MicroInteractionVariants,
@@ -155,7 +154,6 @@ export const linkField: LinkType = ({
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
-    required,
     admin: {
       hideGutter: true,
     },
@@ -226,16 +224,7 @@ export const linkField: LinkType = ({
             name: 'url',
             label: 'Custom URL',
             type: 'text',
-            validate: ((value, { siblingData }) => {
-              const linkType = (siblingData as { type?: LinkDestinations })?.type;
-              const url = typeof value === 'string' ? value.trim() : '';
-
-              if (linkType === 'custom' && url.length === 0) {
-                return 'Custom URL is required when Link Type is set to Custom.';
-              }
-
-              return true;
-            }) as TextFieldSingleValidation,
+            required,
             admin: {
               style: {
                 flexGrow: 1,

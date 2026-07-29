@@ -144,11 +144,6 @@ export const Locations: CollectionConfig<'locations'> = {
         allowEmptyFormatting: false,
       },
     }),
-    {
-      type: 'checkbox',
-      name: 'includeWebsite',
-      label: "Include a link to the venue's website?",
-    },
     linkField({
       appearances: false,
       destinations: ['custom'],
@@ -157,11 +152,6 @@ export const Locations: CollectionConfig<'locations'> = {
       overrides: {
         name: 'website',
         label: 'Venue Website',
-        admin: {
-          condition: (_, siblingData) => {
-            return (siblingData as { includeWebsite: boolean }).includeWebsite === true;
-          },
-        },
       },
     }),
     uiMapField(),

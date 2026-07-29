@@ -411,9 +411,7 @@ const EventDetails: React.FC<Event> = ({
               <Bento.Item icon="map-pin" label="Location" className="[grid-area:map] flex flex-col">
                 {location ? (
                   <div className="flex flex-col gap-1">
-                    {location.website &&
-                    location.website.url &&
-                    location.website.url.trim() !== '' ? (
+                    {location.website?.url && location.website.url.trim() !== '' ? (
                       <Hyperlink
                         link={location.website}
                         newTabIndicator
