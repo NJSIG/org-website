@@ -1,13 +1,13 @@
 'use client';
 
 import { useIsTruncated } from '@/components/hooks/useIsTruncated';
+import { Event } from '@/payload-types';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { PastMeetingsData } from '../types';
 
-export const MeetingLink: React.FC<{ meeting: PastMeetingsData }> = ({ meeting }) => {
+export const MeetingLink: React.FC<{ meeting: Event }> = ({ meeting }) => {
   const meetingTitleRef = useRef<HTMLHeadingElement | null>(null);
   const { isTruncated } = useIsTruncated({ elementRef: meetingTitleRef });
   const startDate = new Date(meeting.startDate);
