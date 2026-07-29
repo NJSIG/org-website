@@ -38,6 +38,7 @@ export const Hyperlink = (props: Props) => {
               : errorPageUrl
             : link.url || errorPageUrl
         }
+        target={link.newTab ? '_blank' : undefined}
         className={classes}
       >
         <span>{children}</span>
