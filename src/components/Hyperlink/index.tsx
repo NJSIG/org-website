@@ -7,7 +7,7 @@ import Link from 'next/link';
 // TODO: default url to not found page
 
 interface Props {
-  link: Partial<LinkField>;
+  link: Partial<LinkField> | undefined;
   newTabIndicator?: boolean;
   newTabIndicatorSize?: number;
   className?: string;
@@ -16,8 +16,20 @@ interface Props {
 
 const errorPageUrl = '/404';
 
-export const Hyperlink = (props: Props) => {
-  const { link, newTabIndicator, newTabIndicatorSize, className, children } = props;
+export const Hyperlink = ({ link, ...props }: Props) => {
+  if (!link) {
+    console.error(
+      'Hyperlink component received undefined link prop. Rendering fallback link to error page.',
+    );
+
+    return (
+      <Link href={errorPageUrl} className={cn('text-foreground-link', props.className)}>
+        {props.children}
+      </Link>
+    );
+  }
+
+  const { newTabIndicator, newTabIndicatorSize, className, children } = props;
   const classes = cn(
     'text-foreground-link inline-flex gap-1 items-center hover:underline underline-offset-2 transition-all',
     {
