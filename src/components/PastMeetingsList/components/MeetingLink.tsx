@@ -3,6 +3,7 @@
 import { useIsTruncated } from '@/components/hooks/useIsTruncated';
 import { Event } from '@/payload-types';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/primitives/ui/tooltip';
+import { generateEventLink } from '@/utilities/generateEventLink';
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -21,7 +22,7 @@ export const MeetingLink: React.FC<{ meeting: Event }> = ({ meeting }) => {
 
   return (
     <Link
-      href={getMeetingLink(startDate, meeting.slug!)}
+      href={generateEventLink(meeting)}
       target="_blank"
       className="group/past-meeting flex items-center p-4 gap-4 transition-colors rounded-3xl bg-njsig-neutral-tint hover:bg-mix-shade-njsig-neutral-tint/2 w-full"
     >
@@ -48,7 +49,3 @@ export const MeetingLink: React.FC<{ meeting: Event }> = ({ meeting }) => {
     </Link>
   );
 };
-
-function getMeetingLink(startDate: Date, slug: string): string {
-  return `/events/${startDate.getFullYear()}/${(startDate.getMonth() + 1).toString().padStart(2, '0')}/${startDate.getDate().toString().padStart(2, '0')}/${slug}`;
-}
