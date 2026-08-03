@@ -1,0 +1,46 @@
+/*
+ * Define the grid areas for important events.
+ * `[data-event-theme='importantDate']` comes from the parent page and is used for scoping event theme variables.
+ */
+
+/* prettier-ignore */
+[data-event-theme='importantDate'] {
+  --grid-sm:
+    'date'
+    'time'
+  ;
+
+  --grid-md:
+    'date time'
+  ;
+
+  --grid-lg:
+    'date time placeholder placeholder'
+  ;
+
+  .details--with-description {
+    --grid-sm:
+      'datetime'
+      'description'
+    ;
+
+    --grid-lg:
+      'description datetime'
+    ;
+
+    --datetime-row-max-height: 6rem;
+
+    /*
+     * The placeholder container height is calculated as the grid row height minus the max height
+     * of the datetime row.
+     */
+    --placeholder-container-height: max(0px, calc(100% - var(--datetime-row-max-height)));
+
+    /*
+     * The placeholder height is calculated as the container height minus the placeholder container
+     * height and some spacing.
+     * Tailwind Spacing: pt-4 (16px).
+     */
+    --placeholder-height: max(0px, calc(100% - (var(--spacing) * 4)));
+  }
+}
