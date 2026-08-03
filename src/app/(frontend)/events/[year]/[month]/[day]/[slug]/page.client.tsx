@@ -26,18 +26,25 @@ import { getClientSideUrl } from '@/utilities/getClientSideUrl';
 import { MapPinXIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 import z from 'zod';
+import { ImportantEventGrid } from './_components/ImportantEventGrid';
+import { TrusteeMeetingGrid } from './_components/TrusteeMeetingGrid';
 
 type EventPageClientProps = {
   event: Event;
   related: EventTileData[];
 };
 
-enum VirtualProviderLinkText {
-  zoom = 'Zoom Meeting Link',
-  googleMeet = 'Google Meet Link',
-  microsoftTeams = 'Microsoft Teams Meeting Link',
-  goToMeeting = 'GoTo Meeting Link',
-  other = 'Meeting Link',
+enum VirtualProviders {
+  zoom = 'Zoom',
+  googleMeet = 'Google Meet',
+  microsoftTeams = 'Microsoft Teams',
+  goToMeeting = 'GoTo Meeting',
+  other = 'Virtual',
+}
+
+enum VirtualLinkTypes {
+  meeting = 'Meeting Link',
+  registration = 'Registration Link',
 }
 
 const SubfundPageLinkSchema = z.object({
@@ -181,13 +188,14 @@ const EventDetails: React.FC<Event> = ({
   virtualLink,
   virtualPasscode,
   location: locationFromProps,
-  contact,
+  contact: contactFromProps,
 }) => {
   const formattedStartDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(startDate));
+
   const formattedEndDate = endDate
     ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(
         new Date(endDate),
@@ -199,6 +207,7 @@ const EventDetails: React.FC<Event> = ({
     minute: '2-digit',
     hour12: true,
   }).format(new Date(startTime));
+
   const formattedEndTime = endTime
     ? new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(
         new Date(endTime),
@@ -211,6 +220,16 @@ const EventDetails: React.FC<Event> = ({
     : null;
 
   const location = typeof locationFromProps === 'object' ? locationFromProps : null;
+  const contact = typeof contactFromProps === 'object' ? contactFromProps : null;
+  const virtual =
+    attendanceOptions !== 'inPerson'
+      ? {
+          link: virtualLink,
+          linkType: getMeetingLinkType(virtualLink),
+          provider: getMeetingProvider(virtualProvider),
+          passcode: virtualPasscode,
+        }
+      : null;
 
   return (
     <div className="px-4 py-12">
@@ -219,6 +238,36 @@ const EventDetails: React.FC<Event> = ({
           Event Details
         </TitleTheme>
         <div className="w-full">
+          {(() => {
+            switch (eventType) {
+              case 'importantDate':
+                return (
+                  <ImportantEventGrid
+                    description={description}
+                    formattedStartDate={formattedStartDate}
+                    formattedStartTime={formattedStartTime}
+                  />
+                );
+              case 'trusteeMeeting':
+                return (
+                  <TrusteeMeetingGrid
+                    attendance={attendanceOptions}
+                    description={description}
+                    formattedStartDate={formattedStartDate}
+                    formattedStartTime={formattedStartTime}
+                    formattedRegistrationTime={formattedRegistrationTime}
+                    formattedEndDate={formattedEndDate}
+                    formattedEndTime={formattedEndTime}
+                    location={location}
+                    virtual={virtual}
+                    contact={contact}
+                  />
+                );
+              default:
+                return null;
+            }
+          })()}
+          <h4 className="mt-10">⬇️ OLD STUFF ⬇️</h4>
           {(presentationTitle ||
             description ||
             (presenters && presenters.length > 0) ||
@@ -374,9 +423,7 @@ const EventDetails: React.FC<Event> = ({
                         newTabIndicator
                         className="text-[clamp(18px,6vw,24px)] font-medium"
                       >
-                        {virtualProvider && hasMeetingLinkText(virtualProvider)
-                          ? `${VirtualProviderLinkText[virtualProvider]}`
-                          : 'Virtual Meeting Link'}
+                        {'Virtual Meeting Link'}
                       </Hyperlink>
                       {virtualPasscode && (
                         <span className="text-[clamp(16px,4vw,20px)] text-foreground-muted">
@@ -536,7 +583,7 @@ const EventRelated: React.FC<{ animateSectionTitle: boolean; events: EventTileDa
         <TitleTheme size="responsive" animated={animateSectionTitle}>
           Related Events
         </TitleTheme>
-        <div className="grid grid-cols-1 gap-y-4 gap-x-6 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {events && events.length > 0 ? (
             events.map((event) => (
               <EventTile
@@ -595,8 +642,20 @@ function injectSubfundPageResources(
   return [...(subfundPageResources || []), ...(resources || [])];
 }
 
-function hasMeetingLinkText(key: unknown): key is keyof typeof VirtualProviderLinkText {
-  return typeof key === 'string' && Object.hasOwn(VirtualProviderLinkText, key);
+function getMeetingLinkType(key: unknown): string {
+  if (typeof key === 'string' && Object.hasOwn(VirtualLinkTypes, key)) {
+    return VirtualLinkTypes[key as keyof typeof VirtualLinkTypes];
+  }
+
+  return 'Meeting Link';
+}
+
+function getMeetingProvider(key: unknown): string {
+  if (typeof key === 'string' && Object.hasOwn(VirtualProviders, key)) {
+    return VirtualProviders[key as keyof typeof VirtualProviders];
+  }
+
+  return 'Virtual';
 }
 
 function hasMeetingAgenda(agenda: Event['trusteeMeetingAgenda'] | undefined): boolean {
