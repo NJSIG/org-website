@@ -1479,6 +1479,7 @@ export interface Event {
    */
   contact?: (string | null) | Contact;
   attendanceOptions: 'inPerson' | 'virtual' | 'hybrid';
+  virtualLinkType?: ('meeting' | 'registration') | null;
   virtualProvider?: ('zoom' | 'googleMeet' | 'microsoftTeams' | 'goToMeeting' | 'other') | null;
   /**
    * The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.
@@ -2123,6 +2124,7 @@ export interface EventsSelect<T extends boolean = true> {
   categories?: T;
   contact?: T;
   attendanceOptions?: T;
+  virtualLinkType?: T;
   virtualProvider?: T;
   virtualLink?: T;
   virtualPasscode?: T;

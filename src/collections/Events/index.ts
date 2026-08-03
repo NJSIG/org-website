@@ -276,6 +276,18 @@ export const Events: CollectionConfig<'events'> = {
               },
               fields: [
                 {
+                  name: 'virtualLinkType',
+                  type: 'select',
+                  options: [
+                    { label: 'Meeting', value: 'meeting' },
+                    { label: 'Registration', value: 'registration' },
+                  ],
+                  defaultValue: 'meeting',
+                  hooks: {
+                    beforeChange: [nullUnusedFieldsHook],
+                  },
+                },
+                {
                   name: 'virtualProvider',
                   type: 'select',
                   options: [
@@ -286,13 +298,19 @@ export const Events: CollectionConfig<'events'> = {
                     { label: 'Other', value: 'other' },
                   ],
                   defaultValue: 'zoom',
-                  admin: {
-                    width: '20%',
-                  },
                   hooks: {
                     beforeChange: [nullUnusedFieldsHook],
                   },
                 },
+              ],
+            },
+            {
+              type: 'row',
+              admin: {
+                condition: (_, siblingData) =>
+                  siblingData.attendanceOptions !== AttendanceOptions.InPerson.value,
+              },
+              fields: [
                 {
                   name: 'virtualLink',
                   label: 'Meeting Link',
@@ -300,7 +318,7 @@ export const Events: CollectionConfig<'events'> = {
                   admin: {
                     description:
                       'The link to the virtual event. If no link is provided, it will be displayed as "TBA" on the event page.',
-                    width: '60%',
+                    width: '70%',
                   },
                   hooks: {
                     beforeChange: [nullUnusedFieldsHook],
@@ -311,7 +329,7 @@ export const Events: CollectionConfig<'events'> = {
                   label: 'Meeting Passcode',
                   type: 'text',
                   admin: {
-                    width: '20%',
+                    width: '30%',
                   },
                   hooks: {
                     beforeChange: [nullUnusedFieldsHook],
