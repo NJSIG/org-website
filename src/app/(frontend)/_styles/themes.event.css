@@ -72,10 +72,12 @@
     --event-tile-bespoke-dark: var(--color-tahiti-gold-900);
     --event-tile-bespoke-light: var(--color-tahiti-gold-700);
     --bento-icon-stroke: var(--color-mocssif-midtone);
-    --bento-placeholder: var(--color-mocssif-tint);
+    --bento-placeholder: var(--color-tahiti-gold-100);
+    --bento-placeholder-fibers: var(--color-mocssif-shade);
     --resource-theme: var(--color-mocssif-midtone);
     --resource-finisher: var(--bento-placeholder);
   }
+
   [data-event-theme='njsigEvent'] {
     --event-theme-background: var(--color-bacceic-background);
     --event-theme-accent: var(--color-bacceic-midtone);

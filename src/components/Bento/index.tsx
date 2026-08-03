@@ -28,11 +28,7 @@ export type BentoPlaceholderProps = {
 const Bento: React.FC<BentoProps> & { Item: React.FC<BentoItemProps> } & {
   Placeholder: React.FC<BentoPlaceholderProps>;
 } & { Generic: React.FC<BentoGenericProps> } = ({ className, children }) => {
-  return (
-    <div className={cn('grid auto-cols-fr auto-rows-fr gap-x-6 gap-y-4', className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn('grid auto-cols-fr auto-rows-fr gap-4', className)}>{children}</div>;
 };
 
 Bento.Generic = function Generic({ className, children }: BentoGenericProps) {
@@ -57,7 +53,9 @@ Bento.Placeholder = function Placeholder({
   children,
 }: BentoPlaceholderProps) {
   return (
-    <Bento.Generic className={cn('bg-transparent p-0', className)}>
+    <Bento.Generic
+      className={cn('bg-(--bento-placeholder) text-(--bento-placeholder-fibers) p-0', className)}
+    >
       {withPattern ? (
         <div className="rounded-3xl fibers fiber-strength-10 h-full w-full">{children}</div>
       ) : (
