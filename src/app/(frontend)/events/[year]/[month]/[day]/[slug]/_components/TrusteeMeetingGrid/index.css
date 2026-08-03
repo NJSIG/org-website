@@ -1,0 +1,167 @@
+/*
+ * Define the grid areas for trustee meetings.
+ * `[data-event-theme='trusteeMeeting']` comes from the parent page and is used for scoping event theme variables.
+ */
+
+/* prettier-ignore */
+[data-event-theme='trusteeMeeting'] {
+  .details--virtual {
+    --grid-sm:
+      'date'
+      'time'
+      'virtual'
+      'contact'
+    ;
+
+    --grid-md:
+      'date    time'
+      'virtual contact'
+    ;
+
+    --grid-lg: var(--grid-md);
+
+    --grid-xl:
+      'date    date                time                virtual'
+      'contact contact-placeholder contact-placeholder contact-placeholder'
+    ;
+  }
+
+  .details--virtual.details--with-description {
+    --grid-sm:
+      'date'
+      'time'
+      'description'
+      'virtual'
+      'contact'
+    ;
+
+    --grid-md:
+      'date        time'
+      'description description'
+      'virtual     contact'
+    ;
+
+    --grid-lg:
+      'date        date        time        time'
+      'description description description description-placeholder'
+      'virtual     virtual     contact     contact'
+    ;
+
+    --grid-xl:
+      'description description description         description-placeholder description-placeholder description-placeholder'
+      'date        date        time                time                    virtual                 virtual'
+      'contact     contact     contact-placeholder contact-placeholder     contact-placeholder     contact-placeholder'
+    ;
+  }
+
+  .details--in-person {
+    --grid-sm:
+      'date'
+      'time'
+      'location'
+      'contact'
+    ;
+
+    --grid-md:
+      'date     time'
+      'location location'
+      'contact  contact-placeholder'
+    ;
+
+    --grid-lg:
+      'date    location location'
+      'time    location location'
+      'contact location location'
+    ;
+
+    --grid-xl: var(--grid-lg);
+  }
+
+  .details--in-person.details--with-description {
+    --grid-sm:
+      'date'
+      'time'
+      'description'
+      'location'
+      'contact'
+    ;
+
+    --grid-md:
+      'date        time'
+      'description description'
+      'location    location'
+      'contact     contact-placeholder'
+    ;
+
+    --grid-lg:
+      'description description description description-placeholder description-placeholder'
+      'date        date        location    location                location'
+      'time        time        location    location                location'
+      'contact     contact     location    location                location'
+    ;
+
+    --grid-xl: var(--grid-lg);
+  }
+
+  .details--hybrid {
+    --grid-sm:
+      'date'
+      'time'
+      'location'
+      'virtual'
+      'contact'
+    ;
+
+    --grid-md:
+      'date     time'
+      'location location'
+      'virtual  contact'
+    ;
+
+    --grid-lg:
+      'date    location            location'
+      'time    location            location'
+      'virtual location            location'
+      'contact contact-placeholder contact-placeholder'
+    ;
+
+    --grid-xl:
+      'date    date    time                time                location location location location'
+      'virtual virtual contact-placeholder contact-placeholder location location location location'
+      'contact contact contact-placeholder contact-placeholder location location location location'
+    ;
+  }
+
+  .details--hybrid.details--with-description {
+    --grid-sm:
+      'date'
+      'time'
+      'description'
+      'location'
+      'virtual'
+      'contact'
+    ;
+
+    --grid-md:
+      'date        time'
+      'description description'
+      'location    location'
+      'virtual     contact'
+    ;
+
+    --grid-lg:
+      'description description         description-placeholder'
+      'date        location            location'
+      'time        location            location'
+      'virtual     location            location'
+      'contact     contact-placeholder contact-placeholder'
+    ;
+
+    --grid-xl:
+      'description description description         description         description description-placeholder description-placeholder description-placeholder'
+      'date        date        time                time                location    location                location                location'
+      'virtual     virtual     contact-placeholder contact-placeholder location    location                location                location'
+      'contact     contact     contact-placeholder contact-placeholder location    location                location                location'
+    ;
+  }
+}
