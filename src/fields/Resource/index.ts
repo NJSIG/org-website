@@ -18,7 +18,7 @@ const resourceTypeIcons: IconNames[] = [
   'presentation',
   'video',
   'audio-lines',
-  'mic-signal', // We're using
+  'mic-signal', // Lucide has deprecated the 'podcast' icon, so we use 'mic-signal' instead
   'link',
   'paperclip', // Default icon for generic resources
 ];
