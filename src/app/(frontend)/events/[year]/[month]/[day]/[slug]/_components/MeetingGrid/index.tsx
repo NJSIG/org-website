@@ -171,7 +171,7 @@ export const MeetingGrid: React.FC<MeetingGridProps> = ({
             </Bento.Item>
             <Bento.Placeholder
               className={cn(
-                '[grid-area:contact-placeholder] hidden bg-(--bento-placeholder) text-(--bento-placeholder-fibers)',
+                '[grid-area:contact-placeholder] hidden',
                 {
                   'xl:block': attendance === 'virtual',
                   'md:max-lg:block': attendance === 'inPerson',
@@ -206,60 +206,64 @@ const PresentationSubGrid: React.FC<
           </Bento.Item>
 
           {/* Presenters & Credits */}
-          <div className="[grid-area:presenter-credits] flex flex-col h-full details__presenter-credits-column">
-            <div className="details__presenter-credits-row flex flex-col md:flex-row gap-4 h-full md:max-h-55">
-              {/* Presenter */}
-              {hasPresenters && (
-                <Bento.Item
-                  icon="megaphone"
-                  label={presenters.length > 1 ? 'Presenters' : 'Presenter'}
-                  className="flex flex-col grow basis-1/2"
-                >
-                  <div className="flex flex-col gap-2 grow">
-                    {presenters.map((p, index) => (
-                      <div key={index} className="overflow-hidden">
-                        <p className="font-medium text-[clamp(16px,1vw,18px)] whitespace-nowrap overflow-hidden text-ellipsis">
-                          {p.name}
-                        </p>
-                        {p.title && p.title !== '' && (
+          {hasPresenters || hasCredits ? (
+            <div className="[grid-area:presenter-credits] flex flex-col h-full details__presenter-credits-column">
+              <div className="details__presenter-credits-row flex flex-col md:flex-row gap-4 h-full md:max-h-55">
+                {/* Presenter */}
+                {hasPresenters && (
+                  <Bento.Item
+                    icon="megaphone"
+                    label={presenters.length > 1 ? 'Presenters' : 'Presenter'}
+                    className="flex flex-col grow basis-1/2"
+                  >
+                    <div className="flex flex-col gap-2 grow">
+                      {presenters.map((p, index) => (
+                        <div key={index} className="overflow-hidden">
+                          <p className="font-medium text-[clamp(16px,1vw,18px)] whitespace-nowrap overflow-hidden text-ellipsis">
+                            {p.name}
+                          </p>
+                          {p.title && p.title !== '' && (
+                            <small className="text-sm text-foreground-muted whitespace-nowrap overflow-hidden text-ellipsis">
+                              {p.title}
+                            </small>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </Bento.Item>
+                )}
+
+                {/* Credits */}
+                {hasCredits && (
+                  <Bento.Item
+                    icon="graduation-cap"
+                    label={credits.length > 1 ? 'Credits' : 'Credit'}
+                    className="flex flex-col grow basis-1/2"
+                  >
+                    <div className="flex flex-col gap-2 grow">
+                      {credits.map((c, index) => (
+                        <div key={index} className="overflow-hidden">
+                          <p className="font-medium text-[clamp(16px,1vw,18px)] whitespace-nowrap overflow-hidden text-ellipsis">
+                            {c.creditType}
+                          </p>
                           <small className="text-sm text-foreground-muted whitespace-nowrap overflow-hidden text-ellipsis">
-                            {p.title}
+                            {c.credit}
                           </small>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </Bento.Item>
-              )}
+                        </div>
+                      ))}
+                    </div>
+                  </Bento.Item>
+                )}
+              </div>
 
-              {/* Credits */}
-              {hasCredits && (
-                <Bento.Item
-                  icon="graduation-cap"
-                  label={credits.length > 1 ? 'Credits' : 'Credit'}
-                  className="flex flex-col grow basis-1/2"
-                >
-                  <div className="flex flex-col gap-2 grow">
-                    {credits.map((c, index) => (
-                      <div key={index} className="overflow-hidden">
-                        <p className="font-medium text-[clamp(16px,1vw,18px)] whitespace-nowrap overflow-hidden text-ellipsis">
-                          {c.creditType}
-                        </p>
-                        <small className="text-sm text-foreground-muted whitespace-nowrap overflow-hidden text-ellipsis">
-                          {c.credit}
-                        </small>
-                      </div>
-                    ))}
-                  </div>
-                </Bento.Item>
-              )}
+              {/* Placeholder */}
+              <div className="hidden md:flex md:items-end md:h-(--placeholder-container-height)">
+                <Bento.Placeholder className="details__placeholder w-full md:h-(--placeholder-height)" />
+              </div>
             </div>
-
-            {/* Placeholder */}
-            <div className="hidden md:flex md:items-end md:h-(--placeholder-container-height)">
-              <Bento.Placeholder className="details__placeholder w-full md:h-(--placeholder-height) bg-(--bento-placeholder) text-(--bento-placeholder-fibers)" />
-            </div>
-          </div>
+          ) : (
+            <Bento.Placeholder className="[grid-area:presenter-credits]" />
+          )}
         </Bento>
       );
     }
@@ -319,7 +323,7 @@ const PresentationSubGrid: React.FC<
         )}
 
         {/* Placeholder */}
-        <Bento.Placeholder className="[grid-area:placeholder] hidden lg:block bg-(--bento-placeholder) text-(--bento-placeholder-fibers)" />
+        <Bento.Placeholder className="[grid-area:placeholder] hidden lg:block" />
       </Bento>
     );
   }

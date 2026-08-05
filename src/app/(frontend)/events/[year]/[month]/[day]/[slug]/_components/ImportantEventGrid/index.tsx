@@ -45,7 +45,7 @@ export const ImportantEventGrid: React.FC<ImportantEventGridProps> = ({
 
           {/* Placeholder */}
           <div className="hidden md:flex md:items-end md:h-(--placeholder-container-height)">
-            <Bento.Placeholder className="details__placeholder w-full md:h-(--placeholder-height) bg-(--bento-placeholder) text-(--bento-placeholder-fibers)" />
+            <Bento.Placeholder className="details__placeholder w-full md:h-(--placeholder-height)" />
           </div>
         </div>
       </Bento>
@@ -69,7 +69,7 @@ export const ImportantEventGrid: React.FC<ImportantEventGridProps> = ({
       </Bento.Item>
 
       {/* Placeholder */}
-      <Bento.Placeholder className="[grid-area:placeholder] hidden lg:block bg-(--bento-placeholder) text-(--bento-placeholder-fibers)" />
+      <Bento.Placeholder className="[grid-area:placeholder] hidden lg:block" />
     </Bento>
   );
 };

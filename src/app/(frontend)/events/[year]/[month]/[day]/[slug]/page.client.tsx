@@ -181,6 +181,7 @@ const EventDetails: React.FC<Event> = ({
   endTime,
   registrationTime,
   attendanceOptions,
+  virtualLinkType,
   virtualProvider,
   virtualLink,
   virtualPasscode,
@@ -222,7 +223,7 @@ const EventDetails: React.FC<Event> = ({
     attendanceOptions !== 'inPerson'
       ? {
           link: virtualLink,
-          linkType: getMeetingLinkType(virtualLink),
+          linkType: getMeetingLinkType(virtualLinkType),
           provider: getMeetingProvider(virtualProvider),
           passcode: virtualPasscode,
         }

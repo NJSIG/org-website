@@ -65,7 +65,7 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
           <Bento.Item icon="book-open-text" label="Description" className="[grid-area:description]">
             <RichText data={description} className="mx-0" />
           </Bento.Item>
-          <Bento.Placeholder className="[grid-area:description-placeholder] hidden lg:block bg-(--bento-placeholder) text-(--bento-placeholder-fibers)" />
+          <Bento.Placeholder className="[grid-area:description-placeholder] hidden lg:block" />
         </>
       )}
 
@@ -161,14 +161,11 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
             </div>
           </Bento.Item>
           <Bento.Placeholder
-            className={cn(
-              '[grid-area:contact-placeholder] hidden bg-(--bento-placeholder) text-(--bento-placeholder-fibers)',
-              {
-                'xl:block': attendance === 'virtual',
-                'md:max-lg:block': attendance === 'inPerson',
-                'lg:block': attendance === 'hybrid',
-              },
-            )}
+            className={cn('[grid-area:contact-placeholder] hidden', {
+              'xl:block': attendance === 'virtual',
+              'md:max-lg:block': attendance === 'inPerson',
+              'lg:block': attendance === 'hybrid',
+            })}
           />
         </>
       )}
