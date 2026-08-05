@@ -18,7 +18,7 @@ const resourceTypeIcons: IconNames[] = [
   'presentation',
   'video',
   'audio-lines',
-  'podcast',
+  'mic-signal', // We're using
   'link',
   'paperclip', // Default icon for generic resources
 ];
