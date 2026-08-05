@@ -1461,6 +1461,7 @@ export interface Event {
    */
   credits?:
     | {
+        creditType: string;
         credit: string;
         id?: string | null;
       }[]
@@ -2113,6 +2114,7 @@ export interface EventsSelect<T extends boolean = true> {
   credits?:
     | T
     | {
+        creditType?: T;
         credit?: T;
         id?: T;
       };

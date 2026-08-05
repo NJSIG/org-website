@@ -113,7 +113,16 @@ export const Events: CollectionConfig<'events'> = {
           localized: true,
           fields: [
             {
+              name: 'creditType',
+              type: 'text',
+              required: true,
+              hooks: {
+                beforeChange: [nullEmptyFieldHook],
+              },
+            },
+            {
               name: 'credit',
+              label: 'Credits',
               type: 'text',
               required: true,
               hooks: {

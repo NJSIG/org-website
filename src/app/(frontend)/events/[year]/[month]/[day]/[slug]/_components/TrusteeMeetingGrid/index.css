@@ -24,34 +24,34 @@
       'date    date                time                virtual'
       'contact contact-placeholder contact-placeholder contact-placeholder'
     ;
-  }
 
-  .details--virtual.details--with-description {
-    --grid-sm:
-      'date'
-      'time'
-      'description'
-      'virtual'
-      'contact'
-    ;
+    &.details--with-description {
+      --grid-sm:
+        'date'
+        'time'
+        'description'
+        'virtual'
+        'contact'
+      ;
 
-    --grid-md:
-      'date        time'
-      'description description'
-      'virtual     contact'
-    ;
+      --grid-md:
+        'date        time'
+        'description description'
+        'virtual     contact'
+      ;
 
-    --grid-lg:
-      'date        date        time        time'
-      'description description description description-placeholder'
-      'virtual     virtual     contact     contact'
-    ;
+      --grid-lg:
+        'date        date        time        time'
+        'description description description description-placeholder'
+        'virtual     virtual     contact     contact'
+      ;
 
-    --grid-xl:
-      'description description description         description-placeholder description-placeholder description-placeholder'
-      'date        date        time                time                    virtual                 virtual'
-      'contact     contact     contact-placeholder contact-placeholder     contact-placeholder     contact-placeholder'
-    ;
+      --grid-xl:
+        'description description description         description-placeholder description-placeholder description-placeholder'
+        'date        date        time                time                    virtual                 virtual'
+        'contact     contact     contact-placeholder contact-placeholder     contact-placeholder     contact-placeholder'
+      ;
+    }
   }
 
   .details--in-person {
@@ -75,32 +75,32 @@
     ;
 
     --grid-xl: var(--grid-lg);
-  }
 
-  .details--in-person.details--with-description {
-    --grid-sm:
-      'date'
-      'time'
-      'description'
-      'location'
-      'contact'
-    ;
+    &.details--with-description {
+      --grid-sm:
+        'date'
+        'time'
+        'description'
+        'location'
+        'contact'
+      ;
 
-    --grid-md:
-      'date        time'
-      'description description'
-      'location    location'
-      'contact     contact-placeholder'
-    ;
+      --grid-md:
+        'date        time'
+        'description description'
+        'location    location'
+        'contact     contact-placeholder'
+      ;
 
-    --grid-lg:
-      'description description description description-placeholder description-placeholder'
-      'date        date        location    location                location'
-      'time        time        location    location                location'
-      'contact     contact     location    location                location'
-    ;
+      --grid-lg:
+        'description description description description-placeholder description-placeholder'
+        'date        date        location    location                location'
+        'time        time        location    location                location'
+        'contact     contact     location    location                location'
+      ;
 
-    --grid-xl: var(--grid-lg);
+      --grid-xl: var(--grid-lg);
+    }
   }
 
   .details--hybrid {
@@ -130,38 +130,38 @@
       'virtual virtual contact-placeholder contact-placeholder location location location location'
       'contact contact contact-placeholder contact-placeholder location location location location'
     ;
-  }
 
-  .details--hybrid.details--with-description {
-    --grid-sm:
-      'date'
-      'time'
-      'description'
-      'location'
-      'virtual'
-      'contact'
-    ;
+    &.details--with-description {
+      --grid-sm:
+        'date'
+        'time'
+        'description'
+        'location'
+        'virtual'
+        'contact'
+      ;
 
-    --grid-md:
-      'date        time'
-      'description description'
-      'location    location'
-      'virtual     contact'
-    ;
+      --grid-md:
+        'date        time'
+        'description description'
+        'location    location'
+        'virtual     contact'
+      ;
 
-    --grid-lg:
-      'description description         description-placeholder'
-      'date        location            location'
-      'time        location            location'
-      'virtual     location            location'
-      'contact     contact-placeholder contact-placeholder'
-    ;
+      --grid-lg:
+        'description description         description-placeholder'
+        'date        location            location'
+        'time        location            location'
+        'virtual     location            location'
+        'contact     contact-placeholder contact-placeholder'
+      ;
 
-    --grid-xl:
-      'description description description         description         description description-placeholder description-placeholder description-placeholder'
-      'date        date        time                time                location    location                location                location'
-      'virtual     virtual     contact-placeholder contact-placeholder location    location                location                location'
-      'contact     contact     contact-placeholder contact-placeholder location    location                location                location'
-    ;
+      --grid-xl:
+        'description description description         description         description description-placeholder description-placeholder description-placeholder'
+        'date        date        time                time                location    location                location                location'
+        'virtual     virtual     contact-placeholder contact-placeholder location    location                location                location'
+        'contact     contact     contact-placeholder contact-placeholder location    location                location                location'
+      ;
+    }
   }
 }
