@@ -1,10 +1,5 @@
-/*
- * Define the grid areas for important events.
- * `[data-event-theme='importantDate']` comes from the parent page and is used for scoping event theme variables.
- */
-
 /* prettier-ignore */
-[data-event-theme='importantDate'] {
+.details {
   --grid-sm:
     'date'
     'time'
@@ -18,7 +13,7 @@
     'date time placeholder placeholder'
   ;
 
-  .details--with-description {
+  &.details--with-description {
     --grid-sm:
       'datetime'
       'description'

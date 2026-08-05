@@ -7,7 +7,7 @@ import type { Contact, Event, Location } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { hasText } from '@payloadcms/richtext-lexical/shared';
 import { MapPinXIcon } from 'lucide-react';
-import './index.css';
+import styles from './grid.module.css';
 
 type TrusteeMeetingGridProps = {
   attendance: Event['attendanceOptions'];
@@ -50,12 +50,13 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
   return (
     <Bento
       className={cn(
+        styles.details,
         'auto-rows-auto [grid-template-areas:var(--grid-sm)] md:[grid-template-areas:var(--grid-md)] lg:[grid-template-areas:var(--grid-lg)] xl:[grid-template-areas:var(--grid-xl)]',
         {
-          'details--virtual': attendance === 'virtual',
-          'details--in-person': attendance === 'inPerson',
-          'details--hybrid': attendance === 'hybrid',
-          'details--with-description': hasDescription,
+          [styles['details--virtual']]: attendance === 'virtual',
+          [styles['details--in-person']]: attendance === 'inPerson',
+          [styles['details--hybrid']]: attendance === 'hybrid',
+          [styles['details--with-description']]: hasDescription,
         },
       )}
     >
@@ -65,23 +66,23 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
           <Bento.Item icon="book-open-text" label="Description" className="[grid-area:description]">
             <RichText data={description} className="mx-0" />
           </Bento.Item>
-          <Bento.Placeholder className="[grid-area:description-placeholder] hidden lg:block" />
+          <Bento.Placeholder className="hidden [grid-area:description-placeholder] lg:block" />
         </>
       )}
 
       {/* Date */}
-      <Bento.Item icon="calendar" label="Date" className="[grid-area:date] flex flex-col grow">
-        <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(20px,1vw,24px)]">
+      <Bento.Item icon="calendar" label="Date" className="flex grow flex-col [grid-area:date]">
+        <div className="flex grow flex-col justify-center gap-1 text-[clamp(20px,1vw,24px)] font-medium">
           <span>{dateRange}</span>
         </div>
       </Bento.Item>
 
       {/* Time */}
-      <Bento.Item icon="clock" label="Time" className="[grid-area:time] flex flex-col">
-        <div className="flex flex-col gap-1 grow justify-center font-medium text-[clamp(20px,1vw,24px)]">
+      <Bento.Item icon="clock" label="Time" className="flex flex-col [grid-area:time]">
+        <div className="flex grow flex-col justify-center gap-1 text-[clamp(20px,1vw,24px)] font-medium">
           <span>{timeRange}</span>
           {formattedRegistrationTime && (
-            <span className="italic text-foreground-muted text-[clamp(16px,1vw,18px)]">
+            <span className="text-[clamp(16px,1vw,18px)] text-foreground-muted italic">
               ({formattedRegistrationTime} Registration)
             </span>
           )}
@@ -93,9 +94,9 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
         <Bento.Item
           icon="webcam"
           label={virtual.provider}
-          className="[grid-area:virtual] flex flex-col"
+          className="flex flex-col [grid-area:virtual]"
         >
-          <div className="flex flex-col gap-1 grow justify-center">
+          <div className="flex grow flex-col justify-center gap-1">
             {virtual.link ? (
               <>
                 <Hyperlink
@@ -122,7 +123,7 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
 
       {/* Location */}
       {attendance !== 'virtual' && (
-        <Bento.Item icon="map-pin" label="Location" className="[grid-area:location] flex flex-col">
+        <Bento.Item icon="map-pin" label="Location" className="flex flex-col [grid-area:location]">
           {location ? (
             <div className="flex flex-col gap-1">
               {location.website?.url && location.website.url.trim() !== '' ? (
@@ -138,7 +139,7 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
               <GoogleMap location={location} height={200} containerClassName="rounded-lg" />
             </div>
           ) : (
-            <div className="flex flex-col grow">
+            <div className="flex grow flex-col">
               <span className="text-lg font-medium">Location Details Unavailable</span>
               <div className="flex grow items-center justify-center">
                 <MapPinXIcon size={48} className="text-foreground-muted" />
@@ -154,14 +155,14 @@ export const TrusteeMeetingGrid: React.FC<TrusteeMeetingGridProps> = ({
           <Bento.Item
             icon="contact"
             label="NJSIG Organizer"
-            className="[grid-area:contact] flex flex-col"
+            className="flex flex-col [grid-area:contact]"
           >
             <div className="flex grow items-center">
               <ContactPerson contact={contact} size="md" />
             </div>
           </Bento.Item>
           <Bento.Placeholder
-            className={cn('[grid-area:contact-placeholder] hidden', {
+            className={cn('hidden [grid-area:contact-placeholder]', {
               'xl:block': attendance === 'virtual',
               'md:max-lg:block': attendance === 'inPerson',
               'lg:block': attendance === 'hybrid',

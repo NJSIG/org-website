@@ -7,7 +7,7 @@ import type { Contact, Event, Location } from '@/payload-types';
 import { cn } from '@/utilities/cn';
 import { hasText } from '@payloadcms/richtext-lexical/shared';
 import { MapPinXIcon } from 'lucide-react';
-import './index.css';
+import styles from './grid.module.css';
 
 type MeetingGridProps = {
   attendance: Event['attendanceOptions'];
@@ -62,11 +62,12 @@ export const MeetingGrid: React.FC<MeetingGridProps> = ({
       />
       <Bento
         className={cn(
+          styles.details,
           'auto-rows-auto [grid-template-areas:var(--grid-sm)] md:[grid-template-areas:var(--grid-md)] lg:[grid-template-areas:var(--grid-lg)] xl:[grid-template-areas:var(--grid-xl)]',
           {
-            'details--virtual': attendance === 'virtual',
-            'details--in-person': attendance === 'inPerson',
-            'details--hybrid': attendance === 'hybrid',
+            [styles['details--virtual']]: attendance === 'virtual',
+            [styles['details--in-person']]: attendance === 'inPerson',
+            [styles['details--hybrid']]: attendance === 'hybrid',
           },
         )}
       >
@@ -170,14 +171,11 @@ export const MeetingGrid: React.FC<MeetingGridProps> = ({
               </div>
             </Bento.Item>
             <Bento.Placeholder
-              className={cn(
-                '[grid-area:contact-placeholder] hidden',
-                {
-                  'xl:block': attendance === 'virtual',
-                  'md:max-lg:block': attendance === 'inPerson',
-                  'lg:block': attendance === 'hybrid',
-                },
-              )}
+              className={cn('[grid-area:contact-placeholder] hidden', {
+                'xl:block': attendance === 'virtual',
+                'md:max-lg:block': attendance === 'inPerson',
+                'lg:block': attendance === 'hybrid',
+              })}
             />
           </>
         )}
@@ -196,7 +194,13 @@ const PresentationSubGrid: React.FC<
   if (hasDescription || hasPresenters || hasCredits) {
     if (presentationTitle || hasDescription) {
       return (
-        <Bento className="auto-rows-auto presentation presentation--with-description [grid-template-areas:var(--grid-sm)] lg:[grid-template-areas:var(--grid-lg)] lg:gap-y-0 mb-4">
+        <Bento
+          className={cn(
+            styles.presentation,
+            [styles['presentation--with-description']],
+            'auto-rows-auto [grid-template-areas:var(--grid-sm)] lg:[grid-template-areas:var(--grid-lg)] lg:gap-y-0 mb-4',
+          )}
+        >
           {/* Description */}
           <Bento.Item icon="book-open-text" label="Description" className="[grid-area:description]">
             {presentationTitle && (
@@ -269,7 +273,12 @@ const PresentationSubGrid: React.FC<
     }
 
     return (
-      <Bento className="presentation auto-rows-auto [grid-template-areas:var(--grid-sm)] md:[grid-template-areas:var(--grid-md)] lg:[grid-template-areas:var(--grid-lg)] mb-4">
+      <Bento
+        className={cn(
+          styles.presentation,
+          'auto-rows-auto [grid-template-areas:var(--grid-sm)] md:[grid-template-areas:var(--grid-md)] lg:[grid-template-areas:var(--grid-lg)] mb-4',
+        )}
+      >
         {/* Presenter */}
         {hasPresenters && (
           <Bento.Item

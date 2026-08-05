@@ -4,8 +4,8 @@
  */
 
 /* prettier-ignore */
-[data-event-theme='trusteeMeeting'] {
-  .details--virtual {
+.details {
+  &.details--virtual {
     --grid-sm:
       'date'
       'time'
@@ -54,7 +54,7 @@
     }
   }
 
-  .details--in-person {
+  &.details--in-person {
     --grid-sm:
       'date'
       'time'
@@ -103,7 +103,7 @@
     }
   }
 
-  .details--hybrid {
+  &.details--hybrid {
     --grid-sm:
       'date'
       'time'
