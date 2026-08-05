@@ -5,7 +5,8 @@
 
   /* Bento */
   --bento-icon-stroke: var(--color-njsig-primary);
-  --bento-placeholder: var(--color-njsig-tint);
+  --bento-placeholder: var(--color-battleship-gray-100);
+  --bento-placeholder-fibers: var(--color-njsig-neutral-shade);
 
   /* Resource List */
   --resource-theme: var(--color-njsig-primary);

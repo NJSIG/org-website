@@ -94,7 +94,7 @@ export const EventTilesBlock: React.FC<EventTilesBlockProps> = async (props) => 
   }
 
   return (
-    <div className="grid grid-cols-1 gap-y-4 gap-x-6 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
       {events &&
         events.length > 0 &&
         events.map((event) => (
