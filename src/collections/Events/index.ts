@@ -322,7 +322,7 @@ export const Events: CollectionConfig<'events'> = {
               fields: [
                 {
                   name: 'virtualLink',
-                  label: 'Meeting Link',
+                  label: 'Meeting or Registration Link',
                   type: 'text',
                   admin: {
                     description:
@@ -335,7 +335,7 @@ export const Events: CollectionConfig<'events'> = {
                 },
                 {
                   name: 'virtualPasscode',
-                  label: 'Meeting Passcode',
+                  label: 'Passcode',
                   type: 'text',
                   admin: {
                     width: '30%',
