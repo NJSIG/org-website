@@ -48,7 +48,6 @@ const queryEventByDateAndSlug = cache(
           equals: slug,
         },
       },
-      depth: 1,
       populate: {
         'event-categories': {
           name: true,
