@@ -10,6 +10,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields';
+import { hasText } from '@payloadcms/richtext-lexical/shared';
 import { CollectionConfig } from 'payload';
 import { ContactTypeValues } from '../Contacts';
 import { revalidateSubfundDeleteHook, revalidateSubfundHook } from './hooks';
@@ -149,6 +150,55 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                 },
               },
             }),
+            {
+              name: 'additionalOfferings',
+              type: 'array',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  localized: true,
+                  required: true,
+                },
+                {
+                  name: 'subtitle',
+                  type: 'text',
+                  localized: true,
+                },
+                {
+                  name: 'content',
+                  type: 'richText',
+                  localized: true,
+                  validate: (
+                    value: any,
+                    { siblingData }: { siblingData: { resources?: unknown[] } },
+                  ) => {
+                    const hasResources = (siblingData?.resources?.length ?? 0) > 0;
+                    const hasContent = hasText(value);
+
+                    if (hasResources || hasContent) {
+                      return true;
+                    }
+
+                    return 'Please provide content or at least one attachment.';
+                  },
+                },
+                resourceGroupField({
+                  useAsTitle: 'shortName',
+                  overrides: {
+                    group: {
+                      label: 'Attachments',
+                    },
+                  },
+                }),
+              ],
+              admin: {
+                initCollapsed: true,
+                components: {
+                  RowLabel: '@/collections/Subfunds/admin/AdditionalOfferingsRowLabel',
+                },
+              },
+            },
           ],
         },
         {
