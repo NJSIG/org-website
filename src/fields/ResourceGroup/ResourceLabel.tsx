@@ -1,6 +1,6 @@
 'use client';
 
-import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLable';
+import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLabel';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import {
   AudioLinesIcon,
