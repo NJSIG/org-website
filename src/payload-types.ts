@@ -1392,6 +1392,9 @@ export interface Subfund {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Add up to 10 additional offerings for this sub-fund.
+     */
     additionalOfferings?:
       | {
           title: string;

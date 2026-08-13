@@ -17,7 +17,7 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn('bg-njsig-neutral-tint rounded-3xl mb-4 last:mb-0', className)}
+      className={cn('mb-4 rounded-3xl bg-njsig-neutral-tint last:mb-0', className)}
       {...props}
     />
   );
@@ -33,16 +33,15 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] flex items-center justify-between gap-4 rounded-3xl p-4 text-left outline-none transition-colors hover:bg-mix-shade-njsig-neutral-tint/2 cursor-pointer disabled:pointer-events-none w-full [&[data-state=open]>svg>path:last-of-type]:rotate-90',
+          'flex w-full cursor-pointer items-center justify-between gap-4 rounded-3xl p-4 text-left transition-colors outline-none hover:bg-mix-shade-njsig-neutral-tint/2 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none [&[data-state=open]>svg>path:last-of-type]:rotate-90',
           className,
         )}
         {...props}
       >
         {children}
-        {/* <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" /> */}
         <SquarePlusIcon
           size={24}
-          className="[&>path]:origin-center [&>path:last-of-type]:rotate-0 [&>path:last-of-type]:motion-safe:transition-transform [&>path:last-of-type]:duration-200 pointer-events-none shrink-0"
+          className="pointer-events-none shrink-0 [&>path]:origin-center [&>path:last-of-type]:rotate-0 [&>path:last-of-type]:duration-200 [&>path:last-of-type]:motion-safe:transition-transform"
         />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -57,7 +56,7 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden"
+      className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       // className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
       {...props}
     >

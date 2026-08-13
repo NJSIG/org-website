@@ -153,6 +153,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
             {
               name: 'additionalOfferings',
               type: 'array',
+              maxRows: 10,
               fields: [
                 {
                   name: 'title',
@@ -194,6 +195,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
               ],
               admin: {
                 initCollapsed: true,
+                description: 'Add up to 10 additional offerings for this sub-fund.',
                 components: {
                   RowLabel: '@/collections/Subfunds/admin/AdditionalOfferingsRowLabel',
                 },

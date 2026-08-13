@@ -14,9 +14,16 @@ import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
 import TitleTheme from '@/components/TitleTheme';
 import type { Event, Subfund } from '@/payload-types';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/primitives/ui/accordion';
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
 import { cn } from '@/utilities/cn';
 import coolifyImageLoader from '@/utilities/coolifyImageLoader';
+import { hasText } from '@payloadcms/richtext-lexical/shared';
 import Image from 'next/image';
 import type { PaginatedDocs } from 'payload';
 import { useEffect } from 'react';
@@ -143,6 +150,40 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
               Past Sub-fund Meetings
             </TitleTheme>
             <PastMeetingsList meetings={pastMeetings} fetchPage={fetchPastMeetingsPage} />
+          </div>
+        </section>
+      )}
+      {/* Sub-fund Additional Offerings */}
+      {subfund.content.additionalOfferings && subfund.content.additionalOfferings.length > 0 && (
+        <section className="flex items-center justify-center px-4 py-12 lg:px-6">
+          <div className="flex w-full max-w-section flex-col gap-8">
+            <TitleTheme size="responsive" animated={true} className="mr-auto">
+              Additional Offerings
+            </TitleTheme>
+            <Accordion type="single" collapsible className="w-full">
+              {subfund.content.additionalOfferings.map((offering, index) => (
+                <AccordionItem key={index} value={`offering-${index}`}>
+                  <AccordionTrigger className="[&>svg]:stroke-(--subfund-foreground)">
+                    <div>
+                      <h3 className="text-lg font-bold">{offering.title}</h3>
+                      {offering.subtitle && (
+                        <span className="text-sm font-normal text-foreground-muted">
+                          {offering.subtitle}
+                        </span>
+                      )}
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    {hasText(offering.content) && <RichText data={offering.content} />}
+                    {offering.resources && offering.resources.length > 0 && (
+                      <div className="mt-4">
+                        <ResourceList nested resources={offering.resources} />
+                      </div>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </section>
       )}
