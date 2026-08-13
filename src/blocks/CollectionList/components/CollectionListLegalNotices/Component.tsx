@@ -4,20 +4,20 @@ import { queryLegalNotices } from './action';
 
 export type CollectionListLegalNoticesProps = {
   filters: CollectionListBlock['legalNoticeFilters'];
-  searchParams?: Record<string, string | string[] | undefined>;
 };
 
 export const CollectionListLegalNotices: React.FC<CollectionListLegalNoticesProps> = async ({
   filters,
-  searchParams,
 }) => {
-  const notices = await queryLegalNotices({ filters, searchParams });
+  const notices = await queryLegalNotices({ filters });
+
+  async function fetchPage({ page, perPage }: { page: number; perPage: number }) {
+    'use server';
+
+    return queryLegalNotices({ filters, page, perPage });
+  }
 
   return (
-    <CollectionListLegalNoticesClient
-      filters={filters}
-      searchParams={searchParams}
-      notices={notices}
-    />
+    <CollectionListLegalNoticesClient filters={filters} notices={notices} fetchPage={fetchPage} />
   );
 };

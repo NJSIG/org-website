@@ -1,50 +1,73 @@
 'use client';
 
+import type { FetchPage } from '@/components/hooks/usePaginatedData';
+import { usePaginatedData } from '@/components/hooks/usePaginatedData';
 import { LegalNoticeCard } from '@/components/LegalNoticeCard';
 import { Pagination } from '@/components/Pagination';
 import { LegalNotice } from '@/payload-types';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PaginatedDocs } from 'payload';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { CollectionListLegalNoticesProps } from './Component';
+
+const EMPTY_NOTICES: PaginatedDocs<LegalNotice> = {
+  docs: [],
+  totalDocs: 0,
+  limit: 10,
+  totalPages: 1,
+  page: 1,
+  pagingCounter: 1,
+  hasPrevPage: false,
+  hasNextPage: false,
+  prevPage: null,
+  nextPage: null,
+};
+
+const PAGE_SIZES = [10, 25, 50];
 
 type CollectionListLegalNoticesClientProps = CollectionListLegalNoticesProps & {
   notices: PaginatedDocs<LegalNotice> | null;
+  fetchPage: FetchPage<LegalNotice>;
 };
 
 export const CollectionListLegalNoticesClient: React.FC<CollectionListLegalNoticesClientProps> = ({
   filters,
   notices,
+  fetchPage,
 }) => {
   const blockTopRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  const { data, perPage, isPending, goToPage } = usePaginatedData(
+    notices ?? EMPTY_NOTICES,
+    fetchPage,
+  );
 
-  useEffect(() => {
-    const currentPageParam = searchParams?.get('page');
-    const currentPerPageParam = searchParams?.get('perPage');
-    const hasPaginationParams = currentPageParam !== null || currentPerPageParam !== null;
-    const hasNoResults = notices?.docs.length === 0;
-
-    if (!hasPaginationParams || !hasNoResults) {
-      return;
-    }
-
-    router.replace(`${pathname}`);
-  }, [notices?.docs.length, pathname, router, searchParams]);
-
-  return notices && notices.docs.length ? (
+  return data.docs.length > 0 ? (
     <div ref={blockTopRef}>
-      {filters?.pagination && <Pagination totalDocs={notices.totalDocs} className="mb-4" />}
+      {filters?.pagination && (
+        <Pagination
+          page={data.page || 1}
+          perPage={perPage}
+          totalPages={data.totalPages}
+          totalDocs={data.totalDocs}
+          pageSizes={PAGE_SIZES}
+          onPageChange={goToPage}
+          isPending={isPending}
+          className="mb-4"
+        />
+      )}
       <div className="space-y-4">
-        {notices.docs.map((notice) => (
+        {data.docs.map((notice) => (
           <LegalNoticeCard key={notice.id} {...notice} />
         ))}
       </div>
       {filters?.pagination && (
         <Pagination
-          totalDocs={notices.totalDocs}
+          page={data.page || 1}
+          perPage={perPage}
+          totalPages={data.totalPages}
+          totalDocs={data.totalDocs}
+          pageSizes={PAGE_SIZES}
+          onPageChange={goToPage}
+          isPending={isPending}
           className="mt-4"
           scrollToTopTargetRef={blockTopRef}
           scrollToTopOffset={48}

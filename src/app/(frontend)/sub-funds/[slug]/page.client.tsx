@@ -8,6 +8,7 @@ import {
   EventTileNoEvents,
 } from '@/components/EventTile';
 import type { EventTileData } from '@/components/EventTile/types';
+import type { FetchPage } from '@/components/hooks/usePaginatedData';
 import { PastMeetingsList } from '@/components/PastMeetingsList';
 import ResourceList from '@/components/ResourceList';
 import { RichText } from '@/components/RichText';
@@ -24,12 +25,14 @@ type SubfundPageClientProps = {
   subfund: Subfund;
   upcomingEvents: EventTileData[];
   pastMeetings: PaginatedDocs<Event> | null;
+  fetchPastMeetingsPage: FetchPage<Event>;
 };
 
 const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
   subfund,
   upcomingEvents,
   pastMeetings,
+  fetchPastMeetingsPage,
 }) => {
   const { setHeaderTheme } = useHeaderTheme();
 
@@ -139,7 +142,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
             <TitleTheme size="responsive" animated={true} className="mr-auto">
               Past Sub-fund Meetings
             </TitleTheme>
-            <PastMeetingsList meetings={pastMeetings} />
+            <PastMeetingsList meetings={pastMeetings} fetchPage={fetchPastMeetingsPage} />
           </div>
         </section>
       )}

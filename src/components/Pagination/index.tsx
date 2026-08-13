@@ -10,11 +10,7 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
 } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RefObject, useCallback, useEffect, useState } from 'react';
-
-const PAGE_SIZES = [10, 25, 50];
-const DEFAULT_PAGE_SIZE = 10;
 
 const BUTTON_VARIANT = buttonVariants({
   variant: 'button',
@@ -30,69 +26,50 @@ const ICON_BUTTON_VARIANT = buttonVariants({
   size: 'small',
 });
 
-const parsePositiveInt = (value: string | null) => {
-  if (!value || !/^\d+$/.test(value)) {
-    return null;
-  }
-
-  const parsed = Number(value);
-
-  if (!Number.isSafeInteger(parsed) || parsed < 1) {
-    return null;
-  }
-
-  return parsed;
-};
-
 export type PaginationProps = {
+  page: number;
+  perPage: number;
   totalDocs: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  onPerPageChange?: (perPage: number) => void;
   pageSizes?: number[];
-  defaultPageSize?: number;
   className?: string;
   scrollToTopTargetRef?: RefObject<HTMLElement | null>;
   scrollToTopOffset?: number;
+  isPending?: boolean;
 };
 
-export const Pagination: React.FC<PaginationProps> = ({
-  totalDocs,
-  pageSizes = PAGE_SIZES,
-  defaultPageSize = DEFAULT_PAGE_SIZE,
+/**
+ * A fully controlled pagination UI. It holds no page/perPage state of its own (beyond the
+ * transient text input), so multiple instances can be rendered independently on the same page
+ * without conflicting over shared state such as URL query params.
+ */
+export const Pagination: React.FC<PaginationProps> = (props) => {
+  // Bail out before mounting the inner component (and its hooks) when there's nothing to page through.
+  if (props.totalDocs <= 0 || props.totalPages <= 1) {
+    return null;
+  }
+
+  return <PaginationContent {...props} />;
+};
+
+const PaginationContent: React.FC<PaginationProps> = ({
+  page,
+  perPage,
+  totalPages,
+  onPageChange,
+  onPerPageChange,
+  pageSizes,
   className,
   scrollToTopTargetRef,
   scrollToTopOffset = 0,
+  isPending = false,
 }) => {
-  // Validate the provided page sizes and default page size
-  if (pageSizes.length === 0 || !pageSizes.includes(defaultPageSize)) {
-    throw new Error(
-      'Pagination component requires at least one page size and the default page size must be included in the page sizes array.',
-    );
+  // perPage drives the initial/selected page size, so it must be one of the offered options.
+  if (pageSizes && !pageSizes.includes(perPage)) {
+    throw new Error('Pagination component requires perPage to be included in pageSizes.');
   }
-
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-
-  const reqPage = parsePositiveInt(searchParams?.get('page') || null);
-  const reqPerPage = parsePositiveInt(searchParams?.get('perPage') || null);
-
-  const perPage =
-    reqPerPage !== null && pageSizes.includes(reqPerPage) ? reqPerPage : defaultPageSize;
-  const totalPages = Math.max(1, Math.ceil(totalDocs / perPage));
-  const page = reqPage !== null ? Math.min(Math.max(reqPage, 1), totalPages) : 1;
-
-  // Handle the creation of query strings for updating the router with new page or perPage values
-  const createQueryString = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams?.toString() || '');
-
-      Object.entries(updates).forEach(([name, value]) => {
-        params.set(name, value);
-      });
-
-      return params.toString();
-    },
-    [searchParams],
-  );
 
   const scrollToTopTarget = useCallback(() => {
     const target = scrollToTopTargetRef?.current;
@@ -106,40 +83,78 @@ export const Pagination: React.FC<PaginationProps> = ({
     window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' });
   }, [scrollToTopOffset, scrollToTopTargetRef]);
 
-  // Handle the selection of a new page size and update the router accordingly
+  const goToPage = useCallback(
+    (nextPage: number) => {
+      const clamped = Math.min(Math.max(nextPage, 1), totalPages);
+
+      if (clamped === page) {
+        return;
+      }
+
+      scrollToTopTarget();
+      onPageChange(clamped);
+    },
+    [onPageChange, page, scrollToTopTarget, totalPages],
+  );
+
   const handlePageSizePick = (size: number) => {
-    const queryString = createQueryString({
-      page: '1',
-      perPage: size.toString(),
-    });
+    if (size === perPage) {
+      return;
+    }
+
     scrollToTopTarget();
-    router.push(`${pathname}?${queryString}`, { scroll: false });
+    onPerPageChange?.(size);
   };
 
   const [userPageInput, setUserPageInput] = useState<string | null>(null);
   const [debouncedUserPageInput, setDebouncedUserPageInput] = useState<number | null>(null);
 
-  // Normalize invalid/missing params after render to avoid router updates during render.
+  // Reset the user input whenever the current page changes (e.g. from a button click).
   useEffect(() => {
-    const currentPageParam = searchParams?.get('page');
-    const currentPerPageParam = searchParams?.get('perPage');
-    const nextPageParam = page.toString();
-    const nextPerPageParam = perPage.toString();
+    setUserPageInput(null);
+    setDebouncedUserPageInput(null);
+  }, [page]);
 
-    if (
-      (currentPageParam === null && currentPerPageParam === null) ||
-      (currentPageParam === nextPageParam && currentPerPageParam === nextPerPageParam)
-    ) {
+  // Debounce the user input to avoid excessive page changes and
+  // validate the input to ensure it's a number within the valid range
+  useEffect(() => {
+    if (userPageInput === null) {
       return;
     }
 
-    const queryString = createQueryString({
-      page: nextPageParam,
-      perPage: nextPerPageParam,
-    });
+    const timeout = setTimeout(() => {
+      const pageNumber = parseInt(userPageInput, 10);
 
-    router.replace(`${pathname}?${queryString}`, { scroll: false });
-  }, [createQueryString, page, pathname, perPage, router, searchParams]);
+      if (!isNaN(pageNumber)) {
+        if (pageNumber < 1) {
+          setDebouncedUserPageInput(1);
+        }
+
+        if (pageNumber > totalPages) {
+          setDebouncedUserPageInput(totalPages);
+        }
+
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+          setDebouncedUserPageInput(pageNumber);
+        }
+      } else {
+        console.warn('Invalid page number input:', userPageInput);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [totalPages, userPageInput]);
+
+  // Process the debounced input and trigger the page change if it's valid and different from the current page
+  useEffect(() => {
+    if (debouncedUserPageInput === null) {
+      return;
+    }
+
+    goToPage(debouncedUserPageInput);
+    setDebouncedUserPageInput(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedUserPageInput]);
 
   // Build page button set based on the current page and total pages, ensuring that the buttons are centered around the current page
   // insert null values to represent ellipses when there are more pages than can be displayed in the button set
@@ -185,75 +200,12 @@ export const Pagination: React.FC<PaginationProps> = ({
     return buttons;
   }, [page, totalPages]);
 
-  // Reset the user input when the page changes in the router
-  useEffect(() => {
-    setUserPageInput(null);
-    setDebouncedUserPageInput(null);
-  }, [page]);
-
-  // Debounce the user input to avoid excessive router pushes and
-  // validate the input to ensure it's a number within the valid range
-  useEffect(() => {
-    if (userPageInput === null) {
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      const pageNumber = parseInt(userPageInput, 10);
-
-      if (!isNaN(pageNumber)) {
-        if (pageNumber < 1) {
-          setDebouncedUserPageInput(1);
-        }
-
-        if (pageNumber > totalPages) {
-          setDebouncedUserPageInput(totalPages);
-        }
-
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-          setDebouncedUserPageInput(pageNumber);
-        }
-      } else {
-        console.warn('Invalid page number input:', userPageInput);
-      }
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [totalPages, userPageInput]);
-
-  // Process the debounced input and update the router if it's valid and different from the current page
-  useEffect(() => {
-    if (debouncedUserPageInput === null) {
-      return;
-    }
-
-    const pageNumber = debouncedUserPageInput;
-
-    if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages && pageNumber !== page) {
-      const queryString = createQueryString({ page: pageNumber.toString() });
-      scrollToTopTarget();
-      router.push(`${pathname}?${queryString}`, { scroll: false });
-    }
-
-    setDebouncedUserPageInput(null);
-  }, [
-    debouncedUserPageInput,
-    totalPages,
-    page,
-    createQueryString,
-    pathname,
-    router,
-    scrollToTopTarget,
-  ]);
-
-  // If there are no documents, do not render the pagination component
-  // TODO: Can we bail out earlier in the render process to avoid unnecessary calculations and state updates?
-  if (totalDocs <= 0) {
-    return null;
-  }
-
   return (
-    <div className={cn('flex items-center justify-center gap-2', className)}>
+    <div
+      className={cn('flex items-center justify-center gap-2', className, {
+        'opacity-60': isPending,
+      })}
+    >
       <div className="flex items-center gap-2">
         <span className="text-sm">Page</span>
         <input
@@ -261,11 +213,11 @@ export const Pagination: React.FC<PaginationProps> = ({
           pattern="[0-9]+"
           value={userPageInput ?? page.toString()}
           onChange={(e) => setUserPageInput(e.target.value)}
-          className="transition-all focus-visible:ring-4 outline-offset-4 rounded-lg bg-transparent text-sm h-7 px-1 py-1 text-foreground border border-njsig-neutral-primary focus-visible:ring-njsig-neutral-primary/40 w-7 text-center"
+          className="h-7 w-7 rounded-lg border border-njsig-neutral-primary bg-transparent px-1 py-1 text-center text-sm text-foreground outline-offset-4 transition-all focus-visible:ring-4 focus-visible:ring-njsig-neutral-primary/40"
         />
         <span className="text-sm">of {totalPages}</span>
       </div>
-      {pageSizes.length > 1 && (
+      {pageSizes && pageSizes.length > 1 && (
         <>
           <span className="text-sm text-foreground-muted"> | </span>
           <Popover>
@@ -285,7 +237,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                     size="small"
                     key={`pagesize-${size}`}
                     className={cn('border border-transparent', {
-                      'border-njsig-neutral-midtone bg-njsig-neutral-tint pointer-events-none':
+                      'pointer-events-none border-njsig-neutral-midtone bg-njsig-neutral-tint':
                         size === perPage,
                     })}
                     onClick={() => handlePageSizePick(size)}
@@ -299,7 +251,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           </Popover>
         </>
       )}
-      <div className="flex items-center ml-auto gap-1.5">
+      <div className="ml-auto flex items-center gap-1.5">
         <Button
           className={cn(buttonVariants({ animation: 'bounceLeft' }), ICON_BUTTON_VARIANT)}
           disabled={page <= 1}
@@ -348,7 +300,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                     size: 'small',
                   }),
                   {
-                    'bg-njsig-neutral-tint border-njsig-neutral-midtone pointer-events-none':
+                    'pointer-events-none border-njsig-neutral-midtone bg-njsig-neutral-tint':
                       button === page && button !== null,
                   },
                 )}

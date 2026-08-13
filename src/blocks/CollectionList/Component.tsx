@@ -4,27 +4,19 @@ import { CollectionListEvents } from './components/CollectionListEvents/Componen
 import { CollectionListLegalNotices } from './components/CollectionListLegalNotices/Component';
 import { ListableCollections } from './config';
 
-type CollectionListBlockProps = BaseCollectionListBlockProps & {
-  searchParams?: Record<string, string | string[] | undefined>;
-};
+type CollectionListBlockProps = BaseCollectionListBlockProps;
 
 export const CollectionListBlock: React.FC<CollectionListBlockProps> = ({
   listableCollection,
-  searchParams,
   ...filters
 }) => {
   switch (listableCollection) {
     case ListableCollections.Contacts.value:
       return <CollectionListContacts filters={filters.contactFilters} />;
     case ListableCollections.Events.value:
-      return <CollectionListEvents filters={filters.eventFilters} searchParams={searchParams} />;
+      return <CollectionListEvents filters={filters.eventFilters} />;
     case ListableCollections.LegalNotices.value:
-      return (
-        <CollectionListLegalNotices
-          filters={filters.legalNoticeFilters}
-          searchParams={searchParams}
-        />
-      );
+      return <CollectionListLegalNotices filters={filters.legalNoticeFilters} />;
     default:
       return null;
   }
