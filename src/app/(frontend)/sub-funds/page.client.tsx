@@ -26,7 +26,7 @@ const SubfundsPageClient: React.FC<SubfundsPageClientProps> = ({ subfunds }) => 
           can substantially reduce statewide workers&apos; compensation costs.
         </PageSubtitle>
       </PageHeader>
-      <div className="px-4 py-12 flex flex-col items-center gap-8 max-w-7xl mx-auto">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-12 md:grid-cols-2">
         {subfunds.map((subfund) => (
           <SubfundCapsule subfund={subfund} key={subfund.shortName} />
         ))}
