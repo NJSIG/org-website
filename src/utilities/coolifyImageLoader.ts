@@ -26,20 +26,24 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
     query.set('quality', quality.toString());
   }
 
-  let result: string;
-
   if (isLocal && process.env.NODE_ENV === 'development') {
-    result = `${baseSrc}?${query.toString()}`;
-    console.log('Using local image loader in development mode:', result);
-  } else if (isLocal) {
-    result = `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
-    console.log('Using image optimization API for local image:', result);
-  } else {
-    result = `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
-    console.log('Using image optimization API for external image:', result);
+    console.log('Image Loader - Development Mode:', `${baseSrc}?${query.toString()}`);
+    return `${baseSrc}?${query.toString()}`;
   }
 
-  return result;
+  if (isLocal) {
+    console.log(
+      'Image Loader - Local Mode:',
+      `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`,
+    );
+    return `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+  }
+
+  console.log(
+    'Image Loader - External Mode:',
+    `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`,
+  );
+  return `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
 };
 
 export default coolifyImageLoader;
