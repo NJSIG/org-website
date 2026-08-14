@@ -16,6 +16,8 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
   const baseUrl = getClientSideUrl();
   const fullSrc = `${baseUrl}${baseSrc}`;
 
+  console.log('Coolify Image Loader got base url:', baseUrl);
+
   if (width) {
     query.set('width', width.toString());
   }
