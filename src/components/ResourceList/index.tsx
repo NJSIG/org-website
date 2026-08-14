@@ -24,7 +24,7 @@ const ResourceList: React.FC<ResourceListProps> = ({
 
   if (resources && resources.length > 0) {
     return (
-      <ul className={cn('grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4 w-full', className)}>
+      <ul className={cn('grid w-full grid-cols-1 gap-4 lg:grid-cols-2', className)}>
         {resources.map((item, index) =>
           item ? (
             <li key={item.id || `resource-${index}`}>
@@ -41,7 +41,7 @@ const ResourceList: React.FC<ResourceListProps> = ({
           >
             {finisherPattern ? (
               <div
-                className={cn('fibers fiber-strength-10 h-full w-full', {
+                className={cn('h-full w-full fibers fiber-strength-10', {
                   'rounded-3xl': !nested,
                   'rounded-lg': nested,
                 })}

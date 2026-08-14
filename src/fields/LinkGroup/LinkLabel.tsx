@@ -1,6 +1,6 @@
 'use client';
 
-import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLable';
+import { getLinkReferenceLabel } from '@/utilities/getLinkReferenceLabel';
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui';
 import { Binoculars, ExternalLink, Globe, Link } from 'lucide-react';
 import React from 'react';

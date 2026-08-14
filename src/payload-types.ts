@@ -1392,6 +1392,65 @@ export interface Subfund {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Add up to 10 additional offerings for this sub-fund.
+     */
+    additionalOfferings?:
+      | {
+          title: string;
+          subtitle?: string | null;
+          content?: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          resources?:
+            | {
+                resource: {
+                  type: 'document' | 'audioVideo' | 'link';
+                  /**
+                   * The resource icon should be as closely related to the resource as possible.
+                   */
+                  icon?: string | null;
+                  /**
+                   * Select or upload a document.
+                   */
+                  document?: (string | null) | Document;
+                  /**
+                   * Select or upload a video or audio clip.
+                   */
+                  audioVideo?: (string | null) | Media;
+                  /**
+                   * Provide a URL to an external resource or a reference to a CMS item.
+                   */
+                  link?: {
+                    type?: ('reference' | 'custom' | 'route') | null;
+                    newTab?: boolean | null;
+                    allowReferrer?: boolean | null;
+                    reference?: {
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null;
+                    url?: string | null;
+                    label?: string | null;
+                  };
+                };
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   meta?: {
     title?: string | null;
@@ -2078,6 +2137,37 @@ export interface SubfundsSelect<T extends boolean = true> {
                           url?: T;
                           label?: T;
                         };
+                  };
+              id?: T;
+            };
+        additionalOfferings?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              content?: T;
+              resources?:
+                | T
+                | {
+                    resource?:
+                      | T
+                      | {
+                          type?: T;
+                          icon?: T;
+                          document?: T;
+                          audioVideo?: T;
+                          link?:
+                            | T
+                            | {
+                                type?: T;
+                                newTab?: T;
+                                allowReferrer?: T;
+                                reference?: T;
+                                url?: T;
+                                label?: T;
+                              };
+                        };
+                    id?: T;
                   };
               id?: T;
             };

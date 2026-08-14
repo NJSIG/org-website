@@ -4,16 +4,16 @@ import { queryEvents } from './actions';
 
 export type CollectionListEventsProps = {
   filters: CollectionListBlock['eventFilters'];
-  searchParams?: Record<string, string | string[] | undefined>;
 };
 
-export const CollectionListEvents: React.FC<CollectionListEventsProps> = async ({
-  filters,
-  searchParams,
-}) => {
-  const events = await queryEvents({ filters, searchParams });
+export const CollectionListEvents: React.FC<CollectionListEventsProps> = async ({ filters }) => {
+  const events = await queryEvents({ filters });
 
-  return (
-    <CollectionListEventsClient filters={filters} searchParams={searchParams} events={events} />
-  );
+  async function fetchPage({ page, perPage }: { page: number; perPage: number }) {
+    'use server';
+
+    return queryEvents({ filters, page, perPage });
+  }
+
+  return <CollectionListEventsClient filters={filters} events={events} fetchPage={fetchPage} />;
 };

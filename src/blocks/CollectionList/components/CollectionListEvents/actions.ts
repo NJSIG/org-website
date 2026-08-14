@@ -8,7 +8,12 @@ import { getPayload, Where } from 'payload';
 import { cache } from 'react';
 import { CollectionListEventsProps } from './Component';
 
-export const queryEvents = cache(async ({ filters, searchParams }: CollectionListEventsProps) => {
+export type QueryEventsArgs = CollectionListEventsProps & {
+  page?: number;
+  perPage?: number;
+};
+
+export const queryEvents = cache(async ({ filters, page = 1, perPage = 10 }: QueryEventsArgs) => {
   if (!filters) {
     return null;
   }
@@ -108,21 +113,15 @@ export const queryEvents = cache(async ({ filters, searchParams }: CollectionLis
 
   // Pagination
   if (filters.pagination) {
-    const perPageParam = searchParams?.perPage;
-    const pageParam = searchParams?.page;
-
-    const limit = Math.max(
-      1,
-      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 10,
-    );
-    const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
+    const limit = Math.max(1, perPage);
+    const safePage = Math.max(1, page);
 
     const result = await payload.find({
       collection: 'events',
       draft,
       pagination: true,
       limit,
-      page,
+      page: safePage,
       depth: 1,
       where,
       sort,

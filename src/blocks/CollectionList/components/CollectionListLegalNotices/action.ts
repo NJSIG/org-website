@@ -7,8 +7,13 @@ import { getPayload, Where } from 'payload';
 import { cache } from 'react';
 import { CollectionListLegalNoticesProps } from './Component';
 
+export type QueryLegalNoticesArgs = CollectionListLegalNoticesProps & {
+  page?: number;
+  perPage?: number;
+};
+
 export const queryLegalNotices = cache(
-  async ({ filters, searchParams }: CollectionListLegalNoticesProps) => {
+  async ({ filters, page = 1, perPage = 10 }: QueryLegalNoticesArgs) => {
     if (!filters) {
       return null;
     }
@@ -75,21 +80,15 @@ export const queryLegalNotices = cache(
 
     // Pagination
     if (filters.pagination) {
-      const perPageParam = searchParams?.perPage;
-      const pageParam = searchParams?.page;
-
-      const limit = Math.max(
-        1,
-        Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 10,
-      );
-      const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
+      const limit = Math.max(1, perPage);
+      const safePage = Math.max(1, page);
 
       const result = await payload.find({
         collection: 'legal-notices',
         draft,
         pagination: true,
         limit,
-        page,
+        page: safePage,
         depth: 1,
         where,
         sort,

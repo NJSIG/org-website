@@ -6,13 +6,13 @@ import configPromise from '@payload-config';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getPayload, PaginatedDocs, Where } from 'payload';
+import { getPayload, Where } from 'payload';
 import { cache } from 'react';
+import { fetchPastMeetingsPage, queryPastMeetingsByCategory } from './actions';
 import SubfundPageClient from './page.client';
 
 type Args = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 /**
@@ -97,81 +97,8 @@ const queryEventsByCategory = cache(
   },
 );
 
-/**
- * Query past meetings by their categories from the Payload CMS.
- *
- * @param categories - The categories to filter past meetings by.
- * @returns An array of past meeting data.
- */
-const queryPastMeetingsByCategory = cache(
-  async ({
-    categories,
-    searchParams,
-  }: {
-    categories: Event['categories'];
-    searchParams?: Record<string, string | string[] | undefined>;
-  }): Promise<PaginatedDocs<Event> | null> => {
-    if (!categories || !Array.isArray(categories) || categories.length === 0) {
-      return null;
-    }
-
-    const { isEnabled: draft } = await draftMode();
-    const payload = await getPayload({ config: configPromise });
-
-    const today = new Date().toISOString();
-    const categoryFilter: Where = {
-      or: categories
-        .filter((category): category is EventCategory =>
-          Boolean(category && typeof category === 'object' && 'id' in category),
-        )
-        .map((category) => ({ categories: { equals: category.id } })),
-    };
-
-    const where: Where = {
-      and: [
-        {
-          startDate: {
-            less_than: today,
-          },
-        },
-        {
-          eventType: {
-            equals: 'subfundMeeting',
-          },
-        },
-        categoryFilter,
-      ],
-    };
-
-    const perPageParam = searchParams?.perPage;
-    const pageParam = searchParams?.page;
-
-    const requestedLimit =
-      Number(Array.isArray(perPageParam) ? perPageParam[0] : perPageParam) || 5;
-    const limit = Math.max(1, Math.max(requestedLimit, 5));
-    const page = Math.max(1, Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1);
-
-    const result = await payload.find({
-      collection: 'events',
-      draft,
-      pagination: true,
-      where,
-      limit: limit,
-      page: page,
-      depth: 1,
-      select: {
-        id: true,
-        slug: true,
-        startDate: true,
-        title: true,
-        presentationTitle: true,
-      },
-      sort: '-startDate',
-    });
-
-    return result;
-  },
-);
+// Request-level memoization for the initial server-rendered fetch.
+const queryPastMeetingsByCategoryCached = cache(queryPastMeetingsByCategory);
 
 /**
  * This function generates metadata for the event page based on its slug.
@@ -189,13 +116,9 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
  * If the subfund does not exist, it redirects to the subfunds page.
  * If the subfund exists, it renders the subfund page with the subfund data.
  */
-export default async function SubfundPage({
-  params: paramsPromise,
-  searchParams: searchParamsPromise,
-}: Args) {
+export default async function SubfundPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode();
   const { slug } = await paramsPromise;
-  const searchParams = await searchParamsPromise;
   const subfund = await querySubfundBySlug({ slug });
 
   if (!subfund) {
@@ -206,15 +129,18 @@ export default async function SubfundPage({
     categories: subfund.content.eventFilters,
   });
 
-  const pastMeetings = await queryPastMeetingsByCategory({
+  const pastMeetings = await queryPastMeetingsByCategoryCached({
     categories: subfund.content.pastMeetingsFilters,
-    searchParams,
   });
+
+  // Bind the subfund's meeting filters so the client only needs to supply page/perPage.
+  const fetchPastMeetings = fetchPastMeetingsPage.bind(null, subfund.content.pastMeetingsFilters);
 
   return (
     <>
       <SubfundPageClient
         subfund={subfund}
+        fetchPastMeetingsPage={fetchPastMeetings}
         upcomingEvents={upcomingEvents}
         pastMeetings={pastMeetings}
       />

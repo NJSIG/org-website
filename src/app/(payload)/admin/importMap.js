@@ -24,6 +24,7 @@ import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1e
 import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LucideIconPickerComponent as LucideIconPickerComponent_e18a573b0b53240b4f67efda868a2e24 } from '@/fields/LucideIconPicker/LucideIconPickerComponent'
 import { default as default_e69dd0f8ea53230d004a9a778cfc6860 } from '@/fields/ResourceGroup/ResourceLabel'
+import { default as default_97518582ea3a6ae604fd6d07709731d5 } from '@/collections/Subfunds/admin/AdditionalOfferingsRowLabel'
 import { default as default_ff78a844b71cbd43995d5a2ff2fd039e } from '@/collections/Events/EventDynamicLabels'
 import { MapComponent as MapComponent_99b7a550d131dad82d3ef497009b98fa } from '@/fields/UIMap/MapComponent'
 import { PatternComponent as PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a } from '@/fields/Pattern/PatternComponent'
@@ -74,6 +75,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/fields/LucideIconPicker/LucideIconPickerComponent#LucideIconPickerComponent": LucideIconPickerComponent_e18a573b0b53240b4f67efda868a2e24,
   "@/fields/ResourceGroup/ResourceLabel#default": default_e69dd0f8ea53230d004a9a778cfc6860,
+  "@/collections/Subfunds/admin/AdditionalOfferingsRowLabel#default": default_97518582ea3a6ae604fd6d07709731d5,
   "@/collections/Events/EventDynamicLabels#default": default_ff78a844b71cbd43995d5a2ff2fd039e,
   "@/fields/UIMap/MapComponent#MapComponent": MapComponent_99b7a550d131dad82d3ef497009b98fa,
   "@/fields/Pattern/PatternComponent#PatternComponent": PatternComponent_8521f89ec5baea21ab07a6820ffb3d8a,
