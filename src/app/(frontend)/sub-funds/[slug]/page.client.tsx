@@ -162,7 +162,7 @@ const SubfundPageClient: React.FC<SubfundPageClientProps> = ({
             </TitleTheme>
             <Accordion type="single" collapsible className="w-full">
               {subfund.content.additionalOfferings.map((offering, index) => (
-                <AccordionItem key={index} value={`offering-${index}`}>
+                <AccordionItem key={offering.id} value={`offering-${offering.id}`}>
                   <AccordionTrigger className="[&>svg]:stroke-(--subfund-foreground)">
                     <div>
                       <h3 className="text-lg font-bold">{offering.title}</h3>
