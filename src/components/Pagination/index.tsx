@@ -71,6 +71,13 @@ const PaginationContent: React.FC<PaginationProps> = ({
     throw new Error('Pagination component requires perPage to be included in pageSizes.');
   }
 
+  // If multiple pageSizes are provided a change handler must be provided.
+  if (pageSizes && pageSizes.length > 1 && !onPerPageChange) {
+    throw new Error(
+      'Pagination component requires onPerPageChange when pageSizes has multiple options.',
+    );
+  }
+
   const scrollToTopTarget = useCallback(() => {
     const target = scrollToTopTargetRef?.current;
 
