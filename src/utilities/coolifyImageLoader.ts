@@ -28,10 +28,13 @@ const coolifyImageLoader: ImageLoader = ({ src, width, quality }) => {
 
   if (isLocal && process.env.NODE_ENV === 'development') {
     result = `${baseSrc}?${query.toString()}`;
+    console.log('Using local image loader in development mode:', result);
   } else if (isLocal) {
     result = `${imageOptimizationApi}/image/${fullSrc}?${query.toString()}`;
+    console.log('Using image optimization API for local image:', result);
   } else {
     result = `${imageOptimizationApi}/image/${baseSrc}?${query.toString()}`;
+    console.log('Using image optimization API for external image:', result);
   }
 
   return result;
