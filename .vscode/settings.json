@@ -55,7 +55,8 @@
     "collections/Pages": "",
     "components/Media": "",
     "fields/Link": "",
-    "fields/Resource": ""
+    "fields/Resource": "",
+    "globals/Settings": ""
   },
   "material-icon-theme.folders.customClones": [
     {
@@ -88,6 +89,7 @@
     "ericnorth",
     "ericsouth",
     "ericwest",
+    "froi",
     "hostnames",
     "Hoverable",
     "IDAT",
