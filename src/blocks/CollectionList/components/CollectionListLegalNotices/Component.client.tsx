@@ -35,7 +35,7 @@ export const CollectionListLegalNoticesClient: React.FC<CollectionListLegalNotic
   fetchPage,
 }) => {
   const blockTopRef = useRef<HTMLDivElement>(null);
-  const { data, perPage, isPending, goToPage } = usePaginatedData(
+  const { data, perPage, isPending, goToPage, changePerPage } = usePaginatedData(
     notices ?? EMPTY_NOTICES,
     fetchPage,
   );
@@ -50,6 +50,7 @@ export const CollectionListLegalNoticesClient: React.FC<CollectionListLegalNotic
           totalDocs={data.totalDocs}
           pageSizes={PAGE_SIZES}
           onPageChange={goToPage}
+          onPerPageChange={changePerPage}
           isPending={isPending}
           className="mb-4"
         />
@@ -67,6 +68,7 @@ export const CollectionListLegalNoticesClient: React.FC<CollectionListLegalNotic
           totalDocs={data.totalDocs}
           pageSizes={PAGE_SIZES}
           onPageChange={goToPage}
+          onPerPageChange={changePerPage}
           isPending={isPending}
           className="mt-4"
           scrollToTopTargetRef={blockTopRef}

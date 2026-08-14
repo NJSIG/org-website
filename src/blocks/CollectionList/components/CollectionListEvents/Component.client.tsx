@@ -36,7 +36,7 @@ export const CollectionListEventsClient: React.FC<CollectionListEventsClientProp
   fetchPage,
 }) => {
   const blockTopRef = useRef<HTMLDivElement>(null);
-  const { data, perPage, isPending, goToPage } = usePaginatedData(
+  const { data, perPage, isPending, goToPage, changePerPage } = usePaginatedData(
     events ?? EMPTY_EVENTS,
     fetchPage,
   );
@@ -51,6 +51,7 @@ export const CollectionListEventsClient: React.FC<CollectionListEventsClientProp
           totalDocs={data.totalDocs}
           pageSizes={PAGE_SIZES}
           onPageChange={goToPage}
+          onPerPageChange={changePerPage}
           isPending={isPending}
           className="mb-4"
         />
@@ -74,6 +75,7 @@ export const CollectionListEventsClient: React.FC<CollectionListEventsClientProp
           totalDocs={data.totalDocs}
           pageSizes={PAGE_SIZES}
           onPageChange={goToPage}
+          onPerPageChange={changePerPage}
           isPending={isPending}
           className="mt-4"
           scrollToTopTargetRef={blockTopRef}
