@@ -171,6 +171,7 @@ export const Subfunds: CollectionConfig<'subfunds'> = {
                   type: 'richText',
                   localized: true,
                   validate: (
+                    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
                     value: any,
                     { siblingData }: { siblingData: { resources?: unknown[] } },
                   ) => {
