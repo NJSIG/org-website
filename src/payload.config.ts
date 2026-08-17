@@ -38,6 +38,7 @@ import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
+import { SiteSettings } from './globals/SiteSettings/config';
 import { User } from './payload-types';
 import { tasks } from './tasks';
 
@@ -130,7 +131,7 @@ export default buildConfig({
     },
   },
   collections,
-  globals: [Header, Footer],
+  globals: [Header, Footer, SiteSettings],
   blocks,
   editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',

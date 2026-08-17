@@ -35,6 +35,7 @@ import { default as default_36da8d5ac52e64cc186c4e90bd0be630 } from '@/globals/H
 import { VariantSelectComponent as VariantSelectComponent_221f4467a800647ccf40cc428e14a1cb } from '@/fields/Link/VariantSelectComponent'
 import { default as default_fd1b438da3b8dd8f5fde612035fde556 } from '@/fields/LinkGroup/LinkLabel'
 import { default as default_4279f94a5be184600522edbb3823cd6d } from '@/globals/Footer/admin/NavGroupLabel'
+import { default as default_a2a13a54db339ad9b7a90408a9af9a5e } from '@/globals/SiteSettings/admin/EmailRecipientRowLabel'
 import { default as default_f028dfe501ccb68d96f11295b8d2eed9 } from '@/fields/Analytics/PropertyLabel'
 import { default as default_7b0da33588c22cbe7e3dd7054120c9e3 } from '@/blocks/EmphasizedList/ItemLabel'
 import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/HeroSpinner/admin/SlideLabel'
@@ -86,6 +87,7 @@ export const importMap = {
   "@/fields/Link/VariantSelectComponent#VariantSelectComponent": VariantSelectComponent_221f4467a800647ccf40cc428e14a1cb,
   "@/fields/LinkGroup/LinkLabel#default": default_fd1b438da3b8dd8f5fde612035fde556,
   "@/globals/Footer/admin/NavGroupLabel#default": default_4279f94a5be184600522edbb3823cd6d,
+  "@/globals/SiteSettings/admin/EmailRecipientRowLabel#default": default_a2a13a54db339ad9b7a90408a9af9a5e,
   "@/fields/Analytics/PropertyLabel#default": default_f028dfe501ccb68d96f11295b8d2eed9,
   "@/blocks/EmphasizedList/ItemLabel#default": default_7b0da33588c22cbe7e3dd7054120c9e3,
   "@/blocks/HeroSpinner/admin/SlideLabel#default": default_2965746812f1f589746cef3163b68e31,

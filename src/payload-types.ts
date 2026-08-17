@@ -165,11 +165,13 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'site-settings': SiteSetting;
     'payload-jobs-stats': PayloadJobsStat;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
   locale: 'en';
@@ -2911,6 +2913,50 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Global settings for forms and functionality.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  /**
+   * Functionality for the FROI Intake Form, including notification settings and mail templates.
+   */
+  froi?: {
+    /**
+     * The website can send a notification email to defined mailboxes when a new form is submitted. This will supplement the notifications within the management screen.
+     */
+    notificationEmail?: {
+      enabled?: boolean | null;
+      /**
+       * The name of the email template defined in MailChimp Transactional (Mandrill).
+       */
+      template?: string | null;
+      /**
+       * Add up to 10 recipients for the notification email.
+       */
+      recipients?:
+        | {
+            name: string;
+            email: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    confirmationEmail?: {
+      enabled?: boolean | null;
+      copyClaimant?: boolean | null;
+      /**
+       * The name of the email template defined in MailChimp Transactional (Mandrill).
+       */
+      template?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs-stats".
  */
@@ -3061,6 +3107,39 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  froi?:
+    | T
+    | {
+        notificationEmail?:
+          | T
+          | {
+              enabled?: T;
+              template?: T;
+              recipients?:
+                | T
+                | {
+                    name?: T;
+                    email?: T;
+                    id?: T;
+                  };
+            };
+        confirmationEmail?:
+          | T
+          | {
+              enabled?: T;
+              copyClaimant?: T;
+              template?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
