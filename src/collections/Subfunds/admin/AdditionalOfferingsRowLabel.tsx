@@ -13,7 +13,7 @@ const AdditionalOfferingsRowLabel: React.FC<RowLabelProps> = () => {
     data?.title ?? `Additional Offering ${rowNumber !== undefined ? rowNumber + 1 : ''}`;
 
   return (
-    <div className="njsig__link-row-label">
+    <div>
       <span>{label}</span>
     </div>
   );
