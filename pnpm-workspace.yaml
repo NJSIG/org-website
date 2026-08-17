@@ -8,3 +8,8 @@ trustPolicyExclude:
   # For Recharts
   - reselect@5.1.1
   - react-redux@9.2.0
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  workerd: true
