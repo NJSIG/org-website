@@ -11,7 +11,6 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Tracking an issue with polymorphic join fields, see https://github.com/payloadcms/payload/issues/12913
 - [ ] Deep dive into `overrideAccess` and why it was causing issues loading events in the event cards block (is this still an issue?)
 - [ ] Migrate to cached components and `use cache` for data fetching
-- [ ] Look into JSON fields for tracking media usage with beforeChange and beforeDelete hooks
 - [ ] Converting circular structure to JSON error in SEO plugin (see https://github.com/payloadcms/payload/issues/16786), may need to create a pnpm patch for the SEO plugin to fix this
 - [ ] Bring in shadcn/ui badge component to replace the current pill component
 
@@ -58,3 +57,4 @@ NJSIG's website is a great resource for information about the organization, incl
 - [x] Add to calendar functionality for events
 - [x] Update hero spinner markup/styles for very large screens (max content width for buttons and text?)
 - [x] Lint `:root` styles in `styles.css` to remove unused variables from Shadcn UI
+- [x] Look into JSON fields for tracking media usage with beforeChange and beforeDelete hooks
