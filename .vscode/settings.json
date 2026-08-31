@@ -42,20 +42,20 @@
   },
   "material-icon-theme.folders.associations": {
     "access": "secure",
-    "collections": "database",
+    "api/auth": "",
     "blocks": "layout",
-    "fields": "form",
-    "globals": "global",
-    "primitives": "atom",
-    "(payload)": "admin",
-    "(frontend)": "client",
-    // Resets
-    "(frontend)/events": "",
+    "collections": "database",
     "collections/Events": "",
-    "collections/Pages": "",
     "components/Media": "",
+    "collections/Pages": "",
+    "fields": "form",
+    "fields/Resource": "",
     "fields/Link": "",
-    "fields/Resource": ""
+    "(frontend)": "client",
+    "(frontend)/events": "",
+    "globals": "global",
+    "(payload)": "admin",
+    "primitives": "atom"
   },
   "material-icon-theme.folders.customClones": [
     {

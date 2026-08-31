@@ -1783,6 +1783,9 @@ export interface LegalNotice {
  */
 export interface User {
   id: string;
+  firstName: string;
+  lastName: string;
+  fullName?: string | null;
   role: 'admin' | 'editor' | 'user';
   updatedAt: string;
   createdAt: string;
@@ -2609,6 +2612,9 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  fullName?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;
