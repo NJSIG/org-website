@@ -1,12 +1,15 @@
 import { admin, editor } from '@/access';
-import { getAuth } from '@/lib/auth';
 import { User } from '@/payload-types';
-import { randomBytes } from 'crypto';
 import type { CollectionConfig } from 'payload';
+import { syncBetterAuthHook } from './hooks/syncBetterAuthHook';
+import { betterAuthStrategy } from './lib/authStrategy';
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    disableLocalStrategy: true,
+    strategies: [betterAuthStrategy],
+  },
   access: {
     create: admin,
     delete: admin,
@@ -63,6 +66,8 @@ export const Users: CollectionConfig = {
       options: [
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },
+        { label: 'Intake', value: 'intake' },
+        { label: 'OPRA', value: 'opra' },
         { label: 'User', value: 'user' },
       ],
       required: true,
@@ -70,24 +75,6 @@ export const Users: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [
-      // Sync user to Better Auth
-      async ({ doc, operation, req }) => {
-        if (operation === 'create') {
-          const auth = await getAuth();
-
-          await auth.api.createUser({
-            body: {
-              email: doc.email,
-              name: `${doc.firstName} ${doc.lastName}`.trim(),
-              password: randomBytes(24).toString('hex'), // Never surfaced to the user
-              role: 'user', // This is the Better Auth role, not the CMS role
-            },
-          });
-
-          // TODO: Trigger first sign in email with Magic Link or Email-OTP for password creation
-        }
-      },
-    ],
+    afterChange: [syncBetterAuthHook],
   },
 };
