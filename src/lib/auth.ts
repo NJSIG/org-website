@@ -1,3 +1,4 @@
+import { requireEnv } from '@/utilities/requireEnv';
 import config from '@payload-config';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
@@ -13,10 +14,15 @@ const initializeAuth = async () => {
   const client = payload.db.connection.getClient();
   const db = client.db();
 
+  const requiredSettings = {
+    BETTER_AUTH_URL: requireEnv('BETTER_AUTH_URL'),
+    BETTER_AUTH_SECRET: requireEnv('BETTER_AUTH_SECRET'),
+  };
+
   return betterAuth({
     appName: 'NJSIG',
-    baseURL: process.env.BETTER_AUTH_URL,
-    secret: process.env.BETTER_AUTH_SECRET,
+    baseURL: requiredSettings.BETTER_AUTH_URL,
+    secret: requiredSettings.BETTER_AUTH_SECRET,
 
     database: mongodbAdapter(db, {
       // Client is optional, but needed for multi-document updates
@@ -41,7 +47,7 @@ const initializeAuth = async () => {
     plugins: [
       admin(),
       twoFactor({
-        issuer: `NJSIG (${process.env.BETTER_AUTH_URL})`,
+        issuer: `NJSIG (${requiredSettings.BETTER_AUTH_URL})`,
         twoFactorTable: 'auth-two-factor',
         otpOptions: {
           storeOTP: 'hashed',
