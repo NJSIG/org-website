@@ -2,6 +2,7 @@ import config from '@payload-config';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { admin } from 'better-auth/plugins/admin';
+import { magicLink } from 'better-auth/plugins/magic-link';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import { getPayload } from 'payload';
 
@@ -43,6 +44,7 @@ const initializeAuth = async () => {
         issuer: `NJSIG (${process.env.BETTER_AUTH_URL})`,
         twoFactorTable: 'auth-two-factor',
         otpOptions: {
+          storeOTP: 'hashed',
           async sendOTP({ user, otp }) {
             // TODO: Implement email templates
             await payload.sendEmail({
@@ -52,8 +54,17 @@ const initializeAuth = async () => {
             });
           },
         },
+        backupCodeOptions: { storeBackupCodes: 'encrypted' },
       }),
-      // TODO: Add magic link authentication
+      magicLink({
+        sendMagicLink: async ({ email, url }) => {
+          await payload.sendEmail({
+            to: email,
+            subject: 'NJSIG - Sign-in Link',
+            text: `Your sign-in link: ${url}`,
+          });
+        },
+      }),
     ],
 
     // Sync user created by Better Auth to Payload
@@ -61,6 +72,17 @@ const initializeAuth = async () => {
       user: {
         create: {
           after: async (betterAuthUser) => {
+            // Check if a user already exists in Payload
+            const existing = await payload.find({
+              collection: 'users',
+              where: { email: { equals: betterAuthUser.email } },
+              limit: 1,
+            });
+
+            if (existing.docs.length > 0) {
+              return;
+            }
+
             const name = betterAuthUser.name.split(' ');
 
             await payload.create({
