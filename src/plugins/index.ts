@@ -2,21 +2,13 @@ import { revalidateRedirectsHook } from '@/collections/hooks/revalidateRedirects
 import { Page } from '@/payload-types';
 import { getPagePath } from '@/utilities/getPagePath';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
+import { requireEnv } from '@/utilities/requireEnv';
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
 import { s3Storage } from '@payloadcms/storage-s3';
 import { Plugin } from 'payload';
-
-// Validate and extract required S3 environment variables
-function requireEnv(key: string): string {
-  const value = process.env[key];
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${key}`);
-  }
-  return value;
-}
 
 const requiredS3Vars = {
   S3_ENDPOINT: requireEnv('S3_ENDPOINT'),
