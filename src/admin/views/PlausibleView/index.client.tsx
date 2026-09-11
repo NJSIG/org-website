@@ -1,10 +1,10 @@
 'use client';
 
 import { ErrorMessage } from '@/admin/components/ErrorMessage';
-import { KPICard } from '@/admin/components/KPICard';
 import { LoadingMessage } from '@/admin/components/LoadingMessage';
-import { Table } from '@/admin/components/Table';
-import { ViewHeader } from '@/admin/components/ViewHeader';
+import { KPICard } from '@/admin/views/PlausibleView/components/KPICard';
+import { Table } from '@/admin/views/PlausibleView/components/Table';
+import { ViewHeader } from '@/admin/views/PlausibleView/components/ViewHeader';
 import {
   formatDuration,
   formatNumber,
