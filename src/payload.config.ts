@@ -119,14 +119,19 @@ export default buildConfig({
       defaultTimezone: 'America/New_York',
     },
     routes: {
-      login: '/sign-in',
+      login: '/auth/sign-in',
+      forgot: '/auth/reset',
     },
     components: {
       providers: ['@/providers/admin#AdminProviders'],
       views: {
         login: {
           Component: '@/admin/views/SignInView#SignInView',
-          path: '/sign-in',
+          path: '/auth/sign-in',
+        },
+        forgot: {
+          Component: '@/admin/views/ResetPasswordView#ResetPasswordView',
+          path: '/auth/reset',
         },
         analytics: {
           Component: '@/admin/views/PlausibleView#AnalyticsView',
