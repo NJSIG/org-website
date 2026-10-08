@@ -15,6 +15,7 @@ export const Users: CollectionConfig = {
     delete: admin,
     read: editor,
     update: admin,
+    admin: editor,
   },
   admin: {
     useAsTitle: 'email',

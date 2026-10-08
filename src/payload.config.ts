@@ -118,14 +118,22 @@ export default buildConfig({
     timezones: {
       defaultTimezone: 'America/New_York',
     },
+    routes: {
+      login: '/sign-in',
+    },
     components: {
       providers: ['@/providers/admin#AdminProviders'],
       views: {
+        login: {
+          Component: '@/admin/views/SignInView#SignInView',
+          path: '/sign-in',
+        },
         analytics: {
           Component: '@/admin/views/PlausibleView#AnalyticsView',
           path: '/analytics',
         },
       },
+      afterLogin: [{ path: '@/admin/components/AfterSignIn#AfterSignIn' }],
       afterNavLinks: [{ path: '@/admin/components/AfterNavLinks#AfterNavLinks' }],
     },
   },

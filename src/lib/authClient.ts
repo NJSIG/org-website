@@ -18,7 +18,7 @@ export const authClient = createAuthClient({
       // BetterAuthLoginView. This will be rare on the admin side, but we are
       // accounting for future front end integration
       onTwoFactorRedirect() {
-        window.location.href = '/admin/sign-in';
+        window.location.href = '/sign-in';
       },
     }),
     magicLinkClient(),
