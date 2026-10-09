@@ -109,3 +109,4 @@ const initializeAuth = async () => {
 };
 
 export const getAuth = () => (authPromise ??= initializeAuth());
+export type Auth = Awaited<ReturnType<typeof getAuth>>;
