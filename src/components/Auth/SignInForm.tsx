@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import payload from 'payload';
 import React, { FormEvent, useState } from 'react';
 
 type Props = {
@@ -43,7 +42,7 @@ export const SignInForm: React.FC<Props> = ({
             window.location.href = '/admin';
           },
           onError(context) {
-            payload.logger.error(context.error);
+            console.error(context.error);
 
             // 429 ACCOUNT_TEMPORARILY_LOCKED has a shared counter across
             // OTP, TOTP, and Backup Codes so it is worth handling explicitly

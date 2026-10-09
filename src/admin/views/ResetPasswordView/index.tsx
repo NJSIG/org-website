@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import payload from 'payload';
 import { FormEvent, useState } from 'react';
 
 /**
@@ -70,7 +69,7 @@ export const ResetPasswordView: React.FC = () => {
     setSubmitting(false);
 
     if (resetError) {
-      payload.logger.error(resetError);
+      console.error(resetError);
 
       setError(
         resetError.status === 400

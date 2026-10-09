@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import payload from 'payload';
 import { FormEvent, useState } from 'react';
 
 type Props = {
@@ -39,7 +38,7 @@ export const MagicLinkForm: React.FC<Props> = ({ onSent, onBack }) => {
             onSent(email);
           },
           onError(context) {
-            payload.logger.error(context.error);
+            console.error(context.error);
             setError('Failed to send magic link, please try again later.');
           },
         },

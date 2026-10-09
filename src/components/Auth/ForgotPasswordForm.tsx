@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import payload from 'payload';
 import { FormEvent, useState } from 'react';
 
 type Props = {
@@ -28,7 +27,7 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
         },
         {
           onError(context) {
-            payload.logger.error(context.error);
+            console.error(context.error);
           },
         },
       );

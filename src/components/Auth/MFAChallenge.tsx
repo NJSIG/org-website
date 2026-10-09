@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import payload from 'payload';
 import { FormEvent, useState } from 'react';
 
 type Method = 'totp' | 'otp' | 'backup';
@@ -29,7 +28,7 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
     const { error: sendOtpError } = await authClient.twoFactor.sendOtp();
 
     if (sendOtpError) {
-      payload.logger.error(sendOtpError);
+      console.error(sendOtpError);
       setError('Failed to send OTP Code, please try again.');
 
       return;
@@ -54,7 +53,7 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
     const { error: verifyError } = await verify;
 
     if (verifyError) {
-      payload.logger.error(verifyError);
+      console.error(verifyError);
 
       // 429 ACCOUNT_TEMPORARILY_LOCKED has a shared counter across
       // OTP, TOTP, and Backup Codes so it is worth handling explicitly
