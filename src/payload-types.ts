@@ -289,6 +289,7 @@ export interface HeroImage {
   blurData?: string | null;
   consumers?: Consumers;
   prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -746,6 +747,7 @@ export interface ContactPortrait {
   blurData?: string | null;
   consumers?: Consumers;
   prefix?: string | null;
+  _objectKey?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -929,6 +931,7 @@ export interface Media {
   blurData?: string | null;
   consumers?: Consumers;
   prefix?: string | null;
+  _objectKey?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -976,6 +979,7 @@ export interface Document {
   publishedAt?: string | null;
   lastUpdatedAt?: string | null;
   prefix?: string | null;
+  _objectKey?: string | null;
   folder?: (string | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -1783,27 +1787,13 @@ export interface LegalNotice {
  */
 export interface User {
   id: string;
+  email: string;
   firstName: string;
   lastName: string;
   fullName?: string | null;
-  role: 'admin' | 'editor' | 'user';
+  role: 'admin' | 'editor' | 'intake' | 'opra' | 'user';
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
   collection: 'users';
 }
 /**
@@ -2399,6 +2389,7 @@ export interface MediaSelect<T extends boolean = true> {
   blurData?: T;
   consumers?: T;
   prefix?: T;
+  _objectKey?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2448,6 +2439,7 @@ export interface DocumentsSelect<T extends boolean = true> {
   publishedAt?: T;
   lastUpdatedAt?: T;
   prefix?: T;
+  _objectKey?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2497,6 +2489,7 @@ export interface HeroImagesSelect<T extends boolean = true> {
   blurData?: T;
   consumers?: T;
   prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -2593,6 +2586,7 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
   blurData?: T;
   consumers?: T;
   prefix?: T;
+  _objectKey?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2612,26 +2606,13 @@ export interface ContactPortraitsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  email?: T;
   firstName?: T;
   lastName?: T;
   fullName?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3194,7 +3175,10 @@ export interface TaskSchedulePublish {
           value: string | LegalNotice;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: {
+      relationTo: 'users';
+      value: string | User;
+    } | null;
   };
   output?: unknown;
 }

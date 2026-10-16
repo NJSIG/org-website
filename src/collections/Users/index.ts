@@ -11,7 +11,7 @@ export const Users: CollectionConfig = {
     strategies: [betterAuthStrategy],
   },
   access: {
-    create: admin,
+    create: () => true,
     delete: admin,
     read: editor,
     update: admin,
@@ -29,6 +29,15 @@ export const Users: CollectionConfig = {
     },
   },
   fields: [
+    // We need to manually define an email field because disabling the local strategy
+    // prevents Payload from automatically adding it.
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+      unique: true,
+      index: true,
+    },
     {
       type: 'row',
       fields: [
