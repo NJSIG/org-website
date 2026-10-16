@@ -1,0 +1,20 @@
+/* Imports And Plugins */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+/* Tokens */
+@import './tokens/palettes.css';
+@import './tokens/tailwind.css';
+@import './tokens/shadcn.css';
+@import './tokens/semantic.css';
+
+/* Utilities */
+@import './utilities/core.css';
+@import './utilities/animations.css';
+@import './utilities/prose.css';
+
+/* Theme */
+@import './themes/base.css';
+@import './themes/event.css';
+@import './themes/subfund.css';

@@ -56,7 +56,10 @@
     "(frontend)/events": "",
     "globals": "global",
     "(payload)": "admin",
-    "primitives": "atom"
+    "primitives": "atom",
+    "styles/themes": "",
+    "styles/tokens": "",
+    "styles/utilities": ""
   },
   "material-icon-theme.folders.customClones": [
     {

@@ -1,0 +1,45 @@
+/**
+ * PayloadCMS uses it's own default styles, the standard way TailwindCSS
+ * is imported may override some of PayloadCMS's default styles. So here
+ * we carefully import TailwindCSS in a way that will not conflict with
+ * Payload's shipped styles.
+ */
+
+/* Define the TailwindCSS layers */
+@layer theme, base, components, utilities;
+
+/* Import the TailwindCSS theme styles */
+@import 'tailwindcss/theme.css' layer(theme);
+
+/* Skip the preflight reset to avoid conflicts with Payload's admin styles */
+/* @import 'tailwindcss/preflight'; */
+
+/* Import Tailwind utilities */
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Import Tailwind animations */
+@import 'tw-animate-css';
+
+/* Import Tailwind plugins */
+@plugin "@tailwindcss/typography";
+
+/* Tokens */
+@import './tokens/palettes.css';
+@import './tokens/tailwind.css';
+@import './tokens/semantic.css';
+
+/* Utilities */
+@import './utilities/core.css';
+@import './utilities/animations.css';
+@import './utilities/prose.css';
+
+/* Support Payload’s dark mode toggle by adding a custom variant */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* NJSIG custom styles */
+@layer base {
+  .njsig__custom {
+    /* Section Titles */
+    --title-theme-accent: var(--color-njsig-accent-midtone);
+  }
+}
