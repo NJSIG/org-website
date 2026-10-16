@@ -5,15 +5,24 @@
  * has an `email (string)`, `fullName (string)`, and `role (string)` field for each user.
  *
  * Usage:
- *   npx payload run scripts/migrate-existing-users.ts --dry-run                          # Test the script without making any changes
+ *   npx payload run scripts/migrate-existing-users.ts --dry-run
  *
- *   npx payload run scripts/migrate-existing-users.ts [--user-collection <collection>]   # Run the migration for existing users
- *                                                                                        ## Options:
- *                                                                                        ##   --user-collection <collection> User collection to migrate (default: users)
+ *      # Test the script without making any changes
  *
- *   npx payload run scripts/migrate-existing-users.ts --sent-reset-emails                # Send password reset emails to migrated users
- *                                                                                        ##   Email everyone migrated so they can
- *                                                                                        ##   so they can set their new password
+ *   npx payload run scripts/migrate-existing-users.ts [--user-collection <collection>] [--user <email>]
+ *
+ *      # Run the migration for existing users
+ *      ## Options:
+ *      ##   --user-collection <collection> User collection to migrate (default: users)
+ *      ##   --user <email> Target a specific user by email
+ *
+ *   npx payload run scripts/migrate-existing-users.ts --send-reset-emails [--user <email>]
+ *
+ *      # Send password reset emails to migrated users so they can set their new password
+ *      ## Options:
+ *      ##   --user <email> Target a specific user by email
+ *      ### Note: This will only send reset emails to users who have already been migrated,
+ *      ### if the user has not been migrated yet, they will not receive a reset email.
  *
  * This script is safe to re-run; users who already have a Better Auth account are detected and reported as "skipped" and
  * not treated as failures, retried, or recreated.
@@ -44,6 +53,8 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const SEND_RESET_EMAILS = process.argv.includes('--send-reset-emails');
 const REQUESTED_USER_COLLECTION =
   process.argv.find((arg, index, args) => args[index - 1] === '--user-collection') ?? 'users';
+const USER_FLAG_INDEX = process.argv.indexOf('--user');
+const TARGET_USER = USER_FLAG_INDEX === -1 ? null : (process.argv[USER_FLAG_INDEX + 1] ?? '');
 
 async function main() {
   const payload = await getPayload({ config });
@@ -56,6 +67,11 @@ async function main() {
 
   if (!VALIDATED_USER_COLLECTION) {
     throw new Error(`Invalid user collection: ${REQUESTED_USER_COLLECTION}`);
+  }
+
+  // Validate the requested user if passed
+  if (TARGET_USER !== null && (!TARGET_USER || TARGET_USER.startsWith('--'))) {
+    throw new Error('--user requires an email value, e.g. --user someone@example.com');
   }
 
   if (SEND_RESET_EMAILS) {
@@ -75,10 +91,15 @@ async function main() {
       limit: PAGE_SIZE,
       page,
       sort: 'id', // Stable ordering so subsequent runs walk the user collection consistently
+      where: TARGET_USER ? { email: { equals: TARGET_USER } } : undefined,
     });
 
     for (const user of docs) {
       results.push(await migrateOne(auth, user as MigratableUserData));
+    }
+
+    if (TARGET_USER && page === 1 && docs.length === 0) {
+      throw new Error(`No user found with email ${TARGET_USER}`);
     }
 
     console.log(`Processed page ${page} (${docs.length} users)`);
@@ -130,7 +151,11 @@ async function sendResetEmails(
   payload: Awaited<ReturnType<typeof getPayload>>,
   collection: CollectionSlug,
 ) {
-  const { docs: users } = await payload.find({ collection, limit: 0 });
+  const { docs: users } = await payload.find({
+    collection,
+    limit: 0,
+    where: TARGET_USER ? { email: { equals: TARGET_USER } } : undefined,
+  });
   const DELAY_MS = 250; // May need to be tuned for rate-limiting purposes
 
   for (const user of users) {
