@@ -1,7 +1,10 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
+import { Button } from '@/primitives/ui/button';
+import { KeySquareIcon, WandSparklesIcon } from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
+import TitleTheme from '../TitleTheme';
 
 type Props = {
   onTwoFactorRequired: (methods: ('totp' | 'otp')[]) => void;
@@ -60,42 +63,59 @@ export const SignInForm: React.FC<Props> = ({
     }
   }
 
-  // TODO: This needs styling
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <p role="alert">{error}</p>}
+    <div className="bg-njsig-neutral-background flex flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+      <TitleTheme size="responsive" animated={false} className="mr-auto">
+        Sign In
+      </TitleTheme>
+      <p className="font-medium">Welcome back! Please sign in to your account below.</p>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5 pt-3">
+        {error && <p role="alert">{error}</p>}
 
-      <label htmlFor="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoComplete="username"
-        required
-      />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="username"
+          required
+        />
 
-      <label htmlFor="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        autoComplete="current-password"
-        required
-      />
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+          required
+        />
 
-      <button type="submit" disabled={authenticating}>
-        {authenticating ? 'Signing in...' : 'Sign In'}
-      </button>
+        <button type="button" onClick={onForgotPassword}>
+          Forgot Password?
+        </button>
 
-      <button type="button" onClick={onForgotPassword}>
-        Forgot Password?
-      </button>
-
-      <button type="button" onClick={onSwitchToMagicLink}>
-        Sign in with Magic Link
-      </button>
-    </form>
+        <Button
+          variant="button"
+          style="flat"
+          type="submit"
+          className="border-none"
+          disabled={authenticating}
+        >
+          <KeySquareIcon size={24} className="mr-2" />
+          <span>Sign In</span>
+        </Button>
+        <Button
+          variant="button"
+          style="outline"
+          onClick={onSwitchToMagicLink}
+          className="cursor-pointer"
+        >
+          <WandSparklesIcon size={24} className="mr-2" />
+          <span>Sign in with Magic Link</span>
+        </Button>
+      </form>
+    </div>
   );
 };
