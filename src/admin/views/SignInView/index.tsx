@@ -6,6 +6,7 @@ import { MagicLinkForm } from '@/components/Auth/MagicLinkForm';
 import { MagicLinkSent } from '@/components/Auth/MagicLinkSent';
 import { MFAChallenge } from '@/components/Auth/MFAChallenge';
 import { SignInForm } from '@/components/Auth/SignInForm';
+import { Logo } from '@/components/Logo';
 import React, { useState } from 'react';
 
 /**
@@ -28,40 +29,60 @@ type Step =
 export const SignInView: React.FC = () => {
   const [step, setStep] = useState<Step>({ name: 'signIn' });
 
+  let view: React.ReactNode;
+
   switch (step.name) {
     case 'signIn':
-      return (
+      view = (
         <SignInForm
           onTwoFactorRequired={(methods) => setStep({ name: 'mfaChallenge', methods })}
           onSwitchToMagicLink={() => setStep({ name: 'magicLinkRequest' })}
           onForgotPassword={() => setStep({ name: 'passwordResetRequest' })}
         />
       );
+      break;
     case 'magicLinkRequest':
-      return (
+      view = (
         <MagicLinkForm
           onSent={(email) => setStep({ name: 'magicLinkSent', email })}
           onBack={() => setStep({ name: 'signIn' })}
         />
       );
+      break;
     case 'magicLinkSent':
-      return <MagicLinkSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      view = <MagicLinkSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      break;
     case 'passwordResetRequest':
-      return (
+      view = (
         <ForgotPasswordForm
           onSent={(email) => setStep({ name: 'passwordResetSent', email })}
           onBack={() => setStep({ name: 'signIn' })}
         />
       );
+      break;
     case 'passwordResetSent':
-      return <ForgotPasswordSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      view = <ForgotPasswordSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      break;
     case 'mfaChallenge':
-      return (
+      view = (
         <MFAChallenge
           methods={step.methods}
           onVerified={() => setStep({ name: 'signIn' })}
           onCancel={() => setStep({ name: 'signIn' })}
         />
       );
+      break;
   }
+
+  return (
+    <div className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col">
+      <main className="flex grow flex-col items-center justify-center gap-6">
+        <Logo style="wordmark" theme="light" />
+        {view}
+      </main>
+      <footer className="text-muted flex items-center justify-center p-4">
+        <p>Copyright &copy; New Jersey Schools Insurance Group. All rights reserved.</p>
+      </footer>
+    </div>
+  );
 };
