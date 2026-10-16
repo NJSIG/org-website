@@ -40,8 +40,8 @@ const initializeAuth = async () => {
 
     emailAndPassword: {
       enabled: true,
-      requireEmailVerification: true,
       disableSignUp: true,
+      requireEmailVerification: true,
     },
 
     plugins: [
@@ -63,6 +63,7 @@ const initializeAuth = async () => {
         backupCodeOptions: { storeBackupCodes: 'encrypted' },
       }),
       magicLink({
+        disableSignUp: true,
         sendMagicLink: async ({ email, url }) => {
           await payload.sendEmail({
             to: email,
