@@ -1,15 +1,16 @@
 'use client';
 
-import { requireEnv } from '@/utilities/requireEnv';
 import { createAuthClient } from 'better-auth/client';
 import { magicLinkClient, twoFactorClient } from 'better-auth/client/plugins';
 
-const requiredSettings = {
-  BETTER_AUTH_URL: requireEnv('BETTER_AUTH_URL'),
-};
+const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+if (!baseURL) {
+  throw new Error('Missing required environment variable: NEXT_PUBLIC_SERVER_URL');
+}
 
 export const authClient = createAuthClient({
-  baseURL: requiredSettings.BETTER_AUTH_URL,
+  baseURL,
   plugins: [
     twoFactorClient({
       // Fires when a sign-in response comes back with `twoFactorRedirect: true`.
