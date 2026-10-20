@@ -1,7 +1,9 @@
 import { cn } from '@/utilities/cn';
 import { cva, VariantProps } from 'class-variance-authority';
 
-const pillVariants = cva('px-2 py-0.5 rounded-lg text-xs font-medium text-nowrap', {
+// TODO: Migrate this pill component to use Base UI instead of Radix UI
+
+const pillVariants = cva('text-nowrap rounded-lg px-2 py-0.5 text-xs font-medium', {
   variants: {
     color: {
       default: '',

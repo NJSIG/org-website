@@ -1,5 +1,7 @@
 'use client';
 
+// TODO: Migrate this accordion component to use Base UI instead of Radix UI
+
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { SquarePlusIcon } from 'lucide-react';
 import * as React from 'react';
@@ -17,7 +19,7 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn('mb-4 rounded-3xl bg-njsig-neutral-tint last:mb-0', className)}
+      className={cn('bg-njsig-neutral-tint mb-4 rounded-3xl last:mb-0', className)}
       {...props}
     />
   );
@@ -33,7 +35,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          'flex w-full cursor-pointer items-center justify-between gap-4 rounded-3xl p-4 text-left transition-colors outline-none hover:bg-mix-shade-njsig-neutral-tint/2 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none [&[data-state=open]>svg>path:last-of-type]:rotate-90',
+          'hover:bg-mix-shade-njsig-neutral-tint/2 focus-visible:border-ring focus-visible:ring-ring/50 flex w-full cursor-pointer items-center justify-between gap-4 rounded-3xl p-4 text-left outline-none transition-colors focus-visible:ring-[3px] disabled:pointer-events-none [&[data-state=open]>svg>path:last-of-type]:rotate-90',
           className,
         )}
         {...props}
@@ -41,7 +43,7 @@ function AccordionTrigger({
         {children}
         <SquarePlusIcon
           size={24}
-          className="pointer-events-none shrink-0 [&>path]:origin-center [&>path:last-of-type]:rotate-0 [&>path:last-of-type]:duration-200 [&>path:last-of-type]:motion-safe:transition-transform"
+          className="pointer-events-none shrink-0 [&>path:last-of-type]:rotate-0 [&>path:last-of-type]:duration-200 [&>path:last-of-type]:motion-safe:transition-transform [&>path]:origin-center"
         />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -56,7 +58,7 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden"
       // className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
       {...props}
     >

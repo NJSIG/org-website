@@ -14,6 +14,9 @@ NJSIG's website is a great resource for information about the organization, incl
 - [ ] Converting circular structure to JSON error in SEO plugin (see https://github.com/payloadcms/payload/issues/16786), may need to create a pnpm patch for the SEO plugin to fix this
 - [ ] Bring in shadcn/ui badge component to replace the current pill component
 - [ ] Track links with anchors to redirects when going live
+- [ ] Migrate Shadcn UI components to Base UI
+- [ ] Migrate local CN utility to the CN utility from Shadcn/Base UI
+- [ ] Migrate Analytics to Umami
 
 ### Post MVP Features
 
