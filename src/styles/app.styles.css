@@ -3,6 +3,9 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
+/* TailwindCSS Overrides */
+@import './overrides/pointer.css';
+
 /* Tokens */
 @import './tokens/palettes.css';
 @import './tokens/tailwind.css';

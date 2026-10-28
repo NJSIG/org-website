@@ -23,6 +23,9 @@
 /* Import Tailwind plugins */
 @plugin "@tailwindcss/typography";
 
+/* TailwindCSS Overrides */
+@import './overrides/pointer.css' layer(base);
+
 /* Tokens */
 @import './tokens/palettes.css';
 @import './tokens/tailwind.css';
