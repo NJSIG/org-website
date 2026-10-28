@@ -1,5 +1,6 @@
-import { Button } from '@/primitives/ui/button';
+import { Button, buttonVariants } from '@/primitives/ui/button';
 import { generateEventLink } from '@/utilities/generateEventLink';
+import { cn } from 'cn';
 import { ArrowUpRightIcon, DownloadIcon } from 'lucide-react';
 import Link from 'next/link';
 import { EventCardData } from '../types';
@@ -20,36 +21,40 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
       : null;
 
   return (
-    <div className="flex items-center gap-x-6 gap-y-4 mt-4 flex-wrap">
-      <Button
-        asChild
-        variant="button"
-        style="outline"
-        color="primary"
-        size="medium"
-        animation="upRight"
-        className="grow"
+    <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">
+      <Link
+        href={href}
+        className={cn(
+          buttonVariants({
+            variant: 'button',
+            style: 'outline',
+            color: 'primary',
+            size: 'medium',
+            animation: 'upRight',
+          }),
+          'grow',
+        )}
       >
-        <Link href={href}>
-          <span>View Event</span>
-          <ArrowUpRightIcon size={16} />
-        </Link>
-      </Button>
+        <span>View Event</span>
+        <ArrowUpRightIcon size={16} />
+      </Link>
       {agendaLink ? (
-        <Button
-          asChild
-          variant="button"
-          style="outline"
-          color="primary"
-          size="medium"
-          animation="bounceDown"
-          className="grow"
+        <Link
+          href={agendaLink}
+          className={cn(
+            buttonVariants({
+              variant: 'button',
+              style: 'outline',
+              color: 'primary',
+              size: 'medium',
+              animation: 'bounceDown',
+            }),
+            'grow',
+          )}
         >
-          <Link href={agendaLink}>
-            <span>Download Agenda</span>
-            <DownloadIcon size={16} />
-          </Link>
-        </Button>
+          <span>Download Agenda</span>
+          <DownloadIcon size={16} />
+        </Link>
       ) : (
         <Button
           disabled
@@ -65,20 +70,22 @@ export const EventCardTrusteeLinks: React.FC<{ event: EventCardData }> = ({ even
         </Button>
       )}
       {minutesLink ? (
-        <Button
-          asChild
-          variant="button"
-          style="outline"
-          color="primary"
-          size="medium"
-          animation="bounceDown"
-          className="grow"
+        <Link
+          href={minutesLink}
+          className={cn(
+            buttonVariants({
+              variant: 'button',
+              style: 'outline',
+              color: 'primary',
+              size: 'medium',
+              animation: 'bounceDown',
+            }),
+            'grow',
+          )}
         >
-          <Link href={minutesLink}>
-            <span>Download Minutes</span>
-            <DownloadIcon size={16} />
-          </Link>
-        </Button>
+          <span>Download Minutes</span>
+          <DownloadIcon size={16} />
+        </Link>
       ) : (
         <Button
           disabled

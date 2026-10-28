@@ -1,10 +1,6 @@
-// TODO: Migrate this button component to use Base UI instead of Radix UI
-
-import { Slot } from '@radix-ui/react-slot';
+import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
-
-import { cn } from '@/utilities/cn';
+import { cn } from 'cn';
 
 const buttonVariants = cva(
   'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap outline-offset-4 transition-all focus-visible:ring-4 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
@@ -14,11 +10,12 @@ const buttonVariants = cva(
         button: 'rounded-lg font-medium',
         cta: 'rounded-3xl font-bold',
         icon: 'rounded-lg',
+        link: 'text-foreground-link',
       },
       style: {
-        flat: '',
+        flat: 'border-none',
         outline: 'border-2 bg-transparent',
-        ghost: 'bg-transparent',
+        ghost: 'border-none bg-transparent',
       },
       color: {
         neutral: '',
@@ -173,16 +170,10 @@ function Button({
   color,
   size,
   animation,
-  asChild = false,
   ...props
-}: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-  }) {
-  const Comp = asChild ? Slot : 'button';
-
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
-    <Comp
+    <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, style, color, size, animation }), className)}
       {...props}
