@@ -2,7 +2,15 @@
 
 import { authClient } from '@/lib/authClient';
 import { Button } from '@/primitives/ui/button';
-import { KeySquareIcon, WandSparklesIcon } from 'lucide-react';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/primitives/ui/field';
+import { Input } from '@/primitives/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/primitives/ui/input-group';
+import { EyeIcon, EyeOffIcon, KeySquareIcon, WandSparklesIcon } from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
 import TitleTheme from '../TitleTheme';
 
@@ -18,14 +26,28 @@ export const SignInForm: React.FC<Props> = ({
   onForgotPassword,
 }) => {
   const [email, setEmail] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [authenticating, setAuthenticating] = useState(false);
+
+  const emailError = emailTouched && email === '';
+  const passwordError = passwordTouched && password === '';
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     setError(null);
+    setEmailTouched(true);
+    setPasswordTouched(true);
+
+    if (emailError || passwordError) {
+      setError('All fields are required.');
+      return;
+    }
+
     setAuthenticating(true);
 
     try {
@@ -64,54 +86,74 @@ export const SignInForm: React.FC<Props> = ({
   }
 
   return (
-    <div className="bg-njsig-neutral-background flex flex-col gap-3 rounded-3xl p-4 shadow-2xl">
-      <TitleTheme size="responsive" animated={false} className="mr-auto">
+    <div className="bg-njsig-neutral-background flex w-full max-w-lg flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+      <TitleTheme size="medium" animated={false} className="mr-auto">
         Sign In
       </TitleTheme>
       <p className="font-medium">Welcome back! Please sign in to your account below.</p>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5 pt-3">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 pt-3">
         {error && <p role="alert">{error}</p>}
 
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="username"
-          required
-        />
+        <FieldGroup>
+          <Field data-invalid={emailError}>
+            <FieldLabel htmlFor="email">Email Address</FieldLabel>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setEmailTouched(true)}
+              autoComplete="username"
+              required
+              aria-invalid={emailError}
+            />
+            {emailError && <FieldError>Email Address is required.</FieldError>}
+          </Field>
+          <Field data-invalid={passwordError}>
+            <FieldLabel htmlFor="password">
+              <span>Password</span>
+              <Button
+                type="button"
+                onClick={onForgotPassword}
+                variant="link"
+                style="ghost"
+                size="small"
+                className="ml-auto h-auto p-0"
+              >
+                Forgot?
+              </Button>
+            </FieldLabel>
+            <InputGroup>
+              <InputGroupInput
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onBlur={() => setPasswordTouched(true)}
+                autoComplete="current-password"
+                required
+                aria-invalid={passwordError}
+              />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  onClick={() => setShowPassword(!showPassword)}
+                  variant="icon"
+                  size="icon-xs"
+                >
+                  {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+            {passwordError && <FieldError>Password is required.</FieldError>}
+          </Field>
+        </FieldGroup>
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-          required
-        />
-
-        <button type="button" onClick={onForgotPassword}>
-          Forgot Password?
-        </button>
-
-        <Button
-          variant="button"
-          style="flat"
-          type="submit"
-          className="border-none"
-          disabled={authenticating}
-        >
+        <Button type="submit" variant="button" style="flat" disabled={authenticating}>
           <KeySquareIcon size={24} className="mr-2" />
           <span>Sign In</span>
         </Button>
-        <Button
-          variant="button"
-          style="outline"
-          onClick={onSwitchToMagicLink}
-          className="cursor-pointer"
-        >
+        <Button type="button" variant="button" style="outline" onClick={onSwitchToMagicLink}>
           <WandSparklesIcon size={24} className="mr-2" />
           <span>Sign in with Magic Link</span>
         </Button>

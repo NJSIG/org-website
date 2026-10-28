@@ -75,7 +75,7 @@ export const SignInView: React.FC = () => {
   }
 
   return (
-    <div className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col">
+    <div className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col px-4">
       <main className="flex grow flex-col items-center justify-center gap-6">
         <Logo style="wordmark" theme="light" loading="eager" />
         {view}
