@@ -1,6 +1,16 @@
 @import '~@payloadcms/ui/scss';
 
 /* Payload Override Styles */
+@layer payload-default {
+  :root {
+    --base-body-size: 16;
+  }
+
+  html {
+    font-size: var(--base-body-size) px;
+  }
+}
+
 @layer payload {
   .document-fields {
     --doc-sidebar-width: 274px;
