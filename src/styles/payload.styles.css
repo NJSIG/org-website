@@ -29,6 +29,7 @@
 /* Tokens */
 @import './tokens/palettes.css';
 @import './tokens/tailwind.css';
+@import './tokens/shadcn.css';
 @import './tokens/semantic.css';
 
 /* Utilities */
@@ -44,5 +45,8 @@
   .njsig__custom {
     /* Section Titles */
     --title-theme-accent: var(--color-njsig-accent-midtone);
+
+    /* Apply our font to anything in an njsig__custom block */
+    font-family: var(--font-sans);
   }
 }
