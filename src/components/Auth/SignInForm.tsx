@@ -1,5 +1,6 @@
 'use client';
 
+import TitleTheme from '@/components/TitleTheme';
 import { authClient } from '@/lib/authClient';
 import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
@@ -20,7 +21,6 @@ import {
   WandSparklesIcon,
 } from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
-import TitleTheme from '../TitleTheme';
 
 type Props = {
   onTwoFactorRequired: (methods: ('totp' | 'otp')[]) => void;
