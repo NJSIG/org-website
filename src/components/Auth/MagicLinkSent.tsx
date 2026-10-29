@@ -19,7 +19,6 @@ export const MagicLinkSent: React.FC<Props> = ({ email, onBack }) => {
         A sign in link has been sent to <strong>{email}</strong>. If you don't see it, check your
         spam folder.
       </p>
-
       <Button type="button" variant="button" style="outline" onClick={onBack}>
         <ArrowLeftIcon size={24} className="mr-2" />
         <span>Back to Sign In</span>

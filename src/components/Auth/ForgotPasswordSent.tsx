@@ -1,5 +1,9 @@
 'use client';
 
+import TitleTheme from '@/components/TitleTheme';
+import { Button } from '@/primitives/ui/button';
+import { ArrowLeftIcon } from 'lucide-react';
+
 type Props = {
   email: string;
   onBack: () => void;
@@ -7,9 +11,18 @@ type Props = {
 
 export const ForgotPasswordSent: React.FC<Props> = ({ email, onBack }) => {
   return (
-    <div>
-      <p>If {email} is associated with an account, a password reset link has been sent.</p>
-      <button onClick={onBack}>Back to sign in</button>
+    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+      <TitleTheme size="medium" animated={false} className="mr-auto">
+        Forgot Password
+      </TitleTheme>
+      <p className="mb-6">
+        If <strong>{email}</strong> is associated with an account, a password reset link has been
+        sent. If you don't see it, check your spam folder.
+      </p>
+      <Button type="button" variant="button" style="outline" onClick={onBack}>
+        <ArrowLeftIcon size={24} className="mr-2" />
+        <span>Back to Sign In</span>
+      </Button>
     </div>
   );
 };
