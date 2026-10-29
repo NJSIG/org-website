@@ -1,9 +1,7 @@
 'use client';
 
 import { ForgotPasswordForm } from '@/components/Auth/ForgotPasswordForm';
-import { ForgotPasswordSent } from '@/components/Auth/ForgotPasswordSent';
 import { MagicLinkForm } from '@/components/Auth/MagicLinkForm';
-import { MagicLinkSent } from '@/components/Auth/MagicLinkSent';
 import { MFAChallenge } from '@/components/Auth/MFAChallenge';
 import { SignInForm } from '@/components/Auth/SignInForm';
 import { Logo } from '@/components/Logo';
@@ -23,9 +21,7 @@ import React, { useState } from 'react';
 type Step =
   | { name: 'signIn' }
   | { name: 'magicLinkRequest' }
-  | { name: 'magicLinkSent'; email: string }
   | { name: 'passwordResetRequest' }
-  | { name: 'passwordResetSent'; email: string }
   | { name: 'mfaChallenge'; methods: ('totp' | 'otp')[] };
 
 export const SignInView: React.FC = () => {
@@ -44,26 +40,10 @@ export const SignInView: React.FC = () => {
       );
       break;
     case 'magicLinkRequest':
-      view = (
-        <MagicLinkForm
-          onSent={(email) => setStep({ name: 'magicLinkSent', email })}
-          onBack={() => setStep({ name: 'signIn' })}
-        />
-      );
-      break;
-    case 'magicLinkSent':
-      view = <MagicLinkSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      view = <MagicLinkForm onBack={() => setStep({ name: 'signIn' })} />;
       break;
     case 'passwordResetRequest':
-      view = (
-        <ForgotPasswordForm
-          onSent={(email) => setStep({ name: 'passwordResetSent', email })}
-          onBack={() => setStep({ name: 'signIn' })}
-        />
-      );
-      break;
-    case 'passwordResetSent':
-      view = <ForgotPasswordSent email={step.email} onBack={() => setStep({ name: 'signIn' })} />;
+      view = <ForgotPasswordForm onBack={() => setStep({ name: 'signIn' })} />;
       break;
     case 'mfaChallenge':
       view = (

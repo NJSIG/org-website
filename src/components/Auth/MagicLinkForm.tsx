@@ -5,12 +5,17 @@ import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
 import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
 import { Input } from '@/primitives/ui/input';
-import { ArrowLeftIcon, LoaderCircleIcon, SendIcon, TriangleAlertIcon } from 'lucide-react';
+import {
+  ArrowLeftIcon,
+  CircleCheckIcon,
+  LoaderCircleIcon,
+  SendIcon,
+  TriangleAlertIcon,
+} from 'lucide-react';
 import { FormEvent, useState } from 'react';
 import TitleTheme from '../TitleTheme';
 
 type Props = {
-  onSent: (email: string) => void;
   onBack: () => void;
 };
 
@@ -20,11 +25,12 @@ type Props = {
  * require MFA for magic links we would need to add an `after` hook on
  * the magic link verify endpoint rather than relying on the client.
  */
-export const MagicLinkForm: React.FC<Props> = ({ onSent, onBack }) => {
+export const MagicLinkForm: React.FC<Props> = ({ onBack }) => {
   const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState<string | null>(null);
 
   const emailError = emailTouched && email === '';
 
@@ -32,6 +38,7 @@ export const MagicLinkForm: React.FC<Props> = ({ onSent, onBack }) => {
     event.preventDefault();
 
     setError(null);
+    setSent(null);
     setEmailTouched(true);
 
     if (email === '') {
@@ -51,7 +58,7 @@ export const MagicLinkForm: React.FC<Props> = ({ onSent, onBack }) => {
         },
         {
           onSuccess() {
-            onSent(email);
+            setSent(email);
           },
           onError(context) {
             console.error(context.error);
@@ -74,6 +81,16 @@ export const MagicLinkForm: React.FC<Props> = ({ onSent, onBack }) => {
           <Alert variant="destructive">
             <TriangleAlertIcon size={24} />
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {sent && (
+          <Alert variant="success">
+            <CircleCheckIcon size={24} />
+            <AlertDescription>
+              A sign in link has been sent to <strong>{sent}</strong>. If you don't see it, check
+              your spam folder.
+            </AlertDescription>
           </Alert>
         )}
 

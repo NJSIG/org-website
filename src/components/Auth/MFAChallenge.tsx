@@ -18,6 +18,8 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
   const [submitting, setSubmitting] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
 
+  console.log('MFA Allowed Methods', methods);
+
   // Default trust device to false, this could be something
   // that is changed per user type.
   const [trustDevice, setTrustDevice] = useState(false);

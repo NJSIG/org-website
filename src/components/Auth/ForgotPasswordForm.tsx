@@ -6,19 +6,25 @@ import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
 import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
 import { Input } from '@/primitives/ui/input';
-import { ArrowLeftIcon, LoaderCircleIcon, SendIcon, TriangleAlertIcon } from 'lucide-react';
+import {
+  ArrowLeftIcon,
+  CircleCheckIcon,
+  LoaderCircleIcon,
+  SendIcon,
+  TriangleAlertIcon,
+} from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
 type Props = {
-  onSent: (email: string) => void;
   onBack: () => void;
 };
 
-export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
+export const ForgotPasswordForm: React.FC<Props> = ({ onBack }) => {
   const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState<string | null>(null);
 
   const emailError = emailTouched && email === '';
 
@@ -26,6 +32,7 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
     event.preventDefault();
 
     setError(null);
+    setSent(null);
     setEmailTouched(true);
 
     if (email === '') {
@@ -33,7 +40,7 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
       return;
     }
 
-    setSubmitting(true);
+    setSending(true);
 
     // Call onSent with any result to prevent this form from revealing
     // if a given email has an account associated with it.
@@ -44,14 +51,17 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
           redirectTo: '/auth/forgot-password',
         },
         {
+          onSuccess() {
+            setSent(email);
+          },
           onError(context) {
             console.error(context.error);
+            setError('Failed to send reset link.');
           },
         },
       );
     } finally {
-      setSubmitting(false);
-      onSent(email);
+      setSending(false);
     }
   }
 
@@ -66,6 +76,16 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
           <Alert variant="destructive">
             <TriangleAlertIcon size={24} />
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {sent && (
+          <Alert variant="success">
+            <CircleCheckIcon size={24} />
+            <AlertDescription>
+              If <strong>{sent}</strong> is associated with an account, a password reset link has
+              been sent. If you don't see it, check your spam folder.
+            </AlertDescription>
           </Alert>
         )}
 
@@ -84,8 +104,8 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onSent, onBack }) => {
           {emailError && <FieldError>Email Address is required.</FieldError>}
         </Field>
 
-        <Button type="submit" variant="button" style="flat" disabled={submitting}>
-          {submitting ? (
+        <Button type="submit" variant="button" style="flat" disabled={sending}>
+          {sending ? (
             <LoaderCircleIcon size={24} className="mr-2 animate-spin" />
           ) : (
             <SendIcon size={24} className="mr-2" />
