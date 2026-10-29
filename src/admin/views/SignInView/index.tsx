@@ -18,6 +18,8 @@ import React, { useState } from 'react';
  * reached from an emailed link with its own token.
  */
 
+// TODO: Implement a 2FA enrollment/enforcement flow for users who have not yet set up MFA (for password based sign in only)
+
 type Step =
   | { name: 'signIn' }
   | { name: 'magicLinkRequest' }

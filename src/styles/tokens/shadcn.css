@@ -18,8 +18,8 @@
   --border: var(--color-battleship-gray-400);
   --ring: var(--color-battleship-gray-400);
   --destructive: var(--color-raspberry-600);
+  --card: var(--color-battleship-gray-50);
 
-  --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
