@@ -1,6 +1,7 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
+import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/primitives/ui/field';
 import { Input } from '@/primitives/ui/input';
@@ -10,7 +11,14 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from '@/primitives/ui/input-group';
-import { EyeIcon, EyeOffIcon, KeySquareIcon, WandSparklesIcon } from 'lucide-react';
+import {
+  EyeIcon,
+  EyeOffIcon,
+  KeySquareIcon,
+  LoaderCircleIcon,
+  TriangleAlertIcon,
+  WandSparklesIcon,
+} from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
 import TitleTheme from '../TitleTheme';
 
@@ -43,7 +51,7 @@ export const SignInForm: React.FC<Props> = ({
     setEmailTouched(true);
     setPasswordTouched(true);
 
-    if (emailError || passwordError) {
+    if (email === '' || password === '') {
       setError('All fields are required.');
       return;
     }
@@ -86,13 +94,18 @@ export const SignInForm: React.FC<Props> = ({
   }
 
   return (
-    <div className="bg-njsig-neutral-background flex w-full max-w-lg flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
       <TitleTheme size="medium" animated={false} className="mr-auto">
         Sign In
       </TitleTheme>
       <p className="font-medium">Welcome back! Please sign in to your account below.</p>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 pt-3">
-        {error && <p role="alert">{error}</p>}
+        {error && (
+          <Alert variant="destructive">
+            <TriangleAlertIcon size={24} />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
         <FieldGroup>
           <Field data-invalid={emailError}>
@@ -150,7 +163,11 @@ export const SignInForm: React.FC<Props> = ({
         </FieldGroup>
 
         <Button type="submit" variant="button" style="flat" disabled={authenticating}>
-          <KeySquareIcon size={24} className="mr-2" />
+          {authenticating ? (
+            <LoaderCircleIcon size={24} className="mr-2 animate-spin" />
+          ) : (
+            <KeySquareIcon size={24} className="mr-2" />
+          )}
           <span>Sign In</span>
         </Button>
         <Button type="button" variant="button" style="outline" onClick={onSwitchToMagicLink}>
