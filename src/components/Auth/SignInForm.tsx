@@ -133,7 +133,7 @@ export const SignInForm: React.FC<Props> = ({
                 size="small"
                 className="ml-auto h-auto p-0"
               >
-                Forgot?
+                Forgot Password?
               </Button>
             </FieldLabel>
             <InputGroup>
