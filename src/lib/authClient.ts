@@ -12,16 +12,10 @@ if (!baseURL) {
 export const authClient = createAuthClient({
   baseURL,
   plugins: [
-    twoFactorClient({
-      // Fires when a sign-in response comes back with `twoFactorRedirect: true`.
-      // SignInForm also checks the flag directly on its own response, so this
-      // callback mainly matters for sign-ins that happen somewhere other than
-      // BetterAuthLoginView. This will be rare on the admin side, but we are
-      // accounting for future front end integration
-      onTwoFactorRedirect() {
-        window.location.href = '/auth/sign-in';
-      },
-    }),
+    // We're deliberately omitting `onTwoFactorRedirect` here. That callback fires on every
+    // sign-in response that has `twoFactorRedirect` set. The SignInForm reads the value and
+    // the SignInView state machine handles the handoff to the verification screen.
+    twoFactorClient(),
     magicLinkClient(),
   ],
 });
