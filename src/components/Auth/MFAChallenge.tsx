@@ -1,42 +1,81 @@
 'use client';
 
 import { authClient } from '@/lib/authClient';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
-type Method = 'totp' | 'otp' | 'backup';
+const RESEND_SECONDS = 30;
+
+type Method = 'totp' | 'otp';
+type Mode = Method | 'backup';
 
 type Props = {
-  methods: ('totp' | 'otp')[];
+  methods: Method[];
   onVerified: () => void;
   onCancel: () => void;
 };
 
+/**
+ * This screen decides which MFA method to use:
+ *
+ *   enrolled in TOTP => authenticator code input, option to request email code or use backup code
+ *   email OTP only   => code is emailed automatically on arrival with an option to resend
+ */
+
 export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel }) => {
-  const [activeMethod, setActiveMethod] = useState<Method | null>(null);
+  const hasTOTP = methods.includes('totp');
+  const hasOTP = methods.includes('otp');
+  const defaultMode: Mode = hasTOTP ? 'totp' : 'otp';
+
+  const [mode, setMode] = useState<Mode>(defaultMode);
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-
-  console.log('MFA Allowed Methods', methods);
+  const [cooldown, setCooldown] = useState(0);
+  const autoSent = useRef(false);
 
   // Default trust device to false, this could be something
   // that is changed per user type.
   const [trustDevice, setTrustDevice] = useState(false);
 
-  async function requestEmailCode() {
+  async function sendEmailCode() {
     setError(null);
 
-    const { error: sendOtpError } = await authClient.twoFactor.sendOtp();
+    const { error: sendError } = await authClient.twoFactor.sendOtp();
 
-    if (sendOtpError) {
-      console.error(sendOtpError);
-      setError('Failed to send OTP Code, please try again.');
+    if (sendError) {
+      setError('Failed to send a code, please try again.');
+    }
 
+    setCooldown(RESEND_SECONDS);
+  }
+
+  // Email-only users: the code is sent as soon as the screen appears. The ref
+  // keep React StrictMode's double-invoked effect from sending two emails in dev.
+  useEffect(() => {
+    if (!hasTOTP && !autoSent.current) {
+      autoSent.current = true;
+      sendEmailCode();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Resend cooldown ticker
+  useEffect(() => {
+    if (cooldown <= 0) {
       return;
     }
 
-    setOtpSent(true);
+    const timer = setTimeout(() => setCooldown((c) => c - 1), 1000);
+
+    return () => clearTimeout(timer);
+  }, [cooldown]);
+
+  function switchTo(mode: Mode) {
+    setMode(mode);
+    setCode('');
+    setError(null);
+
+    if (mode === 'otp') sendEmailCode();
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -45,14 +84,14 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
     setError(null);
     setSubmitting(true);
 
-    const verify =
-      activeMethod === 'totp'
-        ? authClient.twoFactor.verifyTotp({ code, trustDevice })
-        : activeMethod === 'otp'
-          ? authClient.twoFactor.verifyOtp({ code, trustDevice })
-          : authClient.twoFactor.verifyBackupCode({ code, trustDevice });
+    const { error: verifyError } =
+      mode === 'totp'
+        ? await authClient.twoFactor.verifyTotp({ code, trustDevice })
+        : mode === 'otp'
+          ? await authClient.twoFactor.verifyOtp({ code, trustDevice })
+          : await authClient.twoFactor.verifyBackupCode({ code }); // We don't trust a device when a backup code was used.
 
-    const { error: verifyError } = await verify;
+    setSubmitting(false);
 
     if (verifyError) {
       console.error(verifyError);
@@ -66,86 +105,70 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
           : 'Invalid code, please try again.',
       );
 
-      return false;
+      return;
     }
 
     onVerified();
   }
 
+  const prompt =
+    mode === 'totp'
+      ? 'Enter the 6-digit code from your authenticator app.'
+      : mode === 'otp'
+        ? 'Enter the 6-digit code sent to your email.'
+        : 'Enter one of your backup codes.';
+
   return (
     <form onSubmit={handleSubmit}>
+      <p>{prompt}</p>
       {error && <p role="alert">{error}</p>}
 
-      {methods.length > 1 && activeMethod !== 'backup' && (
-        <div>
-          {methods.map((method) => (
-            <button
-              key={method}
-              type="button"
-              onClick={() => {
-                setActiveMethod(method);
-                setCode('');
-                setOtpSent(false);
-              }}
-              disabled={activeMethod === method}
-            >
-              {method === 'totp' ? 'Authenticator App' : 'Email Code'}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {activeMethod === 'otp' && !otpSent && (
-        <button type="button" onClick={requestEmailCode}>
-          Send me a code
-        </button>
-      )}
-
-      {(activeMethod === 'totp' ||
-        (activeMethod === 'otp' && otpSent) ||
-        activeMethod === 'backup') && (
-        <>
-          <label htmlFor="mfa-code">
-            {activeMethod === 'backup' ? 'Backup Code' : '6-Digit Code'}
-          </label>
-          <input
-            id="mfa-code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            inputMode={activeMethod === 'backup' ? 'text' : 'numeric'}
-            autoFocus
-            required
-          />
-        </>
-      )}
-
-      <label htmlFor="trust-device">
+      <label>
+        {mode === 'backup' ? 'Backup code' : 'Code'}
         <input
-          type="checkbox"
-          checked={trustDevice}
-          onChange={(e) => setTrustDevice(e.target.checked)}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          inputMode={mode === 'backup' ? 'text' : 'numeric'}
+          autoComplete="one-time-code"
+          autoFocus
+          required
         />
-        Trust this device for 30 days
       </label>
 
       <button type="submit" disabled={submitting}>
-        {submitting ? 'Verifying...' : 'Verify'}
+        {submitting ? 'Verifying…' : 'Verify'}
       </button>
 
-      {activeMethod !== 'backup' && (
-        <button
-          type="button"
-          onClick={() => {
-            setActiveMethod('backup');
-            setCode('');
-          }}
-        >
-          Use Backup Code
+      {/* Secondary options: only what this user can actually use, and only
+          alternatives to the screen they're already on. */}
+      {mode === 'otp' && (
+        <button type="button" onClick={sendEmailCode} disabled={cooldown > 0}>
+          {cooldown > 0 ? `Resend code (${cooldown}s)` : 'Resend code'}
+        </button>
+      )}
+      {mode === 'otp' && hasTOTP && (
+        <button type="button" onClick={() => switchTo('totp')}>
+          Use authenticator app instead
+        </button>
+      )}
+      {mode === 'totp' && hasOTP && (
+        <button type="button" onClick={() => switchTo('otp')}>
+          Email me a code instead
+        </button>
+      )}
+      {mode === 'totp' && (
+        <button type="button" onClick={() => switchTo('backup')}>
+          Use a backup code
+        </button>
+      )}
+      {mode === 'backup' && (
+        <button type="button" onClick={() => switchTo(defaultMode)}>
+          Back
         </button>
       )}
 
       <button type="button" onClick={onCancel}>
-        Cancel
+        Start over
       </button>
     </form>
   );

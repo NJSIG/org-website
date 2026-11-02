@@ -1,8 +1,8 @@
 'use client';
 
 import { ForgotPasswordForm } from '@/components/Auth/ForgotPasswordForm';
-import { MagicLinkForm } from '@/components/Auth/MagicLinkForm';
 import { MFAChallenge } from '@/components/Auth/MFAChallenge';
+import { MFAEnrollStart } from '@/components/Auth/MFAEnrollStart';
 import { SignInForm } from '@/components/Auth/SignInForm';
 import { Logo } from '@/components/Logo';
 import React, { useState } from 'react';
@@ -16,13 +16,29 @@ import React, { useState } from 'react';
  * reached from an emailed link with its own token.
  */
 
-// TODO: Implement a 2FA enrollment/enforcement flow for users who have not yet set up MFA (for password based sign in only)
+/**
+ * To enable magic links add:
+ *
+ * `| { name: 'magicLinkRequest' }` to the Step type
+ *
+ * Then handle it in the switch below, a `MagicLinkForm` component already exists for it.
+ *
+ * Then make sure to switch to the magic link step from SignInForm via onSwitchToMagicLink
+ * that is commented out in the SignInForm component.
+ */
 
 type Step =
   | { name: 'signIn' }
-  | { name: 'magicLinkRequest' }
   | { name: 'passwordResetRequest' }
-  | { name: 'mfaChallenge'; methods: ('totp' | 'otp')[] };
+  | { name: 'mfaChallenge'; methods: ('totp' | 'otp')[] }
+  | { name: 'mfaEnrollStart' }
+  | { name: 'mfaEnrollScan'; enrollURI: string; backupCodes: string[] };
+
+const goToAdmin = () => {
+  // Hard navigation on purpose to ensure a fresh request that carries
+  // the session cookie that was just set, so Payload's `me` check sees it.
+  window.location.href = '/admin';
+};
 
 export const SignInView: React.FC = () => {
   const [step, setStep] = useState<Step>({ name: 'signIn' });
@@ -34,13 +50,9 @@ export const SignInView: React.FC = () => {
       view = (
         <SignInForm
           onTwoFactorRequired={(methods) => setStep({ name: 'mfaChallenge', methods })}
-          onSwitchToMagicLink={() => setStep({ name: 'magicLinkRequest' })}
           onForgotPassword={() => setStep({ name: 'passwordResetRequest' })}
         />
       );
-      break;
-    case 'magicLinkRequest':
-      view = <MagicLinkForm onBack={() => setStep({ name: 'signIn' })} />;
       break;
     case 'passwordResetRequest':
       view = <ForgotPasswordForm onBack={() => setStep({ name: 'signIn' })} />;
@@ -49,8 +61,27 @@ export const SignInView: React.FC = () => {
       view = (
         <MFAChallenge
           methods={step.methods}
-          onVerified={() => setStep({ name: 'signIn' })}
+          onVerified={() => {
+            // The session exists now. Users already enrolled with TOTP can continue to admin;
+            // everyone else is offered the option to set up TOTP, on every sign-in, until they
+            // do. The `methods` came from the sign-in response, so no extra lookup is needed.
+            if (step.methods.includes('totp')) {
+              goToAdmin();
+            } else {
+              setStep({ name: 'mfaEnrollStart' });
+            }
+          }}
           onCancel={() => setStep({ name: 'signIn' })}
+        />
+      );
+      break;
+    case 'mfaEnrollStart':
+      view = (
+        <MFAEnrollStart
+          onEnrollStarted={(enrollURI, backupCodes) =>
+            setStep({ name: 'mfaEnrollScan', enrollURI, backupCodes })
+          }
+          onSkip={() => goToAdmin()}
         />
       );
       break;

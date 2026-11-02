@@ -18,21 +18,26 @@ import {
   KeySquareIcon,
   LoaderCircleIcon,
   TriangleAlertIcon,
-  WandSparklesIcon,
 } from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
 
+/**
+ * To enable magic links:
+ *
+ * Add `onSwitchToMagicLink: () => void` to Props.
+ *
+ * Add a button in the component to handle switching to magic link
+ * by calling onSwitchToMagicLink in the `onClick`.
+ */
+
+type Method = 'totp' | 'otp';
+
 type Props = {
-  onTwoFactorRequired: (methods: ('totp' | 'otp')[]) => void;
-  onSwitchToMagicLink: () => void;
+  onTwoFactorRequired: (methods: Method[]) => void;
   onForgotPassword: () => void;
 };
 
-export const SignInForm: React.FC<Props> = ({
-  onTwoFactorRequired,
-  onSwitchToMagicLink,
-  onForgotPassword,
-}) => {
+export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassword }) => {
   const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState('');
@@ -66,13 +71,13 @@ export const SignInForm: React.FC<Props> = ({
             if (context.data.twoFactorRedirect) {
               // No partial session exists so yet, there is nothing to hand off
               // to Payload. Route to the two-factor challenge.
-              onTwoFactorRequired(context.data.twoFactorMethods as ('totp' | 'otp')[]);
+              onTwoFactorRequired((context.data.twoFactorMethods ?? ['totp']) as Method[]);
 
               return;
             }
 
-            // No MFA enrolled, the session is set and the user is signed in successfully.
-            window.location.href = '/admin';
+            // Authenticated but no MFA challenge issued
+            setError('Failed to start multi-factor verification, please try again later.');
           },
           onError(context) {
             console.error(context.error);
@@ -114,7 +119,7 @@ export const SignInForm: React.FC<Props> = ({
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim())}
               onBlur={() => setEmailTouched(true)}
               autoComplete="username"
               required
@@ -141,7 +146,7 @@ export const SignInForm: React.FC<Props> = ({
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value.trim())}
                 onBlur={() => setPasswordTouched(true)}
                 autoComplete="current-password"
                 required
@@ -169,10 +174,6 @@ export const SignInForm: React.FC<Props> = ({
             <KeySquareIcon size={24} className="mr-2" />
           )}
           <span>Sign In</span>
-        </Button>
-        <Button type="button" variant="button" style="outline" onClick={onSwitchToMagicLink}>
-          <WandSparklesIcon size={24} className="mr-2" />
-          <span>Sign in with Magic Link</span>
         </Button>
       </form>
     </div>
