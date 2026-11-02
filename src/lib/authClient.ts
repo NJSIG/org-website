@@ -1,7 +1,7 @@
 'use client';
 
 import { createAuthClient } from 'better-auth/client';
-import { magicLinkClient, twoFactorClient } from 'better-auth/client/plugins';
+import { twoFactorClient } from 'better-auth/client/plugins';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -16,6 +16,6 @@ export const authClient = createAuthClient({
     // sign-in response that has `twoFactorRedirect` set. The SignInForm reads the value and
     // the SignInView state machine handles the handoff to the verification screen.
     twoFactorClient(),
-    magicLinkClient(),
+    // magicLinkClient(),
   ],
 });

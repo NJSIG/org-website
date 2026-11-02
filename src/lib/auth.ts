@@ -2,8 +2,8 @@ import { requireEnv } from '@/utilities/requireEnv';
 import config from '@payload-config';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
+import { createAuthMiddleware } from 'better-auth/api';
 import { admin } from 'better-auth/plugins/admin';
-import { magicLink } from 'better-auth/plugins/magic-link';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import { getPayload } from 'payload';
 
@@ -19,7 +19,7 @@ const initializeAuth = async () => {
     BETTER_AUTH_SECRET: requireEnv('BETTER_AUTH_SECRET'),
   };
 
-  return betterAuth({
+  const auth = betterAuth({
     appName: 'NJSIG',
     baseURL: requiredSettings.BETTER_AUTH_URL,
     secret: requiredSettings.BETTER_AUTH_SECRET,
@@ -49,8 +49,9 @@ const initializeAuth = async () => {
       twoFactor({
         issuer: `NJSIG (${requiredSettings.BETTER_AUTH_URL})`,
         twoFactorTable: 'auth-two-factor',
+        skipVerificationOnEnable: true, // Auto-enable MFA immediately without requiring a TOTP setup step
         otpOptions: {
-          storeOTP: 'hashed',
+          storeOTP: 'encrypted',
           async sendOTP({ user, otp }) {
             // TODO: Implement email templates
             await payload.sendEmail({
@@ -59,20 +60,38 @@ const initializeAuth = async () => {
               text: `Your verification code is: ${otp}`,
             });
           },
+          trustDeviceMaxAge: 38 * 24 * 60 * 60, // 30 Days (in seconds)
         },
         backupCodeOptions: { storeBackupCodes: 'encrypted' },
       }),
-      magicLink({
-        disableSignUp: true,
-        sendMagicLink: async ({ email, url }) => {
-          await payload.sendEmail({
-            to: email,
-            subject: 'NJSIG - Sign-in Link',
-            text: `Your sign-in link: ${url}`,
-          });
-        },
-      }),
+      // magicLink({
+      //   disableSignUp: true,
+      //   sendMagicLink: async ({ email, url }) => {
+      //     await payload.sendEmail({
+      //       to: email,
+      //       subject: 'NJSIG - Sign-in Link',
+      //       text: `Your sign-in link: ${url}`,
+      //     });
+      //   },
+      // }),
     ],
+
+    hooks: {
+      after: createAuthMiddleware(async (ctx) => {
+        if (ctx.path?.startsWith('/sign-up')) {
+          const newSession = ctx.context.newSession;
+          const password = ctx.body?.password;
+
+          // Enable MFA for newly created users
+          if (newSession && password) {
+            await auth.api.enableTwoFactor({
+              body: { password, method: 'otp' },
+              headers: ctx.headers,
+            });
+          }
+        }
+      }),
+    },
 
     // Sync user created by Better Auth to Payload
     databaseHooks: {
@@ -107,6 +126,8 @@ const initializeAuth = async () => {
       },
     },
   });
+
+  return auth;
 };
 
 export const getAuth = () => (authPromise ??= initializeAuth());
