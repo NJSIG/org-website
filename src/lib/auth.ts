@@ -5,6 +5,7 @@ import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { createAuthMiddleware } from 'better-auth/api';
 import { admin } from 'better-auth/plugins/admin';
 import { twoFactor } from 'better-auth/plugins/two-factor';
+import { after } from 'next/server';
 import { getPayload } from 'payload';
 
 let authPromise: ReturnType<typeof initializeAuth> | undefined;
@@ -41,7 +42,37 @@ const initializeAuth = async () => {
     emailAndPassword: {
       enabled: true,
       disableSignUp: true,
-      requireEmailVerification: true,
+      requireEmailVerification: true, // Should this be disabled?
+      minPasswordLength: 12,
+      revokeSessionsOnPasswordReset: true, // a reset signs out every other session
+      resetPasswordTokenExpiresIn: 60 * 60, // seconds
+      sendResetPassword: async ({ user, url }) => {
+        // TODO: Implement email templates
+        after(() =>
+          payload.sendEmail({
+            to: user.email,
+            subject: 'NJSIG - Your Password Reset Link',
+            text: `Your password reset link: ${url}`,
+          }),
+        );
+      },
+      onPasswordReset: async ({ user }) => {
+        // TODO: Implement confirmation email?
+        // We could log a change or notify the user when the password is reset here
+      },
+    },
+
+    emailVerification: {
+      sendVerificationEmail: async ({ user, url }) => {
+        // TODO: Implement email templates
+        after(() =>
+          payload.sendEmail({
+            to: user.email,
+            subject: 'Verify your email address',
+            text: `Confirm your email address: ${url}`,
+          }),
+        );
+      },
     },
 
     plugins: [
