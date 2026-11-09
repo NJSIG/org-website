@@ -12,6 +12,9 @@ export const syncBetterAuthHook: CollectionAfterChangeHook = async ({ doc, opera
         name: `${doc.firsName} ${doc.lastName}`.trim(),
         password: randomBytes(24).toString('hex'), // Never surfaced to the user
         role: 'user', // This is the Better Auth role, not the CMS role
+        data: {
+          emailVerified: true, // We know the Payload users already own the associated email address, so pre-verify it in Better Auth
+        },
       },
     });
 
