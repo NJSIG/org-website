@@ -91,6 +91,7 @@ export const MFAEnrollScan = ({ enrollURI, backupCodes, onDeviceEnrolled }: Prop
           <Input
             id="code"
             type="text"
+            inputMode="numeric"
             value={code}
             onChange={(e) => setCode(e.target.value.trim())}
             onBlur={() => setCodeTouched(true)}

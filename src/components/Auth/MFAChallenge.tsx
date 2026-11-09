@@ -1,6 +1,12 @@
 'use client';
 
+import TitleTheme from '@/components/TitleTheme';
 import { authClient } from '@/lib/authClient';
+import { Alert, AlertDescription } from '@/primitives/ui/alert';
+import { Button } from '@/primitives/ui/button';
+import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
+import { Input } from '@/primitives/ui/input';
+import { LoaderCircleIcon, ShieldUserIcon, TriangleAlertIcon } from 'lucide-react';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
 const RESEND_SECONDS = 30;
@@ -28,6 +34,7 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
 
   const [mode, setMode] = useState<Mode>(defaultMode);
   const [code, setCode] = useState('');
+  const [codeTouched, setCodeTouched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [cooldown, setCooldown] = useState(0);
@@ -36,6 +43,8 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
   // Default trust device to false, this could be something
   // that is changed per user type.
   const [trustDevice, setTrustDevice] = useState(false);
+
+  const codeError = codeTouched && code === '';
 
   async function sendEmailCode() {
     setError(null);
@@ -119,57 +128,122 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
         : 'Enter one of your backup codes.';
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>{prompt}</p>
-      {error && <p role="alert">{error}</p>}
+    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+      <TitleTheme size="medium" animated={false} className="mr-auto">
+        Verify Your Identity
+      </TitleTheme>
+      <p className="font-medium">{prompt}</p>
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 pt-3">
+        {error && (
+          <Alert variant="destructive">
+            <TriangleAlertIcon size={24} />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      <label>
-        {mode === 'backup' ? 'Backup code' : 'Code'}
-        <input
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          inputMode={mode === 'backup' ? 'text' : 'numeric'}
-          autoComplete="one-time-code"
-          autoFocus
-          required
-        />
-      </label>
+        <Field data-invalid={codeError}>
+          <FieldLabel htmlFor="code">{mode === 'backup' ? 'Backup Code' : 'Code'}</FieldLabel>
+          <Input
+            id="code"
+            type={mode === 'backup' ? 'text' : 'number'}
+            inputMode={mode === 'backup' ? 'text' : 'numeric'}
+            value={code}
+            onChange={(e) => setCode(e.target.value.trim())}
+            onBlur={() => setCodeTouched(true)}
+            required
+            autoFocus
+            aria-invalid={codeError}
+          />
+          {codeError && (
+            <FieldError>
+              {mode === 'backup' ? 'Backup code is required.' : 'Code is required.'}
+            </FieldError>
+          )}
+        </Field>
 
-      <button type="submit" disabled={submitting}>
-        {submitting ? 'Verifying…' : 'Verify'}
-      </button>
+        <Button type="submit" variant="button" style="flat" disabled={submitting}>
+          {submitting ? (
+            <LoaderCircleIcon size={24} className="mr-2 animate-spin" />
+          ) : (
+            <ShieldUserIcon size={24} className="mr-2" />
+          )}
+          <span>Secure Account</span>
+        </Button>
 
-      {/* Secondary options: only what this user can actually use, and only
-          alternatives to the screen they're already on. */}
-      {mode === 'otp' && (
-        <button type="button" onClick={sendEmailCode} disabled={cooldown > 0}>
-          {cooldown > 0 ? `Resend code (${cooldown}s)` : 'Resend code'}
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Verifying…' : 'Verify'}
         </button>
-      )}
-      {mode === 'otp' && hasTOTP && (
-        <button type="button" onClick={() => switchTo('totp')}>
-          Use authenticator app instead
-        </button>
-      )}
-      {mode === 'totp' && hasOTP && (
-        <button type="button" onClick={() => switchTo('otp')}>
-          Email me a code instead
-        </button>
-      )}
-      {mode === 'totp' && (
-        <button type="button" onClick={() => switchTo('backup')}>
-          Use a backup code
-        </button>
-      )}
-      {mode === 'backup' && (
-        <button type="button" onClick={() => switchTo(defaultMode)}>
-          Back
-        </button>
-      )}
 
-      <button type="button" onClick={onCancel}>
-        Start over
-      </button>
-    </form>
+        {/* Secondary options: only what this user can actually use, and only
+            alternatives to the screen they're already on. */}
+        {mode === 'otp' && (
+          <Button
+            type="button"
+            variant="button"
+            style="outline"
+            onClick={sendEmailCode}
+            disabled={submitting || cooldown > 0}
+          >
+            <span>{cooldown > 0 ? `Resend Code (${cooldown}s)` : 'Resend Code'}</span>
+          </Button>
+        )}
+        {mode === 'otp' && hasTOTP && (
+          <Button
+            type="button"
+            variant="button"
+            style="outline"
+            onClick={() => switchTo('totp')}
+            disabled={submitting}
+          >
+            <span>Use Authenticator App</span>
+          </Button>
+        )}
+        {mode === 'totp' && hasOTP && (
+          <Button
+            type="button"
+            variant="button"
+            style="outline"
+            onClick={() => switchTo('otp')}
+            disabled={submitting}
+          >
+            <span>Get Code by Email</span>
+          </Button>
+        )}
+        {mode === 'totp' && (
+          <Button
+            type="button"
+            variant="link"
+            style="ghost"
+            size="small"
+            onClick={() => switchTo('backup')}
+            disabled={submitting}
+          >
+            <span>Use Backup Code</span>
+          </Button>
+        )}
+        {mode === 'backup' && (
+          <Button
+            type="button"
+            variant="button"
+            style="outline"
+            onClick={() => switchTo(defaultMode)}
+            disabled={submitting}
+          >
+            <span>Back</span>
+          </Button>
+        )}
+
+        <Button
+          type="button"
+          variant="link"
+          style="ghost"
+          size="small"
+          onClick={onCancel}
+          disabled={submitting}
+        >
+          <span>Start Over</span>
+        </Button>
+      </form>
+    </div>
   );
 };
