@@ -4,25 +4,55 @@
  * Back up the database or run this against a copy of production data first. This script assumes the Payload user collection
  * has an `email (string)`, `fullName (string)`, and `role (string)` field for each user.
  *
- * Usage:
- *   npx payload run scripts/migrate-existing-users.ts --dry-run
+ * NOTE: This script uses environment variables for configuration. By default, it runs in dry-run mode (no changes are made).
+ * Set APPLY=1 to enable actual migration. This acts as a "dead man's switch" to prevent accidental data changes.
  *
- *      # Test the script without making any changes
+ * Environment Variables:
+ *   APPLY              Set to '1' to apply changes; omit or set to any other value for dry-run mode (default: off)
+ *   SEND_RESET_EMAILS  Set to '1' to send password reset emails to migrated users (default: off)
+ *   USER_COLLECTION    Name of the user collection to migrate (default: users)
+ *   TARGET_USER        Email address of a specific user to migrate (default: all users)
  *
- *   npx payload run scripts/migrate-existing-users.ts [--user-collection <collection>] [--user <email>]
+ * Usage Examples:
  *
- *      # Run the migration for existing users
- *      ## Options:
- *      ##   --user-collection <collection> User collection to migrate (default: users)
- *      ##   --user <email> Target a specific user by email
+ * PowerShell:
+ *   # Test the script without making any changes (dry-run mode)
+ *   pnpm exec payload run scripts/migrate-existing-users.ts
  *
- *   npx payload run scripts/migrate-existing-users.ts --send-reset-emails [--user <email>]
+ *   # Run the actual migration (all users in 'users' collection)
+ *   $env:APPLY = '1'; pnpm exec payload run scripts/migrate-existing-users.ts
  *
- *      # Send password reset emails to migrated users so they can set their new password
- *      ## Options:
- *      ##   --user <email> Target a specific user by email
- *      ### Note: This will only send reset emails to users who have already been migrated,
- *      ### if the user has not been migrated yet, they will not receive a reset email.
+ *   # Migrate a specific user
+ *   $env:APPLY = '1'; $env:TARGET_USER = 'user@example.com'; pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Send reset emails to all migrated users
+ *   $env:APPLY = '1'; $env:SEND_RESET_EMAILS = '1'; pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ * Command Prompt (cmd):
+ *   # Test the script without making any changes (dry-run mode)
+ *   pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Run the actual migration (all users in 'users' collection)
+ *   set APPLY=1 && pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Migrate a specific user
+ *   set APPLY=1 && set TARGET_USER=user@example.com && pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Send reset emails to all migrated users
+ *   set APPLY=1 && set SEND_RESET_EMAILS=1 && pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ * Linux/macOS (Bash/Shell in Container):
+ *   # Test the script without making any changes (dry-run mode)
+ *   pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Run the actual migration (all users in 'users' collection)
+ *   APPLY=1 pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Migrate a specific user
+ *   APPLY=1 TARGET_USER=user@example.com pnpm exec payload run scripts/migrate-existing-users.ts
+ *
+ *   # Send reset emails to all migrated users
+ *   APPLY=1 SEND_RESET_EMAILS=1 pnpm exec payload run scripts/migrate-existing-users.ts
  *
  * This script is safe to re-run; users who already have a Better Auth account are detected and reported as "skipped" and
  * not treated as failures, retried, or recreated.
@@ -37,6 +67,7 @@ import { CollectionSlug, getPayload } from 'payload';
 type MigrationResult =
   | { email: string; status: 'created' }
   | { email: string; status: 'skipped' }
+  | { email: string; status: 'sent-reset' }
   | { email: string; status: 'failed'; error: string };
 
 type MigratableUserData = {
@@ -47,18 +78,31 @@ type MigratableUserData = {
 
 // Hard-coded constants for the migration script
 const PAGE_SIZE = 25; // This should be kept reasonable - createUser does password hashing per call
+const EMAIL_DELAY_MS = 250; // May need to be tuned for rate-limiting purposes
 
-// User set flags
-const DRY_RUN = process.argv.includes('--dry-run');
-const SEND_RESET_EMAILS = process.argv.includes('--send-reset-emails');
-const REQUESTED_USER_COLLECTION =
-  process.argv.find((arg, index, args) => args[index - 1] === '--user-collection') ?? 'users';
-const USER_FLAG_INDEX = process.argv.indexOf('--user');
-const TARGET_USER = USER_FLAG_INDEX === -1 ? null : (process.argv[USER_FLAG_INDEX + 1] ?? '');
+// User set flags (from env)
+const env = process.env;
+
+const APPLY = env.APPLY === '1';
+const DRY_RUN = !APPLY;
+const SEND_RESET_EMAILS = env.SEND_RESET_EMAILS === '1';
+const REQUESTED_USER_COLLECTION = env.USER_COLLECTION ?? 'users';
+const TARGET_USER = env.TARGET_USER ?? null;
 
 async function main() {
   const payload = await getPayload({ config });
   const auth = await getAuth();
+
+  console.info('Starting migration');
+  console.info('----');
+  console.info({
+    APPLY,
+    DRY_RUN,
+    SEND_RESET_EMAILS,
+    REQUESTED_USER_COLLECTION,
+    TARGET_USER,
+  });
+  console.info('----');
 
   // Validate the user collection to ensure it exists in the Payload configuration
   const VALIDATED_USER_COLLECTION = payload.config.collections
@@ -72,10 +116,6 @@ async function main() {
   // Validate the requested user if passed
   if (TARGET_USER !== null && (!TARGET_USER || TARGET_USER.startsWith('--'))) {
     throw new Error('--user requires an email value, e.g. --user someone@example.com');
-  }
-
-  if (SEND_RESET_EMAILS) {
-    return sendResetEmails(auth, payload, VALIDATED_USER_COLLECTION);
   }
 
   // Paginate for handling large existing user collections and mark
@@ -95,7 +135,11 @@ async function main() {
     });
 
     for (const user of docs) {
-      results.push(await migrateOne(auth, user as MigratableUserData));
+      if (SEND_RESET_EMAILS) {
+        results.push(await sendOneReset(auth, user as MigratableUserData));
+      } else {
+        results.push(await migrateOne(auth, user as MigratableUserData));
+      }
     }
 
     if (TARGET_USER && page === 1 && docs.length === 0) {
@@ -121,7 +165,7 @@ async function migrateOne(auth: Auth, user: MigratableUserData): Promise<Migrati
   }
 
   if (DRY_RUN) {
-    console.log(`[DRY RUN] Would create a Better Auth account for ${user.email}`);
+    console.log(`[DRY RUN] Would try to create a Better Auth account for ${user.email}`);
     return { email: user.email, status: 'created' };
   }
 
@@ -146,35 +190,25 @@ async function migrateOne(auth: Auth, user: MigratableUserData): Promise<Migrati
 
 // This is deliberately called only when a flag is passed so we're not sending emails
 // when generating accounts, we want to send all the email notifications explicitly.
-async function sendResetEmails(
-  auth: Auth,
-  payload: Awaited<ReturnType<typeof getPayload>>,
-  collection: CollectionSlug,
-) {
-  const { docs: users } = await payload.find({
-    collection,
-    limit: 0,
-    where: TARGET_USER ? { email: { equals: TARGET_USER } } : undefined,
-  });
-  const DELAY_MS = 250; // May need to be tuned for rate-limiting purposes
+async function sendOneReset(auth: Auth, user: MigratableUserData): Promise<MigrationResult> {
+  await new Promise((resolve) => setTimeout(resolve, EMAIL_DELAY_MS));
 
-  for (const user of users) {
-    const email = (user as MigratableUserData).email;
+  if (DRY_RUN) {
+    console.log(`[DRY RUN] Would send a password reset email to ${user.email}`);
+    return { email: user.email, status: 'sent-reset' };
+  }
 
-    try {
-      await auth.api.requestPasswordReset({
-        body: {
-          email,
-          redirectTo: '/auth/forgot-password',
-        },
-      });
+  try {
+    await auth.api.requestPasswordReset({
+      body: {
+        email: user.email,
+        redirectTo: '/auth/forgot-password',
+      },
+    });
 
-      console.info(`Sent password reset email to ${email}`);
-    } catch (error) {
-      console.error(`Failed to send password reset email to ${email}:`, (error as Error).message);
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
+    return { email: user.email, status: 'sent-reset' };
+  } catch (error) {
+    return { email: user.email, status: 'failed', error: (error as Error).message };
   }
 }
 
@@ -194,12 +228,12 @@ async function writeReport(results: MigrationResult[]) {
   }
 
   await writeFile(
-    `migration-report-${Date.now()}.json`,
+    `src/scripts/migration-report-${Date.now()}.json`,
     JSON.stringify({ created, skipped, failed, results }, null, 2),
   );
 }
 
-main()
+await main()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error('Migration script crashed:', error);
