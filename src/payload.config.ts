@@ -120,7 +120,7 @@ export default buildConfig({
     },
     routes: {
       login: '/auth/sign-in',
-      forgot: '/auth/reset',
+      forgot: '/auth/reset-password',
     },
     components: {
       providers: ['@/providers/admin#AdminProviders'],
@@ -131,7 +131,7 @@ export default buildConfig({
         },
         forgot: {
           Component: '@/admin/views/ResetPasswordView#ResetPasswordView',
-          path: '/auth/reset',
+          path: '/auth/reset-password',
         },
         analytics: {
           Component: '@/admin/views/PlausibleView#AnalyticsView',

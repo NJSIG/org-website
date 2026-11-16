@@ -5,7 +5,6 @@ import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { createAuthMiddleware } from 'better-auth/api';
 import { admin } from 'better-auth/plugins/admin';
 import { twoFactor } from 'better-auth/plugins/two-factor';
-import { after } from 'next/server';
 import { getPayload } from 'payload';
 
 let authPromise: ReturnType<typeof initializeAuth> | undefined;
@@ -13,7 +12,11 @@ let authPromise: ReturnType<typeof initializeAuth> | undefined;
 const initializeAuth = async () => {
   const payload = await getPayload({ config });
   const client = payload.db.connection.getClient();
-  const db = client.db();
+  const db = payload.db.connection.db;
+
+  if (!db) {
+    throw new Error('Payload MongoDB connection has no database');
+  }
 
   const requiredSettings = {
     BETTER_AUTH_URL: requireEnv('BETTER_AUTH_URL'),
@@ -48,13 +51,11 @@ const initializeAuth = async () => {
       resetPasswordTokenExpiresIn: 60 * 60, // seconds
       sendResetPassword: async ({ user, url }) => {
         // TODO: Implement email templates
-        after(() =>
-          payload.sendEmail({
-            to: user.email,
-            subject: 'NJSIG - Your Password Reset Link',
-            text: `Your password reset link: ${url}`,
-          }),
-        );
+        await payload.sendEmail({
+          to: user.email,
+          subject: 'NJSIG - Your Password Reset Link',
+          text: `Your password reset link: ${url}`,
+        });
       },
       onPasswordReset: async ({ user }) => {
         // TODO: Implement confirmation email?
@@ -65,13 +66,11 @@ const initializeAuth = async () => {
     emailVerification: {
       sendVerificationEmail: async ({ user, url }) => {
         // TODO: Implement email templates
-        after(() =>
-          payload.sendEmail({
-            to: user.email,
-            subject: 'Verify your email address',
-            text: `Confirm your email address: ${url}`,
-          }),
-        );
+        await payload.sendEmail({
+          to: user.email,
+          subject: 'Verify your email address',
+          text: `Confirm your email address: ${url}`,
+        });
       },
     },
 
