@@ -2,6 +2,7 @@
 
 import TitleTheme from '@/components/TitleTheme';
 import { authClient } from '@/lib/authClient';
+import { RESET_PASSWORD_URL } from '@/lib/authPaths';
 import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
 import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
@@ -48,7 +49,7 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onBack }) => {
       await authClient.requestPasswordReset(
         {
           email,
-          redirectTo: '/auth/forgot-password',
+          redirectTo: RESET_PASSWORD_URL,
         },
         {
           onSuccess() {

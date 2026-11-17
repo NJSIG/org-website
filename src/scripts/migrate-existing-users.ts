@@ -59,6 +59,7 @@
  */
 
 import { getAuth, type Auth } from '@/lib/auth';
+import { RESET_PASSWORD_URL } from '@/lib/authPaths';
 import config from '@payload-config';
 import { randomBytes } from 'crypto';
 import { writeFile } from 'fs/promises';
@@ -202,7 +203,7 @@ async function sendOneReset(auth: Auth, user: MigratableUserData): Promise<Migra
     await auth.api.requestPasswordReset({
       body: {
         email: user.email,
-        redirectTo: '/auth/forgot-password',
+        redirectTo: RESET_PASSWORD_URL,
       },
     });
 
