@@ -49,7 +49,13 @@ export const SignInView: React.FC = () => {
     case 'signIn':
       view = (
         <SignInForm
-          onTwoFactorRequired={(methods) => setStep({ name: 'mfaChallenge', methods })}
+          onTwoFactorRequired={(methods) => {
+            if (methods.includes('totp')) {
+              setStep({ name: 'mfaChallenge', methods });
+            } else {
+              setStep({ name: 'mfaEnrollStart' });
+            }
+          }}
           onForgotPassword={() => setStep({ name: 'passwordResetRequest' })}
         />
       );
@@ -88,7 +94,10 @@ export const SignInView: React.FC = () => {
   }
 
   return (
-    <div className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col px-4">
+    <div
+      className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col px-4"
+      data-theme="light"
+    >
       <main className="flex grow flex-col items-center justify-center gap-6">
         <Logo style="wordmark" theme="light" loading="eager" />
         {view}

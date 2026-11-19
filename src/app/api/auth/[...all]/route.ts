@@ -1,14 +1,18 @@
-import { getAuth } from '@/lib/auth';
+import { Auth, getAuth } from '@/lib/auth';
 import { toNextJsHandler } from 'better-auth/next-js';
 
-export const GET = async (request: Request) => {
-  const { GET: handler } = toNextJsHandler(await getAuth());
+const respond = (method: 'GET' | 'POST') => async (request: Request) => {
+  let auth: Auth;
 
-  return handler(request);
+  try {
+    auth = await getAuth();
+  } catch (error) {
+    console.error('[auth] failed to initialize', error);
+    return Response.json({ message: 'Authentication is unavailable.' }, { status: 503 });
+  }
+
+  return toNextJsHandler(auth)[method](request);
 };
 
-export const POST = async (request: Request) => {
-  const { POST: handler } = toNextJsHandler(await getAuth());
-
-  return handler(request);
-};
+export const GET = respond('GET');
+export const POST = respond('POST');

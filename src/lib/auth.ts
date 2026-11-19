@@ -5,12 +5,11 @@ import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { createAuthMiddleware } from 'better-auth/api';
 import { admin } from 'better-auth/plugins/admin';
 import { twoFactor } from 'better-auth/plugins/two-factor';
-import { getPayload } from 'payload';
+import { getPayload, Payload } from 'payload';
 
-let authPromise: ReturnType<typeof initializeAuth> | undefined;
+let cached: { client: object; auth: ReturnType<typeof initializeAuth> } | undefined;
 
-const initializeAuth = async () => {
-  const payload = await getPayload({ config });
+const initializeAuth = async (payload: Payload) => {
   const client = payload.db.connection.getClient();
   const db = payload.db.connection.db;
 
@@ -79,7 +78,6 @@ const initializeAuth = async () => {
       twoFactor({
         issuer: `NJSIG (${requiredSettings.BETTER_AUTH_URL})`,
         twoFactorTable: 'auth-two-factor',
-        skipVerificationOnEnable: true, // Auto-enable MFA immediately without requiring a TOTP setup step
         otpOptions: {
           storeOTP: 'encrypted',
           async sendOTP({ user, otp }) {
@@ -90,7 +88,7 @@ const initializeAuth = async () => {
               text: `Your verification code is: ${otp}`,
             });
           },
-          trustDeviceMaxAge: 38 * 24 * 60 * 60, // 30 Days (in seconds)
+          trustDeviceMaxAge: 30 * 24 * 60 * 60, // 30 Days (in seconds)
         },
         backupCodeOptions: { storeBackupCodes: 'encrypted' },
       }),
@@ -160,5 +158,29 @@ const initializeAuth = async () => {
   return auth;
 };
 
-export const getAuth = () => (authPromise ??= initializeAuth());
+export const getAuth = async () => {
+  const payload = await getPayload({ config });
+  const client = payload.db.connection.getClient();
+
+  if (cached?.client === client) {
+    return cached.auth;
+  }
+
+  if (cached) {
+    console.log("[auth] Payload's Mongo client changed; rebuilding Better Auth");
+  }
+
+  const auth = initializeAuth(payload);
+  cached = { client, auth };
+
+  // Don't memoize a failed init
+  auth.catch(() => {
+    if (cached?.auth === auth) {
+      cached = undefined;
+    }
+  });
+
+  return auth;
+};
+
 export type Auth = Awaited<ReturnType<typeof getAuth>>;
