@@ -2,9 +2,11 @@
 
 import { ForgotPasswordForm } from '@/components/Auth/ForgotPasswordForm';
 import { MFAChallenge } from '@/components/Auth/MFAChallenge';
+import { MFAEnrollScan } from '@/components/Auth/MFAEnrollScan';
 import { MFAEnrollStart } from '@/components/Auth/MFAEnrollStart';
 import { SignInForm } from '@/components/Auth/SignInForm';
 import { Logo } from '@/components/Logo';
+import { useTheme } from '@payloadcms/ui';
 import React, { useState } from 'react';
 
 /**
@@ -41,6 +43,7 @@ const goToAdmin = () => {
 };
 
 export const SignInView: React.FC = () => {
+  const { theme } = useTheme();
   const [step, setStep] = useState<Step>({ name: 'signIn' });
 
   let view: React.ReactNode;
@@ -91,15 +94,22 @@ export const SignInView: React.FC = () => {
         />
       );
       break;
+    case 'mfaEnrollScan':
+      view = (
+        <MFAEnrollScan
+          enrollURI={step.enrollURI}
+          backupCodes={step.backupCodes}
+          onSkip={() => goToAdmin()}
+          onDeviceEnrolled={() => goToAdmin()}
+        />
+      );
+      break;
   }
 
   return (
-    <div
-      className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col px-4"
-      data-theme="light"
-    >
+    <div className="njsig__custom bg-njsig-background dark:bg-azure-900 flex min-h-screen w-full flex-col px-4">
       <main className="flex grow flex-col items-center justify-center gap-6">
-        <Logo style="wordmark" theme="light" loading="eager" />
+        <Logo style="wordmark" theme={theme} loading="eager" />
         {view}
       </main>
       <footer className="text-muted flex items-center justify-center p-4">

@@ -68,6 +68,7 @@ export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassw
         { email, password },
         {
           async onSuccess(context) {
+            console.log('Sign in Success Context', context);
             if (context.data.twoFactorRedirect) {
               // No partial session exists so yet, there is nothing to hand off
               // to Payload. Route to the two-factor challenge.
@@ -99,7 +100,7 @@ export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassw
   }
 
   return (
-    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl dark:bg-neutral-800">
       <TitleTheme size="medium" animated={false} className="mr-auto">
         Sign In
       </TitleTheme>

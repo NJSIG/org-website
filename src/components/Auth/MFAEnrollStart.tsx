@@ -74,7 +74,7 @@ export const MFAEnrollStart: React.FC<Props> = ({ onEnrollStarted, onSkip }) => 
   }
 
   return (
-    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+    <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl dark:bg-neutral-800">
       <TitleTheme size="medium" animated={false} className="mr-auto">
         Secure Your Account
       </TitleTheme>

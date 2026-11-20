@@ -10,7 +10,7 @@ const buttonVariants = cva(
         button: 'rounded-lg font-medium',
         cta: 'rounded-3xl font-bold',
         icon: 'rounded-lg',
-        link: 'text-foreground-link',
+        link: 'text-foreground-link dark:text-blue-300',
       },
       style: {
         flat: 'border-none',
@@ -52,7 +52,7 @@ const buttonVariants = cva(
         style: 'flat',
         color: 'primary',
         class:
-          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40',
+          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40 dark:text-foreground',
       },
       // [Button, CTA, Icon] Flat | Accent
       {

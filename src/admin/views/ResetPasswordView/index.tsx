@@ -143,12 +143,12 @@ export const ResetPasswordView: React.FC = () => {
 
   return (
     <div
-      className="njsig__custom bg-njsig-background flex min-h-screen w-full flex-col px-4"
+      className="njsig__custom bg-njsig-background dark:bg-azure-900 flex min-h-screen w-full flex-col px-4"
       data-theme="light"
     >
       <main className="flex grow flex-col items-center justify-center gap-6">
         <Logo style="wordmark" theme="light" loading="eager" />
-        <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl">
+        <div className="bg-njsig-neutral-background flex w-full max-w-md flex-col gap-3 rounded-3xl p-4 shadow-2xl dark:bg-neutral-800">
           <TitleTheme size="medium" animated={false} className="mr-auto">
             Password Reset
           </TitleTheme>
