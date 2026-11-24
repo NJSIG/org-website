@@ -126,6 +126,8 @@ export const ResetPasswordView: React.FC = () => {
         {
           onSuccess() {
             setSuccess(true);
+            setPassword('');
+            setConfirmPassword('');
           },
           onError(context) {
             setError(
@@ -191,6 +193,7 @@ export const ResetPasswordView: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value.trim())}
                     onBlur={() => preValidatePassword()}
                     required
+                    disabled={success}
                     aria-invalid={passwordTouched && passwordInvalid !== null}
                   />
                   <InputGroupAddon align="inline-end">
@@ -218,6 +221,7 @@ export const ResetPasswordView: React.FC = () => {
                   onBlur={() => preValidateConfirmPassword()}
                   autoComplete="current-password"
                   required
+                  disabled={success}
                   aria-invalid={confirmPasswordTouched && confirmPasswordInvalid !== null}
                 />
                 {confirmPasswordTouched && confirmPasswordInvalid && (
@@ -226,7 +230,7 @@ export const ResetPasswordView: React.FC = () => {
               </Field>
             </FieldGroup>
 
-            <Button type="submit" variant="button" style="flat" disabled={resetting}>
+            <Button type="submit" variant="button" style="flat" disabled={resetting || success}>
               {resetting ? (
                 <LoaderCircleIcon size={24} className="mr-2 animate-spin" />
               ) : (

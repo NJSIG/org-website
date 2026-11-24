@@ -1,6 +1,8 @@
 import { admin, editor } from '@/access';
+import { SESSION_EXPIRATION } from '@/lib/authSettings';
 import { User } from '@/payload-types';
 import type { CollectionConfig } from 'payload';
+import { signOutBetterAuthHook } from './hooks/signOutBetterAuthHook';
 import { syncBetterAuthHook } from './hooks/syncBetterAuthHook';
 import { betterAuthStrategy } from './lib/authStrategy';
 
@@ -9,6 +11,7 @@ export const Users: CollectionConfig = {
   auth: {
     disableLocalStrategy: true,
     strategies: [betterAuthStrategy],
+    tokenExpiration: SESSION_EXPIRATION,
   },
   access: {
     create: () => true,
@@ -86,5 +89,6 @@ export const Users: CollectionConfig = {
   ],
   hooks: {
     afterChange: [syncBetterAuthHook],
+    afterLogout: [signOutBetterAuthHook],
   },
 };

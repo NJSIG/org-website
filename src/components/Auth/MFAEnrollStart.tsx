@@ -88,7 +88,7 @@ export const MFAEnrollStart: React.FC<Props> = ({ onEnrollStarted, onSkip }) => 
         )}
 
         {!error && (
-          <Alert>
+          <Alert variant="info">
             <InfoIcon size={24} />
             <AlertDescription>Verify your password to get started.</AlertDescription>
           </Alert>
@@ -131,18 +131,26 @@ export const MFAEnrollStart: React.FC<Props> = ({ onEnrollStarted, onSkip }) => 
         </Button>
 
         <div className="flex gap-2">
-          <Button type="button" variant="button" style="outline" disabled={authenticating}>
+          <Button
+            type="button"
+            variant="button"
+            style="outline"
+            onClick={() => onSkip()}
+            disabled={authenticating}
+            className="grow"
+          >
             <span>Skip</span>
           </Button>
 
           <Tooltip>
-            <TooltipTrigger>
-              <span>
-                <CircleQuestionMarkIcon size={16} />
-              </span>
+            <TooltipTrigger
+              className="cursor-help border-0 bg-transparent"
+              onClick={(e) => e.preventDefault()}
+            >
+              <CircleQuestionMarkIcon size={20} />
             </TooltipTrigger>
             <TooltipContent>
-              <ul>
+              <ul className="list-none p-0">
                 <li>You will be asked again next time your device is validated.</li>
                 <li>You will always be able to get codes by email.</li>
               </ul>

@@ -1,5 +1,6 @@
 /**
  * One-time migration: Create a Better Auth account for each existing Payload user.
+ * New accounts have email OTP two-factor authentication enabled; users may enroll in TOTP later.
  *
  * Back up the database or run this against a copy of production data first. This script assumes the Payload user collection
  * has an `email (string)`, `fullName (string)`, and `role (string)` field for each user.
@@ -55,7 +56,7 @@
  *   APPLY=1 SEND_RESET_EMAILS=1 pnpm exec payload run scripts/migrate-existing-users.ts
  *
  * This script is safe to re-run; users who already have a Better Auth account are detected and reported as "skipped" and
- * not treated as failures, retried, or recreated.
+ * not treated as failures, retried, or recreated. Existing Better Auth accounts are not modified.
  */
 
 import { getAuth, type Auth } from '@/lib/auth';
@@ -179,6 +180,7 @@ async function migrateOne(auth: Auth, user: MigratableUserData): Promise<Migrati
         role: user.role === 'admin' ? 'admin' : 'user', // Better Auth's admin-plugin role, no related to Payload, but we'll make sure admins are correctly assigned/ Pre-verify the email since the user already exists
         data: {
           emailVerified: true, // We know the Payload users already own the associated email address, so pre-verify it in Better Auth
+          twoFactorEnabled: true, // Email OTP needs no TOTP secret or backup codes
         },
       },
     });

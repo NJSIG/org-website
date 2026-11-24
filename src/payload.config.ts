@@ -141,6 +141,7 @@ export default buildConfig({
       },
       afterLogin: [{ path: '@/admin/components/AfterSignIn#AfterSignIn' }],
       afterNavLinks: [{ path: '@/admin/components/AfterNavLinks#AfterNavLinks' }],
+      logout: { Button: '@/components/Auth/LogoutButton#LogoutButton' },
     },
   },
   collections,

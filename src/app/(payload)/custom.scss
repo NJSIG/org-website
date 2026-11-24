@@ -9,6 +9,13 @@
   html {
     font-size: var(--base-body-size) px;
   }
+
+  /* Additional Styles for the custom logout button */
+  .nav__log-out {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
 }
 
 @layer payload {

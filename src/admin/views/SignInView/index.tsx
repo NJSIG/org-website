@@ -52,13 +52,8 @@ export const SignInView: React.FC = () => {
     case 'signIn':
       view = (
         <SignInForm
-          onTwoFactorRequired={(methods) => {
-            if (methods.includes('totp')) {
-              setStep({ name: 'mfaChallenge', methods });
-            } else {
-              setStep({ name: 'mfaEnrollStart' });
-            }
-          }}
+          onTwoFactorRequired={(methods) => setStep({ name: 'mfaChallenge', methods })}
+          onBypassMFA={() => goToAdmin()}
           onForgotPassword={() => setStep({ name: 'passwordResetRequest' })}
         />
       );

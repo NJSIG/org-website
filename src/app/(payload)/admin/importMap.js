@@ -41,6 +41,7 @@ import { default as default_2965746812f1f589746cef3163b68e31 } from '@/blocks/He
 import { default as default_1e2b88e3016e9cc11f789fe3b32c294b } from '@/blocks/IconList/ItemLabel'
 import { default as default_1acc0707cffbc147be38240c3eae33eb } from '@/blocks/Metrics/ItemLabel'
 import { default as default_b03bfa02e541f7cf78724fa1b89aedb8 } from '@/blocks/RelatedCards/ItemLabel'
+import { LogoutButton as LogoutButton_81f5d08e777904dedf54cf0c6c30c1a5 } from '@/components/Auth/LogoutButton'
 import { AfterSignIn as AfterSignIn_2db2db6923b0a559f4815675124e2ffa } from '@/admin/components/AfterSignIn'
 import { AfterNavLinks as AfterNavLinks_8e733769a645f3f3131abcfeb7eee164 } from '@/admin/components/AfterNavLinks'
 import { AdminProviders as AdminProviders_250ae40988cfdbb45bc2a16f2814b159 } from '@/providers/admin'
@@ -95,6 +96,7 @@ export const importMap = {
   "@/blocks/IconList/ItemLabel#default": default_1e2b88e3016e9cc11f789fe3b32c294b,
   "@/blocks/Metrics/ItemLabel#default": default_1acc0707cffbc147be38240c3eae33eb,
   "@/blocks/RelatedCards/ItemLabel#default": default_b03bfa02e541f7cf78724fa1b89aedb8,
+  "@/components/Auth/LogoutButton#LogoutButton": LogoutButton_81f5d08e777904dedf54cf0c6c30c1a5,
   "@/admin/components/AfterSignIn#AfterSignIn": AfterSignIn_2db2db6923b0a559f4815675124e2ffa,
   "@/admin/components/AfterNavLinks#AfterNavLinks": AfterNavLinks_8e733769a645f3f3131abcfeb7eee164,
   "@/providers/admin#AdminProviders": AdminProviders_250ae40988cfdbb45bc2a16f2814b159,

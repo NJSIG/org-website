@@ -4,7 +4,8 @@ import TitleTheme from '@/components/TitleTheme';
 import { authClient } from '@/lib/authClient';
 import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
-import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
+import { Checkbox } from '@/primitives/ui/checkbox';
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@/primitives/ui/field';
 import { Input } from '@/primitives/ui/input';
 import { LoaderCircleIcon, ShieldUserIcon, TriangleAlertIcon } from 'lucide-react';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -141,25 +142,38 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
           </Alert>
         )}
 
-        <Field data-invalid={codeError}>
-          <FieldLabel htmlFor="code">{mode === 'backup' ? 'Backup Code' : 'Code'}</FieldLabel>
-          <Input
-            id="code"
-            type={mode === 'backup' ? 'text' : 'number'}
-            inputMode={mode === 'backup' ? 'text' : 'numeric'}
-            value={code}
-            onChange={(e) => setCode(e.target.value.trim())}
-            onBlur={() => setCodeTouched(true)}
-            required
-            autoFocus
-            aria-invalid={codeError}
-          />
-          {codeError && (
-            <FieldError>
-              {mode === 'backup' ? 'Backup code is required.' : 'Code is required.'}
-            </FieldError>
-          )}
-        </Field>
+        <FieldGroup>
+          <Field data-invalid={codeError}>
+            <FieldLabel htmlFor="code">{mode === 'backup' ? 'Backup Code' : 'Code'}</FieldLabel>
+            <Input
+              id="code"
+              type="text"
+              inputMode={mode === 'backup' ? 'text' : 'numeric'}
+              value={code}
+              onChange={(e) => setCode(e.target.value.trim())}
+              onBlur={() => setCodeTouched(true)}
+              required
+              autoFocus
+              aria-invalid={codeError}
+            />
+            {codeError && (
+              <FieldError>
+                {mode === 'backup' ? 'Backup code is required.' : 'Code is required.'}
+              </FieldError>
+            )}
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox
+              id="trust-device"
+              name="trust-device"
+              checked={trustDevice}
+              onCheckedChange={setTrustDevice}
+            />
+            <FieldContent>
+              <FieldLabel htmlFor="trust-device">Trust this device for 30 days.</FieldLabel>
+            </FieldContent>
+          </Field>
+        </FieldGroup>
 
         <Button type="submit" variant="button" style="flat" disabled={submitting}>
           {submitting ? (
@@ -167,12 +181,8 @@ export const MFAChallenge: React.FC<Props> = ({ methods, onVerified, onCancel })
           ) : (
             <ShieldUserIcon size={24} className="mr-2" />
           )}
-          <span>Secure Account</span>
+          <span>Verify</span>
         </Button>
-
-        <button type="submit" disabled={submitting}>
-          {submitting ? 'Verifying…' : 'Verify'}
-        </button>
 
         {/* Secondary options: only what this user can actually use, and only
             alternatives to the screen they're already on. */}

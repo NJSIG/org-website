@@ -6,6 +6,7 @@ import { createAuthMiddleware } from 'better-auth/api';
 import { admin } from 'better-auth/plugins/admin';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import { getPayload, Payload } from 'payload';
+import { RESET_TOKEN_EXPIRATION, SESSION_EXPIRATION, TRUST_DEVICE_DURATION } from './authSettings';
 
 let cached: { client: object; auth: ReturnType<typeof initializeAuth> } | undefined;
 
@@ -37,7 +38,7 @@ const initializeAuth = async (payload: Payload) => {
 
     // Collection names for the core schema
     user: { modelName: 'auth-users' },
-    session: { modelName: 'auth-sessions' },
+    session: { modelName: 'auth-sessions', expiresIn: SESSION_EXPIRATION },
     account: { modelName: 'auth-accounts' },
     verification: { modelName: 'auth-verifications' },
 
@@ -47,7 +48,7 @@ const initializeAuth = async (payload: Payload) => {
       requireEmailVerification: true, // Should this be disabled?
       minPasswordLength: 12,
       revokeSessionsOnPasswordReset: true, // a reset signs out every other session
-      resetPasswordTokenExpiresIn: 60 * 60, // seconds
+      resetPasswordTokenExpiresIn: RESET_TOKEN_EXPIRATION, // seconds
       sendResetPassword: async ({ user, url }) => {
         // TODO: Implement email templates
         await payload.sendEmail({
@@ -88,7 +89,7 @@ const initializeAuth = async (payload: Payload) => {
               text: `Your verification code is: ${otp}`,
             });
           },
-          trustDeviceMaxAge: 30 * 24 * 60 * 60, // 30 Days (in seconds)
+          trustDeviceMaxAge: TRUST_DEVICE_DURATION,
         },
         backupCodeOptions: { storeBackupCodes: 'encrypted' },
       }),

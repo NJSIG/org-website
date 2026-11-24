@@ -34,10 +34,15 @@ type Method = 'totp' | 'otp';
 
 type Props = {
   onTwoFactorRequired: (methods: Method[]) => void;
+  onBypassMFA: () => void;
   onForgotPassword: () => void;
 };
 
-export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassword }) => {
+export const SignInForm: React.FC<Props> = ({
+  onTwoFactorRequired,
+  onBypassMFA,
+  onForgotPassword,
+}) => {
   const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState('');
@@ -68,7 +73,6 @@ export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassw
         { email, password },
         {
           async onSuccess(context) {
-            console.log('Sign in Success Context', context);
             if (context.data.twoFactorRedirect) {
               // No partial session exists so yet, there is nothing to hand off
               // to Payload. Route to the two-factor challenge.
@@ -77,8 +81,9 @@ export const SignInForm: React.FC<Props> = ({ onTwoFactorRequired, onForgotPassw
               return;
             }
 
-            // Authenticated but no MFA challenge issued
-            setError('Failed to start multi-factor verification, please try again later.');
+            // We enable OTP by default so the only time so a two-factor redirect is always
+            // triggered unless the user has trusted their device.
+            onBypassMFA();
           },
           onError(context) {
             console.error(context.error);
