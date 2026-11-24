@@ -53,7 +53,7 @@ import { FormEvent, useState } from 'react';
 const goToAuth = () => {
   // Hard navigation on purpose to ensure a fresh request that carries
   // the session cookie that was just set, so Payload's `me` check sees it.
-  window.location.href = '/auth/sign-in';
+  window.location.assign(SIGN_IN_URL);
 };
 
 export const ResetPasswordView: React.FC = () => {

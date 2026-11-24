@@ -6,6 +6,7 @@ import { MFAEnrollScan } from '@/components/Auth/MFAEnrollScan';
 import { MFAEnrollStart } from '@/components/Auth/MFAEnrollStart';
 import { SignInForm } from '@/components/Auth/SignInForm';
 import { Logo } from '@/components/Logo';
+import { ADMIN_ROUTE } from '@/lib/authPaths';
 import { useTheme } from '@payloadcms/ui';
 import React, { useState } from 'react';
 
@@ -39,7 +40,7 @@ type Step =
 const goToAdmin = () => {
   // Hard navigation on purpose to ensure a fresh request that carries
   // the session cookie that was just set, so Payload's `me` check sees it.
-  window.location.href = '/admin';
+  window.location.assign(ADMIN_ROUTE);
 };
 
 export const SignInView: React.FC = () => {
