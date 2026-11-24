@@ -27,6 +27,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+migration-report-*.json
 
 # local env files
 .env*.local
@@ -38,6 +39,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# environment
 .env
 
 # local media uploads
