@@ -45,11 +45,11 @@ import { LogoutButton as LogoutButton_81f5d08e777904dedf54cf0c6c30c1a5 } from '@
 import { AfterSignIn as AfterSignIn_2db2db6923b0a559f4815675124e2ffa } from '@/admin/components/AfterSignIn'
 import { AfterNavLinks as AfterNavLinks_8e733769a645f3f3131abcfeb7eee164 } from '@/admin/components/AfterNavLinks'
 import { AdminProviders as AdminProviders_250ae40988cfdbb45bc2a16f2814b159 } from '@/providers/admin'
-import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { SignInView as SignInView_d2d96d15dcb4d71fcecd1f250108d31e } from '@/admin/views/SignInView'
 import { ResetPasswordView as ResetPasswordView_124547fd81934044ee0fce0e884bd1cd } from '@/admin/views/ResetPasswordView'
 import { AnalyticsView as AnalyticsView_396096adb6d244727f9823c344ea27c8 } from '@/admin/views/PlausibleView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
+import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 
 /** @type import('payload').ImportMap */
 export const importMap = {
@@ -100,9 +100,9 @@ export const importMap = {
   "@/admin/components/AfterSignIn#AfterSignIn": AfterSignIn_2db2db6923b0a559f4815675124e2ffa,
   "@/admin/components/AfterNavLinks#AfterNavLinks": AfterNavLinks_8e733769a645f3f3131abcfeb7eee164,
   "@/providers/admin#AdminProviders": AdminProviders_250ae40988cfdbb45bc2a16f2814b159,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/admin/views/SignInView#SignInView": SignInView_d2d96d15dcb4d71fcecd1f250108d31e,
   "@/admin/views/ResetPasswordView#ResetPasswordView": ResetPasswordView_124547fd81934044ee0fce0e884bd1cd,
   "@/admin/views/PlausibleView#AnalyticsView": AnalyticsView_396096adb6d244727f9823c344ea27c8,
-  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24
 }
