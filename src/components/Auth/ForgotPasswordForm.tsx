@@ -85,7 +85,7 @@ export const ForgotPasswordForm: React.FC<Props> = ({ onBack }) => {
             <CircleCheckIcon size={24} />
             <AlertDescription>
               If <strong>{sent}</strong> is associated with an account, a password reset link has
-              been sent. If you don't see it, check your spam folder.
+              been sent. If you don&apos;t see it, check your spam folder.
             </AlertDescription>
           </Alert>
         )}

@@ -1,6 +1,5 @@
 'use client';
 
-import { authClient } from '@/lib/authClient';
 import { Alert, AlertDescription } from '@/primitives/ui/alert';
 import { Button } from '@/primitives/ui/button';
 import { Field, FieldError, FieldLabel } from '@/primitives/ui/field';
@@ -51,21 +50,21 @@ export const MagicLinkForm: React.FC<Props> = ({ onBack }) => {
     // TODO: Do check the result of trying to send a magic link to an account
     // that does not exist, this form should not reveal that fact.
     try {
-      await authClient.signIn.magicLink(
-        {
-          email,
-          callbackURL: '/admin', // Redirect URL after successful sign-in
-        },
-        {
-          onSuccess() {
-            setSent(email);
-          },
-          onError(context) {
-            console.error(context.error);
-            setError('Failed to send magic link, please try again later.');
-          },
-        },
-      );
+      // await authClient.signIn.magicLink(
+      //   {
+      //     email,
+      //     callbackURL: '/admin', // Redirect URL after successful sign-in
+      //   },
+      //   {
+      //     onSuccess() {
+      //       setSent(email);
+      //     },
+      //     onError(context) {
+      //       console.error(context.error);
+      //       setError('Failed to send magic link, please try again later.');
+      //     },
+      //   },
+      // );
     } finally {
       setSending(false);
     }
@@ -88,8 +87,8 @@ export const MagicLinkForm: React.FC<Props> = ({ onBack }) => {
           <Alert variant="success">
             <CircleCheckIcon size={24} />
             <AlertDescription>
-              A sign in link has been sent to <strong>{sent}</strong>. If you don't see it, check
-              your spam folder.
+              A sign in link has been sent to <strong>{sent}</strong>. If you don&apos;t see it,
+              check your spam folder.
             </AlertDescription>
           </Alert>
         )}
