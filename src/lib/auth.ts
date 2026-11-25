@@ -57,7 +57,8 @@ const initializeAuth = async (payload: Payload) => {
           text: `Your password reset link: ${url}`,
         });
       },
-      onPasswordReset: async ({ user }) => {
+      onPasswordReset: async () => {
+        // You can pass { user } in here
         // TODO: Implement confirmation email?
         // We could log a change or notify the user when the password is reset here
       },
