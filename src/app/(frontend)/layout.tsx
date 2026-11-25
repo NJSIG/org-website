@@ -3,13 +3,13 @@ import { Analytics } from '@/components/Analytics';
 import { Footer } from '@/globals/Footer/Component';
 import { Header } from '@/globals/Header/Component';
 import { Providers } from '@/providers';
+import '@/styles/app.styles.css';
 import { getServerSideUrl } from '@/utilities/getServerSideUrl';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { draftMode } from 'next/headers';
 import React from 'react';
-import './styles.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,12 +21,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta name="apple-mobile-web-app-title" content="NJSIG" />
       </head>
-      <body className="flex flex-col min-h-screen bg-background text-foreground">
+      <body className="bg-background text-foreground flex min-h-screen flex-col">
         <Providers>
           <Analytics />
           <AdminBar adminBarProps={{ preview: isEnabled }} />
           <Header />
-          <main className="flex flex-col grow">{children}</main>
+          <main className="flex grow flex-col">{children}</main>
           <Footer />
         </Providers>
       </body>

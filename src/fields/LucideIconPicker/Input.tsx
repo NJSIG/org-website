@@ -11,7 +11,7 @@ import {
   useDebounce,
 } from '@payloadcms/ui';
 import LucideTags from 'lucide-static/tags.json';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { LucideIconPickerInputProps } from './types';
 
 const baseClass = 'lucide-icon';
@@ -41,7 +41,6 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
 
   const [fieldIsFocused, setFieldIsFocused] = useState(false);
   const [search, setSearch] = useState('');
-  const [filteredIcons, setFilteredIcons] = useState(icons || []);
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(value || null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,34 +50,28 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
   // debounce the search term to avoid too many re-renders
   const debounceSearch = useDebounce(search, 300);
 
-  useEffect(() => {
+  const filteredIcons = useMemo(() => {
     if (!icons) {
-      return;
+      return [];
     }
 
-    if (debounceSearch == '') {
-      setFilteredIcons(icons);
-    } else {
-      const searchTerm = debounceSearch.toLowerCase();
-      const foundIcons: LucideIconPickerInputProps['icons'] = icons.filter((icon) => {
-        // Check for icon name match
-        if (icon.toLowerCase().includes(searchTerm)) {
-          return true;
-        }
-
-        // Check for tag match
-        const lucideTags = LucideTags[icon as keyof typeof LucideTags] || [];
-        const customTags = CustomTags[icon as keyof typeof CustomTags] || [];
-
-        return (
-          lucideTags.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
-          customTags.some((tag) => tag.toLowerCase().includes(searchTerm))
-        );
-      });
-
-      setFilteredIcons(foundIcons);
+    if (!debounceSearch) {
+      return icons;
     }
-  }, [debounceSearch, icons]);
+
+    const term = debounceSearch.toLowerCase();
+
+    return icons.filter((icon) => {
+      const lucideTags = LucideTags[icon as keyof typeof LucideTags] || [];
+      const customTags = CustomTags[icon as keyof typeof CustomTags] || [];
+
+      return (
+        icon.toLowerCase().includes(term) ||
+        lucideTags.some((tag) => tag.toLowerCase().includes(term)) ||
+        customTags.some((tag) => tag.toLowerCase().includes(term))
+      );
+    });
+  }, [icons, debounceSearch]);
 
   // Close the picker when the user presses the escape key
   useEffect(() => {
@@ -221,7 +214,6 @@ export const LucideIconPickerInput: React.FC<LucideIconPickerInputProps> = (prop
                           setSearch('');
                           setHoveredIcon(null);
                           setFieldIsFocused(false);
-                          setFilteredIcons(icons || []);
                           setCurrentPage(1);
                         }}
                       >

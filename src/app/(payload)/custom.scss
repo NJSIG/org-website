@@ -1,6 +1,19 @@
 @import '~@payloadcms/ui/scss';
 
 /* Payload Override Styles */
+@layer payload-default {
+  html {
+    font-size: var(--base-body-size) px;
+  }
+
+  /* Additional Styles for the custom logout button */
+  .nav__log-out {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+}
+
 @layer payload {
   .document-fields {
     --doc-sidebar-width: 274px;
@@ -8,6 +21,11 @@
 
   .document-fields__sidebar-wrap {
     width: 15%;
+  }
+
+  /* Fixes for Payload things broken by TailwindCSS */
+  .table {
+    display: block !important;
   }
 
   /* NJSIG Custom Styles */

@@ -40,7 +40,7 @@ export const CalendarHeader: React.FC<EventsCalendarHeader> = ({
   allowFiltering,
 }) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <Link
         href={prevMonthURL}
         aria-label="Previous Month"
@@ -68,7 +68,9 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
 }) => {
   const router = useRouter();
   const [showYearPicker, setShowYearPicker] = useState(false);
-  const selectedMonthRef = useRef<string>(currentMonth.numeric.toString().padStart(2, '0'));
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    currentMonth.numeric.toString().padStart(2, '0'),
+  );
   const selectedYearRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -84,12 +86,12 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
   };
 
   const handleMonthPick = (month: string) => {
-    selectedMonthRef.current = month;
+    setSelectedMonth(month);
     setShowYearPicker(true);
   };
 
   const handleYearPick = (year: number) => {
-    router.push(`/events/${year}/${selectedMonthRef.current}`);
+    router.push(`/events/${year}/${selectedMonth}`);
   };
 
   return (
@@ -98,15 +100,15 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
         className={cn(buttonVariants({ animation: 'bounceDown' }), navButtonVariant, 'grow')}
       >
         <CalendarFold size={24} />
-        <h3 className="text-xl font-medium text-center text-foreground">
+        <h3 className="text-foreground text-center text-xl font-medium">
           {currentMonth.long} {currentYear}
         </h3>
       </PopoverTrigger>
       <PopoverContent className="w-80" collisionPadding={16}>
-        <div className="grid gap-4 mb-2">
+        <div className="mb-2 grid gap-4">
           {/* Month Select */}
           {!showYearPicker && (
-            <div className="grid gap-2 grid-cols-3">
+            <div className="grid grid-cols-3 gap-2">
               {MONTHS.map((month) => (
                 <Button
                   type="button"
@@ -114,7 +116,7 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
                   key={month.numeric}
                   className={cn('border border-transparent', {
                     'border-njsig-neutral-midtone bg-njsig-neutral-tint':
-                      month.numeric === selectedMonthRef.current,
+                      month.numeric === selectedMonth,
                   })}
                   onClick={() => handleMonthPick(month.numeric)}
                   aria-label={month.long}
@@ -127,7 +129,7 @@ const CalendarPicker: React.FC<EventsCalendarPicker> = ({
           {/* Year Select */}
           {showYearPicker && (
             <ScrollArea type="always" className="h-46">
-              <div className="grid gap-2 grid-cols-3">
+              <div className="grid grid-cols-3 gap-2">
                 {yearRange.map((year) => (
                   <Button
                     type="button"
@@ -165,7 +167,7 @@ const CalendarFilters: React.FC = () => {
       <PopoverContent className="w-80" collisionPadding={16}>
         <div className="grid gap-4">
           <div className="space-y-2">
-            <h4 className="leading-none font-medium">Filters</h4>
+            <h4 className="font-medium leading-none">Filters</h4>
             <p className="text-muted-foreground text-sm">Show and hide events by type.</p>
           </div>
           <div className="grid gap-2">
@@ -229,7 +231,7 @@ const CalendarFilterButton: React.FC<{
 }> = ({ filter, label, isActive, toggleFilter }) => {
   const filterButtonVariant = cn(
     buttonVariants({ variant: 'button', size: 'medium', style: 'ghost' }),
-    'flex gap-4 justify-start',
+    'flex justify-start gap-4',
   );
 
   return (
@@ -240,7 +242,7 @@ const CalendarFilterButton: React.FC<{
       })}
     >
       <input
-        className="appearance-none size-3 rounded-sm bg-(--event-theme-accent)/40 checked:bg-(--event-theme-accent)"
+        className="bg-(--event-theme-accent)/40 checked:bg-(--event-theme-accent) size-3 appearance-none rounded-sm"
         aria-label={`${isActive ? 'Hide' : 'Show'} ${label.plural}`}
         type="checkbox"
         name={filter}

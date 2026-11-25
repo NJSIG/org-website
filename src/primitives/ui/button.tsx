@@ -1,22 +1,21 @@
-import { Slot } from '@radix-ui/react-slot';
+import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
-
-import { cn } from '@/utilities/cn';
+import { cn } from 'cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all disabled:pointer-events-none [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0  focus-visible:ring-4 outline-offset-4',
+  'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap outline-offset-4 transition-all focus-visible:ring-4 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         button: 'rounded-lg font-medium',
         cta: 'rounded-3xl font-bold',
         icon: 'rounded-lg',
+        link: 'text-foreground-link dark:text-blue-300',
       },
       style: {
-        flat: '',
-        outline: 'bg-transparent border-2',
-        ghost: 'bg-transparent',
+        flat: 'border-none',
+        outline: 'border-2 bg-transparent',
+        ghost: 'border-none bg-transparent',
       },
       color: {
         neutral: '',
@@ -24,9 +23,9 @@ const buttonVariants = cva(
         accent: '',
       },
       size: {
-        small: 'text-sm h-7 px-3 py-1 [&_svg]:size-4 [&_svg]:stroke-1',
-        medium: 'text-base h-10 px-4 py-2 [&_svg]:size-6',
-        large: 'text-lg h-12 px-6 py-3 [&_svg]:size-6',
+        small: 'h-7 px-3 py-1 text-sm [&_svg]:size-4 [&_svg]:stroke-1',
+        medium: 'h-10 px-4 py-2 text-base [&_svg]:size-6',
+        large: 'h-12 px-6 py-3 text-lg [&_svg]:size-6',
       },
       animation: {
         none: '',
@@ -53,7 +52,7 @@ const buttonVariants = cva(
         style: 'flat',
         color: 'primary',
         class:
-          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40',
+          'text-foreground-inverted bg-njsig-shade hover:bg-mix-tint-njsig-shade/10 focus-visible:ring-njsig-shade/40 dark:bg-njsig-tint dark:hover:bg-mix-shade-njsig-tint/10 dark:focus-visible:ring-njsig-tint/40 dark:text-foreground',
       },
       // [Button, CTA, Icon] Flat | Accent
       {
@@ -171,16 +170,10 @@ function Button({
   color,
   size,
   animation,
-  asChild = false,
   ...props
-}: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-  }) {
-  const Comp = asChild ? Slot : 'button';
-
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
-    <Comp
+    <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, style, color, size, animation }), className)}
       {...props}

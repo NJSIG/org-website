@@ -10,7 +10,7 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
 } from 'lucide-react';
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 const BUTTON_VARIANT = buttonVariants({
   variant: 'button',
@@ -113,14 +113,17 @@ const PaginationContent: React.FC<PaginationProps> = ({
     onPerPageChange?.(size);
   };
 
-  const [userPageInput, setUserPageInput] = useState<string | null>(null);
-  const [debouncedUserPageInput, setDebouncedUserPageInput] = useState<number | null>(null);
+  const [userPageInput, setUserPageInput] = useState<{ page: number; value: string } | null>(null);
 
-  // Reset the user input whenever the current page changes (e.g. from a button click).
-  useEffect(() => {
+  // Discard the draft when the controlled page changes, without remounting the input.
+  if (userPageInput !== null && userPageInput.page !== page) {
     setUserPageInput(null);
-    setDebouncedUserPageInput(null);
-  }, [page]);
+  }
+
+  const goToPageRef = useRef(goToPage);
+  useEffect(() => {
+    goToPageRef.current = goToPage;
+  }, [goToPage]);
 
   // Debounce the user input to avoid excessive page changes and
   // validate the input to ensure it's a number within the valid range
@@ -130,38 +133,17 @@ const PaginationContent: React.FC<PaginationProps> = ({
     }
 
     const timeout = setTimeout(() => {
-      const pageNumber = parseInt(userPageInput, 10);
+      const pageNumber = parseInt(userPageInput.value, 10);
 
       if (!isNaN(pageNumber)) {
-        if (pageNumber < 1) {
-          setDebouncedUserPageInput(1);
-        }
-
-        if (pageNumber > totalPages) {
-          setDebouncedUserPageInput(totalPages);
-        }
-
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-          setDebouncedUserPageInput(pageNumber);
-        }
+        goToPageRef.current(pageNumber);
       } else {
-        console.warn('Invalid page number input:', userPageInput);
+        console.warn('Invalid page number input:', userPageInput.value);
       }
     }, 300);
 
     return () => clearTimeout(timeout);
   }, [totalPages, userPageInput]);
-
-  // Process the debounced input and trigger the page change if it's valid and different from the current page
-  useEffect(() => {
-    if (debouncedUserPageInput === null) {
-      return;
-    }
-
-    goToPage(debouncedUserPageInput);
-    setDebouncedUserPageInput(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedUserPageInput]);
 
   // Build page button set based on the current page and total pages, ensuring that the buttons are centered around the current page
   // insert null values to represent ellipses when there are more pages than can be displayed in the button set
@@ -218,8 +200,8 @@ const PaginationContent: React.FC<PaginationProps> = ({
         <input
           type="text"
           pattern="[0-9]+"
-          value={userPageInput ?? page.toString()}
-          onChange={(e) => setUserPageInput(e.target.value)}
+          value={userPageInput?.value ?? page.toString()}
+          onChange={(e) => setUserPageInput({ page, value: e.target.value })}
           className="h-7 w-7 rounded-lg border border-njsig-neutral-primary bg-transparent px-1 py-1 text-center text-sm text-foreground outline-offset-4 transition-all focus-visible:ring-4 focus-visible:ring-njsig-neutral-primary/40"
         />
         <span className="text-sm">of {totalPages}</span>
@@ -262,7 +244,7 @@ const PaginationContent: React.FC<PaginationProps> = ({
         <Button
           className={cn(buttonVariants({ animation: 'bounceLeft' }), ICON_BUTTON_VARIANT)}
           disabled={page <= 1}
-          onClick={() => setDebouncedUserPageInput(1)}
+          onClick={() => goToPage(1)}
           aria-label="First page"
         >
           <ChevronsLeftIcon size={16} />
@@ -270,7 +252,7 @@ const PaginationContent: React.FC<PaginationProps> = ({
         <Button
           className={cn(buttonVariants({ animation: 'bounceLeft' }), ICON_BUTTON_VARIANT)}
           disabled={page <= 1}
-          onClick={() => setDebouncedUserPageInput(page - 1)}
+          onClick={() => goToPage(page - 1)}
           aria-label="Previous Page"
         >
           <ChevronLeftIcon size={16} />
@@ -311,7 +293,7 @@ const PaginationContent: React.FC<PaginationProps> = ({
                       button === page && button !== null,
                   },
                 )}
-                onClick={() => setDebouncedUserPageInput(button)}
+                onClick={() => goToPage(button)}
                 aria-label={`Page ${button}`}
               >
                 {button}
@@ -322,7 +304,7 @@ const PaginationContent: React.FC<PaginationProps> = ({
         <Button
           className={cn(buttonVariants({ animation: 'bounceRight' }), ICON_BUTTON_VARIANT)}
           disabled={page >= totalPages}
-          onClick={() => setDebouncedUserPageInput(page + 1)}
+          onClick={() => goToPage(page + 1)}
           aria-label="Next Page"
         >
           <ChevronRightIcon size={16} />
@@ -330,7 +312,7 @@ const PaginationContent: React.FC<PaginationProps> = ({
         <Button
           className={cn(buttonVariants({ animation: 'bounceRight' }), ICON_BUTTON_VARIANT)}
           disabled={page >= totalPages}
-          onClick={() => setDebouncedUserPageInput(totalPages)}
+          onClick={() => goToPage(totalPages)}
           aria-label="Last page"
         >
           <ChevronsRightIcon size={16} />

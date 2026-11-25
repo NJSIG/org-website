@@ -38,6 +38,7 @@ import { LegalNotices } from './collections/LegalNotices';
 import { Locations } from './collections/Locations';
 import { Subfunds } from './collections/Subfunds';
 import { defaultLexical } from './fields/DefaultLexical';
+import { RESET_PASSWORD_PATH, SIGN_IN_PATH } from './lib/authPaths';
 import { User } from './payload-types';
 import { tasks } from './tasks';
 
@@ -118,15 +119,29 @@ export default buildConfig({
     timezones: {
       defaultTimezone: 'America/New_York',
     },
+    routes: {
+      login: SIGN_IN_PATH,
+      forgot: RESET_PASSWORD_PATH,
+    },
     components: {
       providers: ['@/providers/admin#AdminProviders'],
       views: {
+        login: {
+          Component: '@/admin/views/SignInView#SignInView',
+          path: SIGN_IN_PATH,
+        },
+        forgot: {
+          Component: '@/admin/views/ResetPasswordView#ResetPasswordView',
+          path: RESET_PASSWORD_PATH,
+        },
         analytics: {
           Component: '@/admin/views/PlausibleView#AnalyticsView',
           path: '/analytics',
         },
       },
+      afterLogin: [{ path: '@/admin/components/AfterSignIn#AfterSignIn' }],
       afterNavLinks: [{ path: '@/admin/components/AfterNavLinks#AfterNavLinks' }],
+      logout: { Button: '@/components/Auth/LogoutButton#LogoutButton' },
     },
   },
   collections,

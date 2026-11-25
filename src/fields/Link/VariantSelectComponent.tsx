@@ -3,7 +3,7 @@
 import { mergeFieldStyles } from '@/utilities/mergeFieldStyles';
 import { SelectInput, useField, useWatchForm } from '@payloadcms/ui';
 import { OptionObject, TextFieldClient } from 'payload';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   ColorVariantOptions,
   IconPositionVariantOptions,
@@ -45,11 +45,7 @@ type IconPositionSelect = BaseProps & {
 };
 
 type ComponentProps =
-  | StyleSelect
-  | ColorSelect
-  | SizeSelect
-  | IconPositionSelect
-  | MicroInteractionSelect;
+  StyleSelect | ColorSelect | SizeSelect | IconPositionSelect | MicroInteractionSelect;
 
 export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
   const {
@@ -63,15 +59,13 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
 
   const { value, setValue } = useField<string>({ path });
   const { getDataByPath } = useWatchForm();
-  const [options, setOptions] = useState<OptionObject[]>([]);
 
   // We're building the path to the appearance field based on the path of the current field
   const appearance = getDataByPath(`${path.split('.').slice(0, -1).join('.')}.appearance`);
 
-  useEffect(() => {
+  const options = useMemo(() => {
     if (!appearance) {
-      setOptions([]);
-      return;
+      return [];
     }
 
     let optionsToUse: OptionObject[] = [];
@@ -128,15 +122,22 @@ export const VariantSelectComponent: React.FC<ComponentProps> = (props) => {
       optionsToUse = optionsToUse.filter((option) => optionOverrides.includes(option.value));
     }
 
-    // Set the options to the filtered options
-    setOptions(optionsToUse);
-    setValue(
-      optionsToUse.find((option) => option.value === value)?.value || optionsToUse[0].value || null,
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appearance]);
+    return optionsToUse;
+  }, [appearance, variant, variantOptions, optionOverrides]);
 
   const styles = useMemo(() => mergeFieldStyles(field), [field]);
+
+  useEffect(() => {
+    if (!appearance || options.some((option) => option.value === value)) {
+      return;
+    }
+
+    const nextValue = options[0]?.value ?? null;
+
+    if (value !== nextValue) {
+      setValue(nextValue);
+    }
+  }, [appearance, options, value, setValue]);
 
   return (
     <SelectInput

@@ -1,7 +1,7 @@
 'use client';
 
 import { useHeaderTheme } from '@/providers/HeaderThemeProvider';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 
 import { ButtonLink } from '@/components/ButtonLink';
 import { Logo } from '@/components/Logo';
@@ -61,30 +61,25 @@ const calloutLinkAppearance: LinkAppearanceHelper<'button'> = {
   microInteraction: 'upRight',
 };
 
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const { headerTheme } = useHeaderTheme();
   const [theme, setTheme] = useState<Theme | null>('dark');
   const [navSheetOpen, setNavSheetOpen] = useState(false);
+  const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot);
 
   const { navGroups, ctaButtons } = data;
 
   const darkStyles = 'bg-azure-to-r text-foreground-inverted dark';
   const lightStyles = 'bg-white text-foreground';
 
-  // TODO: Do we really need to set the theme on every route change?
-  // const { headerTheme, setHeaderTheme } = useHeaderTheme();
-  // const pathname = usePathname();
-  // useEffect(() => {
-  //   setHeaderTheme(null);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname]);
-
-  //  Set the Header Theme
-  useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme]);
+  if (hydrated && headerTheme && headerTheme !== theme) {
+    setTheme(headerTheme);
+  }
 
   // Close the nav sheet when the screen is resized to desktop size
   useEffect(() => {
@@ -106,16 +101,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className={cn('w-full h-20 @container/header', theme === 'dark' ? darkStyles : lightStyles)}
+      className={cn('@container/header h-20 w-full', theme === 'dark' ? darkStyles : lightStyles)}
       {...(theme ? { 'data-theme': theme } : {})}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between p-4 xl:px-0">
+      <div className="mx-auto flex max-w-7xl items-center justify-between p-4 xl:px-0">
         <Link href="/">
           <Logo style="wordmark" theme={theme} width={150} loading="eager" />
         </Link>
 
         {/* Full Navigation */}
-        <div className="items-center gap-4 zm-80 @5xl/header:zm-normal hidden @3xl/header:flex">
+        <div className="zm-80 @5xl/header:zm-normal @3xl/header:flex hidden items-center gap-4">
           {navGroups && (
             <NavigationMenu aria-label="Main Navigation">
               <NavigationMenuList>
@@ -124,9 +119,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>{group.label}</NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <div className="flex gap-6 justify-center items-start">
+                        <div className="flex items-start justify-center gap-6">
                           {group.callout && (
-                            <div className="flex flex-col gap-6 min-w-80 max-w-lg w-min">
+                            <div className="flex w-min min-w-80 max-w-lg flex-col gap-6">
                               <div className="flex flex-col gap-3">
                                 <h2 className="text-2xl font-medium">{group.callout.title}</h2>
                                 <p>{group.callout.text}</p>
@@ -145,7 +140,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                             </div>
                           )}
                           {group.callout && group.links && (
-                            <span className="w-px self-stretch bg-divider shrink-0"></span>
+                            <span className="bg-divider w-px shrink-0 self-stretch"></span>
                           )}
                           {group.links && (
                             <div className="flex gap-6">
@@ -172,12 +167,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                         </div>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <span className="h-7 w-px mx-0.5 bg-foreground-inverted opacity-40"></span>
+                    <span className="bg-foreground-inverted mx-0.5 h-7 w-px opacity-40"></span>
                   </React.Fragment>
                 ))}
                 <NavigationMenuItem>
                   <NavigationSearchTrigger aria-label="Search">
-                    <span className="hidden @5xl/header:inline">Search</span>
+                    <span className="@5xl/header:inline hidden">Search</span>
                   </NavigationSearchTrigger>
                   <NavigationMenuContent>
                     <p>TODO: Implement search functionality</p>
@@ -221,13 +216,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 </SheetClose>
               </SheetHeader>
               {navGroups && (
-                <nav className="h-full p-4 overflow-y-auto" aria-label="Main Navigation">
+                <nav className="h-full overflow-y-auto p-4" aria-label="Main Navigation">
                   <Accordion type="single" collapsible>
                     {navGroups.map((group) => (
                       <AccordionItem key={group.id} value={group.label} className="py-3">
                         <AccordionTrigger>{group.label}</AccordionTrigger>
                         <AccordionContent>
-                          <div className="flex flex-col gap-4 pt-3 px-1.5">
+                          <div className="flex flex-col gap-4 px-1.5 pt-3">
                             {group.callout && (
                               <div className="flex flex-col gap-4">
                                 <h2 className="text-base font-semibold">{group.callout.title}</h2>
@@ -244,7 +239,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                               </div>
                             )}
                             {group.callout && group.links && (
-                              <span className="w-full h-px bg-divider shrink-0"></span>
+                              <span className="bg-divider h-px w-full shrink-0"></span>
                             )}
                             {group.links && (
                               <div className="flex flex-col gap-3">

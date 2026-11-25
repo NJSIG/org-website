@@ -1,0 +1,94 @@
+import { admin, editor } from '@/access';
+import { SESSION_EXPIRATION } from '@/lib/authSettings';
+import { User } from '@/payload-types';
+import type { CollectionConfig } from 'payload';
+import { signOutBetterAuthHook } from './hooks/signOutBetterAuthHook';
+import { syncBetterAuthHook } from './hooks/syncBetterAuthHook';
+import { betterAuthStrategy } from './lib/authStrategy';
+
+export const Users: CollectionConfig = {
+  slug: 'users',
+  auth: {
+    disableLocalStrategy: true,
+    strategies: [betterAuthStrategy],
+    tokenExpiration: SESSION_EXPIRATION,
+  },
+  access: {
+    create: () => true,
+    delete: admin,
+    read: editor,
+    update: admin,
+    admin: editor,
+  },
+  admin: {
+    useAsTitle: 'email',
+    group: 'Administration',
+    hidden: ({ user }) => {
+      if (!user) {
+        return true;
+      }
+
+      return (user as User).role !== 'admin';
+    },
+  },
+  fields: [
+    // We need to manually define an email field because disabling the local strategy
+    // prevents Payload from automatically adding it.
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+      unique: true,
+      index: true,
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'firstName',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'lastName',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'fullName',
+          type: 'text',
+          virtual: true,
+          admin: {
+            hidden: true,
+          },
+          hooks: {
+            afterRead: [
+              ({ siblingData }) => {
+                return siblingData.firstName && siblingData.lastName
+                  ? `${siblingData.firstName} ${siblingData.lastName}`.trim()
+                  : null;
+              },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      name: 'role',
+      type: 'select',
+      options: [
+        { label: 'Administrator', value: 'admin' },
+        { label: 'Editor', value: 'editor' },
+        { label: 'Intake', value: 'intake' },
+        { label: 'OPRA', value: 'opra' },
+        { label: 'User', value: 'user' },
+      ],
+      required: true,
+      defaultValue: 'user',
+    },
+  ],
+  hooks: {
+    afterChange: [syncBetterAuthHook],
+    afterLogout: [signOutBetterAuthHook],
+  },
+};

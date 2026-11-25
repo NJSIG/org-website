@@ -1,7 +1,7 @@
 import { LinkField } from '@/fields/Link/types';
-import { Button } from '@/primitives/ui/button';
-import { cn } from '@/utilities/cn';
+import { buttonVariants } from '@/primitives/ui/button';
 import { getPagePath } from '@/utilities/getPagePath';
+import { cn } from 'cn';
 import Link from 'next/link';
 import DynamicIcon from '../DynamicIcon';
 import { Hyperlink } from '../Hyperlink';
@@ -42,55 +42,57 @@ const ButtonLink: React.FC<Props> = (props) => {
     // Return a styled anchor tag for custom links
     if (type === 'custom') {
       return (
-        <Button
-          asChild
-          variant={appearance}
-          style={styleVariant || undefined}
-          color={colorVariant || undefined}
-          size={sizeVariant || undefined}
-          animation={microInteraction || undefined}
-          className={cn({ '[&_svg]:-order-1': iconPosition === 'before' }, className)}
+        <a
+          href={url || errorPageUrl}
+          target={newTab ? '_blank' : undefined}
+          rel="noopener"
+          referrerPolicy={allowReferrer ? 'strict-origin-when-cross-origin' : 'no-referrer'}
+          className={cn(
+            buttonVariants({
+              variant: appearance,
+              style: styleVariant || undefined,
+              color: colorVariant || undefined,
+              size: sizeVariant || undefined,
+              animation: microInteraction || undefined,
+            }),
+            { '[&_svg]:-order-1': iconPosition === 'before' },
+            className,
+          )}
         >
-          <a
-            href={url || errorPageUrl}
-            target={newTab ? '_blank' : undefined}
-            rel="noopener"
-            referrerPolicy={allowReferrer ? 'strict-origin-when-cross-origin' : 'no-referrer'}
-          >
-            <span>{label}</span>
-            {icon && <DynamicIcon name={icon} size={iconSize} />}
-          </a>
-        </Button>
+          <span>{label}</span>
+          {icon && <DynamicIcon name={icon} size={iconSize} />}
+        </a>
       );
     }
 
     // Return a styled link for reference links
     if (type === 'reference') {
       return (
-        <Button
-          asChild
-          variant={appearance}
-          style={styleVariant || undefined}
-          color={colorVariant || undefined}
-          size={sizeVariant || undefined}
-          animation={microInteraction || undefined}
-          className={cn({ '[&_svg]:-order-1': iconPosition === 'before' }, className)}
+        <Link
+          href={
+            reference
+              ? typeof reference?.value === 'object' && reference.value.slug
+                ? reference.relationTo === 'pages'
+                  ? (getPagePath(reference.value) ?? errorPageUrl)
+                  : `/${reference.relationTo}/${reference.value.slug}`
+                : errorPageUrl
+              : url || errorPageUrl
+          }
+          className={cn(
+            buttonVariants({
+              variant: appearance,
+              style: styleVariant || undefined,
+              color: colorVariant || undefined,
+              size: sizeVariant || undefined,
+              animation: microInteraction || undefined,
+            }),
+            { '[&_svg]:-order-1': iconPosition === 'before' },
+            className,
+          )}
         >
-          <Link
-            href={
-              reference
-                ? typeof reference?.value === 'object' && reference.value.slug
-                  ? reference.relationTo === 'pages'
-                    ? (getPagePath(reference.value) ?? errorPageUrl)
-                    : `/${reference.relationTo}/${reference.value.slug}`
-                  : errorPageUrl
-                : url || errorPageUrl
-            }
-          >
-            <span>{label}</span>
-            {icon && <DynamicIcon name={icon} size={iconSize} />}
-          </Link>
-        </Button>
+          <span>{label}</span>
+          {icon && <DynamicIcon name={icon} size={iconSize} />}
+        </Link>
       );
     }
   }
