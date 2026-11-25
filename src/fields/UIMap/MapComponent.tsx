@@ -34,15 +34,6 @@ export const MapComponent: React.FC<Props> = ({
     relatedLocation: fields[locationField],
   }));
 
-  const [location, setLocation] = useState<LocationData>({
-    name: '',
-    streetAddress: '',
-    streetAddress2: '',
-    city: '',
-    state: '',
-    zipCode: '',
-  });
-
   const formDataValues = useMemo(() => {
     return {
       name: (formData.name?.value || '') as string,
@@ -63,36 +54,55 @@ export const MapComponent: React.FC<Props> = ({
     formData.relatedLocation?.value,
   ]);
 
-  useEffect(() => {
-    const baseLocation: LocationData = {
-      name: formDataValues.name,
-      streetAddress: formDataValues.streetAddress,
-      streetAddress2: formDataValues.streetAddress2,
-      city: formDataValues.city,
-      state: formDataValues.state,
-      zipCode: formDataValues.zipCode,
-    };
+  const [fetched, setFetched] = useState<{
+    id: string;
+    collection: string;
+    location: LocationData;
+  } | null>(null);
 
-    // If there is a related location, we can fetch it from the API
-    if (
-      formDataValues.relatedLocation !== undefined &&
-      formDataValues.relatedLocation !== null &&
-      formDataValues.relatedLocation !== ''
-    ) {
-      fetchLocationData(collectionSlug, formDataValues.relatedLocation).then((relatedLocation) => {
-        setLocation(() => ({
-          name: relatedLocation.name || '',
-          streetAddress: relatedLocation.streetAddress || '',
-          streetAddress2: relatedLocation.streetAddress2 || '',
-          city: relatedLocation.city || '',
-          state: relatedLocation.state || '',
-          zipCode: relatedLocation.zipCode || '',
-        }));
-      });
-    } else {
-      setLocation(baseLocation);
+  const relatedId = formDataValues.relatedLocation;
+
+  useEffect(() => {
+    if (!relatedId) {
+      return;
     }
-  }, [formDataValues, collectionSlug]);
+
+    let active = true;
+
+    fetchLocationData(collectionSlug, relatedId).then((data) => {
+      if (active) {
+        setFetched({
+          id: relatedId,
+          collection: collectionSlug,
+          location: {
+            name: data.name || '',
+            streetAddress: data.streetAddress || '',
+            streetAddress2: data.streetAddress2 || '',
+            city: data.city || '',
+            state: data.state || '',
+            zipCode: data.zipCode || '',
+          },
+        });
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [collectionSlug, relatedId]);
+
+  const location: LocationData = relatedId
+    ? fetched?.id === relatedId && fetched.collection === collectionSlug
+      ? fetched.location
+      : {}
+    : {
+        name: formDataValues.name,
+        streetAddress: formDataValues.streetAddress,
+        streetAddress2: formDataValues.streetAddress2,
+        city: formDataValues.city,
+        state: formDataValues.state,
+        zipCode: formDataValues.zipCode,
+      };
 
   return <GoogleMap height={400} location={location} admin={true} />;
 };
