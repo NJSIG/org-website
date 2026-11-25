@@ -11,13 +11,8 @@ const { breakpoints } = cssVariables;
 
 export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout, slides }) => {
   const [selectedSlide, setSelectedSlide] = useState<number>(0);
-  const { screenSize, initializeScreenSize } = useScreenSize();
+  const { screenSize } = useScreenSize();
   const slidesData = slides || [];
-
-  useEffect(() => {
-    initializeScreenSize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     // Don't auto-advance on small screens or when there are no slides
@@ -44,7 +39,7 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
   }
 
   return (
-    <div className="relative @container [&+section]:2xl:pt-10">
+    <div className="@container relative [&+section]:2xl:pt-10">
       {slidesData.map((slide, index) => (
         <HeroSlide
           key={slide.id}
@@ -53,12 +48,12 @@ export const HeroSpinnerBlock: React.FC<HeroSpinnerBlockProps> = ({ slideTimeout
           isPriority={index === 0}
         />
       ))}
-      <div className="flex gap-4 items-center absolute right-8 bottom-9 z-20 @5xl:@max-9xl:-rotate-8 @5xl:@max-7xl:bottom-24 @7xl:@max-9xl:bottom-32 @9xl:gap-2 @9xl:p-2 @9xl:rounded-[14px] @9xl:bg-njsig-neutral-background/30">
+      <div className="@5xl:@max-9xl:-rotate-8 @5xl:@max-7xl:bottom-24 @7xl:@max-9xl:bottom-32 @9xl:gap-2 @9xl:p-2 @9xl:rounded-[14px] @9xl:bg-njsig-neutral-background/30 absolute bottom-9 right-8 z-20 flex items-center gap-4">
         {slidesData.map((_, index) => (
           <button
             key={index}
             className={cn(
-              'rounded-full border-njsig-accent-shade border-2 w-4 h-4 @9xl:h-3 @9xl:w-3',
+              'border-njsig-accent-shade @9xl:h-3 @9xl:w-3 h-4 w-4 rounded-full border-2',
               {
                 'bg-njsig-accent-shade': index === selectedSlide,
                 'hover:bg-njsig-accent-shade/35': index !== selectedSlide,
