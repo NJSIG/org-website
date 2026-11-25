@@ -2,10 +2,6 @@
 
 /* Payload Override Styles */
 @layer payload-default {
-  :root {
-    --base-body-size: 16;
-  }
-
   html {
     font-size: var(--base-body-size) px;
   }
@@ -25,6 +21,11 @@
 
   .document-fields__sidebar-wrap {
     width: 15%;
+  }
+
+  /* Fixes for Payload things broken by TailwindCSS */
+  .table {
+    display: block !important;
   }
 
   /* NJSIG Custom Styles */

@@ -37,11 +37,21 @@
 @import './utilities/animations.css';
 @import './utilities/prose.css';
 
+@theme {
+  /* Force Tailwind to use the default Payload font-size */
+  --font-size-base: 13px;
+}
+
 /* Support Payload’s dark mode toggle without styling light-themed descendants */
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *):not(:where([data-theme=light], [data-theme=light] *)));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* NJSIG custom styles */
 @layer base {
+  /* Force Tailwind to use the default Payload font-size */
+  html {
+    font-size: var(--font-size-base);
+  }
+
   .njsig__custom {
     /* Section Titles */
     --title-theme-accent: var(--color-njsig-accent-midtone);
